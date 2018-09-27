@@ -15,6 +15,11 @@
 
     <!-- 车牌号 -->
     <div class="tag-car-no" v-if="tagSelected === 'carNo'">
+        
+        <!-- 选择的照片 -->
+        <div class="carno-photo-selected" v-if="photoSelected">
+            <img alt="carno-photo-selected" :src="photoSelected"/>
+        </div>
 
         <!-- 车牌号 -->
         <div class="carno-input-list">
@@ -39,11 +44,15 @@
                         </div>
                         
                         <!-- 拍照识别 -->
-                        <div class="input-item-photo flex-start-center">
-                            <svg width="14" height="14" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-564.000000, -456.000000)" fill="#469AFF" fill-rule="nonzero"><g id="客户信息" transform="translate(0.000000, 426.000000)"><g id="Group" transform="translate(214.000000, 30.000000)">
+                        <div class="input-item-photo flex-start-center" @click="isPhotographShow = true">
+                            <svg v-if="photoSelected === ''" width="14" height="14" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-564.000000, -456.000000)" fill="#469AFF" fill-rule="nonzero"><g id="客户信息" transform="translate(0.000000, 426.000000)"><g id="Group" transform="translate(214.000000, 30.000000)">
                                 <path d="M353,8 C352.447715,8 352,8.44771525 352,9 L352,23 C352,23.5522847 352.447715,24 353,24 L375,24 C375.552285,24 376,23.5522847 376,23 L376,9 C376,8.44771525 375.552285,8 375,8 L368.558482,8 L367.558482,5 L360.441518,5 L359.441518,8 L353,8 Z M353,6 L358,6 L358.544152,4.36754447 C358.81638,3.55086019 359.580658,3 360.441518,3 L367.558482,3 C368.419342,3 369.18362,3.55086019 369.455848,4.36754447 L370,6 L375,6 C376.656854,6 378,7.34314575 378,9 L378,23 C378,24.6568542 376.656854,26 375,26 L353,26 C351.343146,26 350,24.6568542 350,23 L350,9 C350,7.34314575 351.343146,6 353,6 Z M364,20 C366.209139,20 368,18.209139 368,16 C368,13.790861 366.209139,12 364,12 C361.790861,12 360,13.790861 360,16 C360,18.209139 361.790861,20 364,20 Z M364,22 C360.686292,22 358,19.3137085 358,16 C358,12.6862915 360.686292,10 364,10 C367.313708,10 370,12.6862915 370,16 C370,19.3137085 367.313708,22 364,22 Z M372.5,13 C371.671573,13 371,12.3284271 371,11.5 C371,10.6715729 371.671573,10 372.5,10 C373.328427,10 374,10.6715729 374,11.5 C374,12.3284271 373.328427,13 372.5,13 Z" id="photo"></path></g></g></g></g>
                             </svg>
-                            <span>拍照识别</span>
+                            <span v-if="photoSelected === ''">拍照识别</span>
+                            <svg v-if="photoSelected !== ''" width="14" height="14" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-564.000000, -456.000000)" fill="#469AFF" fill-rule="nonzero"><g id="客户信息" transform="translate(0.000000, 426.000000)"><g id="Group" transform="translate(214.000000, 30.000000)">
+                                <path fill="#00CC44" d="M353,8 C352.447715,8 352,8.44771525 352,9 L352,23 C352,23.5522847 352.447715,24 353,24 L375,24 C375.552285,24 376,23.5522847 376,23 L376,9 C376,8.44771525 375.552285,8 375,8 L368.558482,8 L367.558482,5 L360.441518,5 L359.441518,8 L353,8 Z M353,6 L358,6 L358.544152,4.36754447 C358.81638,3.55086019 359.580658,3 360.441518,3 L367.558482,3 C368.419342,3 369.18362,3.55086019 369.455848,4.36754447 L370,6 L375,6 C376.656854,6 378,7.34314575 378,9 L378,23 C378,24.6568542 376.656854,26 375,26 L353,26 C351.343146,26 350,24.6568542 350,23 L350,9 C350,7.34314575 351.343146,6 353,6 Z M364,20 C366.209139,20 368,18.209139 368,16 C368,13.790861 366.209139,12 364,12 C361.790861,12 360,13.790861 360,16 C360,18.209139 361.790861,20 364,20 Z M364,22 C360.686292,22 358,19.3137085 358,16 C358,12.6862915 360.686292,10 364,10 C367.313708,10 370,12.6862915 370,16 C370,19.3137085 367.313708,22 364,22 Z M372.5,13 C371.671573,13 371,12.3284271 371,11.5 C371,10.6715729 371.671573,10 372.5,10 C373.328427,10 374,10.6715729 374,11.5 C374,12.3284271 373.328427,13 372.5,13 Z" id="photo"></path></g></g></g></g>
+                            </svg>
+                            <span v-if="photoSelected !== ''" style="color: #00CC44;">重拍</span>
                         </div>
                     </div>
                 </div>
@@ -75,10 +84,46 @@
             <div class="car-confirm-content">确认添加</div>
         </div>
 
+        <!-- 底部提示 -->
+        <div class="tag-car-tig flex-start-center">
+            <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-30.000000, -840.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="批量" transform="translate(30.000000, 840.000000)">
+                <path d="M12,24 C5.372583,24 0,18.627417 0,12 C0,5.372583 5.372583,0 12,0 C18.627417,0 24,5.372583 24,12 C24,18.627417 18.627417,24 12,24 Z M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M13,14 C13,14.5522847 12.5522847,15 12,15 C11.4477153,15 11,14.5522847 11,14 C11,12.8657776 11.5351865,11.9917798 12.4447019,11.2002143 C12.6743482,11.0003495 13.2918781,10.5284046 13.3429572,10.4820781 C13.7592515,10.1045183 14,9.57280307 14,9 C14,7.8954305 13.1045695,7 12,7 C10.8954305,7 10,7.8954305 10,9 C10,9.55228475 9.55228475,10 9,10 C8.44771525,10 8,9.55228475 8,9 C8,6.790861 9.790861,5 12,5 C14.209139,5 16,6.790861 16,9 C16,10.1430874 15.516591,11.2107407 14.6865687,11.9635329 C14.5568336,12.0811966 13.917373,12.5699021 13.7577039,12.7088646 C13.2420363,13.1576582 13,13.5529208 13,14 Z M12,19 C11.1715729,19 10.5,18.3284271 10.5,17.5 C10.5,16.6715729 11.1715729,16 12,16 C12.8284271,16 13.5,16.6715729 13.5,17.5 C13.5,18.3284271 12.8284271,19 12,19 Z" id="icon_info"></path></g></g></g>
+            </svg>
+            <span>批量导入客户</span>
+        </div>
     </div>
 
     <!-- 车架号 -->
     <div class="tag-vin-no">
+    </div>
+
+    <!-- 拍照模态框 -->
+    <div class="photograph-modal" v-if="isPhotographShow">
+        
+        <div class="photograph-modal-tip flex-column-center">
+            <div class="modal-tip-content">请拍照车辆牌照, 示例:</div>
+        </div>
+
+        <div class="photograph-modal-image">
+            <div class="modal-image-content">
+                <div class="image-content-main">
+                    <img alt="photograph-modal-image" src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image004.jpg" />
+                </div>
+            </div>
+        </div>
+
+        <div class="photograph-modal-operation">
+            <div class="modal-operation-content">
+                <div class="operation-content-take">
+                    <div class="content-take-item">拍照</div>
+                    <div class="content-take-line"></div>
+                    <div class="content-take-item">相册</div>
+                </div>
+                <div class="operation-content-cancel">
+                    <div class="content-cancel-main" @click="isPhotographShow = false">取消</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 车牌省份 键盘 -->
@@ -203,6 +248,12 @@ export default {
              */
             customerName: '', 
             phoneNumber: '',
+
+            /**
+             * 拍照
+             */
+            isPhotographShow: false, // 是否显示 拍照模态框
+            photoSelected: '', // 选择中的照片
         }
     },
 
@@ -297,6 +348,8 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
+@photograph-modal-z-index: 2; // 拍照模态框
+
 .add {
     position: relative;
     width: 100%;
@@ -346,6 +399,17 @@ export default {
 .tag-car-no {
     padding-top: 10px;
 
+    // 选择的照片
+    .carno-photo-selected {
+        padding: 5px 15px 15px 15px;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
     // 横线
     .tag-carno-line {
         padding-left: 15px;
@@ -357,6 +421,7 @@ export default {
         }
     }
 
+    // 列表
     .tag-carno-list {
         padding: 0px 15px;
         font-size: 14px;
@@ -381,6 +446,32 @@ export default {
             input:focus { 
                 outline: none;
             }
+        }
+    }
+
+    // 确认添加
+    .tag-car-confirm {
+        padding: 20px 15px 10px 15px;
+
+        .car-confirm-content {
+            height: 45px;
+            line-height: 45px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #df0000;
+            border-radius: 5px;
+            text-align: center;
+        }
+    }
+
+    // 提示
+    .tag-car-tig {
+        font-size: 12px;
+        padding-left: 15px;
+
+        span {
+            color: @black3;
+            padding-left: 5px;
         }
     }
 }
@@ -499,9 +590,8 @@ export default {
     left: 0px;
     bottom: 0px;
     width: 100%;
-    flex-direction: column;
-    width: 100%;
     height: 100%;
+    z-index: @carkeyboard-z-index;
 
     // 遮罩层
     .carno-input-shade {
@@ -680,6 +770,90 @@ export default {
 
             path {
                 fill: #f5222d;
+            }
+        }
+    }
+}
+
+// 拍照模态框
+.photograph-modal {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.24);
+    z-index: @photograph-modal-z-index;
+
+    // 请拍照车辆牌照, 示例
+    .photograph-modal-tip {
+        color: #fff;
+        padding-top: 110px;
+
+        .modal-tip-content {
+            border-radius: 5px;
+            padding: 0px 15px;
+            line-height: 50px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.64);
+        }
+    }
+
+    // 示例图片
+    .photograph-modal-image {
+        padding: 15px;
+
+        .modal-image-content {
+            border: 1px solid #fff;
+            border-radius: 5px;
+
+            .image-content-main {
+                padding: 15px;
+
+                img {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+
+    // 底部操作框
+    .photograph-modal-operation {
+        position: absolute;
+        width: 100%;
+        bottom: 0px;
+        left: 0px;
+        color: #469AFF;
+        text-align: center;
+
+        // 框架
+        .modal-operation-content {
+            padding: 15px;
+            line-height: 50px;
+        }
+
+        // 顶部
+        .operation-content-take {
+            border-radius: 15px;
+            overflow: hidden;
+            background: #fff;
+
+            .content-take-line {
+                height: 1px;
+                background: #ddd;
+            }
+        }
+
+        // 底部
+        .operation-content-cancel {
+            padding-top: 5px;
+
+            .content-cancel-main {
+                border-radius: 15px;
+                background: #fff;
             }
         }
     }

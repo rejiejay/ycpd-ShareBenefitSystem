@@ -49,12 +49,40 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- 车架号 -->
     <div class="tag-vin-no">
     </div>
+
+    <!-- 车牌省份 键盘 -->
+    <div class="ycpd-carno-province flex-column-center" v-if="isProvincesKeyboardShow">
+
+        <!-- 遮罩 -->
+        <div class="carno-province-shade flex-rest"></div>
+        
+        <!-- 主要内容 -->
+        <div class="carno-province-main">
+            <div class="carno-province-content">
+                <div class="carno-province-list flex-start-center"
+                    v-for="(list, keyShow) in provincesShow" 
+                    :key="keyShow"
+                    :style="'padding-left: ' + intervalWidth + 'px; padding-right: ' + intervalWidth + 'px;'"
+                >
+                    <div class="car-license-item" 
+                        v-for="(item, key) in list" 
+                        :key="key"
+                        :style="'padding-left: ' + intervalWidth + 'px; padding-right: ' + intervalWidth + 'px;'"
+                    ><span>{{item}}</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 车牌号 键盘 -->
+    <div class="ycpd-carno-input">
+    </div>
+
 </div>
 </template>
 
@@ -75,11 +103,25 @@ export default {
              */
             tagSelected: 'carNo',
 
-            // 车牌省份
-            carNoProvince: '粤',
+            /**
+             * 车牌
+             */
+            carNoProvince: '粤', // 车牌省份
+            isProvincesKeyboardShow: false, // 是否显示 车牌省份
+            provincesList: ["京", "沪", "浙", "苏", "粤", "鲁", "晋", "冀", "豫", "川", "渝", "辽", "吉", "黑", "皖", "鄂", "津", "贵", "云", "桂", "琼", "青", "新", "藏", "蒙", "宁", "甘", "陕", "闽", "赣", "湘"], // 车牌省 数据
+            provincesShow: [ ["京", "沪", "浙", "苏", "粤", "鲁", "晋", "冀"],  ["豫", "川", "渝", "辽", "吉", "黑", "皖", "鄂"],  ["津", "贵", "云", "桂", "琼", "青", "新", "藏"],  ["蒙", "宁", "甘", "陕", "闽", "赣", "湘"] ], // 车牌省显示
+            plateNo: '', // 车牌号码
+            plateNoNumberlist: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0], // 车牌数字
+            plateNoCaptionList: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'P', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'L'], // 车牌字母
+        }
+    },
 
-            // 车牌号码
-            plateNo: '',
+    computed: {
+        // 车牌省份的宽度
+        intervalWidth: function () {
+            var myIntervalWidth = (this.clientWidth - 288) / 18;
+            myIntervalWidth = myIntervalWidth > 0 ? myIntervalWidth : 0;
+            return myIntervalWidth;
         }
     },
 
@@ -148,7 +190,7 @@ export default {
     }
 }
 
-// 车牌号
+// 车牌号整体框架
 .tag-car-no {
     padding-top: 10px;
 }
@@ -208,6 +250,50 @@ export default {
 
         span {
             padding-left: 2.5px;
+        }
+    }
+}
+
+// 车牌省份 键盘
+.ycpd-carno-province {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+
+    // 遮罩层不需要
+    // .carno-province-shade {
+    //     background: rgba(0,0,0,0.12);
+    // }
+
+    .carno-province-main {
+        position: relative;
+        background-color: #d8dadc;
+
+        .carno-province-content {
+            padding-top: 7.5px;
+            padding-bottom: 7.5px;
+        }
+
+        .carno-province-list {
+            padding-top: 7.5px;
+            padding-bottom: 7.5px;
+            padding-left: 7.5px; padding-right: 7.5px;
+        }
+    
+        .car-license-item span {
+            display: block;
+            width: 36px;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 5px;
+            color: @black2;
+            font-size: 18px;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
     }
 }

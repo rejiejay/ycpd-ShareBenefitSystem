@@ -104,7 +104,7 @@
         <div class="tag-carvin-list flex-start-center">
             <div class="carvin-list-title">车&ensp;架&ensp;号:</div>
             <div class="carvin-list-input flex-rest">
-                <input placeholder="请输入车架号" v-model="customerName"/>
+                <input placeholder="请输入车架号" v-model="vinNo"/>
             </div>
             
             <!-- 拍照驾驶证识别 -->
@@ -119,8 +119,46 @@
                 <span v-if="vinNoPhotoSelected !== ''" style="color: #00CC44;">重拍</span>
             </div>
         </div>
+        <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
 
+        <!-- 发动机号 -->
+        <div class="tag-carvin-list flex-start-center">
+            <div class="carvin-list-title">发动机号:</div>
+            <div class="carvin-list-input flex-rest">
+                <input placeholder="请输入发动机号" v-model="engineNo"/>
+            </div>
+        </div>
+        <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
 
+        <!-- 客户姓名 -->
+        <div class="tag-carvin-list flex-start-center">
+            <div class="carvin-list-title">客户姓名:</div>
+            <div class="carvin-list-input flex-rest">
+                <input placeholder="请输入客户姓名" v-model="customerName"/>
+            </div>
+        </div>
+        <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
+
+        <!-- 手机号 -->
+        <div class="tag-carvin-list flex-start-center">
+            <div class="carvin-list-title">手&ensp;机&ensp;号:</div>
+            <div class="carvin-list-input flex-rest">
+                <input placeholder="请输入手机号" v-model="phoneNumber"/>
+            </div>
+        </div>
+
+        <!-- 确认添加 -->
+        <div class="tag-car-confirm">
+            <div class="car-confirm-content">确认添加</div>
+        </div>
+
+        <!-- 底部提示 -->
+        <div class="tag-car-tig flex-start-center">
+            <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-30.000000, -840.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="批量" transform="translate(30.000000, 840.000000)">
+                <path d="M12,24 C5.372583,24 0,18.627417 0,12 C0,5.372583 5.372583,0 12,0 C18.627417,0 24,5.372583 24,12 C24,18.627417 18.627417,24 12,24 Z M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M13,14 C13,14.5522847 12.5522847,15 12,15 C11.4477153,15 11,14.5522847 11,14 C11,12.8657776 11.5351865,11.9917798 12.4447019,11.2002143 C12.6743482,11.0003495 13.2918781,10.5284046 13.3429572,10.4820781 C13.7592515,10.1045183 14,9.57280307 14,9 C14,7.8954305 13.1045695,7 12,7 C10.8954305,7 10,7.8954305 10,9 C10,9.55228475 9.55228475,10 9,10 C8.44771525,10 8,9.55228475 8,9 C8,6.790861 9.790861,5 12,5 C14.209139,5 16,6.790861 16,9 C16,10.1430874 15.516591,11.2107407 14.6865687,11.9635329 C14.5568336,12.0811966 13.917373,12.5699021 13.7577039,12.7088646 C13.2420363,13.1576582 13,13.5529208 13,14 Z M12,19 C11.1715729,19 10.5,18.3284271 10.5,17.5 C10.5,16.6715729 11.1715729,16 12,16 C12.8284271,16 13.5,16.6715729 13.5,17.5 C13.5,18.3284271 12.8284271,19 12,19 Z" id="icon_info"></path></g></g></g>
+            </svg>
+            <span>批量导入客户</span>
+        </div>
     </div>
 
     <!-- 拍照模态框 -->
@@ -283,6 +321,12 @@ export default {
             isPhotographShow: false, // 是否显示 拍照模态框
             carNoPhotoSelected: '', // 车牌号 选择中的照片
             vinNoPhotoSelected: '', // 车架号 选择中的照片
+
+            /**
+             * 车架号
+             */
+            vinNo: '', // 车架号 
+            engineNo: '', // 发动机号
         }
     },
 
@@ -569,6 +613,31 @@ export default {
         }
     }
 
+    // 确认添加
+    .tag-car-confirm {
+        padding: 20px 15px 10px 15px;
+
+        .car-confirm-content {
+            height: 45px;
+            line-height: 45px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #df0000;
+            border-radius: 5px;
+            text-align: center;
+        }
+    }
+
+    // 提示
+    .tag-car-tig {
+        font-size: 12px;
+        padding-left: 15px;
+
+        span {
+            color: @black3;
+            padding-left: 5px;
+        }
+    }
 }
 
 /**

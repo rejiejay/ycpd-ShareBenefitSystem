@@ -1,10 +1,11 @@
 import config from "@/config/index";
+import { Indicator } from 'mint-ui';
 
 export default {
     /**
      * 获取验人机证码
      */
-    checkImage: () => new Promise((resolve, reject) => {
+    getMachinePicture: () => new Promise((resolve, reject) => {
         // resolve({ 
         //     data: { 
         //         oriImagBase64: "",
@@ -14,10 +15,12 @@ export default {
         //     }, 
         //     resultCode: 0 
         // });
+		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/checkImage`,
             type: "GET",
             success(res) {
+                Indicator.close(); // 关闭加载框
                 if (res.resultCode === 0) {
                     resolve(res.data);
                 } else {
@@ -26,6 +29,7 @@ export default {
                 }
             },
             error(error) {
+                Indicator.close(); // 关闭加载框
                 console.error(error);
                 reject(`向服务器获取获取人机证码发生错误! 原因: ${JSON.stringify(error)}`);
             }

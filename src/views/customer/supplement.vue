@@ -10,7 +10,10 @@ export default {
     name: 'customer-supplement',
 
 	data: function data() { 
-        return {} 
+        return {
+            clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
+            clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+        } 
     },
 
 	mounted: function mounted() { },

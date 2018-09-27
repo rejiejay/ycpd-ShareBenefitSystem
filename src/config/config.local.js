@@ -3,7 +3,7 @@ module.exports = {
 
     url: {
         // 请求源
-        origin: 'http://api.demo.hotgz.com',
+        origin: 'http://cas.api2.hotgz.com',
         
         // 初始化微信JS-SDK
         getWxConfig: 'http://store.demo.ichebaoyang.com/wx/apiHandler.ashx',

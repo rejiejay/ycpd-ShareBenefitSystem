@@ -80,9 +80,61 @@
     </div>
 
     <!-- 车牌号 键盘 -->
-    <div class="ycpd-carno-input">
-    </div>
+    <div class="ycpd-carno-input flex-column-center">
 
+        <!-- 遮罩 -->
+        <div class="carno-input-shade flex-rest"></div>
+
+        <!-- 主要内容 -->
+        <div class="carno-input-carkeyboard">
+            <!-- 是否新能源汽车 -->
+            <div class="input-carkeyboard-status">
+                <div class="carkeyboard-status-content flex-start-center">
+                    <div class="carkeyboard-status-describe flex-rest">是否新能源汽车</div>
+
+                    <span>{{isNewEnergy ? '是' : '否'}}</span>
+                    
+                    <div class="setting-default-switch">
+                        <label for="switch-cp" class="weui-switch-cp">
+                            <input v-model="isNewEnergy" id="switch-cp" ref="settingDefault" class="weui-switch-cp__input" type="checkbox">
+                            <div class="weui-switch-cp__box"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 车牌数字 -->
+            <div class="input-carkeyboard-number flex-start">
+                <div class="carkeyboard-number-item" 
+                    v-for="(number, key) in plateNoNumberlist" 
+                    :key="key"
+                    :style="'width: ' + (clientWidth / 10) + 'px;'"
+                >{{number}}</div>
+            </div>
+
+            <!-- 车牌字母 -->
+            <div class="input-carkeyboard-caption">
+                <div class="carkeyboard-caption-content">
+                    <div class="carkeyboard-caption-item" 
+                        v-for="(caption, key) in plateNoCaptionList" 
+                        :key="key"
+                        :style="'width: ' + Math.floor(clientWidth / 9) + 'px;'"
+                    >{{caption}}</div>
+                </div>
+            </div>
+
+            <!-- 确认删除按钮 -->
+            <div class="input-carkeyboard-operate flex-start">
+                <div class="carkeyboard-operate-confirm flex-rest">确认</div>
+                <div class="carkeyboard-operate-delete flex-center">
+                    <svg width="24" height="24" t="1530689114017" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3929" xmlns:xlink="http://www.w3.org/1999/xlink" >
+                        <path fill="#9c9c9c" d="M997.882 187.118C980.074 169.308 957.392 160 931.75 160L336 160c-48.606 0-87.434 18.804-115.412 56.882L0 511.876l220.8 293.056 0.36 0.462 0.368 0.464c13.808 17.71 28.848 31.402 45.98 40.834C287.766 857.848 310.81 864 336 864l596 0c52.382 0 92-44.514 92-98L1024 254C1024 228.358 1015.692 204.926 997.882 187.118zM826.884 664.614c3.056 3.02 4.744 7.124 4.744 11.42 0 4.302-1.688 8.406-4.744 11.414l-43.646 43.81c-3.15 3.172-7.25 4.742-11.382 4.742-4.142 0-8.276-1.57-11.39-4.742l-152.46-152.922-152.46 152.922c-3.116 3.172-7.25 4.742-11.39 4.742-4.132 0-8.234-1.57-11.384-4.742l-43.648-43.81c-3.054-3.008-4.746-7.112-4.746-11.414 0-4.296 1.692-8.4 4.746-11.42L542.196 512l-153.476-152.594c-6.292-6.306-6.292-16.546 0-22.854l43.614-43.838c3.032-3.022 7.104-4.714 11.392-4.714 4.304 0 8.378 1.694 11.382 4.714l152.896 151.066 152.894-151.066c3.008-3.022 7.082-4.714 11.386-4.714 4.286 0 8.358 1.694 11.39 4.714l43.614 43.838c6.292 6.306 6.292 16.546 0 22.854L673.808 512 826.884 664.614z" p-id="3930" ></path>
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
 </template>
 
@@ -113,6 +165,7 @@ export default {
             plateNo: '', // 车牌号码
             plateNoNumberlist: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0], // 车牌数字
             plateNoCaptionList: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'P', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'L'], // 车牌字母
+            isNewEnergy: false, // 是否新能源汽车牌
         }
     },
 
@@ -294,6 +347,197 @@ export default {
             background: #fff;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+    }
+}
+
+// 车牌省份 键盘
+.ycpd-carno-input {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    // 遮罩层不需要
+    // .carno-input-shade {
+    //     background: rgba(0,0,0,0.12);
+    // }
+
+    // 键盘区域
+    .carno-input-carkeyboard {
+        position: relative;
+        width: 100%;
+        background-color: #fff;
+    }
+
+    // 是否新能源汽车
+    .input-carkeyboard-status {
+        border-top: 1px solid #ddd;
+
+        .carkeyboard-status-content {
+            padding: 0px 15px;
+            height: 50px;
+            background: #fff;
+            font-size: 14px;
+            color: @black1;
+            border-bottom: 1px solid #ddd;
+
+            > span {
+                padding-right: 15px;
+            }
+        }
+        
+        // 选择按钮部分
+        .weui-switch,
+        .weui-switch-cp__box{
+            position: relative;
+            width: 52px;
+            height: 24px;
+            border: 1px solid #DFDFDF;
+            outline: 0;
+            border-radius: 16px;
+            box-sizing: border-box;
+            background-color: #DFDFDF;
+            -webkit-transition: background-color 0.1s, border 0.1s;
+            transition: background-color 0.1s, border 0.1s;
+        }
+        .weui-switch:before,
+        .weui-switch-cp__box:before{
+            content:" ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: #FDFDFD;
+            -webkit-transition: -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+            transition: -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+            transition: transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+            transition: transform 0.35s cubic-bezier(0.45, 1, 0.4, 1), -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
+        }
+        .weui-switch:after,
+        .weui-switch-cp__box:after{
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 15px;
+            background-color: #FFFFFF;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+            -webkit-transition: -webkit-transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+            transition: -webkit-transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+            transition: transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+            transition: transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35), -webkit-transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+        }
+        .weui-switch:checked,
+        .weui-switch-cp__input:checked ~ .weui-switch-cp__box{
+            border-color:#04BE02;
+            background-color:#04BE02;
+        }
+        .weui-switch:checked:before,
+        .weui-switch-cp__input:checked ~ .weui-switch-cp__box:before{
+            -webkit-transform:scale(0);
+            transform:scale(0);
+        }
+        .weui-switch:checked:after,
+        .weui-switch-cp__input:checked ~ .weui-switch-cp__box:after{
+            -webkit-transform:translateX(28px);
+            transform:translateX(28px);
+        }
+        .weui-switch-cp__input{
+            position:absolute;
+            left:-9999px;
+        }
+        .weui-switch-cp__box{
+            display:block;
+        }
+
+        @keyframes blink {
+            0% {
+                background-color: white;
+            }
+            
+            50% {
+                background-color: @black2;
+            }
+
+            100% {
+                background-color: white;
+            }
+        }
+    }
+
+    // 键盘部分
+    .input-carkeyboard-number {
+        background: #f8f8f8;
+        line-height: 45px;
+        font-size: 14px;
+        text-align: center;
+        color: @black2;
+    }
+
+    .input-carkeyboard-caption {
+        padding-top: 5px;
+
+        .carkeyboard-caption-content {
+            overflow: hidden;
+            background: #f8f8f8;
+        }
+
+        .carkeyboard-caption-item {
+            float: left;
+            line-height: 45px;
+            font-size: 14px;
+            text-align: center;
+            color: @black2;
+        }
+    }
+
+    .carkeyboard-number-item:active,
+    .carkeyboard-caption-item:active {
+        color: #F56C6C;
+        background: rgba(0,0,0,0.12);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    // 按钮 (确认 删除)
+    .input-carkeyboard-operate {
+        height: 50px;
+
+        .carkeyboard-operate-confirm {
+            font-size: 16px;
+            line-height: 50px;
+            text-align: center;
+        }
+
+        .carkeyboard-operate-delete {
+            height: 50px;
+            width: 120px;
+            background: #efefef;
+
+            path {
+                fill: #9c9c9c;
+            }
+        }
+
+        .carkeyboard-operate-confirm:active {
+            color: #fff;
+            background: #1890ff;
+        }
+
+        .carkeyboard-operate-delete:active {
+            background: rgba(0,0,0,0.12);
+
+            path {
+                fill: #f5222d;
+            }
         }
     }
 }

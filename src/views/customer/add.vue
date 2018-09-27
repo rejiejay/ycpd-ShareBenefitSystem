@@ -49,6 +49,32 @@
                 </div>
             </div>
         </div>
+
+        <div class="tag-carno-line"><div class="carno-line-content"></div></div>
+
+        <!-- 客户姓名 -->
+        <div class="tag-carno-list flex-start-center">
+            <div class="carno-list-title">客户姓名:</div>
+            <div class="carno-list-input flex-rest">
+                <input placeholder="请输入客户姓名" v-model="customerName"/>
+            </div>
+        </div>
+
+        <div class="tag-carno-line"><div class="carno-line-content"></div></div>
+
+        <!-- 手机号 -->
+        <div class="tag-carno-list flex-start-center">
+            <div class="carno-list-title">手&ensp;机&ensp;号:</div>
+            <div class="carno-list-input flex-rest">
+                <input placeholder="请输入手机号" v-model="phoneNumber"/>
+            </div>
+        </div>
+
+        <!-- 确认添加 -->
+        <div class="tag-car-confirm">
+            <div class="car-confirm-content">确认添加</div>
+        </div>
+
     </div>
 
     <!-- 车架号 -->
@@ -171,6 +197,12 @@ export default {
             plateNoNumberlist: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0], // 车牌数字
             plateNoCaptionList: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'P', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'L'], // 车牌字母
             isNewEnergy: false, // 是否新能源汽车牌
+
+            /**
+             * 客户姓名手机号
+             */
+            customerName: '', 
+            phoneNumber: '',
         }
     },
 
@@ -313,6 +345,44 @@ export default {
 // 车牌号整体框架
 .tag-car-no {
     padding-top: 10px;
+
+    // 横线
+    .tag-carno-line {
+        padding-left: 15px;
+
+        .carno-line-content {
+            width: 100%;
+            height: 1px;
+            background-color: #ddd;
+        }
+    }
+
+    .tag-carno-list {
+        padding: 0px 15px;
+        font-size: 14px;
+        background: #fff;
+
+        .carno-list-title {
+            width: 80px;
+            color: @black2;
+        }
+
+        .carno-list-input {
+    
+            input {
+                width: 100%;
+                border: 0px;
+                outline: none;
+                line-height: 42px;
+                font-size: 14px;
+                color: @black1;
+            }
+
+            input:focus { 
+                outline: none;
+            }
+        }
+    }
 }
 
 /**

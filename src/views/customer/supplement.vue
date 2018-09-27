@@ -51,6 +51,9 @@
         </div>
     </div>
 
+    <!-- 提示信息 -->
+    <div class="tag-prompt-message">车牌添加失败，请补充车辆信息</div>
+
     <!-- 车架号 -->
     <div class="tag-car-list flex-start-center">
         <div class="car-list-title">车&ensp;架&ensp;号:</div>
@@ -383,6 +386,16 @@ export default {
             outline: none;
         }
     }
+}
+
+// 提示信息
+.tag-prompt-message {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 12px;
+    color: #FF8D18;
+    background-color: #fff3d3;
 }
 
 // 拍照识别

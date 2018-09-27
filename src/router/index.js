@@ -26,12 +26,12 @@ const routes = [
         path: '/customer/add',
         name: 'customer-add',
         component: () => import('@/views/customer/add'),
-        meta: { title: '养车频道福利共享' },
+        meta: { title: '添加客户' },
     }, {
         path: '/customer/supplement',
         name: 'customer-supplement',
         component: () => import('@/views/customer/supplement'),
-        meta: { title: '养车频道福利共享' },
+        meta: { title: '完善客户信息' },
     },
 ];
 

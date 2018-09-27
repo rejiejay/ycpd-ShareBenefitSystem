@@ -43,7 +43,7 @@
                         </svg>
                     </div>
                     <img class="content-jigsaw-bg" :src="jigsawBgPicture ? ('data:image/jpg;base64,' + jigsawBgPicture) : ''" />
-                    <img class="content-jigsaw-front" :style="'left: ' + jigsawMovepx  + 'px;'" :src="jigsawFrontPicture ? ('data:image/jpg;base64,' + jigsawFrontPicture) : ''" />
+                    <img class="content-jigsaw-front" :style="`left: ${jigsawMovepx}px; top: ${jigsawHeighty}px; height: ${52}px;`" :src="jigsawFrontPicture ? ('data:image/jpg;base64,' + jigsawFrontPicture) : ''" />
                 </div>
 
                 <!-- 滑块 -->
@@ -175,7 +175,7 @@ export default {
 		getMachinePicture: function getMachinePicture() {
             const _this = this;
 
-            ajaxs.getMachinePicture()
+            ajaxs.getMachinePicture((this.clientWidth - 120), 155)
             .then(
                 res => {
                     _this.jigsawBgPicture = res.oriImagBase64; // 设置 滑动拼图 背景
@@ -476,18 +476,22 @@ export default {
             }
         }
 
-        img {
-            display: block;
-            height: 100%;
-        }
-
         .content-jigsaw-bg {
             width: 100%;
+
+            img {
+                display: block;
+                height: 100%;
+            }
         }
 
         .content-jigsaw-front {
             position: absolute;
             top: 0px;
+
+            img {
+                display: block;
+            }
         }
     }
 

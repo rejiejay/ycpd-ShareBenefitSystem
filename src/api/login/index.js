@@ -4,8 +4,10 @@ import { Indicator } from 'mint-ui';
 export default {
     /**
      * 获取验人机证码
+     * @param {string} width 验证码的宽度
+     * @param {string} height 验证码的高度
      */
-    getMachinePicture: () => new Promise((resolve, reject) => {
+    getMachinePicture: (width, height) => new Promise((resolve, reject) => {
         // resolve({ 
         //     data: { 
         //         oriImagBase64: "",
@@ -17,7 +19,7 @@ export default {
         // });
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/checkImage`,
+            url: `${config.url.origin}/ycpd/cas/checkImage?width=${width}&height=${height}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框

@@ -75,11 +75,35 @@
         <div class="customerInfor-violation">
             <div class="customerInfor-violation-content flex-start-center">
                 <div class="customerInfor-violation-left">违章信息</div>
-                <div class="customerInfor-violation-center flex-rest">2018-9-28</div>
+                <div class="customerInfor-violation-center flex-rest">3条未处理<span>（3天前）</span></div>
                 <div class="customerInfor-violation-icon">
                     <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                         <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
                     </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- 报价 -->
+        <div class="customerInfor-offer">
+            <div class="customerInfor-offer-content">
+
+                <div class="customerInfor-offer-title flex-start">
+                    <div class="offer-title-left flex-rest">报价</div>
+                    <div class="offer-title-right">今天</div>
+                </div>
+
+                <div class="customerInfor-offer-main flex-start">
+                    <div class="offer-main-left">违章信息</div>
+                    <div class="offer-main-center flex-start flex-rest">
+                        <div class="main-center-item">￥4583.45</div>
+                        <div class="main-center-item">商业险系数: 0.45</div>
+                    </div>
+                    <div class="offer-main-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                            <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                        </svg>
+                    </div>
                 </div>
             </div>
         </div>
@@ -268,7 +292,49 @@ export default {
         }
 
         .customerInfor-violation-center {
+            color: #E50012;
+
+            span {
+                color: @black1;
+            }
+        }
+    }
+}
+
+// 报价
+.customerInfor-offer {
+    padding-top: 5px;
+    font-size: 14px;
+
+    .customerInfor-offer-content {
+        background: #fff;
+        line-height: 45px;
+
+        .customerInfor-offer-title {
+            padding: 0px 15px;
+            border-bottom: 1px solid #ddd;
             color: @black1;
+
+            .offer-title-right {
+                color: #469AFF;
+            }
+        }
+
+        .customerInfor-offer-main {
+            padding: 0px 15px;
+
+            .offer-main-left {
+                width: 80px;
+                color: @black2;
+            }
+
+            .offer-main-center {
+                color: #E50012;
+
+                .main-center-item {
+                    width: 50%;
+                }
+            }
         }
     }
 }

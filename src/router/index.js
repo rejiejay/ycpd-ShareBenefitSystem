@@ -20,6 +20,17 @@ const routes = [
     },
 
     /**
+     * 个人中心
+     */
+    {
+        path: '/user/index',
+        alias: ['/user'],
+        name: 'user-home',
+        component: () => import('@/views/user/index'),
+        meta: { title: '个人中心' },
+    }, 
+
+    /**
      * 客户管理
      */
     {

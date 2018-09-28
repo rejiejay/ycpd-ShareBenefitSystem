@@ -119,6 +119,45 @@
 
     <!-- 跟进记录 -->
     <div class="navigation-item-customerInfor" v-if="navigationSelected === 'followRecord'">
+        <div class="item-customerInfor-list"
+            v-for="(record, key) in followRecordList" 
+            :key="key"
+        >
+            <!-- 左上角圈圈 -->
+            <div class="list-top-icon">
+                <svg v-if="key === 0" width="10" height="10" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情-跟进记录" transform="translate(-30.000000, -236.000000)"><g id="详细记录" transform="translate(30.000000, 236.000000)"><g id="进度条"><rect id="Rectangle-4" fill="#CCCCCC" x="8" y="19" width="4" height="745" rx="2"></rect><circle id="Oval-2" fill="#E50012" cx="10" cy="10" r="10"></circle><circle id="Oval-2-Copy-4" fill="#FFFFFF" cx="10" cy="10" r="4"></circle></g></g></g></g></svg>
+                <svg v-else width="10" height="10" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情-跟进记录" transform="translate(-30.000000, -472.000000)"><g id="详细记录" transform="translate(30.000000, 236.000000)"><g id="进度条"><rect id="Rectangle-4" fill="#CCCCCC" x="8" y="19" width="4" height="745" rx="2"></rect><circle id="Oval-2-Copy" fill="#CCCCCC" cx="10" cy="246" r="10"></circle><circle id="Oval-2-Copy-5" fill="#EFEFEF" cx="10" cy="246" r="4"></circle></g></g></g></g></svg>
+            </div>
+            <!-- 左下角圈圈 -->
+            <div class="list-bottom-icon"></div>
+            <div class="customerInfor-list-content">
+                <div class="customerInfor-list-main" :class="{'customerInfor-list-isFirst': key === 0}">
+                    <div class="list-main-title flex-start">
+                        <div class="main-title-time flex-rest">2018-09-17 14:25:23</div>
+                        <div class="main-title-name">代理人: 李四</div>
+                    </div>
+
+                    <div class="list-main-item flex-start">
+                        <div class="main-title-lable">跟进结果:</div>
+                        <div class="main-title-describe">考虑中</div>
+                    </div>
+
+                    <div class="list-main-item flex-start">
+                        <div class="main-title-lable">跟进内容:</div>
+                        <div class="main-title-describe">给客户报价，分析车险购买方式</div>
+                    </div>
+
+                    <div class="list-main-item flex-start">
+                        <div class="main-title-lable">下次跟进时间:</div>
+                        <div class="main-title-describe">3天后</div>
+                    </div>
+
+                    <svg width="10" height="10" t="1538122765988" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2944" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <path fill="#fff" d="M71.675 962l-9.675-900 890.325 900z" p-id="2945"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 底部按钮 -->
@@ -189,7 +228,20 @@ export default {
              * @param {string} customerInfor 客户信息
              * @param {string} followRecord 跟进记录
              */
-            navigationSelected: 'customerInfor',
+            navigationSelected: 'followRecord',
+
+            /**
+             * 跟进记录
+             */
+            followRecordList: [
+                {
+
+                }, {
+
+                }, {
+
+                }
+            ],
         } 
     },
 
@@ -210,7 +262,7 @@ export default {
     position: relative;
     width: 100%;
     min-height: 100%;
-    background-color: #f5f5f5;
+    background-color: #f1f1f1;
 }
 
 // 顶部导航栏
@@ -470,6 +522,87 @@ export default {
             background: -o-linear-gradient(#FFB700, #FFA100); /* Opera 11.1 - 12.0 */
             background: -moz-linear-gradient(#FFB700, #FFA100); /* Firefox 3.6 - 15 */
             background: linear-gradient(#FFB700, #FFA100); /* 标准的语法 */
+        }
+    }
+}
+
+// 跟进记录
+.navigation-item-customerInfor {
+    position: relative;
+    padding: 15px;
+
+    // 一个项
+    .item-customerInfor-list {
+        position: relative;
+        padding-bottom: 15px;
+        border-left: 2px solid #ddd;
+        font-size: 14px;
+
+        .customerInfor-list-content {
+            padding-left: 20px;
+        }
+
+        // 左上角的icon
+        .list-top-icon {
+            position: absolute;
+            left: -5.5px;
+            top: -8px;
+        }
+
+        // 左下角圈圈
+        .list-bottom-icon {
+            position: absolute;
+            left: -3.5px;
+            bottom: 0px;
+            height: 6px;
+            width: 6px;
+            border-radius: 6px;
+            background: #ddd;
+        }
+
+        .customerInfor-list-main {
+            position: relative;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background: #fff;
+
+            .list-main-title {  
+                padding-bottom: 2.5px;
+                font-weight: bold;
+                color: @black4;
+            }
+
+            .list-main-item {
+                padding-top: 5px;
+                color: @black4;
+
+                .main-title-lable {
+                    padding-right: 10px;
+                }
+            }
+
+            svg {
+                position: absolute;
+                top: 0px;
+                left: -6px;
+                transform: rotate(180deg);
+                -ms-transform: rotate(180deg); 	/* IE 9 */
+                -moz-transform: rotate(180deg); 	/* Firefox */
+                -webkit-transform: rotate(180deg); /* Safari 和 Chrome */
+                -o-transform: rotate(180deg); 	/* Opera */
+            }
+        }
+
+        .customerInfor-list-isFirst {
+
+            .list-main-title {  
+                color: #E50012;
+            }
+
+            .list-main-item {
+                color: @black2;
+            }
         }
     }
 }

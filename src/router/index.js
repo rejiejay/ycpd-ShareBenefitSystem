@@ -20,6 +20,17 @@ const routes = [
     },
 
     /**
+     * 客户管理
+     */
+    {
+        path: '/customer/index',
+        alias: ['/customer'],
+        name: 'customer-home',
+        component: () => import('@/views/customer/index'),
+        meta: { title: '添加客户' },
+    }, 
+
+    /**
      * 添加客户
      */
     {

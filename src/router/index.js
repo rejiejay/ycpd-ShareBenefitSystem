@@ -36,7 +36,7 @@ const routes = [
     }, 
 
     /**
-     * 添加客户
+     * 添加编辑客户
      */
     {
         path: '/customer/add',
@@ -48,6 +48,11 @@ const routes = [
         name: 'customer-supplement',
         component: () => import('@/views/customer/supplement'),
         meta: { title: '完善客户信息' },
+    }, {
+        path: '/customer/edit/:id',
+        name: 'customer-edit',
+        component: () => import('@/views/customer/edit'),
+        meta: { title: '编辑客户' },
     },
 ];
 

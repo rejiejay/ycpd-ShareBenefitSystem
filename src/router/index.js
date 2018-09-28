@@ -53,6 +53,11 @@ const routes = [
         name: 'customer-edit',
         component: () => import('@/views/customer/edit'),
         meta: { title: '编辑客户' },
+    }, {
+        path: '/customer/edit/car/:id',
+        name: 'customer-car-edit',
+        component: () => import('@/views/customer/car-edit'),
+        meta: { title: '编辑客户车辆' },
     },
 ];
 

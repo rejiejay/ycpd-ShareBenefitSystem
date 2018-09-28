@@ -1,39 +1,18 @@
-<!-- 编辑客户 -->
+<!-- 编辑客户车辆 -->
 <template>
 <div class="edit">
     <div class="edit-main">
         <div class="edit-main-item flex-start">
-            <span>姓名</span>
+            <span>车牌号</span>
             <div class="edit-main-input">
-                <input type="text" placeholder="请输入姓名信息" />
+                <input type="text" placeholder="请输入车牌号信息" />
             </div>
         </div>
         <div class="edit-main-line"><span></span></div>
 
         <div class="edit-main-item flex-start">
-            <span>客户电话1</span>
-            <div class="edit-main-input">
-                <input type="text" placeholder="请输入客户电话信息" />
-            </div>
-        </div>
-        <div class="edit-main-line"><span></span></div>
-
-        <div class="edit-main-item flex-start">
-            <span>客户电话2</span>
-            <div class="edit-main-input">
-                <input type="text" placeholder="请输入客户电话信息" />
-            </div>
-        </div>
-        <div class="edit-main-line"><span></span></div>
-
-        <div class="edit-main-item flex-start">
-            <span>证件类型</span>
-            <div class="edit-main-select flex-rest">
-                <select>
-                    <option style="color: #909399;" value="" disabled :selected="true">请选择证件类型</option>
-                    <option value="">身份证</option>
-                </select>
-            </div>
+            <span>车型</span>
+            <div class="edit-main-select flex-rest">请选择车型</div>
             <div class="edit-main-icon">
                 <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                     <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
@@ -43,17 +22,25 @@
         <div class="edit-main-line"><span></span></div>
 
         <div class="edit-main-item flex-start">
-            <span>身份证号</span>
+            <span>发动机号</span>
             <div class="edit-main-input">
-                <input type="text" placeholder="请输入身份证号码" />
+                <input type="text" placeholder="请输入发动机号码" />
             </div>
         </div>
         <div class="edit-main-line"><span></span></div>
 
         <div class="edit-main-item flex-start">
-            <span>客户生日</span>
+            <span>车架号</span>
+            <div class="edit-main-input">
+                <input type="text" placeholder="请输入车架号码" />
+            </div>
+        </div>
+        <div class="edit-main-line"><span></span></div>
+
+        <div class="edit-main-item flex-start">
+            <span>注册日期</span>
             <div class="edit-main-birthday flex-rest" @click="$refs.picker.open()">
-                {{customerFormat}}
+                {{carRegisterFormat}}
             </div>
             <div class="edit-main-icon">
                 <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
@@ -64,26 +51,15 @@
 
     </div>
 
-    <!-- 选择生日 -->
+    <!-- 车辆注册日期 -->
     <mt-datetime-picker
         ref="picker"
         type="date"
-        :startDate="minDate"
         year-format="{value} 年"
         month-format="{value} 月"
         date-format="{value} 日"
-        v-model="customerBirthday"
+        v-model="carRegisterday"
     ></mt-datetime-picker>
-
-    <!-- 备注 -->
-    <div class="edit-remark">
-        <div class="edit-remark-content flex-start">
-            <span>备注</span>
-            <div class="edit-remark-input">
-                <input type="text" placeholder="请输入备注信息" />
-            </div>
-        </div>
-    </div>
 
     <!-- 保存 -->
     <div class="edit-submit">
@@ -101,21 +77,20 @@ Vue.component(DatetimePicker.name, DatetimePicker);
 import TimeConver from "@/utils/TimeConver";
 
 export default {
-    name: 'customer-edit',
+    name: 'customer-car-edit',
 
 	data: function data() { 
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            minDate: new Date(1900, 1, 1),
-            customerBirthday: new Date(), // 客户生日
+            carRegisterday: new Date(), // 车辆注册日期
         }
     },
 
     computed: {
-        customerFormat: function () {
-            return TimeConver.dateToFormat(this.customerBirthday)
+        carRegisterFormat: function () {
+            return TimeConver.dateToFormat(this.carRegisterday)
         }
     },
 

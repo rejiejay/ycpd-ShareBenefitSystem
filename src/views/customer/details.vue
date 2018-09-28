@@ -120,6 +120,57 @@
     <!-- 跟进记录 -->
     <div class="navigation-item-customerInfor" v-if="navigationSelected === 'followRecord'">
     </div>
+
+    <!-- 底部按钮 -->
+    <div class="bottom-button">
+        <div class="bottom-button-content flex-start-center">
+
+            <div class="bottom-button-item">
+                <div class="button-item-content">
+                    <div class="button-item-main flex-center">
+                        <div class="flex-start-center">
+                            <div class="item-content-icon">
+                                <svg width="14" height="14" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情" transform="translate(-64.000000, -1330.000000)" fill="#FFFFFF"><g id="menu" transform="translate(30.000000, 1306.000000)"><g id="icon" transform="translate(34.000000, 24.000000)">
+                                    <path d="M13.3754966,17.8621295 C15.7952375,21.1465045 18.6871242,24.4202036 20.2806178,23.4020875 C22.4428334,21.835429 23.9182912,20.4271478 27.5183951,24.4705011 C31.043385,28.4084162 27.4486362,30.0967468 25.3025167,31.5737608 C22.8344792,33.272327 15.2533273,29.9260981 8.86864563,20.963859 C2.48396396,12.00162 1.87770054,3.85509534 4.345738,2.15652916 C6.49185754,0.679515097 9.24425739,-2.07899024 11.8786074,2.62901934 C14.5290535,7.24738452 12.6780261,8.12847515 10.4246006,9.67933992 C8.81501095,10.7871005 10.9718518,14.4881101 13.3754966,17.8621295 Z" id="icon_call"></path></g></g></g></g>
+                                </svg>
+                            </div>
+                            <div class="item-content-describe">联系客户</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-button-item">
+                <div class="button-item-content">
+                    <div class="button-item-main flex-center">
+                        <div class="flex-start-center">
+                            <div class="item-content-icon">
+                                <svg width="14" height="14" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情" transform="translate(-301.000000, -1330.000000)" fill="#FFFFFF"><g id="menu" transform="translate(30.000000, 1306.000000)"><g id="icon" transform="translate(34.000000, 24.000000)">
+                                    <path d="M254.414214,15 L258.707107,10.7071068 C259.097631,10.3165825 259.097631,9.68341751 258.707107,9.29289322 C258.316582,8.90236893 257.683418,8.90236893 257.292893,9.29289322 L253,13.5857864 L248.707107,9.29289322 C248.316582,8.90236893 247.683418,8.90236893 247.292893,9.29289322 C246.902369,9.68341751 246.902369,10.3165825 247.292893,10.7071068 L251.585786,15 L248,15 C247.447715,15 247,15.4477153 247,16 C247,16.5522847 247.447715,17 248,17 L252,17 L252,19 L248,19 C247.447715,19 247,19.4477153 247,20 C247,20.5522847 247.447715,21 248,21 L252,21 L252,25 C252,25.5522847 252.447715,26 253,26 C253.552285,26 254,25.5522847 254,25 L254,21 L258,21 C258.552285,21 259,20.5522847 259,20 C259,19.4477153 258.552285,19 258,19 L254,19 L254,17 L258,17 C258.552285,17 259,16.5522847 259,16 C259,15.4477153 258.552285,15 258,15 L254.414214,15 Z M263.606602,26.6066017 L266.787954,29.7879542 C266.921105,29.921105 266.995908,30.1016963 266.995908,30.29 C266.995908,30.6821222 266.678031,31 266.285908,31 L253,31 C244.715729,31 238,24.2842712 238,16 C238,7.71572875 244.715729,1 253,1 C261.284271,1 268,7.71572875 268,16 C268,20.1421356 266.321068,23.8921356 263.606602,26.6066017 Z" id="报价"></path></g></g></g></g>
+                                </svg>
+                            </div>
+                            <div class="item-content-describe">重新报价</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-button-item">
+                <div class="button-item-content">
+                    <div class="button-item-main button-item-followRecord flex-center">
+                        <div class="flex-start-center">
+                            <div class="item-content-icon">
+                                <svg width="14" height="14" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情" transform="translate(-538.000000, -1330.000000)" fill="#FFFFFF"><g id="menu" transform="translate(30.000000, 1306.000000)"><g id="icon" transform="translate(34.000000, 24.000000)">
+                                    <path d="M477,27.8284271 L503,27.8284271 C503.552285,27.8284271 504,28.2761424 504,28.8284271 C504,29.3807119 503.552285,29.8284271 503,29.8284271 L477,29.8284271 C476.447715,29.8284271 476,29.3807119 476,28.8284271 C476,28.2761424 476.447715,27.8284271 477,27.8284271 Z M491,21.8284271 L503,21.8284271 C503.552285,21.8284271 504,22.2761424 504,22.8284271 C504,23.3807119 503.552285,23.8284271 503,23.8284271 L491,23.8284271 C490.447715,23.8284271 490,23.3807119 490,22.8284271 C490,22.2761424 490.447715,21.8284271 491,21.8284271 Z M476.628097,25.0151551 L480.862082,17.2528498 C480.953555,17.0851483 481.068583,16.9314168 481.20366,16.7963405 L496.585786,1.41421356 C497.366835,0.633164979 498.633165,0.633164979 499.414214,1.41421356 L501.585786,3.58578644 C502.366835,4.36683502 502.366835,5.63316498 501.585786,6.41421356 L486.20366,21.7963405 C486.068583,21.9314168 485.914852,22.0464445 485.74715,22.1379181 L477.984845,26.3719028 C477.499997,26.6363655 476.89256,26.4577077 476.628097,25.9728593 C476.465291,25.6743818 476.465291,25.3136325 476.628097,25.0151551 Z" id="跟进"></path></g></g></g></g>
+                                </svg>
+                            </div>
+                            <div class="item-content-describe">客户跟进</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -372,6 +423,53 @@ export default {
                 display: block;
                 width: 80px;
             }
+        }
+    }
+}
+
+// 底部按钮
+.bottom-button {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    min-height: 60px;
+
+    .bottom-button-content {
+        padding: 10px 15px;
+    }
+
+    .bottom-button-item {
+        width: 33.33%;
+
+        .button-item-content {
+            padding: 0px 5px;
+        }
+
+        .button-item-main {
+            font-size: 14px;
+            height: 40px;
+            border-radius: 40px;
+            line-height: 40px;
+            color: #fff;
+            background: #469AFF;
+        }
+
+        .item-content-icon {
+            position: relative;
+            top: 2.5px;
+        }
+
+        .item-content-describe {
+            padding-left: 2.5px;
+        }
+
+        // 跟进记录
+        .button-item-followRecord {
+            background: -webkit-linear-gradient(#FFB700, #FFA100); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(#FFB700, #FFA100); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(#FFB700, #FFA100); /* Firefox 3.6 - 15 */
+            background: linear-gradient(#FFB700, #FFA100); /* 标准的语法 */
         }
     }
 }

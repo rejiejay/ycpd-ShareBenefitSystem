@@ -107,6 +107,14 @@
                 </div>
             </div>
         </div>
+
+        <!-- 邀请关注 -->
+        <div class="customerInfor-star">
+            <div class="customerInfor-star-content">
+                <div class="customerInfor-star-title">邀请关注/注册养车频道</div>
+                <div class="customerInfor-star-item flex-start"><span>邀请成功</span>2018-09-17 12:1</div>
+            </div>
+        </div>
     </div>
 
     <!-- 跟进记录 -->
@@ -334,6 +342,35 @@ export default {
                 .main-center-item {
                     width: 50%;
                 }
+            }
+        }
+    }
+}
+
+// 邀请关注
+.customerInfor-star {
+    padding-top: 5px;
+    line-height: 45px;
+    font-size: 14px;
+
+    .customerInfor-star-content {
+        background: #fff;
+
+        > div {
+            padding-left: 15px;
+        }
+
+        .customerInfor-star-title {
+            color: @black2;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .customerInfor-star-item {
+            color: @black1;
+
+            span {
+                display: block;
+                width: 80px;
             }
         }
     }

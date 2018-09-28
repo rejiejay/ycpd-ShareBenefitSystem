@@ -27,7 +27,12 @@ const routes = [
         alias: ['/customer'],
         name: 'customer-home',
         component: () => import('@/views/customer/index'),
-        meta: { title: '添加客户' },
+        meta: { title: '客户管理' },
+    }, {
+        path: '/customer/detail/:id',
+        name: 'customer-details',
+        component: () => import('@/views/customer/details'),
+        meta: { title: '客户详情' },
     }, 
 
     /**

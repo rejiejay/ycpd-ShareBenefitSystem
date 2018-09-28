@@ -52,18 +52,138 @@
 
     <!-- 可续保客户 —— 导航栏分页  -->
     <div class="navigation-bar-page" v-else-if="navBarSelectedIndex === 1">
+        <div class="bar-page-item"
+            v-for="(item, key) in renewalCustomers" 
+            :key="key"
+        >
+            <div class="page-item-content flex-start-center">
+                <div class="item-main flex-rest">
+                    <div class="item-main-title">{{item.title}}</div>
+                    <div class="item-main-label flex-start flex-start-center">
+                        <div class="main-label-name">{{item.name}}</div>
+                        <div class="main-label-tag"
+                            v-for="(tagItem, tagkey) in item.tag" 
+                            :key="tagkey"
+                        >{{tagItem}}</div>
+                    </div>
+                </div>
+                <div class="item-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                    </svg>
+                </div>
+            </div>
+            <div class="page-item-line" v-if="item.insurance"><span></span></div>
+            <div class="page-item-bottom" v-if="item.insurance">
+                <div class="item-bottom-content flex-start-center" v-if="item.insurance">
+                    <div class="item-bottom-left">{{item.insurance.name}}</div>
+                    <div class="item-bottom-center">￥{{item.insurance.price}}</div>
+                    <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 违章未处理 —— 导航栏分页  -->
     <div class="navigation-bar-page" v-else-if="navBarSelectedIndex === 2">
+        <div class="bar-page-item"
+            v-for="(item, key) in violationCustomers" 
+            :key="key"
+        >
+            <div class="page-item-content flex-start-center">
+                <div class="item-main flex-rest">
+                    <div class="item-main-title">{{item.title}}</div>
+                    <div class="item-main-label flex-start flex-start-center">
+                        <div class="main-label-name">{{item.name}}</div>
+                        <div class="main-label-tag"
+                            v-for="(tagItem, tagkey) in item.tag" 
+                            :key="tagkey"
+                        >{{tagItem}}</div>
+                    </div>
+                </div>
+                <div class="item-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                    </svg>
+                </div>
+            </div>
+            <div class="page-item-line" v-if="item.insurance"><span></span></div>
+            <div class="page-item-bottom" v-if="item.insurance">
+                <div class="item-bottom-content flex-start-center" v-if="item.insurance">
+                    <div class="item-bottom-left">{{item.insurance.name}}</div>
+                    <div class="item-bottom-center">￥{{item.insurance.price}}</div>
+                    <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 年检将到期 —— 导航栏分页  -->
     <div class="navigation-bar-page" v-else-if="navBarSelectedIndex === 3">
+        <div class="bar-page-item"
+            v-for="(item, key) in ASCustomers" 
+            :key="key"
+        >
+            <div class="page-item-content flex-start-center">
+                <div class="item-main flex-rest">
+                    <div class="item-main-title">{{item.title}}</div>
+                    <div class="item-main-label flex-start flex-start-center">
+                        <div class="main-label-name">{{item.name}}</div>
+                        <div class="main-label-tag"
+                            v-for="(tagItem, tagkey) in item.tag" 
+                            :key="tagkey"
+                        >{{tagItem}}</div>
+                    </div>
+                </div>
+                <div class="item-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                    </svg>
+                </div>
+            </div>
+            <div class="page-item-line" v-if="item.insurance"><span></span></div>
+            <div class="page-item-bottom" v-if="item.insurance">
+                <div class="item-bottom-content flex-start-center" v-if="item.insurance">
+                    <div class="item-bottom-left">{{item.insurance.name}}</div>
+                    <div class="item-bottom-center">￥{{item.insurance.price}}</div>
+                    <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 跟进客户 —— 导航栏分页  -->
     <div class="navigation-bar-page" v-else-if="navBarSelectedIndex === 4">
+        <div class="bar-page-item"
+            v-for="(item, key) in toFollowCustomers" 
+            :key="key"
+        >
+            <div class="page-item-content flex-start-center">
+                <div class="item-main flex-rest">
+                    <div class="item-main-title">{{item.title}}</div>
+                    <div class="item-main-label flex-start flex-start-center">
+                        <div class="main-label-name">{{item.name}}</div>
+                        <div class="main-label-tag"
+                            v-for="(tagItem, tagkey) in item.tag" 
+                            :key="tagkey"
+                        >{{tagItem}}</div>
+                    </div>
+                </div>
+                <div class="item-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                    </svg>
+                </div>
+            </div>
+            <div class="page-item-line" v-if="item.insurance"><span></span></div>
+            <div class="page-item-bottom" v-if="item.insurance">
+                <div class="item-bottom-content flex-start-center" v-if="item.insurance">
+                    <div class="item-bottom-left">{{item.insurance.name}}</div>
+                    <div class="item-bottom-center">￥{{item.insurance.price}}</div>
+                    <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </template>
@@ -140,7 +260,98 @@ export default {
                         '待跟进',
                     ],
                 }, 
-            ]
+            ],
+
+            /**
+             * 可续保客户
+             */
+            renewalCustomers: [
+                {
+                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                    name: '李四',
+                    tag: [
+                        '保险41天',
+                        '年检23天',
+                        '待跟进',
+                    ],
+                    insurance: {
+                        name: '人保车险',
+                        price: 4583.45,
+                        factors: 0.45,
+                    }
+                },
+            ],
+
+            /**
+             * 违章未处理
+             */
+            violationCustomers: [
+                {
+                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                    name: '李四',
+                    tag: [
+                        '保险41天',
+                        '年检23天',
+                        '待跟进',
+                    ],
+                },
+            ],
+
+            /**
+             * 年检将到期
+             */
+            ASCustomers: [
+                {
+                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                    name: '李四',
+                    tag: [
+                        '保险41天',
+                        '年检23天',
+                        '待跟进',
+                    ],
+                }, {
+                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                    name: '李四',
+                    tag: [
+                        '保险41天',
+                        '年检23天',
+                        '待跟进',
+                    ],
+                    insurance: {
+                        name: '人保车险',
+                        price: 4583.45,
+                        factors: 0.45,
+                    }
+                },
+            ],
+
+            /**
+             * 待跟进客户
+             */
+            toFollowCustomers: [
+                {
+                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                    name: '李四',
+                    tag: [
+                        '保险41天',
+                        '年检23天',
+                        '待跟进',
+                    ],
+                    insurance: {
+                        name: '人保车险',
+                        price: 4583.45,
+                        factors: 0.45,
+                    }
+                }, {
+                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                    name: '李四',
+                    tag: [
+                        '保险41天',
+                        '年检23天',
+                        '待跟进',
+                    ],
+                }, 
+            ],
         } 
     },
 

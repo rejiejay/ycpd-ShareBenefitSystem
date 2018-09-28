@@ -118,8 +118,8 @@
     </div>
 
     <!-- 跟进记录 -->
-    <div class="navigation-item-customerInfor" v-if="navigationSelected === 'followRecord'">
-        <div class="item-customerInfor-list"
+    <div class="navigation-item-followRecord" v-if="navigationSelected === 'followRecord'">
+        <div class="item-followRecord-list"
             v-for="(record, key) in followRecordList" 
             :key="key"
         >
@@ -130,8 +130,8 @@
             </div>
             <!-- 左下角圈圈 -->
             <div class="list-bottom-icon"></div>
-            <div class="customerInfor-list-content">
-                <div class="customerInfor-list-main" :class="{'customerInfor-list-isFirst': key === 0}">
+            <div class="followRecord-list-content">
+                <div class="followRecord-list-main" :class="{'followRecord-list-isFirst': key === 0}">
                     <div class="list-main-title flex-start">
                         <div class="main-title-time flex-rest">2018-09-17 14:25:23</div>
                         <div class="main-title-name">代理人: 李四</div>
@@ -228,7 +228,7 @@ export default {
              * @param {string} customerInfor 客户信息
              * @param {string} followRecord 跟进记录
              */
-            navigationSelected: 'followRecord',
+            navigationSelected: 'customerInfor',
 
             /**
              * 跟进记录
@@ -527,18 +527,18 @@ export default {
 }
 
 // 跟进记录
-.navigation-item-customerInfor {
+.navigation-item-followRecord {
     position: relative;
     padding: 15px;
 
     // 一个项
-    .item-customerInfor-list {
+    .item-followRecord-list {
         position: relative;
         padding-bottom: 15px;
         border-left: 2px solid #ddd;
         font-size: 14px;
 
-        .customerInfor-list-content {
+        .followRecord-list-content {
             padding-left: 20px;
         }
 
@@ -560,7 +560,7 @@ export default {
             background: #ddd;
         }
 
-        .customerInfor-list-main {
+        .followRecord-list-main {
             position: relative;
             padding: 15px;
             border-radius: 5px;
@@ -594,7 +594,7 @@ export default {
             }
         }
 
-        .customerInfor-list-isFirst {
+        .followRecord-list-isFirst {
 
             .list-main-title {  
                 color: #E50012;

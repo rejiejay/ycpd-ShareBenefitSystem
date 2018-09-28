@@ -194,7 +194,7 @@
                 </div>
             </div>
 
-            <div class="bottom-button-item">
+            <div class="bottom-button-item" @click="isFollowModalShow = true">
                 <div class="button-item-content">
                     <div class="button-item-main button-item-followRecord flex-center">
                         <div class="flex-start-center">
@@ -210,6 +210,53 @@
             </div>
         </div>
     </div>
+
+    <!-- 录入跟进 -->
+    <div class="follow-up-modal flex-center" v-if="isFollowModalShow">
+        <div class="up-modal-shade" @click="isFollowModalShow = false"></div>
+        <div class="up-modal-main" :style="`width: ${clientWidth - 60}px;`">
+
+            <div class="modal-main-result">
+                <div class="main-result-content flex-start-center">
+                    <div class="main-result-describe flex-rest">
+                        请选择跟进结果
+                    </div>
+                    <div class="main-result-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                            <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-main-time">
+                <div class="main-time-content flex-start-center">
+                    <div class="main-time-describe flex-rest">
+                        下次跟进时间
+                    </div>
+                    <div class="main-time-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                            <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-main-details">本次跟进内容</div>
+            <div class="main-details-input">
+                <div class="details-input-content">
+                    <textarea type="text" rows="4" />
+                </div>
+            </div>
+            
+            <div class="modal-main-submit flex-start">
+                <div class="main-submit-ts">暂存</div>
+                <div class="main-submit-rest"></div>
+                <div class="main-submit-affirm flex-rest">确认</div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </template>
 
@@ -242,6 +289,9 @@ export default {
 
                 }
             ],
+
+            // 录入跟进模态框
+            isFollowModalShow: false,
         } 
     },
 
@@ -257,6 +307,11 @@ export default {
 @black2: #606266;
 @black3: #909399;
 @black4: #C0C4CC;
+
+// 录入跟进
+@follow-up-modal-z-index: 3;
+@follow-up-shade-z-index: 4;
+@follow-up-main-z-index: 5;
 
 .customer-details {
     position: relative;
@@ -602,6 +657,127 @@ export default {
 
             .list-main-item {
                 color: @black2;
+            }
+        }
+    }
+}
+
+// 录入跟进模态框
+.follow-up-modal {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @follow-up-modal-z-index;
+
+    .up-modal-shade {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.46);
+        z-index: @follow-up-shade-z-index;
+    }
+
+    .up-modal-main {
+        font-size: 14px;
+        color: @black2;
+        position: relative;
+        border-radius: 10px;
+        background: #fff;
+        z-index: @follow-up-main-z-index;
+
+        // 请选择跟进结果
+        .modal-main-result {
+            padding: 25px 15px 0px 15px;
+
+            .main-result-content {
+                height: 40px;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+            }
+
+            .main-result-describe {
+                padding-left: 15px;
+            }
+
+            .main-result-icon {
+                padding-right: 15px;
+            }
+        }
+
+        // 下次跟进时间
+        .modal-main-time     {
+            padding: 10px 15px 5px 15px;
+
+            .main-time-content {
+                height: 40px;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+            }
+
+            .main-time-describe {
+                padding-left: 15px;
+            }
+
+            .main-time-icon {
+                padding-right: 15px;
+            }
+        }
+
+        // 本次跟进内容
+        .modal-main-details {
+            padding-top: 2.5px;
+            padding-left: 15px;
+            line-height: 30px;
+        }
+        .main-details-input {
+            padding: 0px 15px;
+
+            .details-input-content {
+                padding: 15px;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+
+                textarea {
+                    width: 95%;
+                    padding: 0px 2.5%;
+                    border: none;
+                    outline: none;
+                    resize: none;
+                    font-size: 14px;
+                    color: @black1;
+                    background-color: transparent;
+                }
+            }
+        }
+
+        // 提交
+        .modal-main-submit {
+            padding: 15px 15px 25px 15px;
+            text-align: center;
+            line-height: 40px;
+
+            .main-submit-ts,
+            .main-submit-affirm {
+                border-radius: 5px;
+            }
+
+            .main-submit-ts {
+                width: 120px;
+                color: @black3;
+                border: 1px solid #ddd;
+            }
+
+            .main-submit-rest {
+                width: 15px;
+            }
+
+            .main-submit-affirm {
+                color: #fff;
+                background: #469aff;
             }
         }
     }

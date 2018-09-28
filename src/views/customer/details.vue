@@ -52,7 +52,7 @@
                 <div class="customerInfor-car-other flex-start-center">
                     <div class="car-other-left">注册日期</div>
                     <div class="car-other-center flex-rest">2018-9-28</div>
-                    <div class="car-other-right">年检12天后到期</div>
+                    <div class="car-other-right customerInfor-car-notice">年检12天后到期</div>
                 </div>
                 <div class="customerInfor-car-line"></div>
 
@@ -70,6 +70,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- 违章 -->
 
     </div>
 
@@ -167,12 +169,16 @@ export default {
 
         .name-remark-main {
             .remark-main-name {
+                font-size: 16px;
                 color: @black1;
+                padding-bottom: 2.5px;
             }
 
             .remark-main-phone,
             .remark-main-birthday {
+                padding-top: 2.5px;
                 color: @black3;
+                font-size: 12px;
             }
         }
 
@@ -229,6 +235,10 @@ export default {
         height: 1px;
         width: 100%;
         background: #ddd;
+    }
+
+    .customerInfor-car-notice {
+        color: #E50012;
     }
 }
 

@@ -28,6 +28,11 @@ const routes = [
         name: 'user-home',
         component: () => import('@/views/user/index'),
         meta: { title: '个人中心' },
+    }, {
+        path: '/user/info',
+        name: 'user-info',
+        component: () => import('@/views/user/info'),
+        meta: { title: '个人信息' },
     }, 
 
     /**

@@ -55,7 +55,8 @@
     </div>
 
     <!-- 退出登录 -->
-    <div class="user-info-logout">
+    <div class="user-info-logout" :style="`width: ${clientWidth - 30}px;`">
+        <div class="info-logout-content">退出登录</div>
     </div>
 </div>
 </template>
@@ -90,7 +91,7 @@ export default {
     font-size: 14px;
     width: 100%;
     min-height: 100%;
-    background-color: #f5f5f5;
+    background-color: #F1F1F1;
 }
 
 .user-info-main {
@@ -161,6 +162,25 @@ export default {
         span {
             padding-left: 5px;
         }
+    }
+}
+
+.user-info-logout {
+    position: fixed;
+    left: 15px;
+    bottom: 0px;
+    padding-bottom: 15px;
+    
+    .info-logout-content {
+        width: 100%;
+        height: 45px;
+        line-height: 45px;
+        font-size: 16px;
+        border-radius: 3px;
+        text-align: center;
+        color: #E50012;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
 }
 

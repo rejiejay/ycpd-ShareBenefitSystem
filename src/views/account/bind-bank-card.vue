@@ -1,8 +1,8 @@
 <!-- 绑定银行卡 -->
 <template>
-<div class="user-bindBankCard">
+<div class="account-bindBankCard">
     <!-- 输入 -->
-    <div class="user-bindBankCard-input">
+    <div class="account-bindBankCard-input">
         <div class="bindBankCard-input-content">
             
             <div class="bindBankCard-input-item flex-start-center">
@@ -40,7 +40,7 @@
     </div>
 
     <!-- 提交 -->
-    <div class="user-bindBankCard-submit">
+    <div class="account-bindBankCard-submit">
         <div class="bindBankCard-submit-content">提交</div>
     </div>
 </div>
@@ -49,7 +49,7 @@
 <script>
 
 export default {
-    name: 'user-bindBankCard',
+    name: 'account-bindBankCard',
 
 	data: function data() { 
         return {
@@ -71,7 +71,7 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
-.user-bindBankCard {
+.account-bindBankCard {
     position: relative;
     font-size: 14px;
     width: 100%;
@@ -80,7 +80,7 @@ export default {
 }
 
 // 输入
-.user-bindBankCard-input {
+.account-bindBankCard-input {
     padding-top: 5px;
 
     // 整体框架
@@ -152,7 +152,7 @@ export default {
 }
 
 // 提交
-.user-bindBankCard-submit {
+.account-bindBankCard-submit {
     padding: 15px;
     
     .bindBankCard-submit-content {

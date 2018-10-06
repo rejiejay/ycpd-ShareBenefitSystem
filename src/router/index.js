@@ -39,15 +39,25 @@ const routes = [
         component: () => import('@/views/user/authentication'),
         meta: { title: '实名认证' },
     }, {
-        path: '/user/bankcard/bind',
-        name: 'user-bindBankCard',
-        component: () => import('@/views/user/bind-bank-card'),
-        meta: { title: '绑定银行卡' },
-    },  {
         path: '/user/mobile/modify',
         name: 'user-modifyMobile',
         component: () => import('@/views/user/modify-mobile'),
         meta: { title: '修改手机号' },
+    }, 
+
+    /**
+     * 账户
+     */
+    {
+        path: '/account/bankcard/bind',
+        name: 'account-bindBankCard',
+        component: () => import('@/views/account/bind-bank-card'),
+        meta: { title: '绑定银行卡' },
+    }, {
+        path: '/account/withdraw',
+        name: 'account-withdraw',
+        component: () => import('@/views/account/withdraw-money'),
+        meta: { title: '绑定银行卡' },
     }, 
 
     /**

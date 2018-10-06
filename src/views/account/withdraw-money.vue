@@ -6,25 +6,51 @@
         <div class="withdraw-input-content">
             
             <div class="withdraw-input-item flex-start-center">
-                <div class="input-item-main">姓名</div>
-                <div class="input-item-box">
-                    <input type="text" placeholder="请输入您的姓名" />
-                </div>
+                <div class="flex-rest">可提现余额</div>
+                <div class="input-item-box">2850.00元</div>
             </div>
             <div class="withdraw-input-line"></div>
             
             <div class="withdraw-input-item flex-start-center">
-                <div class="input-item-main">身份证号</div>
+                <div class="input-item-main">提现账户</div>
+                <div class="input-item-content flex-rest">招商银行<span>***677</span></div>
+                <div class="input-item-lable" style="color: #469AFF;">修改</div>
+            </div>
+            <div class="withdraw-input-line"></div>
+            
+            <div class="withdraw-input-item flex-start-center">
+                <div class="input-item-main">提现金额</div>
                 <div class="input-item-box">
-                    <input type="text" placeholder="请输入您的身份证号码" />
+                    <input type="text" placeholder="请输入您的提现金额" />
+                </div>
+            </div>
+            <div class="withdraw-input-line"></div>
+                
+            <div class="withdraw-input-item flex-start-center">
+                <div class="input-item-main">验证码</div>
+                <div class="input-item-box flex-rest">
+                    <input type="text" placeholder="请输入获取的验证码" />
+                </div>
+                
+                <div class="input-item-verify">
+                    <div class="item-verify-content"
+                        :class="{'item-verify-disable' : isSMSGeting}"
+                    >{{isSMSGeting ? (reGetCount + '秒后获取') : '获取验证码'}}</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 提交 -->
+    <!-- 提示说明 -->
+    <div class="account-withdraw-tip">
+        <div class="withdraw-tip-row">实际到账金额: 2850元</div>
+        <div class="withdraw-tip-row">提现手续费(含增值税税点): 150元</div>
+        <div class="withdraw-tip-row">提现大约需要3-5个工作日，请注意查收。</div>
+    </div>
+
+    <!-- 立即提现 -->
     <div class="account-withdraw-submit">
-        <div class="withdraw-submit-content">提交</div>
+        <div class="withdraw-submit-content">立即提现</div>
     </div>
 </div>
 </template>
@@ -38,6 +64,13 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+            
+
+			// 是否 正在获取短信验证码(旧手机)
+			isSMSGeting: false,
+
+			// 再次获取 倒计时60秒(旧手机)
+            reGetCount: 60,
         } 
     },
 
@@ -97,6 +130,7 @@ export default {
 
     // 一个项
     .withdraw-input-item {
+        padding-right: 15px;
         height: 45px;
         color: @black1;
 
@@ -104,9 +138,42 @@ export default {
             width: 80px;
         }
     }
+    
+    // 获取验证码
+    .input-item-verify {
+        height: 30px;
+
+        .item-verify-content {
+            height: 30px;
+            line-height: 30px;
+            width: 100px;
+            text-align: center;
+            border-radius: 4px;
+            color: #FF8D18;
+            border: 1px solid #FF8D18;
+            background: #FFF5EA;
+        }
+
+        .item-verify-disable {
+            color: @black2;
+            border: 1px solid #CCCCCC;
+            background: #F5F5F5;
+        }
+    }
 }
 
-// 提交
+// 提示
+.account-withdraw-tip {
+    padding: 7.5px 15px 0px 15px;
+    font-size: 12px;
+    color: @black3;
+
+    > div {
+        padding-top: 2.5px;
+    }
+}
+
+// 立即提现
 .account-withdraw-submit {
     padding: 15px;
     

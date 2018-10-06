@@ -57,7 +57,7 @@ const routes = [
         path: '/account/withdraw',
         name: 'account-withdraw',
         component: () => import('@/views/account/withdraw-money'),
-        meta: { title: '绑定银行卡' },
+        meta: { title: '余额提现' },
     }, 
 
     /**

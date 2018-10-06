@@ -5,6 +5,17 @@ Vue.use(Router);
 
 const routes = [
     /**
+     * 首页
+     */
+    {
+        path: '/index',
+        alias: ['/'],
+        name: 'home',
+        component: () => import('@/views/home'),
+        meta: { title: '养车频道福利共享' },
+    }, 
+
+    /**
      * 登录板块
      */
     {

@@ -17,6 +17,7 @@
                         {{item.isIncome ? '+' : '-'}}{{item.expend}}
                     </div>
                 </div>
+                
                 <!-- 横线 -->
                 <div class="detail-item-line" v-if="key !== (list.length - 1)"></div>
             </div>

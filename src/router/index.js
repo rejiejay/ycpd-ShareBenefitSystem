@@ -9,7 +9,7 @@ const routes = [
      */
     {
         path: '/index',
-        alias: ['/'],
+        alias: ['/', '/home'],
         name: 'home',
         component: () => import('@/views/home'),
         meta: { title: '养车频道福利共享' },
@@ -116,6 +116,17 @@ const routes = [
         component: () => import('@/views/customer/car-edit'),
         meta: { title: '编辑客户车辆' },
     },
+
+    /**
+     * 活动
+     */
+    {
+        path: '/activity/index',
+        alias: ['/activity'],
+        name: 'home',
+        component: () => import('@/views/activity/index'),
+        meta: { title: '最新活动' },
+    }, 
 ];
 
 let router = new Router({

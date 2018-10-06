@@ -221,12 +221,11 @@ export default {
         padding-left: 15px;
         color: @black1;
     }
-
 }
 
 // 最新资讯
 .home-news {
-    padding: 15px 15px 0px 15px;
+    padding: 15px 15px 75px 15px;
 
     .home-news-content {
         border-radius: 10px;

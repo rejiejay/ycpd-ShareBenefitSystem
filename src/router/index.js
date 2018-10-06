@@ -49,6 +49,11 @@ const routes = [
      * 账户
      */
     {
+        path: '/account/detail',
+        name: 'account-detail',
+        component: () => import('@/views/account/detail'),
+        meta: { title: '账户明细' },
+    }, {
         path: '/account/bankcard/bind',
         name: 'account-bindBankCard',
         component: () => import('@/views/account/bind-bank-card'),

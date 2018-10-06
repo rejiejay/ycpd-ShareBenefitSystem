@@ -33,11 +33,16 @@ const routes = [
         name: 'user-info',
         component: () => import('@/views/user/info'),
         meta: { title: '个人信息' },
-    },  {
+    }, {
         path: '/user/authentication',
         name: 'user-authentication',
         component: () => import('@/views/user/authentication'),
         meta: { title: '实名认证' },
+    }, {
+        path: '/user/bindBankCard',
+        name: 'user-bindBankCard',
+        component: () => import('@/views/user/bind-bank-car'),
+        meta: { title: '绑定银行卡' },
     }, 
 
     /**

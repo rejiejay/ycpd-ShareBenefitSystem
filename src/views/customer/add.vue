@@ -81,7 +81,7 @@
 
         <!-- 确认添加 -->
         <div class="tag-car-confirm">
-            <div class="car-confirm-content">确认添加</div>
+            <div class="car-confirm-content" @click="addCustomerByCarNo">确认添加</div>
         </div>
 
         <!-- 底部提示 -->
@@ -305,6 +305,7 @@
 
 import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
 import Consequencer from "@/utils/Consequencer";
+import ajaxs from "@/api/customer/add";
 
 export default {
     name: 'customer-add',
@@ -452,6 +453,43 @@ export default {
                     this.plateNo += item;
                 }
             }
+        },
+
+        /**
+         * 通过车牌号添加客户
+         */
+        addCustomerByCarNo: function addCustomerByCarNo() {
+            const _this = this;
+
+            // 校验车牌号
+            let verifyPlateNo = this.verifyPlateNo();
+            if (verifyPlateNo.result !== 1) {
+                return alert(verifyPlateNo.message);
+            }
+            
+            // 校验用户名
+            if (this.customerName === '') {
+                return alert('用户名不能为空');
+            }
+
+            // 校验手机号
+			if (this.phoneNumber === '') {
+				return alert('手机号码不能为空');
+			} else if (/^(?=\d{11}$)^1(?:3\d|4[57]|5[^4\D]|66|7[^249\D]|8\d|9[89])\d{8}$/.test(this.phoneNumber) === false) { // 正则匹配表达式: https://github.com/VincentSit/ChinaMobilePhoneNumberRegex
+				return alert('请输入正确的手机号码格式');
+			}
+
+            let carNo = this.carNoProvince + this.plateNo; // 车牌号 等于 车牌省份 + 车牌号码
+            
+            ajaxs.addCustomerByCarNo(carNo, this.customerName, this.phoneNumber)
+            .then(
+                res => { // 添加成功
+                    // 跳转到客户列表页
+                    _this.$router.replace({path: `/customer`});
+                }, error => {
+                    alert(error);
+                }
+            )
         },
     }
 }

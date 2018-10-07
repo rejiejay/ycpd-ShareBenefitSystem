@@ -194,6 +194,7 @@
 <script>
 
 import Tabbar from "@/components/Tabbar";
+import ajaxs from "@/api/customer/index";
 
 export default {
     name: 'customer-home',

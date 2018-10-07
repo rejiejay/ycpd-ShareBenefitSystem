@@ -45,6 +45,11 @@ const routes = [
         component: () => import('@/views/user/info'),
         meta: { title: '个人信息' },
     }, {
+        path: '/user/award',
+        name: 'user-award',
+        component: () => import('@/views/user/award'),
+        meta: { title: '我的奖励' },
+    }, {
         path: '/user/authentication',
         name: 'user-authentication',
         component: () => import('@/views/user/authentication'),

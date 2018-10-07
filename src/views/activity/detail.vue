@@ -103,17 +103,47 @@
                 <div class="award-title-main flex-rest">我的奖励</div>
                 <div class="award-title-lable flex-start-center">累计:<span>¥99.98</span></div>
             </div>
+
             <!-- 列表标题 -->
             <div class="detail-award-item flex-start-center">
-                <div class="detail-award-item">
-                </div>
+                <div class="award-item-name">微信昵称</div>
+                <div class="award-item-oil" style="color: #606266;">加油金额</div>
+                <div class="award-item-divide" style="color: #606266;">我的分成</div>
+                <div class="award-item-time">时间</div>
             </div>
+            <div class="detail-award-line"><div class="award-line-content"></div></div>
+
             <!-- 列表项 -->
-            <div class="detail-award-item flex-start-center"
+            <div class="detail-award-list"
                 v-for="(item, key) in awardList" 
                 :key="key"
             >
+                <div class="detail-award-item flex-start-center">
+                    <div class="award-item-name">{{item.name}}</div>
+                    <div class="award-item-oil">{{item.sum}}</div>
+                    <div class="award-item-divide">{{item.sharing}}</div>
+                    <div class="award-item-time">{{item.time}}</div>
+                </div>
+                <div class="detail-award-line" v-if="key !== (awardList.length - 1)"><div class="award-line-content"></div></div>
             </div>
+
+            <!-- 查看全部 -->
+            <div class="detail-award-showmore flex-center">
+                <div class="award-showmore-content flex-start-center">
+                    <span>查看全部</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                        <path fill="#606266" d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 分享预览 -->
+    <div class="activity-share-preview flex-start">
+        <div class="activity-preview">
+        </div>
+        <div class="activity-share-now">
         </div>
     </div>
 </div>
@@ -135,9 +165,15 @@ export default {
 
             awardList: [ // 我的奖励
                 {
-
+                    name: '昵称', // 昵称
+                    sum: '300.00', // 加油金额
+                    sharing: '3.00', // 我的分成
+                    time: '2018-10-7', // 时间
                 }, {
-
+                    name: '昵称', // 昵称
+                    sum: '300.00', // 加油金额
+                    sharing: '3.00', // 我的分成
+                    time: '2018-10-7', // 时间
                 }, 
             ],
         } 
@@ -337,6 +373,7 @@ export default {
     .detail-award-title {
         height: 40px;
         padding: 0px 15px;
+        border-bottom: 1px solid #ddd;
         
         .award-title-main {
             font-weight: bold;
@@ -354,6 +391,58 @@ export default {
             }
         }
     }
+
+    // 列表
+    .detail-award-item {
+        padding: 0px 15px;
+        height: 40px;
+        color: @black2;
+
+        > div {
+            width: 25%;
+        }
+
+        .award-item-oil,
+        .award-item-divide {
+            color: #E50012;
+            text-align: center;
+        }
+
+        .award-item-time {
+            text-align: right;
+        }
+    }
+
+    // 横线
+    .detail-award-line {
+        padding-left: 15px;
+
+        .award-line-content {
+            height: 1px;
+            width: 100%;
+            background-color: #ddd;
+        }
+    }
+
+    // 查看全部
+    .detail-award-showmore {
+        border-top: 1px solid #ddd;
+        height: 40px;
+        color: @black2;
+
+        span {
+            padding-right: 5px;
+        }
+    }
+}
+
+// 分享预览
+.activity-share-preview {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 45px;
 }
 
 </style>

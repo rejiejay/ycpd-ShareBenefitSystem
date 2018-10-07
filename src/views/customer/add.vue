@@ -149,7 +149,7 @@
 
         <!-- 确认添加 -->
         <div class="tag-car-confirm">
-            <div class="car-confirm-content">确认添加</div>
+            <div class="car-confirm-content" @click="addCustomerByVinNo">确认添加</div>
         </div>
 
         <!-- 底部提示 -->
@@ -415,6 +415,33 @@ export default {
         },
 
         /**
+         * 校验用户名
+         */
+        verifyCustomerName: function verifyCustomerName() {
+            // 判断车牌号码是否为空
+            if (this.customerName === '') {
+                return Consequencer.error('用户名不能为空');
+            }
+            
+            return Consequencer.success();
+        },
+
+        /**
+         * 校验手机号
+         */
+        verifyPhoneNumber: function verifyPhoneNumber() {
+			if (this.phoneNumber === '') {
+                return Consequencer.error('手机号码不能为空');
+            }
+            
+            if (/^(?=\d{11}$)^1(?:3\d|4[57]|5[^4\D]|66|7[^249\D]|8\d|9[89])\d{8}$/.test(this.phoneNumber) === false) { // 正则匹配表达式: https://github.com/VincentSit/ChinaMobilePhoneNumberRegex
+                return Consequencer.error('请输入正确的手机号码格式');
+			}
+            
+            return Consequencer.success();
+        },
+
+        /**
          * 选择车牌省份
          */
         selectProvince: function selectProvince(item) {
@@ -468,20 +495,63 @@ export default {
             }
             
             // 校验用户名
-            if (this.customerName === '') {
-                return alert('用户名不能为空');
+            let verifyCustomerName = this.verifyCustomerName();
+            if (verifyCustomerName.result !== 1) {
+                return alert(verifyCustomerName.message);
             }
 
             // 校验手机号
-			if (this.phoneNumber === '') {
-				return alert('手机号码不能为空');
-			} else if (/^(?=\d{11}$)^1(?:3\d|4[57]|5[^4\D]|66|7[^249\D]|8\d|9[89])\d{8}$/.test(this.phoneNumber) === false) { // 正则匹配表达式: https://github.com/VincentSit/ChinaMobilePhoneNumberRegex
-				return alert('请输入正确的手机号码格式');
-			}
+            let verifyPhoneNumber = this.verifyPhoneNumber();
+            if (verifyPhoneNumber.result !== 1) {
+                return alert(verifyPhoneNumber.message);
+            }
 
             let carNo = this.carNoProvince + this.plateNo; // 车牌号 等于 车牌省份 + 车牌号码
             
             ajaxs.addCustomerByCarNo(carNo, this.customerName, this.phoneNumber)
+            .then(
+                res => { // 添加成功
+                    // 跳转到客户列表页
+                    _this.$router.replace({path: `/customer`});
+                }, error => {
+                    alert(error);
+                }
+            )
+        },
+
+        /**
+         * 通过发动机号，车架号添加客户
+         */
+        addCustomerByVinNo: function addCustomerByVinNo() {
+            const _this = this;
+
+            // 校验车架号
+			if (this.vinNo ===  '') {
+                return alert('车架号不能为空');
+            } else if (this.vinNo.length !==  17) { // 十七个英数组成, 英文字母“I”、“O”、“Q”均不会被使用
+                return alert('请输入正确的车架号');
+            }
+
+            // 校验发动机号
+			if (this.engineNo ===  '') {
+                return alert('发动机号不能为空');
+            } else if (this.engineNo.length < 6 || this.engineNo.length > 7 ) { // 6~7位
+                return alert('请输入正确的发动机号');
+            }
+
+            // 校验用户名
+            let verifyCustomerName = this.verifyCustomerName();
+            if (verifyCustomerName.result !== 1) {
+                return alert(verifyCustomerName.message);
+            }
+
+            // 校验手机号
+            let verifyPhoneNumber = this.verifyPhoneNumber();
+            if (verifyPhoneNumber.result !== 1) {
+                return alert(verifyPhoneNumber.message);
+            }
+
+            ajaxs.addCustomerByVinNo(this.vinNo, this.engineNo, this.customerName, this.phoneNumber)
             .then(
                 res => { // 添加成功
                     // 跳转到客户列表页

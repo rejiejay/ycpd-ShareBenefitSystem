@@ -123,9 +123,14 @@ const routes = [
     {
         path: '/activity/index',
         alias: ['/activity'],
-        name: 'home',
+        name: 'activity',
         component: () => import('@/views/activity/index'),
         meta: { title: '最新活动' },
+    }, {
+        path: '/activity/detail',
+        name: 'activity-detail',
+        component: () => import('@/views/activity/detail'),
+        meta: { title: '邀请好友享加油分成' },
     }, 
 ];
 

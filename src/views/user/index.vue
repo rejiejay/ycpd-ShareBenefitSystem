@@ -42,7 +42,7 @@
                     余额
                 </div>
                 <div class="user-wallet-center flex-rest">
-                    ￥1991.00
+                    ￥{{usableMoney}}
                 </div>
                 <div class="user-wallet-right">
                     提现
@@ -53,7 +53,7 @@
                     累计总收入
                 </div>
                 <div class="user-wallet-center flex-rest">
-                    ￥1991.00
+                    ￥{{totalMoney}}
                 </div>
                 <div class="user-wallet-right">
                     账单
@@ -209,6 +209,7 @@
 <script>
 
 import Tabbar from "@/components/Tabbar";
+import ajaxs from "@/api/user/index";
 
 export default {
     name: 'user-home',
@@ -219,12 +220,58 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+            
+            agentId: '8686253daa364003945ddae12b4ff75c', // 用户id
+
+            usableMoney: 0, // 可用余额
+            totalMoney: 0, // 累计收入
         } 
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.getClientUsableMoney(); // 获取 - 可用余额
+        this.getClientTotalMoney(); // 获取 - 累计收入
+    },
 
-	methods: {}
+	methods: {
+        /**
+         * 获取 - 可用余额
+         */
+    	getClientUsableMoney: function getClientUsableMoney() {
+            const _this = this;
+
+            ajaxs.findClientUsableMoney(this.agentId)
+            .then(
+                res => {
+                    // 如果返回横杆，说明是空值
+                    if (res !== '-') {
+                        _this.usableMoney = res;
+                    }
+                }, error => {
+                    alert(error);
+                }
+            )
+        },
+
+        /**
+         * 获取 - 累计收入
+         */
+    	getClientTotalMoney: function getClientTotalMoney() {
+            const _this = this;
+
+            ajaxs.findClientTotalMoney(this.agentId)
+            .then(
+                res => {
+                    // 如果返回横杆，说明是空值
+                    if (res !== '-') {
+                        _this.totalMoney = res;
+                    }
+                }, error => {
+                    alert(error);
+                }
+            )
+        },
+    }
 }
 
 </script>

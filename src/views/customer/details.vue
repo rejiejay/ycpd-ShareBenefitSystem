@@ -133,23 +133,23 @@
             <div class="followRecord-list-content">
                 <div class="followRecord-list-main" :class="{'followRecord-list-isFirst': key === 0}">
                     <div class="list-main-title flex-start">
-                        <div class="main-title-time flex-rest">2018-09-17 14:25:23</div>
-                        <div class="main-title-name">代理人: 李四</div>
+                        <div class="main-title-time flex-rest">{{record.createdDate}}</div>
+                        <div class="main-title-name">代理人: XX</div>
                     </div>
 
                     <div class="list-main-item flex-start">
                         <div class="main-title-lable">跟进结果:</div>
-                        <div class="main-title-describe">考虑中</div>
+                        <div class="main-title-describe">{{record.result}}</div>
                     </div>
 
                     <div class="list-main-item flex-start">
                         <div class="main-title-lable">跟进内容:</div>
-                        <div class="main-title-describe">给客户报价，分析车险购买方式</div>
+                        <div class="main-title-describe">{{record.content}}</div>
                     </div>
 
                     <div class="list-main-item flex-start">
                         <div class="main-title-lable">下次跟进时间:</div>
-                        <div class="main-title-describe">3天后</div>
+                        <div class="main-title-describe">{{record.lastUpdatedDate}}</div>
                     </div>
 
                     <svg width="10" height="10" t="1538122765988" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2944" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -321,13 +321,12 @@ export default {
              * 跟进记录
              */
             followRecordList: [
-                {
-
-                }, {
-
-                }, {
-
-                }
+                // {
+                //     createdDate: "2018-10-08 03:50:16",
+                //     result: '忙碌中待联系',
+                //     content: '给客户报价，分析车险购买方式',
+                //     lastUpdatedDate: "2018-10-08 03:50:16",
+                // }
             ],
 
             isFollowModalShow: false, // 录入跟进模态框
@@ -366,11 +365,56 @@ export default {
         }
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.getFollowupRecord(); // 获取 - 跟进记录
+    },
 
 	methods: {
         /**
          * 添加跟进记录
+         */
+	    getFollowupRecord: function getFollowupRecord() {
+            const _this = this;
+
+            /**
+             * 转换跟进结果
+             */
+            let resultTransverter = result => {
+                if (result === 0) {
+                    return '联系不上（停机、空号）'
+                }
+                if (result === 1) {
+                    return '忙碌中待联系'
+                }
+                if (result === 2) {
+                    return '考虑中'
+                }
+                if (result === 3) {
+                    return '成功出单'
+                }
+                if (result === 4) {
+                    return '战败'
+                }
+            }
+
+            ajaxs.getFollowupRecord(this.clientId)
+            .then(
+                res => {
+                    _this.followRecordList = res.map(val => {
+                        return {
+                            createdDate: val.createdDate,
+                            result: resultTransverter(val.result),
+                            content: val.content,
+                            lastUpdatedDate: val.lastUpdatedDate,
+                        }
+                    });
+                }, error => {
+                    alert(error);
+                }
+            )
+        },
+        /**
+         * 添加 - 跟进记录
          */
 	    addFollowupRecord: function addFollowupRecord() {
             // 判断是否选择跟进结果
@@ -384,6 +428,8 @@ export default {
             .then(
                 val => {
                     console.log(val);
+                }, error => {
+                    alert(error);
                 }
             )
         },
@@ -680,7 +726,7 @@ export default {
 // 跟进记录
 .navigation-item-followRecord {
     position: relative;
-    padding: 15px;
+    padding: 15px 15px 75px 15px;
 
     // 一个项
     .item-followRecord-list {

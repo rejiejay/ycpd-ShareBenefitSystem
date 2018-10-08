@@ -3,7 +3,7 @@ import { Indicator } from 'mint-ui';
 
 export default {
     /**
-     * 添加跟进记录
+     * 添加 - 跟进记录
      * @param {string} clientId 用户id
      * @param {string} result 跟进结果：0：联系不上、1：待联系、2：考虑中、3：成功、4：战败
      * @param {string} content 跟进内容
@@ -43,7 +43,56 @@ export default {
             error(error) {
                 Indicator.close(); // 关闭加载框
                 console.error(error);
-                reject(`向服务器添加客户发生错误! 原因: ${JSON.stringify(error)}`);
+                reject(`向服务器添加跟进记录发生错误! 原因: ${JSON.stringify(error)}`);
+            }
+        });
+    }),
+
+    /**
+     * 获取 - 跟进记录
+     * @param {string} clientId 用户id
+     */
+    getFollowupRecord: (clientId) => new Promise((resolve, reject) => {
+        // 返回测试数据
+        // resolve({ 
+        //     "code": 1000,
+        //     "msg": "success",
+        //     "data": [
+        //         {
+        //             clientId: "40289f1e664d369b01664d38cc290003",
+        //             contactTime: null,
+        //             content: "阿大声道",
+        //             createdDate: "2018-10-08 ",
+        //             createdUser: 1,
+        //             followupRecordId: "2c9202866651bedd016651cc025f0000",
+        //             followupType: null,
+        //             lastUpdatedDate: "2018-10-08 ",
+        //             lastUpdatedUser: null,
+        //             nextTime: null,
+        //             personInCharge: null,
+        //             result: 1,
+        //             status: 1,
+        //         }
+        //     ]
+        // });
+
+		Indicator.open('正在加载数据...'); // 弹出加载框
+        $.ajax({
+            url: `${config.url.origin}/ycpd/cas/followupRecord/list?clientId=${clientId}`,
+            type: "GET",
+            success(res) {
+                Indicator.close(); // 关闭加载框
+                if (res.code === 1000) {
+                    resolve(res.data);
+                } else {
+                    console.error(res);
+                    reject(`获取跟进记录失败! 原因: ${res.msg}`);
+                }
+            },
+            error(error) {
+                Indicator.close(); // 关闭加载框
+                console.error(error);
+                reject(`向服务器获取跟进记录发生错误! 原因: ${JSON.stringify(error)}`);
             }
         });
     }),

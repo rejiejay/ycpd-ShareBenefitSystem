@@ -7,17 +7,21 @@
         <div class="navigation-bar-item"
             v-for="(item, key) in navBarList" 
             :key="key"
-            :class="{'bar-item-selected': navBarSelectedIndex === key}"
+            :class="{'bar-item-selected': navBarSelected === item.type}"
             :style="`width: ${Math.floor(clientWidth / navBarList.length)}px;`"
-            @click="navBarSelectedIndex = key"
+            @click="navBarSelected = item.type"
         >
             <div class="bar-item-count">{{item.count}}</div>
             <div class="bar-item-describe">{{item.name}}</div>
         </div>
     </div>
 
+    <!-- 输入车牌、姓名、手机号搜索 -->
+    <div class="navigation-search flex-start">
+    </div>
+
     <!-- 客户总量 —— 导航栏分页  -->
-    <div class="navigation-bar-page" v-if="navBarSelectedIndex === 0">
+    <div class="navigation-bar-page" v-if="navBarSelected === 'total'">
         <div class="bar-page-item"
             v-for="(item, key) in totalCustomers" 
             :key="key"
@@ -51,7 +55,7 @@
     </div>
 
     <!-- 可续保客户 —— 导航栏分页  -->
-    <div class="navigation-bar-page" v-else-if="navBarSelectedIndex === 1">
+    <div class="navigation-bar-page" v-else-if="navBarSelected === 'renewal'">
         <div class="bar-page-item"
             v-for="(item, key) in renewalCustomers" 
             :key="key"
@@ -85,7 +89,7 @@
     </div>
 
     <!-- 违章未处理 —— 导航栏分页  -->
-    <div class="navigation-bar-page" v-else-if="navBarSelectedIndex === 2">
+    <div class="navigation-bar-page" v-else-if="navBarSelected === 'violation'">
         <div class="bar-page-item"
             v-for="(item, key) in violationCustomers" 
             :key="key"
@@ -119,7 +123,7 @@
     </div>
 
     <!-- 年检将到期 —— 导航栏分页  -->
-    <div class="navigation-bar-page" v-else-if="navBarSelectedIndex === 3">
+    <div class="navigation-bar-page" v-else-if="navBarSelected === 'ASC'">
         <div class="bar-page-item"
             v-for="(item, key) in ASCustomers" 
             :key="key"
@@ -153,7 +157,7 @@
     </div>
 
     <!-- 跟进客户 —— 导航栏分页  -->
-    <div class="navigation-bar-page" v-else-if="navBarSelectedIndex === 4">
+    <div class="navigation-bar-page" v-else-if="navBarSelected === 'tofollow'">
         <div class="bar-page-item"
             v-for="(item, key) in toFollowCustomers" 
             :key="key"
@@ -193,6 +197,8 @@
 
 <script>
 
+import { MessageBox } from 'mint-ui';
+
 import Tabbar from "@/components/Tabbar";
 import ajaxs from "@/api/customer/index";
 
@@ -208,31 +214,44 @@ export default {
 
             /**
              * 导航栏
-             * @param {Number} 0 客户总量
-             * @param {Number} 1 可续保客户
-             * @param {Number} 2 违章未处理
-             * @param {Number} 3 年检将到期
-             * @param {Number} 4 跟进客户
+             * @param {String} total 客户总量
+             * @param {String} renewal 可续保客户
+             * @param {String} violation 违章未处理
+             * @param {String} ASC 年检将到期
+             * @param {String} tofollow 跟进客户
              */
-            navBarSelectedIndex: 0, // 导航栏选中下标
+            navBarSelected: 'total', // 导航栏选中类型
             navBarList: [ // 导航栏列表
                 {
-                    count: 999,
-                    name: '客户总量',
+                    count: 999, // 统计
+                    name: '客户总量', // 显示名称
+                    type: 'total', // 导航栏类型
                 }, {
                     count: 333,
                     name: '可续保客户',
+                    type: 'renewal',
                 }, {
                     count: 111,
                     name: '违章未处理',
+                    type: 'violation',
                 }, {
                     count: 444,
                     name: '年检将到期',
+                    type: 'ASC',
                 }, {
                     count: 222,
                     name: '待跟进客户',
+                    type: 'tofollow',
                 }
             ],
+
+            /**
+             * 列表相关
+             */
+            totalPages: 1, // 总共多少页
+            pageNo: 1, // 当前页码
+            pageSize: 20, // 当前页面有多少条数据
+            agentInfoId: 'abcdefg', // 暂时写死
 
             /**
              * 客户总量
@@ -363,9 +382,84 @@ export default {
         } 
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.getCustomerList(); // 获取客户列表
+    },
 
-	methods: {}
+	methods: {
+        /**
+         * 获取客户列表
+         * 因为高度复用, 所以必须通过传参解决
+         * @param {string} pageNo 当前页码
+         * @param {string} pageSize 当前页面有多少条数据
+         * @param {string} agentInfoId 当前登录人id
+         * @param {string} search 查询条件 非必填
+         */
+        getCustomerList: function getCustomerList(pageNo, pageSize, agentInfoId, search) {
+            const _this = this;
+            // 导航栏选中的键值对
+            let selectedKeyVal = {
+                'total': 'totalCustomers', // 客户总量
+                'renewal': 'renewalCustomers', // 可续保客户
+                'violation': 'violationCustomers', // 违章未处理
+                'ASC': 'ASCustomers', // 年检将到期
+                'tofollow': 'toFollowCustomers', // 待跟进客户
+            }
+            let mySelected = selectedKeyVal[this.navBarSelected];
+
+
+            pageNo = pageNo ? pageNo : this.pageNo;
+            pageSize = pageSize ? pageSize : this.pageSize;
+            agentInfoId = agentInfoId ? agentInfoId : this.agentInfoId;
+            search = search ? search : this.search;
+            
+            ajaxs.getCustomerList(pageNo, pageSize, agentInfoId, search)
+            .then(
+                res => {
+                    _this[mySelected] = res.content.map(val => {
+                        // 列表标题
+                        let carType = '';
+                        if (val.brand || val.models || val.series) {
+                            carType = `(${val.brand ? val.brand : ''}${val.series ? val.series : ''}${val.models ? val.models : ''})`
+                        }
+                        let title = `${val.carNo ? val.carNo : '暂无车牌号'} ${carType}`;
+                        let tag = [];
+
+                        // 初始化保险日期
+                        if (val.policy && val.policy.businessExpireDate) {
+                            // 过期的时间的数组
+                            let businessExpireArray = val.policy.businessExpireDate.split('-');
+                            // 过期的时间戳
+                            let businessExpireTimestamp = new Date(parseInt(businessExpireArray[0]), (parseInt(businessExpireArray[1]) - 1), parseInt(businessExpireArray[2])).getTime();
+                            // 相差时间戳
+                            let differTimestamp = businessExpireTimestamp - new Date().getTime();
+                            // 时间相差必须大于零
+                            if (differTimestamp > 0) {
+                                // 设置保险日期进去
+                                tag.push(`保险${Math.floor(differTimestamp / (1000 * 60 * 60 * 24))}天`);
+                            }
+                        }
+
+                        // 初始化年检 (暂时写死)
+                        tag.push('年检23天');
+
+                        return {
+                            title: title,
+                            name: val.username,
+                            tag: tag,
+                        }
+                    });
+                }, error => {
+                    MessageBox.confirm('获取客户列表失败, 是否重新获取?')
+                    .then(action => {
+                        _this.getCustomerList(pageNo, pageSize, agentInfoId, search);
+                    }, () => {
+                        alert(error);
+                    });
+                }
+            )
+        },
+    }
 }
 
 </script>
@@ -420,7 +514,7 @@ export default {
 
 // 导航栏分页
 .navigation-bar-page {
-    padding-bottom: 35px;
+    padding-bottom: 75px;
 
     // 框架部分
     .bar-page-item {

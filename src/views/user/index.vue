@@ -162,7 +162,7 @@
 
             <div class="user-otherfun-other flex-start-center">
                 
-                <div class="otherfun-other-item flex-center">
+                <div class="otherfun-other-item flex-center" @click="jumpToRouter('/user/award')">
                     <div class="other-item-content flex-column-center">
                         <div class="other-item-icon">
                             <svg width="24" height="24" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="个人中心" transform="translate(-102.000000, -1106.000000)"><g id="其它功能" transform="translate(20.000000, 987.000000)"><g id="icon" transform="translate(82.000000, 119.000000)"><rect id="Rectangle-4" fill="#FE7E7E" x="0" y="0" width="48" height="48" rx="10"></rect><path d="M24,38 C31.7319865,38 38,31.7319865 38,24 C38,16.2680135 31.7319865,10 24,10 C16.2680135,10 10,16.2680135 10,24 C10,31.7319865 16.2680135,38 24,38 Z M24,40 C15.163444,40 8,32.836556 8,24 C8,15.163444 15.163444,8 24,8 C32.836556,8 40,15.163444 40,24 C40,32.836556 32.836556,40 24,40 Z M18.4142136,24 L24,29.5857864 L29.5857864,24 L24,18.4142136 L18.4142136,24 Z M22.5857864,17 C23.366835,16.2189514 24.633165,16.2189514 25.4142136,17 L31,22.5857864 C31.7810486,23.366835 31.7810486,24.633165 31,25.4142136 L25.4142136,31 C24.633165,31.7810486 23.366835,31.7810486 22.5857864,31 L17,25.4142136 C16.2189514,24.633165 16.2189514,23.366835 17,22.5857864 L22.5857864,17 Z" id="我的奖励" fill="#FFFFFF" fill-rule="nonzero"></path></g></g></g></g></svg>
@@ -231,6 +231,7 @@ export default {
 	mounted: function mounted() {
         this.getClientUsableMoney(); // 获取 - 可用余额
         this.getClientTotalMoney(); // 获取 - 累计收入
+        // this.getFunctionRecords(); // 获取 - 套餐余量列表
     },
 
 	methods: {
@@ -270,6 +271,29 @@ export default {
                     alert(error);
                 }
             )
+        },
+
+        /**
+         * 获取 - 套餐余量列表
+         */
+    	getFunctionRecords: function getFunctionRecords() {
+            const _this = this;
+
+            ajaxs.findFunctionRecords(this.agentId)
+            .then(
+                res => {
+                    console.log(res)
+                }, error => {
+                    alert(error);
+                }
+            )
+        },
+
+        /**
+         * 跳转到路由
+         */
+        jumpToRouter: function jumpToRouter(url) {
+            this.$router.push({path: url});
         },
     }
 }

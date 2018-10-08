@@ -384,9 +384,18 @@ export default {
 
 	mounted: function mounted() {
         this.getCustomerList(); // 获取客户列表
+        this.getBarCount(); // 获取顶部导航栏统计数据
     },
 
 	methods: {
+        /**
+         * 获取顶部导航栏统计数据
+         */
+        getBarCount: function getCustomerList() {
+            const _this = this;
+
+        },
+
         /**
          * 获取客户列表
          * 因为高度复用, 所以必须通过传参解决

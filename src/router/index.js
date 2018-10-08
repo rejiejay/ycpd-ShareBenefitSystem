@@ -70,6 +70,11 @@ const routes = [
         component: () => import('@/views/account/detail'),
         meta: { title: '账户明细' },
     }, {
+        path: '/account/combo/rest',
+        name: 'account-combo-rest',
+        component: () => import('@/views/account/combo-rest'),
+        meta: { title: '套餐余量' },
+    }, {
         path: '/account/bankcard/bind',
         name: 'account-bindBankCard',
         component: () => import('@/views/account/bind-bank-card'),

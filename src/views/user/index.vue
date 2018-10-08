@@ -210,6 +210,7 @@
 
 import Tabbar from "@/components/Tabbar";
 import ajaxs from "@/api/user/index";
+import { Toast } from 'mint-ui';
 
 export default {
     name: 'user-home',
@@ -231,7 +232,6 @@ export default {
 	mounted: function mounted() {
         this.getClientUsableMoney(); // 获取 - 可用余额
         this.getClientTotalMoney(); // 获取 - 累计收入
-        // this.getFunctionRecords(); // 获取 - 套餐余量列表
     },
 
 	methods: {
@@ -274,19 +274,10 @@ export default {
         },
 
         /**
-         * 获取 - 套餐余量列表
+         * 升级中
          */
-    	getFunctionRecords: function getFunctionRecords() {
-            const _this = this;
-
-            ajaxs.findFunctionRecords(this.agentId)
-            .then(
-                res => {
-                    console.log(res)
-                }, error => {
-                    alert(error);
-                }
-            )
+        upgrading: function upgrading() {
+            Toast({ message: "升级中", duration: 1000 });
         },
 
         /**

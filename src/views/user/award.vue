@@ -66,6 +66,9 @@ export default {
     },
 
 	methods: {
+        /**
+         * 我的奖励
+         */
         getMyRewards: function getMyRewards() {
             const _this = this;
 

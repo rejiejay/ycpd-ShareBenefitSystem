@@ -37,13 +37,13 @@
 
                 <!-- 拼图 -->
                 <div class="main-content-jigsaw">
-                    <div class="content-jigsaw-refresh" id="slider-refresh">
+                    <div class="content-jigsaw-refresh" id="slider-refresh" @click="getMachinePicture">
                         <svg width="23" height="23" t="1530243424799" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6039" xmlns:xlink="http://www.w3.org/1999/xlink" >
                             <path d="M55.935033 264.48948c0 0 85.897017-132.548409 221.81443-203.673173 135.916406-71.121743 303.368504-50.646859 413.187968 18.319527 109.819465 68.970415 146.791894 127.160016 146.791894 127.160016l94.59499-53.879895c0 0 19.576483-9.697092 19.576483 12.932142l0 338.379961c0 0 0 30.17399-22.837719 19.395191-19.210878-9.062571-226.959086-127.198289-292.424528-164.466828-35.950145-16.035251-4.365101-29.062068-4.365101-29.062068l91.284402-52.173738c0 0-52.068992-65.209619-128.278989-99.744682-81.576231-42.501826-157.948384-47.541735-251.497925-12.224097-61.002644 23.025054-132.823368 81.988166-184.553949 169.082716L55.935033 264.48948 55.935033 264.48948 55.935033 264.48948zM904.056909 711.697844c0 0-85.897017 132.550423-221.816444 203.671159-135.917413 71.12275-303.366489 50.651895-413.186961-18.315498-109.825508-68.972429-146.790886-127.165052-146.790886-127.165052L27.662591 823.768348c0 0-19.572454 9.703135-19.572454-12.932142L8.090137 472.459267c0 0 0-30.170968 22.831676-19.397205 19.211885 9.067607 226.965129 127.198289 292.430571 164.470856 35.950145 16.035251 4.366109 29.058039 4.366109 29.058039l-91.285409 52.175753c0 0 52.071006 65.206598 128.279996 99.744682 81.57321 42.498804 157.942341 47.540728 251.496918 12.222082 60.998616-23.026061 132.820346-81.983131 184.546898-169.082716L904.056909 711.697844 904.056909 711.697844 904.056909 711.697844zM904.056909 711.697844" p-id="6040" ></path>
                         </svg>
                     </div>
                     <img class="content-jigsaw-bg" :src="jigsawBgPicture ? ('data:image/jpg;base64,' + jigsawBgPicture) : ''" />
-                    <img class="content-jigsaw-front" :style="`left: ${jigsawMovepx}px; top: ${jigsawHeighty}px; height: ${52}px;`" :src="jigsawFrontPicture ? ('data:image/jpg;base64,' + jigsawFrontPicture) : ''" />
+                    <img class="content-jigsaw-front" :style="`left: ${jigsawMovepx}px; top: ${jigsawHeighty}px;`" :src="jigsawFrontPicture ? ('data:image/jpg;base64,' + jigsawFrontPicture) : ''" />
                 </div>
 
                 <!-- 滑块 -->
@@ -102,6 +102,8 @@
 
 import Consequencer from "@/utils/Consequencer";
 import ajaxs from "@/api/login/index";
+import { MessageBox } from 'mint-ui';
+import { Toast } from 'mint-ui';
 
 export default {
     name: 'login',
@@ -124,10 +126,13 @@ export default {
             reGetCount: 60,
             
 			// 人机验证码
-			machineNumber: '',
+            machineNumber: '',
+            
+            // token
+            token:'',
 
 			// 是否显示人机验证码模态框
-            isMachineModalShow: true,
+            isMachineModalShow: false,
             
             machineNumberErrorMsg: '', // 人机验证码错误信息
 
@@ -174,13 +179,13 @@ export default {
 		 */
 		getMachinePicture: function getMachinePicture() {
             const _this = this;
-
-            ajaxs.getMachinePicture((this.clientWidth - 120), 155)
+            ajaxs.getMachinePicture((this.clientWidth - 60), 155)
             .then(
                 res => {
                     _this.jigsawBgPicture = res.oriImagBase64; // 设置 滑动拼图 背景
                     _this.jigsawFrontPicture = res.cutImagBase64; // 设置 滑动拼图 滑块图
                     _this.jigsawHeighty = res.yHeight; // 设置 滑动拼图 滑块图 距离图片顶部的距离
+                    _this.token = res.token
                 }, error => {
                     MessageBox.confirm('获取人机验证码失败, 是否重新获取?')
                     .then(action => {
@@ -194,14 +199,14 @@ export default {
 		 * 校验手机号码
 		 */
 		verifyPhoneNumber: function verifyPhoneNumber() {
-			if (this.phoneNumber === '') {
-				return Consequencer.error('手机号码不能为空');
-			}
+			// if (this.phoneNumber === '') {
+			// 	return Consequencer.error('手机号码不能为空');
+			// }
 
-			// 正则匹配表达式: https://github.com/VincentSit/ChinaMobilePhoneNumberRegex
-			if (/^(?=\d{11}$)^1(?:3\d|4[57]|5[^4\D]|66|7[^249\D]|8\d|9[89])\d{8}$/.test(this.phoneNumber) === false) {
-				return Consequencer.error('请输入正确的手机号码格式');
-			}
+			// // 正则匹配表达式: https://github.com/VincentSit/ChinaMobilePhoneNumberRegex
+			// if (/^(?=\d{11}$)^1(?:3\d|4[57]|5[^4\D]|66|7[^249\D]|8\d|9[89])\d{8}$/.test(this.phoneNumber) === false) {
+			// 	return Consequencer.error('请输入正确的手机号码格式');
+			// }
 
 			return Consequencer.success();
 		},
@@ -256,8 +261,48 @@ export default {
              * 注册 触摸移动结束事件
              */
             let handleMouseEnd = function handleMouseEnd(event) {
-                _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
-                _this.jigsawMovepx = 0;
+
+                    /**
+                     *校验滑动图片距离
+                    */
+                    ajaxs.checkoutDistance(_this.token,Math.floor(_this.jigsawMovepx))
+                    .then(
+                        res => {
+                            console.log(res)
+                            if (res.code === 1000) {
+                                _this.jigsawStatus = 'succeed'; // 将 滑动拼图状态 设置为 成功状态
+                                ajaxs.getVerificationCode(_this.phoneNumber,_this.token)
+                                .then(
+                                    res1 => {
+                                        if(res1.code===1000){
+                                            _this.isMachineModalShow = false 
+                                            _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
+                                            _this.jigsawMovepx = 0;
+                                            _this.token = res1.data.token
+                                        }else {
+                                            alert('发送短信过于频繁')
+                                            _this.isMachineModalShow = false
+                                            _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
+                                            _this.jigsawMovepx = 0;
+                                            _this.getMachinePicture();
+                                        }
+                                    }
+                                )
+
+                            } else {
+                                _this.jigsawStatus = 'failure'; // 将 滑动拼图状态 设置为 失败
+                                setTimeout(function () {
+                                    _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
+                                    _this.jigsawMovepx = 0;
+                                    _this.getMachinePicture();
+                                }, 2000);
+                            }
+                        },
+                            
+                        error => {
+                            // MessageBox.confirm('获取人机验证码失败, 是否重新获取?')
+                        }
+                    )
 
                 window.removeEventListener('touchmove', handleMouseMove);
                 window.removeEventListener('touchend', handleMouseEnd);
@@ -285,6 +330,49 @@ export default {
 		 * 登录
 		 */
 		submitLogin: function submitLogin() {
+            if(this.isAgreement==false){
+                Toast({
+                    message: '请先同意养车频道用户协议',
+                    duration: 1000
+                });
+            }else if(this.phoneNumber==''){
+                Toast({
+                    message: '请输入手机号码',
+                    duration: 1000
+                });
+            }else if(this.SMSNumber==''){
+                Toast({
+                    message: '请输入验证码',
+                    duration: 1000
+                });
+            }
+            ajaxs.goLogin(this.token,this.phoneNumber,this.SMSNumber)
+            .then(
+                res => {
+                    console.log(res)
+                    if(res.code===1000){
+                        Toast({
+                            message:'登入成功',
+                            duration:1000
+                        })
+                    }else if(res.code===1001){
+                        Toast({
+                            message:'非法请求',
+                            duration:1000
+                        })
+                    }else if(res.code===1004){
+                        Toast({
+                            message:'验证码错误',
+                            duration:1000
+                        })
+                    }else if(res.code===1005){
+                        Toast({
+                            message:'登录异常,请重新登入',
+                            duration:1000
+                        })
+                    }
+                }
+            )
         },
 
 		/**
@@ -477,21 +565,17 @@ export default {
         }
 
         .content-jigsaw-bg {
+            display: block;
+            height: 100%;
             width: 100%;
-
-            img {
-                display: block;
-                height: 100%;
-            }
         }
 
         .content-jigsaw-front {
             position: absolute;
             top: 0px;
-
-            img {
-                display: block;
-            }
+            display: block;
+            outline: rgb(255, 255, 255);
+            box-shadow: rgba(0, 0, 0, 0.36) 0px 2px 4px, rgba(0, 0, 0, 0.24) 0px 2px 4px;
         }
     }
 

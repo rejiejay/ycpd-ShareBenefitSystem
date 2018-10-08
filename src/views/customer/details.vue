@@ -217,9 +217,9 @@
         <div class="up-modal-main" :style="`width: ${clientWidth - 60}px;`">
 
             <div class="modal-main-result">
-                <div class="main-result-content flex-start-center">
+                <div class="main-result-content flex-start-center" @click="isFollowSelectedShow = true">
                     <div class="main-result-describe flex-rest">
-                        请选择跟进结果
+                        {{followUpIndex === null ? '选择跟进结果' : followUpList[followUpIndex].lable}}
                     </div>
                     <div class="main-result-icon">
                         <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
@@ -230,9 +230,9 @@
             </div>
 
             <div class="modal-main-time">
-                <div class="main-time-content flex-start-center">
+                <div class="main-time-content flex-start-center" @click="$refs.picker.open()">
                     <div class="main-time-describe flex-rest">
-                        下次跟进时间
+                        {{nextFollowUpTimeFormat}}
                     </div>
                     <div class="main-time-icon">
                         <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
@@ -245,22 +245,60 @@
             <div class="modal-main-details">本次跟进内容</div>
             <div class="main-details-input">
                 <div class="details-input-content">
-                    <textarea type="text" rows="4" />
+                    <textarea v-model="followUpDescribe" type="text" rows="4" placeholder="请输入本次跟进内容" />
                 </div>
             </div>
             
             <div class="modal-main-submit flex-start">
-                <div class="main-submit-ts">暂存</div>
+                <div class="main-submit-ts" @click="isFollowModalShow = false">返回<!-- 暂存 --></div>
                 <div class="main-submit-rest"></div>
-                <div class="main-submit-affirm flex-rest">确认</div>
+                <div class="main-submit-affirm flex-rest" @click="addFollowupRecord">确认</div>
             </div>
         </div>
     </div>
+
+    <!-- 录入跟进，选择跟进结果 -->
+    <div class="followup-modal-selected" v-if="isFollowSelectedShow">
+        <div class="modal-selected-shade" @click="isFollowSelectedShow = false"></div>
+        <div class="modal-selected-main">
+
+            <!-- 标题 -->
+            <div class="selected-main-title">选择跟进结果</div>
+
+            <!-- 列表项 -->
+            <div class="selected-main-list"
+                v-for="(item, key) in followUpList" 
+                :key="key"
+                @click="followUpIndex = key; isFollowSelectedShow = false;"
+            >
+                <div class="selected-main-item">{{item.lable}}</div>
+                <div class="selected-main-line" v-if="key !== (followUpList.length - 1)"><div class="award-line-content"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 下次跟进时间 -->
+    <mt-datetime-picker
+        ref="picker"
+        type="date"
+        :startDate="new Date()"
+        year-format="{value} 年"
+        month-format="{value} 月"
+        date-format="{value} 日"
+        v-model="nextFollowUpTime"
+    ></mt-datetime-picker>
 
 </div>
 </template>
 
 <script>
+
+import Vue from 'vue';
+import { DatetimePicker } from 'mint-ui';
+Vue.component(DatetimePicker.name, DatetimePicker);
+
+import ajaxs from "@/api/customer/details";
+import TimeConver from "@/utils/TimeConver";
 
 export default {
     name: 'customer-details',
@@ -270,6 +308,8 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
+            clientId: '40289f1e664d369b01664d38cc290003', // 用户id
+            
             /**
              * 顶部导航栏选择
              * @param {string} customerInfor 客户信息
@@ -290,14 +330,64 @@ export default {
                 }
             ],
 
-            // 录入跟进模态框
-            isFollowModalShow: false,
+            isFollowModalShow: false, // 录入跟进模态框
+            isFollowSelectedShow: false, // 选择录入跟进模态框
+            followUpDescribe: '', // 跟进内容
+            nextFollowUpTime: null, // 下次跟进时间
+            followUpIndex: null, // 选择跟进结果的下标 如果为 null 表示未选择
+            followUpList: [
+                {
+                    value: '0',
+                    lable: '联系不上（停机、空号）',
+                }, {
+                    value: '1',
+                    lable: '忙碌中待联系',
+                }, {
+                    value: '2',
+                    lable: '考虑中',
+                }, {
+                    value: '3',
+                    lable: '成功出单',
+                }, {
+                    value: '4',
+                    lable: '战败',
+                },
+            ],
         } 
+    },
+
+    computed: {
+        nextFollowUpTimeFormat: function () {
+            if (this.nextFollowUpTime === null) {
+                return '下次跟进时间';
+            } else {
+                return TimeConver.dateToFormat(this.nextFollowUpTime);
+            }
+        }
     },
 
 	mounted: function mounted() { },
 
-	methods: {}
+	methods: {
+        /**
+         * 添加跟进记录
+         */
+	    addFollowupRecord: function addFollowupRecord() {
+            // 判断是否选择跟进结果
+            if (this.followUpIndex === null) {
+                return alert('请选择跟进结果');
+            }
+
+            let result = parseInt(this.followUpList[this.followUpIndex].value);
+
+            ajaxs.addFollowupRecord(this.clientId, result, this.followUpDescribe, this.nextFollowUpTime)
+            .then(
+                val => {
+                    console.log(val);
+                }
+            )
+        },
+    }
 }
 
 </script>
@@ -313,10 +403,16 @@ export default {
 @follow-up-shade-z-index: 4;
 @follow-up-main-z-index: 5;
 
+// 录入跟进, 选择跟进结果
+@modal-selected-modal-z-index: 6;
+@modal-selected-shade-z-index: 7;
+@modal-selected-main-z-index: 8;
+
 .customer-details {
     position: relative;
     width: 100%;
     min-height: 100%;
+    font-size: 14px;
     background-color: #f1f1f1;
 }
 
@@ -682,7 +778,7 @@ export default {
     }
 
     .up-modal-main {
-        font-size: 14px;
+        
         color: @black2;
         position: relative;
         border-radius: 10px;
@@ -779,6 +875,63 @@ export default {
                 color: #fff;
                 background: #469aff;
             }
+        }
+    }
+}
+
+// 录入跟进，选择跟进结果
+.followup-modal-selected {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @modal-selected-modal-z-index;
+
+    .modal-selected-shade {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.46);
+        z-index: @modal-selected-shade-z-index;
+    }
+
+    .modal-selected-main {
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        width: 100%;
+        line-height: 40px;
+        background: #fff;
+        z-index: @modal-selected-main-z-index;
+    }
+
+    // 标题
+    .selected-main-title {
+        padding-left: 15px;
+        height: 40px;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+    }
+
+    // 列表
+    .selected-main-item {
+        padding-left: 20px;
+        height: 40px;
+        color: @black2;
+        font-size: 12px;
+    }
+
+    // 横线
+    .selected-main-line {
+        padding-left: 15px;
+
+        .award-line-content {
+            height: 1px;
+            width: 100%;
+            background-color: #ddd;
         }
     }
 }

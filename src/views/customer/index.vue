@@ -223,23 +223,23 @@ export default {
             navBarSelected: 'total', // 导航栏选中类型
             navBarList: [ // 导航栏列表
                 {
-                    count: 999, // 统计
+                    count: '正在加载', // 统计
                     name: '客户总量', // 显示名称
                     type: 'total', // 导航栏类型
                 }, {
-                    count: 333,
+                    count: '正在加载',
                     name: '可续保客户',
                     type: 'renewal',
                 }, {
-                    count: 111,
+                    count: '正在加载',
                     name: '违章未处理',
                     type: 'violation',
                 }, {
-                    count: 444,
+                    count: '正在加载',
                     name: '年检将到期',
                     type: 'ASC',
                 }, {
-                    count: 222,
+                    count: '正在加载',
                     name: '待跟进客户',
                     type: 'tofollow',
                 }
@@ -394,17 +394,58 @@ export default {
         getBarCount: function getCustomerList() {
             const _this = this;
 
+            ajaxs.getCountClientNum(this.agentInfoId)
+            .then(
+                res => {
+                    _this.navBarList[0].count = res;
+                }, error => {
+                    _this.navBarList[0].count = '加载失败';
+                }
+            );
+
+            ajaxs.getCountInsurance(this.agentInfoId)
+            .then(
+                res => {
+                    _this.navBarList[1].count = res;
+                }, error => {
+                    _this.navBarList[1].count = '加载失败';
+                }
+            );
+
+            ajaxs.getCountViolation(this.agentInfoId)
+            .then(
+                res => {
+                    _this.navBarList[2].count = res;
+                }, error => {
+                    _this.navBarList[2].count = '加载失败';
+                }
+            );
+
+            ajaxs.getCountAnnualInspect(this.agentInfoId)
+            .then(
+                res => {
+                    _this.navBarList[3].count = res;
+                }, error => {
+                    _this.navBarList[3].count = '加载失败';
+                }
+            );
+
+            ajaxs.getCountFollowup(this.agentInfoId)
+            .then(
+                res => {
+                    _this.navBarList[4].count = res;
+                }, error => {
+                    _this.navBarList[4].count = '加载失败';
+                }
+            );
         },
 
         /**
          * 获取客户列表
          * 因为高度复用, 所以必须通过传参解决
-         * @param {string} pageNo 当前页码
-         * @param {string} pageSize 当前页面有多少条数据
-         * @param {string} agentInfoId 当前登录人id
          * @param {string} search 查询条件 非必填
          */
-        getCustomerList: function getCustomerList(pageNo, pageSize, agentInfoId, search) {
+        getCustomerList: function getCustomerList(search) {
             const _this = this;
             // 导航栏选中的键值对
             let selectedKeyVal = {
@@ -416,13 +457,7 @@ export default {
             }
             let mySelected = selectedKeyVal[this.navBarSelected];
 
-
-            pageNo = pageNo ? pageNo : this.pageNo;
-            pageSize = pageSize ? pageSize : this.pageSize;
-            agentInfoId = agentInfoId ? agentInfoId : this.agentInfoId;
-            search = search ? search : this.search;
-            
-            ajaxs.getCustomerList(pageNo, pageSize, agentInfoId, search)
+            ajaxs.getCustomerList(this.pageNo, this.pageSize, this.agentInfoId, search)
             .then(
                 res => {
                     _this[mySelected] = res.content.map(val => {

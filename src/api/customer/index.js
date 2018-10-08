@@ -3,7 +3,7 @@ import { Indicator } from 'mint-ui';
 
 export default {
     /**
-     * 获取客户列表
+     * 获取 - 客户列表
      * @param {string} pageNo 当前页码
      * @param {string} pageSize 当前页面有多少条数据
      * @param {string} agentInfoId 当前登录人id
@@ -103,5 +103,168 @@ export default {
         });
     }),
 
-    
+    /**
+     * 获取 - 客户总量
+     * @param {string} agentInfoId 当前登录人id
+     */
+    getCountClientNum: (agentInfoId) => new Promise((resolve, reject) => {
+        // 返回测试数据
+        // resolve({ 
+        //     "code": 1000,
+        //     "msg": "success",
+        //     "data": 12
+        // });
+
+		Indicator.open('正在加载数据...'); // 弹出加载框
+        $.ajax({
+            url: `${config.url.origin}/ycpd/cas/client/countClientNum?agentInfoId=${agentInfoId}`,
+            type: "GET",
+            success(res) {
+                Indicator.close(); // 关闭加载框
+                if (res.code === 1000) {
+                    resolve(res.data);
+                } else {
+                    console.error(res);
+                    reject(`获取客户总量失败! 原因: ${res.msg}`);
+                }
+            },
+            error(error) {
+                Indicator.close(); // 关闭加载框
+                console.error(error);
+                reject(`向服务器获取客户总量发生错误! 原因: ${JSON.stringify(error)}`);
+            }
+        });
+    }),
+
+    /**
+     * 获取 - 可续保客户总量
+     * @param {string} agentInfoId 当前登录人id
+     */
+    getCountInsurance: (agentInfoId) => new Promise((resolve, reject) => {
+        // 返回测试数据
+        // resolve({ 
+        //     "code": 1000,
+        //     "msg": "success",
+        //     "data": 12
+        // });
+
+		Indicator.open('正在加载数据...'); // 弹出加载框
+        $.ajax({
+            url: `${config.url.origin}/ycpd/cas/client/countInsurance?agentInfoId=${agentInfoId}`,
+            type: "GET",
+            success(res) {
+                Indicator.close(); // 关闭加载框
+                if (res.code === 1000) {
+                    resolve(res.data);
+                } else {
+                    console.error(res);
+                    reject(`获取可续保客户总量失败! 原因: ${res.msg}`);
+                }
+            },
+            error(error) {
+                Indicator.close(); // 关闭加载框
+                console.error(error);
+                reject(`向服务器获取可续保客户总量发生错误! 原因: ${JSON.stringify(error)}`);
+            }
+        });
+    }),
+
+    /**
+     * 获取 - 违章未处理客户总量
+     * @param {string} agentInfoId 当前登录人id
+     */
+    getCountViolation: (agentInfoId) => new Promise((resolve, reject) => {
+        // 返回测试数据
+        // resolve({ 
+        //     "code": 1000,
+        //     "msg": "success",
+        //     "data": 12
+        // });
+
+		Indicator.open('正在加载数据...'); // 弹出加载框
+        $.ajax({
+            url: `${config.url.origin}/ycpd/cas/client/countViolation?agentInfoId=${agentInfoId}`,
+            type: "GET",
+            success(res) {
+                Indicator.close(); // 关闭加载框
+                if (res.code === 1000) {
+                    resolve(res.data);
+                } else {
+                    console.error(res);
+                    reject(`获取违章未处理客户总量失败! 原因: ${res.msg}`);
+                }
+            },
+            error(error) {
+                Indicator.close(); // 关闭加载框
+                console.error(error);
+                reject(`向服务器获取违章未处理客户总量发生错误! 原因: ${JSON.stringify(error)}`);
+            }
+        });
+    }),
+
+    /**
+     * 获取 - 年检将到期用户总量
+     * @param {string} agentInfoId 当前登录人id
+     */
+    getCountAnnualInspect: (agentInfoId) => new Promise((resolve, reject) => {
+        // 返回测试数据
+        // resolve({ 
+        //     "code": 1000,
+        //     "msg": "success",
+        //     "data": 12
+        // });
+
+		Indicator.open('正在加载数据...'); // 弹出加载框
+        $.ajax({
+            url: `${config.url.origin}/ycpd/cas/client/countAnnualInspect?agentInfoId=${agentInfoId}`,
+            type: "GET",
+            success(res) {
+                Indicator.close(); // 关闭加载框
+                if (res.code === 1000) {
+                    resolve(res.data);
+                } else {
+                    console.error(res);
+                    reject(`获取年检将到期用户总量失败! 原因: ${res.msg}`);
+                }
+            },
+            error(error) {
+                Indicator.close(); // 关闭加载框
+                console.error(error);
+                reject(`向服务器获取年检将到期用户总量发生错误! 原因: ${JSON.stringify(error)}`);
+            }
+        });
+    }),
+
+    /**
+     * 获取 - 待跟进的用户总量
+     * @param {string} agentInfoId 当前登录人id
+     */
+    getCountFollowup: (agentInfoId) => new Promise((resolve, reject) => {
+        // 返回测试数据
+        // resolve({ 
+        //     "code": 1000,
+        //     "msg": "success",
+        //     "data": 12
+        // });
+
+		Indicator.open('正在加载数据...'); // 弹出加载框
+        $.ajax({
+            url: `${config.url.origin}/ycpd/cas/client/countFollowup?agentInfoId=${agentInfoId}`,
+            type: "GET",
+            success(res) {
+                Indicator.close(); // 关闭加载框
+                if (res.code === 1000) {
+                    resolve(res.data);
+                } else {
+                    console.error(res);
+                    reject(`获取待跟进的用户总量失败! 原因: ${res.msg}`);
+                }
+            },
+            error(error) {
+                Indicator.close(); // 关闭加载框
+                console.error(error);
+                reject(`向服务器获取待跟进的用户总量发生错误! 原因: ${JSON.stringify(error)}`);
+            }
+        });
+    }),
 }

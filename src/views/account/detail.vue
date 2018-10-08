@@ -14,7 +14,7 @@
                         <div class="item-left-time">{{item.time}}</div>
                     </div>
                     <div class="detail-item-right" :class="{'item-right-income': item.isIncome}">
-                        {{item.isIncome ? '+' : '-'}}{{item.expend}}
+                        {{item.expend}}
                     </div>
                 </div>
                 
@@ -29,6 +29,8 @@
 
 <script>
 
+import ajaxs from "@/api/account/details";
+
 export default {
     name: 'account-detail',
 
@@ -37,6 +39,8 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
+            agentId: '8686253daa364003945ddae12b4ff75c', // 用户id
+            
             list: [
                 {
                     describe: '提现', // 内容
@@ -53,9 +57,41 @@ export default {
         } 
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.getClientBills();
+    },
 
-	methods: {}
+	methods: {
+        /**
+         * 获取 - 消费记录
+         */
+	    getClientBills: function getClientBills() {
+            const _this = this;
+
+            ajaxs.findClientBills(this.agentId)
+            .then(
+                res => {
+                    if (res && res instanceof Array) {
+                        _this.list = res.map(val => {
+                            let isIncome = true;
+                            if (val.money < 0) {
+                                isIncome = false;
+                            }
+                            
+                            return {
+                                describe: val.content, // 内容
+                                time: val.date, // 时间
+                                expend: val.money.toFixed(2), // 花费
+                                isIncome: isIncome, // 是否为收入(正值)
+                            }
+                        });
+                    }
+                }, error => {
+
+                }
+            );
+        },
+    }
 }
 
 </script>

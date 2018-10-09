@@ -1,6 +1,6 @@
 <!-- 客户管理 首页 -->
 <template>
-<div class="customer">
+<div class="customer" id="customer">
 
     <!-- 顶部导航栏 -->
     <div class="navigation-bar flex-start">
@@ -237,6 +237,8 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
+            agentInfoId: 'abcdefg', // 用户的id 暂时写死
+
             /**
              * 导航栏
              * @param {String} total 客户总量
@@ -278,10 +280,10 @@ export default {
             /**
              * 列表相关
              */
-            totalPages: 1, // 总共多少页
             pageNo: 1, // 当前页码
-            pageSize: 20, // 当前页面有多少条数据
-            agentInfoId: 'abcdefg', // 暂时写死
+            totalPages: 1, // 总共多少页
+            pageSize: 10, // 当前页面请求多少条数据
+            isLoding: false, // 当前列表是否正在加载
 
             /**
              * 客户总量
@@ -388,6 +390,12 @@ export default {
 	mounted: function mounted() {
         this.getCustomerList(); // 获取客户列表
         this.getBarCount(); // 获取顶部导航栏统计数据
+
+		window.addEventListener('scroll', this.scrollBottom); // 添加滚动事件，检测滚动到页面底部
+    },
+
+    destroyed: function () {
+		window.removeEventListener('scroll', this.scrollBottom); // 移除滚动事件，检测滚动到页面底部
     },
 
 	methods: {
@@ -445,10 +453,9 @@ export default {
 
         /**
          * 获取客户列表
-         * 因为高度复用, 所以必须通过传参解决
-         * @param {string} search 查询条件 非必填
+         * @param {boolean} isRefresh 是否刷新
          */
-        getCustomerList: function getCustomerList(search) {
+        getCustomerList: function getCustomerList(isRefresh) {
             const _this = this;
             // 导航栏选中的键值对
             let selectedKeyVal = {
@@ -480,11 +487,15 @@ export default {
                 }
             }
 
-            ajaxs.getCustomerList(this.pageNo, this.pageSize, this.agentInfoId, search)
+            ajaxs.getCustomerList(this.pageNo, this.pageSize, this.agentInfoId, this.searchInput)
             .then(
                 res => {
-                    _this[mySelected] = res.content.map(val => {
-                        // 列表标题
+                    _this.isLoding = false; // 设置 当前列表 为 加载完成
+
+                    _this.totalPages = res.totalPages;
+
+                    let newCustomers = res.content.map(val => {
+                        // 初始化列表标题
                         let carType = '';
                         if (val.brand || val.models || val.series) {
                             carType = `(${val.brand ? val.brand : ''}${val.series ? val.series : ''}${val.models ? val.models : ''})`
@@ -542,7 +553,16 @@ export default {
                             nextTime: nextTime,
                         }
                     });
+
+                    // 赋值 判断是否需要新增 
+                    if (isRefresh) {
+                        _this[mySelected] = JSON.parse(JSON.stringify(_this[mySelected])).concat(newCustomers);
+                    } else {
+                        _this[mySelected] = newCustomers;
+                    }
                 }, error => {
+                    _this.isLoding = false; // 设置 当前列表 为 加载完成
+
                     MessageBox.confirm('获取客户列表失败, 是否重新获取?')
                     .then(action => {
                         _this.getCustomerList(pageNo, pageSize, agentInfoId, search);
@@ -552,6 +572,26 @@ export default {
                 }
             )
         },
+
+        /**
+         * 检测滚动到页面底部
+         */
+		scrollBottom: function scrollBottom(event) {
+			let screenHeight = window.screen.height; // 屏幕的高度
+			let clientHeight = document.getElementById('customer').clientHeight; // 页面的总高度
+			let myScrollTop = document.documentElement.scrollTop || document.body.scrollTop; // 滚动的距离
+
+			if (
+				screenHeight + myScrollTop >= clientHeight - 50 && // (屏幕高度 + 滚动的距离) 必须 (大于整个页面的总高度 - 50像素的预留空间)
+				this.isLoding === false && // 并且页面不是请求状态
+				this.pageNo < this.totalPages // 并且 目前的页码 必须小于 总页码
+			) {
+				this.isLoding = true; // 页面进入加载状态，防止重复加载
+                this.pageNo = this.pageNo + 1; // 请求的页码 加一
+                // 开始请求 并且 该请求 设置为 新增stores列表
+				this.getCustomerList(true);
+			}
+		},
         
         /**
          * 跳转到客户详情

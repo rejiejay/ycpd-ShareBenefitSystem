@@ -25,6 +25,7 @@
         <div class="bar-page-item"
             v-for="(item, key) in totalCustomers" 
             :key="key"
+            @click="jumpToCustomerDetails(item.response)"
         >
             <div class="page-item-content flex-start-center">
                 <div class="item-main flex-rest">
@@ -35,6 +36,7 @@
                             v-for="(tagItem, tagkey) in item.tag" 
                             :key="tagkey"
                         >{{tagItem}}</div>
+                        <div class="label-next-time">{{item.nextTime ? item.nextTime : ''}}</div>
                     </div>
                 </div>
                 <div class="item-icon">
@@ -200,6 +202,7 @@
 import { MessageBox } from 'mint-ui';
 
 import Tabbar from "@/components/Tabbar";
+import TimeConver from "@/utils/TimeConver";
 import ajaxs from "@/api/customer/index";
 
 export default {
@@ -257,127 +260,100 @@ export default {
              * 客户总量
              */
             totalCustomers: [
-                {
-                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                    name: '李四',
-                    tag: [
-                        '保险41天',
-                        '年检23天',
-                        '待跟进',
-                    ],
-                }, {
-                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                    name: '李四',
-                    tag: [
-                        '保险41天',
-                        '年检23天',
-                        '待跟进',
-                    ],
-                    insurance: {
-                        name: '人保车险',
-                        price: 4583.45,
-                        factors: 0.45,
-                    }
-                }, {
-                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                    name: '李四',
-                    tag: [
-                        '保险41天',
-                        '年检23天',
-                        '待跟进',
-                    ],
-                }, 
+                // {
+                //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                //     name: '李四',
+                //     tag: [
+                //         '保险41天',
+                //         '年检23天',
+                //         '待跟进',
+                //     ],
+                //     insurance: {
+                //         name: '人保车险',
+                //         price: 4583.45,
+                //         factors: 0.45,
+                //     }
+                // },
             ],
 
             /**
              * 可续保客户
              */
             renewalCustomers: [
-                {
-                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                    name: '李四',
-                    tag: [
-                        '保险41天',
-                        '年检23天',
-                        '待跟进',
-                    ],
-                    insurance: {
-                        name: '人保车险',
-                        price: 4583.45,
-                        factors: 0.45,
-                    }
-                },
+                // {
+                //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                //     name: '李四',
+                //     tag: [
+                //         '保险41天',
+                //         '年检23天',
+                //         '待跟进',
+                //     ],
+                //     insurance: {
+                //         name: '人保车险',
+                //         price: 4583.45,
+                //         factors: 0.45,
+                //     }
+                // },
             ],
 
             /**
              * 违章未处理
              */
             violationCustomers: [
-                {
-                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                    name: '李四',
-                    tag: [
-                        '保险41天',
-                        '年检23天',
-                        '待跟进',
-                    ],
-                },
+                // {
+                //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                //     name: '李四',
+                //     tag: [
+                //         '保险41天',
+                //         '年检23天',
+                //         '待跟进',
+                //     ],
+                //     insurance: {
+                //         name: '人保车险',
+                //         price: 4583.45,
+                //         factors: 0.45,
+                //     }
+                // },
             ],
 
             /**
              * 年检将到期
              */
             ASCustomers: [
-                {
-                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                    name: '李四',
-                    tag: [
-                        '保险41天',
-                        '年检23天',
-                        '待跟进',
-                    ],
-                }, {
-                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                    name: '李四',
-                    tag: [
-                        '保险41天',
-                        '年检23天',
-                        '待跟进',
-                    ],
-                    insurance: {
-                        name: '人保车险',
-                        price: 4583.45,
-                        factors: 0.45,
-                    }
-                },
+                // {
+                //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                //     name: '李四',
+                //     tag: [
+                //         '保险41天',
+                //         '年检23天',
+                //         '待跟进',
+                //     ],
+                //     insurance: {
+                //         name: '人保车险',
+                //         price: 4583.45,
+                //         factors: 0.45,
+                //     }
+                // },
             ],
 
             /**
              * 待跟进客户
              */
             toFollowCustomers: [
-                {
-                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                    name: '李四',
-                    tag: [
-                        '保险41天',
-                        '年检23天',
-                        '待跟进',
-                    ],
-                    insurance: {
-                        name: '人保车险',
-                        price: 4583.45,
-                        factors: 0.45,
-                    }
-                }, {
-                    title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                    name: '李四',
-                    tag: [
-                        '保险41天',
-                        '年检23天',
-                        '待跟进',
-                    ],
-                }, 
+                // {
+                //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+                //     name: '李四',
+                //     tag: [
+                //         '保险41天',
+                //         '年检23天',
+                //         '待跟进',
+                //     ],
+                //     insurance: {
+                //         name: '人保车险',
+                //         price: 4583.45,
+                //         factors: 0.45,
+                //     }
+                // },
             ],
         } 
     },
@@ -456,6 +432,26 @@ export default {
                 'tofollow': 'toFollowCustomers', // 待跟进客户
             }
             let mySelected = selectedKeyVal[this.navBarSelected];
+            /**
+             * 转换跟进结果
+             */
+            let resultTransverter = result => {
+                if (result === 0) {
+                    return '联系不上（停机、空号）'
+                }
+                if (result === 1) {
+                    return '忙碌中待联系'
+                }
+                if (result === 2) {
+                    return '考虑中'
+                }
+                if (result === 3) {
+                    return '成功出单'
+                }
+                if (result === 4) {
+                    return '战败'
+                }
+            }
 
             ajaxs.getCustomerList(this.pageNo, this.pageSize, this.agentInfoId, search)
             .then(
@@ -485,12 +481,38 @@ export default {
                         }
 
                         // 初始化年检 (暂时写死)
-                        tag.push('年检23天');
+                        // tag.push('年检23天');
+
+                        // 判断是否有没有违章
+                        if (val.violations && val.violations.length > 0) {
+                            tag.push(`${val.violations.length}条违章`);
+                        }
+
+                        // 初始化跟进状态
+                        if (val.followupRecord && val.followupRecord.result) {
+                            tag.push(resultTransverter(val.followupRecord.result));
+                        }
+
+                        // 初始化跟进时间
+                        let nextTime = '';
+                        if (val.followupRecord && val.followupRecord.nextTime) {
+                            let nextTimestamp = TimeConver.YYYYmmDDhhMMssToTimestamp(val.followupRecord.nextTime);
+                            // 相差时间戳
+                            let differTimestamp = nextTimestamp - new Date().getTime();
+
+                            // 时间相差必须大于一小时
+                            if (differTimestamp > 3600000) {
+                                // 设置跟进时间
+                                nextTime = `${Math.floor(differTimestamp / (1000 * 60 * 60))}小时后跟进`;
+                            }
+                        }
 
                         return {
+                            response: val, // 原始数据
                             title: title,
                             name: val.username,
                             tag: tag,
+                            nextTime: nextTime,
                         }
                     });
                 }, error => {
@@ -502,6 +524,14 @@ export default {
                     });
                 }
             )
+        },
+        
+        /**
+         * 跳转到客户详情
+         * @param {object} response 客户端响应原始数据
+         */
+        jumpToCustomerDetails: function jumpToCustomerDetails(response) {
+            this.$router.push({ path: `/customer/detail`, query: response });
         },
     }
 }
@@ -587,6 +617,7 @@ export default {
                 padding-right: 15px;
             }
 
+            // 标签
             .main-label-tag {
                 padding: 0px 10px;
                 margin-right: 5px;
@@ -596,6 +627,13 @@ export default {
                 font-size: 10px;
                 color: #469AFF;
                 border: 1px solid #469AFF;
+            }
+
+            // 下次跟进时间
+            .label-next-time {
+                font-size: 12px;
+                padding-left: 2.5px;
+                color: #469AFF;
             }
         }
     }

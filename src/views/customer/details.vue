@@ -40,7 +40,7 @@
             <div class="customerInfor-car-content">
 
                 <div class="customerInfor-car-title flex-start-center">
-                    <div class="car-title-main flex-rest">粤S8GW42 (东风日产DFL7168</div>
+                    <div class="car-title-main flex-rest">{{carNoType}}</div>
                     <div class="car-title-icon">
                         <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                             <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
@@ -166,16 +166,18 @@
 
             <div class="bottom-button-item">
                 <div class="button-item-content">
-                    <div class="button-item-main flex-center">
-                        <div class="flex-start-center">
-                            <div class="item-content-icon">
-                                <svg width="14" height="14" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情" transform="translate(-64.000000, -1330.000000)" fill="#FFFFFF"><g id="menu" transform="translate(30.000000, 1306.000000)"><g id="icon" transform="translate(34.000000, 24.000000)">
-                                    <path d="M13.3754966,17.8621295 C15.7952375,21.1465045 18.6871242,24.4202036 20.2806178,23.4020875 C22.4428334,21.835429 23.9182912,20.4271478 27.5183951,24.4705011 C31.043385,28.4084162 27.4486362,30.0967468 25.3025167,31.5737608 C22.8344792,33.272327 15.2533273,29.9260981 8.86864563,20.963859 C2.48396396,12.00162 1.87770054,3.85509534 4.345738,2.15652916 C6.49185754,0.679515097 9.24425739,-2.07899024 11.8786074,2.62901934 C14.5290535,7.24738452 12.6780261,8.12847515 10.4246006,9.67933992 C8.81501095,10.7871005 10.9718518,14.4881101 13.3754966,17.8621295 Z" id="icon_call"></path></g></g></g></g>
-                                </svg>
+                    <a href="tel:4008001234" class="call">
+                        <div class="button-item-main flex-center">
+                            <div class="flex-start-center">
+                                <div class="item-content-icon">
+                                    <svg width="14" height="14" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情" transform="translate(-64.000000, -1330.000000)" fill="#FFFFFF"><g id="menu" transform="translate(30.000000, 1306.000000)"><g id="icon" transform="translate(34.000000, 24.000000)">
+                                        <path d="M13.3754966,17.8621295 C15.7952375,21.1465045 18.6871242,24.4202036 20.2806178,23.4020875 C22.4428334,21.835429 23.9182912,20.4271478 27.5183951,24.4705011 C31.043385,28.4084162 27.4486362,30.0967468 25.3025167,31.5737608 C22.8344792,33.272327 15.2533273,29.9260981 8.86864563,20.963859 C2.48396396,12.00162 1.87770054,3.85509534 4.345738,2.15652916 C6.49185754,0.679515097 9.24425739,-2.07899024 11.8786074,2.62901934 C14.5290535,7.24738452 12.6780261,8.12847515 10.4246006,9.67933992 C8.81501095,10.7871005 10.9718518,14.4881101 13.3754966,17.8621295 Z" id="icon_call"></path></g></g></g></g>
+                                    </svg>
+                                </div>
+                                <div class="item-content-describe">联系客户</div>
                             </div>
-                            <div class="item-content-describe">联系客户</div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
@@ -329,6 +331,9 @@ export default {
                 // }
             ],
 
+            /**
+             * 新增跟进记录
+             */
             isFollowModalShow: false, // 录入跟进模态框
             isFollowSelectedShow: false, // 选择录入跟进模态框
             followUpDescribe: '', // 跟进内容
@@ -352,10 +357,15 @@ export default {
                     lable: '战败',
                 },
             ],
+
+            carNoType: '正在加载...', // 车牌加车型名称
         } 
     },
 
     computed: {
+        /**
+         * 渲染 (选中后的)下次跟进时间
+         */
         nextFollowUpTimeFormat: function () {
             if (this.nextFollowUpTime === null) {
                 return '下次跟进时间';
@@ -366,10 +376,26 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据
         this.getFollowupRecord(); // 获取 - 跟进记录
     },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            console.log(this.$route.query);
+            let query = this.$route.query;
+
+            // 车牌加车型名称
+            let carType = '';
+            if (query.brand || query.models || query.series) {
+                carType = `(${query.brand ? query.brand : ''}${query.series ? query.series : ''}${query.models ? query.models : ''})`
+            }
+            this.carNoType = `${query.carNo ? query.carNo : '暂无车牌号'} ${carType}`
+        },
+
         /**
          * 添加跟进记录
          */

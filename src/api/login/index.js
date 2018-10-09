@@ -2,12 +2,30 @@ import config from "@/config/index";
 import { Indicator } from 'mint-ui';
 
 export default {
+    // 判断是否已经登录
+    isLogin: () => new Promise((resolve,reject)=> {
+        $.ajax({
+            url: `${config.url.originByXy}`,
+            xhrFields: {
+                withCredentials: true
+            },
+            type: "GET",
+            success(res) {
+                resolve(res);
+            },
+            error(error) {
+                console.error(error);
+             
+            }
+        });
+    }),
+
     /**
      * 获取验人机证码
      * @param {string} width 验证码的宽度
      * @param {string} height 验证码的高度
      */
-    getMachinePicture: (width, height) => new Promise((resolve, reject) => {
+    getMachinePicture: (width, height, token) => new Promise((resolve, reject) => {
         // resolve({ 
         //     data: { 
         //         oriImagBase64: "",
@@ -19,8 +37,11 @@ export default {
         // });
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/reqCheckImage?width=${width}&height=${height}`,
+            url: `${config.url.originByXy}/ycpd/cas/reqCheckImage?width=${width}&height=${height}&token=${token}`,
             type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 if (res.code === 1000) {
@@ -47,8 +68,11 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/checkImage?token=${token}&xWidth=${xWidth}`,
+            url: `${config.url.originByXy}/ycpd/cas/checkImage?token=${token}&xWidth=${xWidth}`,
             type: "get",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 resolve(res);
@@ -56,7 +80,6 @@ export default {
             error(error) {
                 Indicator.close(); // 关闭加载框
                 console.error(error);
-
             }
         });
     }),
@@ -69,8 +92,11 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/reqCheckPhone`,
+            url: `${config.url.originByXy}/ycpd/cas/reqCheckPhone`,
             type: "post",
+            xhrFields: {
+                withCredentials: true
+            },
             data:{
                 telephone:telephone,
                 token:token
@@ -82,7 +108,6 @@ export default {
             error(error) {
                 Indicator.close(); // 关闭加载框
                 console.error(error);
-
             }
         });
     }),
@@ -93,18 +118,22 @@ export default {
      * @param {string} telephone 电话号码
      * @param {string} msgCode 验证码
      */
-    goLogin: (token,telephone,msgCode) => new Promise((resolve, reject) => {
+    goLogin: (token, telephone, msgCode, isAgreement) => new Promise((resolve, reject) => {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/login`,
+            url: `${config.url.originByXy}/ycpd/cas/login`,
             type: "post",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
+            xhrFields: {
+                withCredentials: true
+            },
             data: JSON.stringify({
-                token:token,
-                telephone:telephone,
-                msgCode:msgCode
+                token: token,
+                telephone: telephone,
+                msgCode: msgCode,
+                isAgreement: isAgreement
             }),
             success(res) {
                 Indicator.close(); // 关闭加载框
@@ -113,7 +142,6 @@ export default {
             error(error) {
                 Indicator.close(); // 关闭加载框
                 console.error(error);
-
             }
         });
     }),

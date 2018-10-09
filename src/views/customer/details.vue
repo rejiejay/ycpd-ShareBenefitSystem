@@ -393,7 +393,7 @@ export default {
             if (query.brand || query.models || query.series) {
                 carType = `(${query.brand ? query.brand : ''}${query.series ? query.series : ''}${query.models ? query.models : ''})`
             }
-            this.carNoType = `${query.carNo ? query.carNo : '暂无车牌号'} ${carType}`
+            this.carNoType = `${query.carNo ? query.carNo : '暂无车牌号'} ${carType}`;
         },
 
         /**

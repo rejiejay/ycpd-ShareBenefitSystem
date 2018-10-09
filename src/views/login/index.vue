@@ -168,18 +168,38 @@ export default {
         }
     },
 
+    created() {
+        this.isLogin()
+    },
+
     mounted: function () {
-        this.getMachinePicture(); // 获取人机验证码图片
+        setTimeout(() => {
+            this.getMachinePicture();
+        }, 2000);
+        
         this.initSliderDrag(); // 初始化滑块拖动
     },
 
     methods: {
+        /**
+		 * 一进入判断是否已经登录
+		 */
+        isLogin:function isLogin(){
+            ajaxs.isLogin()
+            .then(
+                res => {
+                    console.log(res);
+                    this.token = res.data.token;
+                }
+            )
+        },
+
 		/**
 		 * 获取人机验证码图片
 		 */
 		getMachinePicture: function getMachinePicture() {
             const _this = this;
-            ajaxs.getMachinePicture((this.clientWidth - 60), 155)
+            ajaxs.getMachinePicture((this.clientWidth - 60), 155 , this.token)
             .then(
                 res => {
                     _this.jigsawBgPicture = res.oriImagBase64; // 设置 滑动拼图 背景
@@ -215,7 +235,7 @@ export default {
 		 * 获取验证码
 		 */
 		verifySMSHandle: function verifySMSHandle() {
-
+          
 			// 校验手机号码
 			if (this.verifyPhoneNumber().result !== 1) {
 				return alert(this.verifyPhoneNumber().message);
@@ -262,47 +282,47 @@ export default {
              */
             let handleMouseEnd = function handleMouseEnd(event) {
 
-                    /**
-                     *校验滑动图片距离
-                    */
-                    ajaxs.checkoutDistance(_this.token,Math.floor(_this.jigsawMovepx))
-                    .then(
-                        res => {
-                            console.log(res)
-                            if (res.code === 1000) {
-                                _this.jigsawStatus = 'succeed'; // 将 滑动拼图状态 设置为 成功状态
-                                ajaxs.getVerificationCode(_this.phoneNumber,_this.token)
-                                .then(
-                                    res1 => {
-                                        if(res1.code===1000){
-                                            _this.isMachineModalShow = false 
-                                            _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
-                                            _this.jigsawMovepx = 0;
-                                            _this.token = res1.data.token
-                                        }else {
-                                            alert('发送短信过于频繁')
-                                            _this.isMachineModalShow = false
-                                            _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
-                                            _this.jigsawMovepx = 0;
-                                            _this.getMachinePicture();
-                                        }
+                /**
+                 *校验滑动图片距离
+                */
+                ajaxs.checkoutDistance(_this.token,Math.floor(_this.jigsawMovepx))
+                .then(
+                    res => {
+                        console.log(res)
+                        if (res.code === 1000) {
+                            _this.jigsawStatus = 'succeed'; // 将 滑动拼图状态 设置为 成功状态
+                            ajaxs.getVerificationCode(_this.phoneNumber,_this.token)
+                            .then(
+                                res1 => {
+                                    if(res1.code===1000){
+                                        _this.isMachineModalShow = false 
+                                        _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
+                                        _this.jigsawMovepx = 0;
+                                        _this.token = res1.data.token
+                                    }else {
+                                        alert('发送短信过于频繁')
+                                        _this.isMachineModalShow = false
+                                        _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
+                                        _this.jigsawMovepx = 0;
+                                        _this.getMachinePicture();
                                     }
-                                )
+                                }
+                            )
 
-                            } else {
-                                _this.jigsawStatus = 'failure'; // 将 滑动拼图状态 设置为 失败
-                                setTimeout(function () {
-                                    _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
-                                    _this.jigsawMovepx = 0;
-                                    _this.getMachinePicture();
-                                }, 2000);
-                            }
-                        },
-                            
-                        error => {
-                            // MessageBox.confirm('获取人机验证码失败, 是否重新获取?')
+                        } else {
+                            _this.jigsawStatus = 'failure'; // 将 滑动拼图状态 设置为 失败
+                            setTimeout(function () {
+                                _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
+                                _this.jigsawMovepx = 0;
+                                _this.getMachinePicture();
+                            }, 2000);
                         }
-                    )
+                    },
+                        
+                    error => {
+                        // MessageBox.confirm('获取人机验证码失败, 是否重新获取?')
+                    }
+                )
 
                 window.removeEventListener('touchmove', handleMouseMove);
                 window.removeEventListener('touchend', handleMouseEnd);
@@ -330,49 +350,52 @@ export default {
 		 * 登录
 		 */
 		submitLogin: function submitLogin() {
-            if(this.isAgreement==false){
+            if (this.isAgreement === false) {
                 Toast({
                     message: '请先同意养车频道用户协议',
                     duration: 1000
                 });
-            }else if(this.phoneNumber==''){
+            }else if(this.phoneNumber === ''){
                 Toast({
                     message: '请输入手机号码',
                     duration: 1000
                 });
-            }else if(this.SMSNumber==''){
+            }else if(this.SMSNumber === ''){
                 Toast({
                     message: '请输入验证码',
                     duration: 1000
                 });
-            }
-            ajaxs.goLogin(this.token,this.phoneNumber,this.SMSNumber)
-            .then(
-                res => {
-                    console.log(res)
-                    if(res.code===1000){
-                        Toast({
-                            message:'登入成功',
-                            duration:1000
-                        })
-                    }else if(res.code===1001){
-                        Toast({
-                            message:'非法请求',
-                            duration:1000
-                        })
-                    }else if(res.code===1004){
-                        Toast({
-                            message:'验证码错误',
-                            duration:1000
-                        })
-                    }else if(res.code===1005){
-                        Toast({
-                            message:'登录异常,请重新登入',
-                            duration:1000
-                        })
+            } else {
+                ajaxs.goLogin(this.token,this.phoneNumber,this.SMSNumber,this.isAgreement)
+                .then(
+                    res => {
+                        if(res.code === 1000){
+                            Toast({
+                                message:'登入成功',
+                                duration:1000
+                            })
+                            this.$router.push({
+                                path:'/'
+                            });
+                        }else if(res.code===1001){
+                            Toast({
+                                message:'非法请求',
+                                duration:1000
+                            })
+                        }else if(res.code===1004){
+                            Toast({
+                                message:'验证码错误',
+                                duration:1000
+                            })
+                        }else if(res.code===1005){
+                            Toast({
+                                message:'登录异常,请重新登入',
+                                duration:1000
+                            })
+                        }
                     }
-                }
-            )
+                )
+            }
         },
 
 		/**

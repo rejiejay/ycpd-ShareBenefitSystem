@@ -598,7 +598,8 @@ export default {
          * @param {object} response 客户端响应原始数据
          */
         jumpToCustomerDetails: function jumpToCustomerDetails(response) {
-            this.$router.push({ path: `/customer/detail`, query: response });
+            this.$router.push({ path: `/customer/detail` });
+            this.$store.commit('customer/initCustomerDetails', response);
         },
     }
 }

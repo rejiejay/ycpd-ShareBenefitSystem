@@ -100,6 +100,11 @@ const routes = [
         name: 'customer-details',
         component: () => import('@/views/customer/details'),
         meta: { title: '客户详情' },
+    }, {
+        path: '/customer/violations',
+        name: 'customer-violations',
+        component: () => import('@/views/customer/violations'),
+        meta: { title: '违章信息' },
     }, 
 
     /**

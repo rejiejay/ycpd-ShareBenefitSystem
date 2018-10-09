@@ -379,21 +379,31 @@ export default {
         this.initPageData(); // 初始化页面数据
         this.getFollowupRecord(); // 获取 - 跟进记录
     },
+    
+    computed: {
+        /**
+         * 从 store 获取数据
+         */
+        pageStore: function pageStore() {
+            return this.$store.getters["customer/getCustomerDetails"]
+        },
+    },
 
 	methods: {
         /**
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
-            console.log(this.$route.query);
-            let query = this.$route.query;
+            let pageStore = this.pageStore;
 
             // 车牌加车型名称
             let carType = '';
-            if (query.brand || query.models || query.series) {
-                carType = `(${query.brand ? query.brand : ''}${query.series ? query.series : ''}${query.models ? query.models : ''})`
+            if (pageStore.brand || pageStore.models || pageStore.series) {
+                carType = `(${pageStore.brand ? pageStore.brand : ''}${pageStore.series ? pageStore.series : ''}${pageStore.models ? pageStore.models : ''})`
             }
-            this.carNoType = `${query.carNo ? query.carNo : '暂无车牌号'} ${carType}`;
+            this.carNoType = `${pageStore.carNo ? pageStore.carNo : '暂无车牌号'} ${carType}`;
+
+            
         },
 
         /**

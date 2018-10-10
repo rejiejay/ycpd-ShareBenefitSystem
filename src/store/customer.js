@@ -13,6 +13,9 @@ const state = {
         "username": "周大福", // 用户姓名
         "telphone": "13136360865", // 手机号码
         "telphone2": null,
+        "cardType": 0, // 证件类型 0 表示身份证 
+        "cardNo": '441623199403235252', // 证件 
+        "birthday": '2018-10-07 07:02:39', // 用户生日
         "remark": null, // 备注信息
         "carNo": "粤BG52A6", // 车牌号
         "vinNo": "LE4HG4JB9BL025092", // 车架号
@@ -40,7 +43,7 @@ const state = {
                 "createdUser": 1,
                 "date": "2016-11-04 21:05:00",
                 "fen": "1",
-                "handled": "0",
+                "handled": "0", // 是否处理 1 已经处理 0为未处理
                 "hphm": "粤BG52A6",
                 "hpzl": "02",
                 "lastUpdatedDate": "2018-10-07 07:02:39",
@@ -54,17 +57,18 @@ const state = {
         ],
         "followupRecord": null, // 跟进记录
         "policy": { // 保险信息
-            "status": 1,
-            "createdDate": "2018-10-07 07:17:33",
-            "createdUser": 1,
-            "lastUpdatedDate": "2018-10-07 07:17:33",
-            "lastUpdatedUser": null,
-            "policyId": "2c920286664d4feb01664d636c580017",
-            "carNo": "粤BG52A6",
-            "vinNo": "LE4HG4JB9BL025092",
-            "engineNo": "80063366",
-            "businessExpireDate": "2018-12-31",
-            "forceExpireDate": ""
+            "status": 1, // 不需要管
+            "createdDate": "2018-10-07 07:17:33", // 不需要管
+            "createdUser": 1, // 不需要管
+            "lastUpdatedDate": "2018-10-07 07:17:33", // 不需要管
+            "lastUpdatedUser": null, // 不需要管
+            "policyId": "2c920286664d4feb01664d636c580017", // 唯一标识
+            "carNo": "粤BG52A6", // 车牌号
+            "vinNo": "LE4HG4JB9BL025092", // 车架号
+            "engineNo": "80063366", // 发动机号
+            "businessExpireDate": "2018-12-31", // 商业险过期时间
+            "forceExpireDate": "2018-12-31", // 强险过期时间
+            "registerDate": "2018-12-31", // 强险过期时间
         }
     }
 }

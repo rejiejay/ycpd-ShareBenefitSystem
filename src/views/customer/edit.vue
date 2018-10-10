@@ -5,7 +5,7 @@
         <div class="edit-main-item flex-start">
             <span>姓名</span>
             <div class="edit-main-input">
-                <input type="text" placeholder="请输入姓名信息" />
+                <input v-model="username" type="text" placeholder="请输入姓名信息" />
             </div>
         </div>
         <div class="edit-main-line"><span></span></div>
@@ -13,7 +13,7 @@
         <div class="edit-main-item flex-start">
             <span>客户电话1</span>
             <div class="edit-main-input">
-                <input type="text" placeholder="请输入客户电话信息" />
+                <input v-model="telphone" type="text" placeholder="请输入客户电话信息" />
             </div>
         </div>
         <div class="edit-main-line"><span></span></div>
@@ -21,7 +21,7 @@
         <div class="edit-main-item flex-start">
             <span>客户电话2</span>
             <div class="edit-main-input">
-                <input type="text" placeholder="请输入客户电话信息" />
+                <input v-model="telphone2" type="text" placeholder="请输入客户电话信息" />
             </div>
         </div>
         <div class="edit-main-line"><span></span></div>
@@ -30,8 +30,8 @@
             <span>证件类型</span>
             <div class="edit-main-select flex-rest">
                 <select>
-                    <option style="color: #909399;" value="" disabled :selected="true">请选择证件类型</option>
-                    <option value="">身份证</option>
+                    <option style="color: #909399;" value="" disabled>请选择证件类型</option>
+                    <option value="0" :selected="true">身份证</option>
                 </select>
             </div>
             <div class="edit-main-icon">
@@ -44,22 +44,26 @@
 
         <div class="edit-main-item flex-start">
             <span>身份证号</span>
-            <div class="edit-main-input">
+            <!-- 第一期不做 <div class="edit-main-input">
                 <input type="text" placeholder="请输入身份证号码" />
+            </div> -->
+            <div class="edit-main-input">
+                {{cardNo}}
             </div>
         </div>
         <div class="edit-main-line"><span></span></div>
 
         <div class="edit-main-item flex-start">
             <span>客户生日</span>
-            <div class="edit-main-birthday flex-rest" @click="$refs.picker.open()">
+            <!-- 第一期不做 <div class="edit-main-birthday flex-rest" @click="$refs.picker.open()"> -->
+            <div class="edit-main-birthday flex-rest">
                 {{customerFormat}}
             </div>
-            <div class="edit-main-icon">
+            <!-- 第一期不做 <div class="edit-main-icon">
                 <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                     <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
                 </svg>
-            </div>
+            </div> -->
         </div>
 
     </div>
@@ -80,7 +84,7 @@
         <div class="edit-remark-content flex-start">
             <span>备注</span>
             <div class="edit-remark-input">
-                <input type="text" placeholder="请输入备注信息" />
+                <input v-model="remark" type="text" placeholder="请输入备注信息" />
             </div>
         </div>
     </div>
@@ -108,21 +112,60 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
+            username: '', // 用户姓名
+            telphone: '', // 手机号码1
+            telphone2: '', // 手机号码2
+            cardType: 0, // 证件类型 0 表示身份证 
+            cardNo: '', // 身份证
+
             minDate: new Date(1900, 1, 1),
-            customerBirthday: new Date(), // 客户生日
+            customerBirthday: null, // 客户生日
+
+            remark: '', // 备注
         }
     },
 
     computed: {
+        /**
+         * 客户生日
+         */
         customerFormat: function () {
-            return TimeConver.dateToFormat(this.customerBirthday)
-        }
+            if (this.customerBirthday) {
+                return TimeConver.dateToFormat(this.customerBirthday)
+            } else {
+                return '请选择客户生日';
+            }
+        },
+    
+        /**
+         * 从 store 获取数据
+         */
+        pageStore: function pageStore() {
+            return this.$store.getters["customer/getCustomerDetails"];
+        },
     },
 
 	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据
     },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            let pageStore = this.pageStore;
+
+            this.username = pageStore.username;
+            this.telphone = pageStore.telphone;
+            this.telphone2 = pageStore.telphone2;
+            this.cardType = pageStore.cardType;
+            this.cardNo = pageStore.cardNo;
+            if (pageStore.birthday) {
+                this.customerBirthday = new Date(TimeConver.YYYYmmDDhhMMssToTimestamp(pageStore.birthday));
+            }
+            this.remark = pageStore.remark;
+        },
     }
 }
 

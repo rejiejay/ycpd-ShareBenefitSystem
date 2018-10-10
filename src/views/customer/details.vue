@@ -13,18 +13,18 @@
     </div>
 
     <!-- 客户信息 -->
-    <div class="navigation-item-customerInfor" v-if="navigationSelected === 'customerInfor'">
+    <div class="navigation-item-customerInfor" v-if="navigationSelected === 'customerInfor'" >
 
         <!-- 客户姓名与备注 -->
-        <div class="customerInfor-name-remark">
+        <div class="customerInfor-name-remark" @click="jumpToRouter(`/customer/edit/${clientId}`)">
             <div class="customerInfor-name flex-start-center">
                 <div class="name-remark-head">
-                    <img src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/logo/001logo.png" />
+                    <div>{{username ? username.substring(0, 1) : '无'}}</div>
                 </div>
                 <div class="name-remark-main flex-rest">
-                    <div class="remark-main-name">曾杰杰</div>
-                    <div class="remark-main-phone">电话: 15976713287</div>
-                    <div class="remark-main-birthday">生日: 1993-03-23</div>
+                    <div class="remark-main-name" v-if="username">{{username}}</div>
+                    <div class="remark-main-phone" v-if="telphone">电话: {{telphone}}</div>
+                    <div class="remark-main-birthday">生日: undefined</div>
                 </div>
                 <div class="name-remark-icon">
                     <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
@@ -32,14 +32,14 @@
                     </svg>
                 </div>
             </div>
-            <div class="customerInfor-remark"><span>备注:</span></div>
+            <div class="customerInfor-remark"><span>备注:</span>{{remark ? remark : '无'}}</div>
         </div>
 
         <!-- 客户车辆 -->
         <div class="customerInfor-car">
             <div class="customerInfor-car-content">
 
-                <div class="customerInfor-car-title flex-start-center">
+                <div class="customerInfor-car-title flex-start-center" @click="jumpToRouter(`/customer/edit/car/${clientId}`)">
                     <div class="car-title-main flex-rest">{{carNoType}}</div>
                     <div class="car-title-icon">
                         <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
@@ -49,33 +49,33 @@
                 </div>
                 <div class="customerInfor-car-line"></div>
 
-                <div class="customerInfor-car-other flex-start-center">
+                <div class="customerInfor-car-other flex-start-center" v-if="policyRegisterDate || policyASDate">
                     <div class="car-other-left">注册日期</div>
-                    <div class="car-other-center flex-rest">2018-9-28</div>
-                    <div class="car-other-right customerInfor-car-notice">年检12天后到期</div>
+                    <div class="car-other-center flex-rest">{{policyRegisterDate}}</div>
+                    <div class="car-other-right customerInfor-car-notice">{{policyASDate ? `年检${policyASDate}天后到期` : ''}}</div>
                 </div>
                 <div class="customerInfor-car-line"></div>
 
-                <div class="customerInfor-car-other flex-start-center">
+                <div class="customerInfor-car-other flex-start-center" v-if="policyBusinessExpireDate">
                     <div class="car-other-left">交强险</div>
-                    <div class="car-other-center flex-rest">平安保险</div>
-                    <div class="car-other-right">2018-9-28到期</div>
+                    <div class="car-other-center flex-rest"><!-- 平安保险 暂无 --></div>
+                    <div class="car-other-right">{{policyForceExpireDate}}到期</div>
                 </div>
                 <div class="customerInfor-car-line"></div>
 
-                <div class="customerInfor-car-other flex-start-center">
+                <div class="customerInfor-car-other flex-start-center" v-if="policyBusinessExpireDate">
                     <div class="car-other-left">商业险</div>
-                    <div class="car-other-center flex-rest">平安保险</div>
-                    <div class="car-other-right">2018-9-28到期</div>
+                    <div class="car-other-center flex-rest"><!-- 平安保险 暂无 --></div>
+                    <div class="car-other-right">{{policyBusinessExpireDate}}到期</div>
                 </div>
             </div>
         </div>
 
         <!-- 违章 -->
-        <div class="customerInfor-violation">
+        <div class="customerInfor-violation" @click="jumpToRouter(`/customer/violations/${clientId}`)">
             <div class="customerInfor-violation-content flex-start-center">
                 <div class="customerInfor-violation-left">违章信息</div>
-                <div class="customerInfor-violation-center flex-rest">3条未处理<span>（3天前）</span></div>
+                <div class="customerInfor-violation-center flex-rest">{{violationUntreatedCount ? `${violationUntreatedCount}条未处理` : ''}}<span>{{violationCreatedDate ? `（${violationCreatedDate}天前）` : ''}}</span></div>
                 <div class="customerInfor-violation-icon">
                     <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                         <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
@@ -84,8 +84,8 @@
             </div>
         </div>
 
-        <!-- 报价 -->
-        <div class="customerInfor-offer">
+        <!-- 报价 —— 暂无 -->
+        <!-- <div class="customerInfor-offer">
             <div class="customerInfor-offer-content">
 
                 <div class="customerInfor-offer-title flex-start">
@@ -106,15 +106,15 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <!-- 邀请关注 -->
-        <div class="customerInfor-star">
+        <!-- 邀请关注 —— 暂无 -->
+        <!-- <div class="customerInfor-star">
             <div class="customerInfor-star-content">
                 <div class="customerInfor-star-title">邀请关注/注册养车频道</div>
                 <div class="customerInfor-star-item flex-start"><span>邀请成功</span>2018-09-17 12:1</div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- 跟进记录 -->
@@ -134,7 +134,7 @@
                 <div class="followRecord-list-main" :class="{'followRecord-list-isFirst': key === 0}">
                     <div class="list-main-title flex-start">
                         <div class="main-title-time flex-rest">{{record.createdDate}}</div>
-                        <div class="main-title-name">代理人: XX</div>
+                        <div class="main-title-name">跟进人: xxx</div>
                     </div>
 
                     <div class="list-main-item flex-start">
@@ -320,6 +320,27 @@ export default {
             navigationSelected: 'customerInfor',
 
             /**
+             * 用户信息部分
+             */
+            username: '',
+            telphone: '',
+            remark: '',
+
+            /**
+             * 保险部分
+             */
+            policyBusinessExpireDate: '正在加载...', // 商业险过期时间
+            policyForceExpireDate: '正在加载...', // 强险过期时间
+            policyRegisterDate: '正在加载...', // 注册时间
+            policyASDate: '正在加载...', // 年检多少天到期
+
+            /**
+             * 违章信息部分
+             */
+            violationUntreatedCount: '正在加载...', // 多少条未处理
+            violationCreatedDate: '正在加载...', // 多少天前查询出来
+
+            /**
              * 跟进记录
              */
             followRecordList: [
@@ -385,7 +406,7 @@ export default {
          * 从 store 获取数据
          */
         pageStore: function pageStore() {
-            return this.$store.getters["customer/getCustomerDetails"]
+            return this.$store.getters["customer/getCustomerDetails"];
         },
     },
 
@@ -396,6 +417,11 @@ export default {
 	    initPageData: function initPageData() {
             let pageStore = this.pageStore;
 
+            // 初始化客户信息
+            this.username = pageStore.username;
+            this.telphone = pageStore.telphone;
+            this.remark = pageStore.remark;
+
             // 车牌加车型名称
             let carType = '';
             if (pageStore.brand || pageStore.models || pageStore.series) {
@@ -403,7 +429,32 @@ export default {
             }
             this.carNoType = `${pageStore.carNo ? pageStore.carNo : '暂无车牌号'} ${carType}`;
 
-            
+            this.policyBusinessExpireDate = pageStore.policy.businessExpireDate ? pageStore.policy.businessExpireDate : null; // 商业险过期时间
+            this.policyForceExpireDate = pageStore.policy.forceExpireDate ? pageStore.policy.forceExpireDate : null; // 强险过期时间
+            this.policyRegisterDate = pageStore.policy.registerDate ? pageStore.policy.registerDate : null; // 注册时间
+            this.policyASDate = null; // 年检多少天到期
+
+            // 渲染违章信息
+            let violationUntreatedCount = 0; // 多少条未处理
+            let violationCreatedDate = 0; // 多少天前查询出来
+            if (pageStore.violations && pageStore.violations.length > 0) {
+                pageStore.violations.map(val => {
+                    // 判断是否处理
+                    if (val.handled && val.handled === '0') {
+                        violationUntreatedCount++;
+                    }
+                });
+
+                // 初始化多少天前查询出来
+                let createdTimestamp = TimeConver.YYYYmmDDhhMMssToTimestamp(pageStore.violations[0].createdDate);
+                let differTimestamp = new Date().getTime() - createdTimestamp;
+                // 时间相差必须大于一天
+                if (differTimestamp > 86400000) {
+                    violationCreatedDate = Math.floor(differTimestamp / (1000 * 60 * 60 * 24));
+                }
+            }
+            this.violationUntreatedCount = violationUntreatedCount;
+            this.violationCreatedDate = violationCreatedDate;
         },
 
         /**
@@ -449,6 +500,7 @@ export default {
                 }
             )
         },
+
         /**
          * 添加 - 跟进记录
          */
@@ -468,6 +520,13 @@ export default {
                     alert(error);
                 }
             )
+        },
+
+        /**
+         * 跳转到路由
+         */
+        jumpToRouter: function jumpToRouter(url) {
+            this.$router.push({path: url});
         },
     }
 }
@@ -538,10 +597,16 @@ export default {
         .name-remark-head {
             padding-right: 15px;
 
-            img {
+            div {
+                display: block;
                 height: 45px;
                 width: 45px;
-                display: block;
+                line-height: 45px;
+                font-size: 22px;
+                border-radius: 90px;
+                border: 1px solid #469AFF;
+                color: #469AFF;
+                text-align: center;
             }
         }
 

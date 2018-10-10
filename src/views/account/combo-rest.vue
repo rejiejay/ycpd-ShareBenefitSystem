@@ -58,6 +58,8 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
+            agentId: '40289f33664e6e9901664e6ecbdb0000',
+
             list: [
                 {
                     title: '短信数量', // 标题

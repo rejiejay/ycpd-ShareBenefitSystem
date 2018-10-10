@@ -16,7 +16,7 @@ export default {
         // });
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/add`,
+            url: `${config.url.origin}/ycpd/cas/client/add?token=${window.localStorage.getItem('ycpd_token')}`,
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
@@ -57,7 +57,7 @@ export default {
         // });
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/add`,
+            url: `${config.url.origin}/ycpd/cas/client/add?token=${window.localStorage.getItem('ycpd_token')}`,
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',

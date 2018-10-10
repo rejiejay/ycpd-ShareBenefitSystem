@@ -16,7 +16,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByYc}/ycpd/cas/findClientUsableMoney?agentInfoId=${agentInfoId}`,
+            url: `${config.url.originByYc}/ycpd/cas/findClientUsableMoney?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框
@@ -49,7 +49,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByYc}/ycpd/cas/findClientTotalMoney?agentInfoId=${agentInfoId}`,
+            url: `${config.url.originByYc}/ycpd/cas/findClientTotalMoney?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框

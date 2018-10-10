@@ -26,7 +26,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/followupRecord/add`,
+            url: `${config.url.origin}/ycpd/cas/followupRecord/add?token=${window.localStorage.getItem('ycpd_token')}`,
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
@@ -78,7 +78,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/followupRecord/list?clientId=${clientId}`,
+            url: `${config.url.origin}/ycpd/cas/followupRecord/list?token=${window.localStorage.getItem('ycpd_token')}&clientId=${clientId}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框

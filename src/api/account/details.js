@@ -22,7 +22,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByYc}/ycpd/cas/findClientBills?agentId=${agentId}`,
+            url: `${config.url.originByYc}/ycpd/cas/findClientBills?token=${window.localStorage.getItem('ycpd_token')}&agentId=${agentId}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框

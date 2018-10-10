@@ -84,7 +84,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/list?${paramString}`,
+            url: `${config.url.origin}/ycpd/cas/client/list?token=${window.localStorage.getItem('ycpd_token')}&${paramString}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框
@@ -117,7 +117,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/countClientNum?agentInfoId=${agentInfoId}`,
+            url: `${config.url.origin}/ycpd/cas/client/countClientNum?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框
@@ -150,7 +150,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/countInsurance?agentInfoId=${agentInfoId}`,
+            url: `${config.url.origin}/ycpd/cas/client/countInsurance?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框
@@ -183,7 +183,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/countViolation?agentInfoId=${agentInfoId}`,
+            url: `${config.url.origin}/ycpd/cas/client/countViolation?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框
@@ -216,7 +216,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/countAnnualInspect?agentInfoId=${agentInfoId}`,
+            url: `${config.url.origin}/ycpd/cas/client/countAnnualInspect?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框
@@ -249,7 +249,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/countFollowup?agentInfoId=${agentInfoId}`,
+            url: `${config.url.origin}/ycpd/cas/client/countFollowup?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
             success(res) {
                 Indicator.close(); // 关闭加载框

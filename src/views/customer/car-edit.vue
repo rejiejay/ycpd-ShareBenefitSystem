@@ -5,14 +5,20 @@
         <div class="edit-main-item flex-start">
             <span>车牌号</span>
             <div class="edit-main-input">
-                <input type="text" placeholder="请输入车牌号信息" />
+                <input v-model="carNo" type="text" placeholder="请输入车牌号信息" />
             </div>
         </div>
         <div class="edit-main-line"><span></span></div>
 
         <div class="edit-main-item flex-start">
             <span>车型</span>
-            <div class="edit-main-select flex-rest">请选择车型</div>
+            <div class="edit-main-select flex-rest">
+                {{models ? models : "请选择车型"}}
+                <!-- <select>
+                    <option style="color: #909399;" value="" disabled :selected="true">请选择车型</option>
+                    <option value="0">？？？</option>
+                </select> -->
+            </div>
             <div class="edit-main-icon">
                 <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                     <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
@@ -24,7 +30,7 @@
         <div class="edit-main-item flex-start">
             <span>发动机号</span>
             <div class="edit-main-input">
-                <input type="text" placeholder="请输入发动机号码" />
+                <input v-model="vinNo" type="text" placeholder="请输入发动机号码" />
             </div>
         </div>
         <div class="edit-main-line"><span></span></div>
@@ -32,7 +38,7 @@
         <div class="edit-main-item flex-start">
             <span>车架号</span>
             <div class="edit-main-input">
-                <input type="text" placeholder="请输入车架号码" />
+                <input v-model="engineNo" type="text" placeholder="请输入车架号码" />
             </div>
         </div>
         <div class="edit-main-line"><span></span></div>
@@ -58,13 +64,13 @@
         year-format="{value} 年"
         month-format="{value} 月"
         date-format="{value} 日"
-        v-model="carRegisterday"
+        v-model="registerDate"
     ></mt-datetime-picker>
 
     <!-- 保存 -->
-    <div class="edit-submit">
+    <!-- <div class="edit-submit">
         <div class="edit-submit-content">保存</div>
-    </div>
+    </div> -->
 </div>
 </template>
 
@@ -84,20 +90,53 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            carRegisterday: new Date(), // 车辆注册日期
+            carNo: null, // 车牌号
+            models: null, // 车型
+            vinNo: null, // 车架号
+            engineNo: null, // 发动机号
+            registerDate: null, // 车辆注册日期
         }
     },
 
     computed: {
+        /**
+         * 注册日期
+         */
         carRegisterFormat: function () {
-            return TimeConver.dateToFormat(this.carRegisterday)
-        }
+            if (this.registerDate) {
+                return TimeConver.dateToFormat(this.registerDate)
+            } else {
+                return '请选择注册日期';
+            }
+        },
+
+        /**
+         * 从 store 获取数据
+         */
+        pageStore: function pageStore() {
+            return this.$store.getters["customer/getCustomerDetails"];
+        },
     },
 
 	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据
     },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            let pageStore = this.pageStore;
+
+            this.carNo = pageStore.carNo;
+            this.models = pageStore.models;
+            this.vinNo = pageStore.vinNo;
+            this.engineNo = pageStore.engineNo;
+            if (pageStore.registerDate) {
+                this.registerDate = new Date(TimeConver.YYYYmmDDhhMMssToTimestamp(pageStore.registerDate));
+            }
+        },
     }
 }
 

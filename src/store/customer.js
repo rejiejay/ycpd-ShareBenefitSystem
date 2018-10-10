@@ -20,6 +20,7 @@ const state = {
         "carNo": "粤BG52A6", // 车牌号
         "vinNo": "LE4HG4JB9BL025092", // 车架号
         "engineNo": "80063366", // 发动机号
+        "registerDate": "2018-10-07 07:02:39", // 车辆注册日期
         "levelId": "CBZ0118A0011", // 力洋车型的一个编号
         "brand": "奔驰", // 车牌
         "series": "E 200 L CGI", // 车系

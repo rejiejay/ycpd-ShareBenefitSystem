@@ -1,6 +1,7 @@
 <!-- 违章信息 -->
 <template>
 <div class="customer-violations">
+
     <!-- 车牌号码 -->
     <div class="output-list">
         <div class="output-list-content">
@@ -9,11 +10,12 @@
                 <div class="output-item-title">车牌号码:</div>
                 <div class="output-item-main flex-rest flex-start-center">
                     <div class="item-main-left flex-rest">{{carNo}}</div>
-                    <div class="item-main-right">{{carSize}}</div>
+                    <!-- <div class="item-main-right">小型车</div> -->
                 </div>
             </div>
         </div>
     </div>
+
     <!-- 查询成功 -->
     <div class="result">
         <div class="output-list" 
@@ -115,26 +117,54 @@ export default {
             // 车牌号码
             carNo: '',
 
-            // 车型
-            carSize: '',
-
             // 查询结果
             resultList: [
-                {
-                    time: '2018-7-3 15:23:24',
-                    place: '港湾大道银坑村路口',
-                    process: '驾驶机动车在划有导向车道的路口，不按所 需行进方向驶入导向车道，不按规定方向行 驶的。',
-                    point: 6,   
-                    penalty: 300,
-                    deal: false,
-                }
+                // {
+                //     time: '2018-7-3 15:23:24',
+                //     place: '港湾大道银坑村路口',
+                //     process: '驾驶机动车在划有导向车道的路口，不按所 需行进方向驶入导向车道，不按规定方向行 驶的。',
+                //     point: 6,   
+                //     penalty: 300,
+                //     deal: false,
+                // }
             ]
         } 
     },
+    
+    computed: {
+        /**
+         * 从 store 获取数据
+         */
+        pageStore: function pageStore() {
+            return this.$store.getters["customer/getCustomerDetails"];
+        },
+    },
 
-	mounted: function mounted() { },
+	mounted: function mounted() { 
+        this.initPageData(); // 初始化页面数据
+    },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            let pageStore = this.pageStore;
+
+            this.carNo = pageStore.carNo;
+            if (pageStore.violations && pageStore.violations.length > 0) {
+                this.resultList = pageStore.violations.map(val => {
+                    return {
+                        time: val.date,
+                        place: `${val.wzcity}${val.area}`,
+                        process: val.act,
+                        point: val.fen,   
+                        penalty: val.money,
+                        deal: val.handled === '1' ? true : false,
+                    }
+                });
+            }
+        },
     }
 }
 

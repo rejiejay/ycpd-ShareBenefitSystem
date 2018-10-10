@@ -395,11 +395,6 @@ export default {
             }
         }
     },
-
-	mounted: function mounted() {
-        this.initPageData(); // 初始化页面数据
-        this.getFollowupRecord(); // 获取 - 跟进记录
-    },
     
     computed: {
         /**
@@ -408,6 +403,11 @@ export default {
         pageStore: function pageStore() {
             return this.$store.getters["customer/getCustomerDetails"];
         },
+    },
+
+	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据
+        this.getFollowupRecord(); // 获取 - 跟进记录
     },
 
 	methods: {

@@ -142,7 +142,7 @@ const routes = [
         component: () => import('@/views/activity/index'),
         meta: { title: '最新活动' },
     }, {
-        path: '/activity/detail',
+        path: '/activity/detail/:id',
         name: 'activity-detail',
         component: () => import('@/views/activity/detail'),
         meta: { title: '邀请好友享加油分成' },

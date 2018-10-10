@@ -14,7 +14,7 @@
                         <div class="item-left-time">{{item.time}}</div>
                     </div>
                     <div class="detail-item-right" :class="{'item-right-income': item.isIncome}">
-                        {{item.expend}}
+                        {{item.isIncome ? '+' : '-'}}{{item.expend}}
                     </div>
                 </div>
                 
@@ -39,7 +39,7 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            agentId: '8686253daa364003945ddae12b4ff75c', // 用户id
+            agentId: '40289f33664e6e9901664e6ecbdb0000', // 用户id
             
             list: [
                 {
@@ -79,10 +79,10 @@ export default {
                             }
                             
                             return {
-                                describe: val.content, // 内容
+                                describe: val.contentName, // 内容
                                 time: val.date, // 时间
-                                expend: val.money.toFixed(2), // 花费
-                                isIncome: isIncome, // 是否为收入(正值)
+                                expend: val.money ? val.money.toFixed(2) : 0, // 花费
+                                isIncome: val.content === 4, // 是否为收入(正值)
                             }
                         });
                     }

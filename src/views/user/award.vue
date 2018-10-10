@@ -46,7 +46,7 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            agentId: '8686253daa364003945ddae12b4ff75c', // 用户id
+            agentId: '40289f33664e6e9901664e6ecbdb0000', // 用户id
 
             amountsCostMoney: 0, // 累计金额
 

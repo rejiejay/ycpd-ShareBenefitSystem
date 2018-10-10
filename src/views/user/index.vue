@@ -55,7 +55,7 @@
                 <div class="user-wallet-center flex-rest">
                     ￥{{totalMoney}}
                 </div>
-                <div class="user-wallet-right">
+                <div class="user-wallet-right" @click="jumpToRouter('/account/detail')">
                     账单
                 </div>
             </div>

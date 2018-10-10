@@ -5,6 +5,7 @@
         <div class="activity-item"
             v-for="(item, key) in activityList" 
             :key="key"
+            @click="jumpToRouter(`/activity/detail/${item.id}`)"
         >
             <div class="activity-item-content">
                 
@@ -50,11 +51,13 @@ export default {
                      * @param {string} going 正在进行
                      * @param {string} finish 活动结束
                      */
+                    id: 1, // 活动唯一标识
                     status: 'going', 
                     picture: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image001.jpg',
                     describe: '养车频道优惠加油双重返利活动', // 活动描述
                     time: '2018-10-6 至 2018-12-9', // 活动时间
                 }, {
+                    id: 1,
                     status: 'finish', 
                     picture: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image002.jpg',
                     describe: '养车频道优惠加油双重返利活动', 
@@ -77,7 +80,14 @@ export default {
             }
 
             return keyValue[status];
-        }
+        },
+
+        /**
+         * 跳转到路由
+         */
+        jumpToRouter: function jumpToRouter(url) {
+            this.$router.push({path: url});
+        },
     }
 }
 

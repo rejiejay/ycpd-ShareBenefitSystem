@@ -4,9 +4,8 @@ import { Indicator } from 'mint-ui';
 export default {
     /**
      * 获取 - 套餐余量列表
-     * @param {string} agentInfoId 用户id
      */
-    findFunctionRecords: (agentInfoId) => new Promise((resolve, reject) => {
+    findFunctionRecords: () => new Promise((resolve, reject) => {
         // 返回测试数据
         // resolve({ 
         //     "code": 1000,
@@ -16,7 +15,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByYc}/ycpd/cas/findFunctionRecords?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
+            url: `${config.url.originByYc}/ycpd/cas/findFunctionRecords?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`,
             type: "GET",
             xhrFields: {
                 withCredentials: true

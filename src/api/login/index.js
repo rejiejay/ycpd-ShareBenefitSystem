@@ -153,7 +153,7 @@ export default {
      * @param {string} telephone 电话号码
      * @param {string} msgCode 验证码
      */
-    goLogin: (token, telephone, msgCode, isAgreement) => new Promise((resolve, reject) => {
+    goLogin: (token, telephone, msgCode, isAgreement, code) => new Promise((resolve, reject) => {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
@@ -165,7 +165,7 @@ export default {
                 withCredentials: true
             },
             data: JSON.stringify({
-                code: 1123, // 微信code
+                code: code, // 微信code
                 token: token,
                 telephone: telephone,
                 msgCode: msgCode,

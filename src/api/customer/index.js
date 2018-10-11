@@ -6,10 +6,9 @@ export default {
      * 获取 - 客户列表
      * @param {string} pageNo 当前页码
      * @param {string} pageSize 当前页面有多少条数据
-     * @param {string} agentInfoId 当前登录人id
      * @param {string} search 查询条件 非必填
      */
-    getCustomerList: (pageNo, pageSize, agentInfoId, search) => new Promise((resolve, reject) => {
+    getCustomerList: (pageNo, pageSize, search) => new Promise((resolve, reject) => {
         // 返回测试数据
         // resolve({ 
         //     "code": 1000,
@@ -79,7 +78,7 @@ export default {
         // });
 
         // 请求参数
-        let paramString = `pageNo=${pageNo}&pageSize=${pageSize}&agentInfoId=${agentInfoId}`
+        let paramString = `pageNo=${pageNo}&pageSize=${pageSize}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`
         search ? paramString += `&search=${search}` : null; // 非必填项
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
@@ -108,9 +107,8 @@ export default {
 
     /**
      * 获取 - 客户总量
-     * @param {string} agentInfoId 当前登录人id
      */
-    getCountClientNum: (agentInfoId) => new Promise((resolve, reject) => {
+    getCountClientNum: () => new Promise((resolve, reject) => {
         // 返回测试数据
         // resolve({ 
         //     "code": 1000,
@@ -120,7 +118,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/countClientNum?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
+            url: `${config.url.origin}/ycpd/cas/client/countClientNum?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`,
             type: "GET",
             xhrFields: {
                 withCredentials: true
@@ -144,9 +142,8 @@ export default {
 
     /**
      * 获取 - 可续保客户总量
-     * @param {string} agentInfoId 当前登录人id
      */
-    getCountInsurance: (agentInfoId) => new Promise((resolve, reject) => {
+    getCountInsurance: () => new Promise((resolve, reject) => {
         // 返回测试数据
         // resolve({ 
         //     "code": 1000,
@@ -156,7 +153,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/countInsurance?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
+            url: `${config.url.origin}/ycpd/cas/client/countInsurance?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`,
             type: "GET",
             xhrFields: {
                 withCredentials: true
@@ -180,9 +177,8 @@ export default {
 
     /**
      * 获取 - 违章未处理客户总量
-     * @param {string} agentInfoId 当前登录人id
      */
-    getCountViolation: (agentInfoId) => new Promise((resolve, reject) => {
+    getCountViolation: () => new Promise((resolve, reject) => {
         // 返回测试数据
         // resolve({ 
         //     "code": 1000,
@@ -192,7 +188,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/countViolation?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
+            url: `${config.url.origin}/ycpd/cas/client/countViolation?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`,
             type: "GET",
             xhrFields: {
                 withCredentials: true
@@ -216,9 +212,8 @@ export default {
 
     /**
      * 获取 - 年检将到期用户总量
-     * @param {string} agentInfoId 当前登录人id
      */
-    getCountAnnualInspect: (agentInfoId) => new Promise((resolve, reject) => {
+    getCountAnnualInspect: () => new Promise((resolve, reject) => {
         // 返回测试数据
         // resolve({ 
         //     "code": 1000,
@@ -228,7 +223,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/countAnnualInspect?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
+            url: `${config.url.origin}/ycpd/cas/client/countAnnualInspect?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`,
             type: "GET",
             xhrFields: {
                 withCredentials: true
@@ -252,9 +247,8 @@ export default {
 
     /**
      * 获取 - 待跟进的用户总量
-     * @param {string} agentInfoId 当前登录人id
      */
-    getCountFollowup: (agentInfoId) => new Promise((resolve, reject) => {
+    getCountFollowup: () => new Promise((resolve, reject) => {
         // 返回测试数据
         // resolve({ 
         //     "code": 1000,
@@ -264,7 +258,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/client/countFollowup?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
+            url: `${config.url.origin}/ycpd/cas/client/countFollowup?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`,
             type: "GET",
             xhrFields: {
                 withCredentials: true

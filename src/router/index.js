@@ -96,7 +96,7 @@ const routes = [
         component: () => import('@/views/customer/index'),
         meta: { title: '客户管理' },
     }, {
-        path: '/customer/detail',
+        path: '/customer/detail/:clientId',
         name: 'customer-details',
         component: () => import('@/views/customer/details'),
         meta: { title: '客户详情' },

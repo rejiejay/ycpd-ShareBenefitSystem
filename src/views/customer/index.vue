@@ -237,8 +237,6 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            agentInfoId: '', // 用户的id 暂时写死
-
             /**
              * 导航栏
              * @param {String} total 客户总量
@@ -415,8 +413,6 @@ export default {
          */
 	    initPageData: function initPageData() {
             let userInfoStore = this.userInfoStore;
-
-            this.agentInfoId = userInfoStore.agentInfoId;
         },
 
         /**
@@ -425,7 +421,7 @@ export default {
         getBarCount: function getCustomerList() {
             const _this = this;
 
-            ajaxs.getCountClientNum(this.agentInfoId)
+            ajaxs.getCountClientNum()
             .then(
                 res => {
                     _this.navBarList[0].count = res;
@@ -434,7 +430,7 @@ export default {
                 }
             );
 
-            ajaxs.getCountInsurance(this.agentInfoId)
+            ajaxs.getCountInsurance()
             .then(
                 res => {
                     _this.navBarList[1].count = res;
@@ -443,7 +439,7 @@ export default {
                 }
             );
 
-            ajaxs.getCountViolation(this.agentInfoId)
+            ajaxs.getCountViolation()
             .then(
                 res => {
                     _this.navBarList[2].count = res;
@@ -452,7 +448,7 @@ export default {
                 }
             );
 
-            ajaxs.getCountAnnualInspect(this.agentInfoId)
+            ajaxs.getCountAnnualInspect()
             .then(
                 res => {
                     _this.navBarList[3].count = res;
@@ -461,7 +457,7 @@ export default {
                 }
             );
 
-            ajaxs.getCountFollowup(this.agentInfoId)
+            ajaxs.getCountFollowup()
             .then(
                 res => {
                     _this.navBarList[4].count = res;
@@ -486,6 +482,7 @@ export default {
                 'tofollow': 'toFollowCustomers', // 待跟进客户
             }
             let mySelected = selectedKeyVal[this.navBarSelected];
+
             /**
              * 转换跟进结果
              */
@@ -507,7 +504,7 @@ export default {
                 }
             }
 
-            ajaxs.getCustomerList(this.pageNo, this.pageSize, this.agentInfoId, this.searchInput)
+            ajaxs.getCustomerList(this.pageNo, this.pageSize, this.searchInput)
             .then(
                 res => {
                     _this.isLoding = false; // 设置 当前列表 为 加载完成
@@ -585,7 +582,7 @@ export default {
 
                     MessageBox.confirm('获取客户列表失败, 是否重新获取?')
                     .then(action => {
-                        _this.getCustomerList(pageNo, pageSize, agentInfoId, search);
+                        _this.getCustomerList(pageNo, pageSize, search);
                     }, () => {
                         alert(error);
                     });
@@ -618,8 +615,9 @@ export default {
          * @param {object} response 客户端响应原始数据
          */
         jumpToCustomerDetails: function jumpToCustomerDetails(response) {
-            this.$router.push({ path: `/customer/detail` });
-            this.$store.commit('customer/initCustomerDetails', response);
+            this.$router.push({ path: `/customer/detail/${response.clientId}` });
+            window.localStorage.setItem('ycpd_clientId', response.clientId);
+            // this.$store.commit('customer/initCustomerDetails', response);
         },
     }
 }

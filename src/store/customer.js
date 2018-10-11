@@ -67,6 +67,7 @@ const state = {
             "carNo": "粤BG52A6", // 车牌号
             "vinNo": "LE4HG4JB9BL025092", // 车架号
             "engineNo": "80063366", // 发动机号
+            "annualInspectDate": "2018-12-31", // 年检日期
             "businessExpireDate": "2018-12-31", // 商业险过期时间
             "forceExpireDate": "2018-12-31", // 强险过期时间
             "registerDate": "2018-12-31", // 强险过期时间

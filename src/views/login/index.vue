@@ -100,10 +100,11 @@
 
 <script>
 
+import { MessageBox, Toast } from 'mint-ui';
+
+import loadPageVar from "@/utils/loadPageVar";
 import Consequencer from "@/utils/Consequencer";
 import ajaxs from "@/api/login/index";
-import { MessageBox } from 'mint-ui';
-import { Toast } from 'mint-ui';
 
 export default {
     name: 'login',
@@ -112,6 +113,8 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            wx_code: '081ykH7t0bhN2d1417at00RJ7t0ykH7X',
             
 			// 手机号码
             phoneNumber: '',
@@ -178,6 +181,9 @@ export default {
     },
 
     mounted: function () {
+
+        this.wx_code = loadPageVar('code') ?  loadPageVar('code') : '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
+
         this.isLogin(); // 判断是否登录
     },
 
@@ -201,7 +207,8 @@ export default {
                     _this.machineToken = res.data.token; // 这个 token 获取人机验证码 图片验证码会用到
 
                     if (res.code === 1000) { // 表示用户已经登录过
-                        window.localStorage.setItem('ycpd_token', res.data.token); // 正确的是全局的 token
+                        window.localStorage.setItem('ycpd_token', res.data.token); // 存储 全局 token
+                        window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
                         _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
                         _this.$router.replace({ path: '/' }); // 跳转到首页
 
@@ -424,13 +431,14 @@ export default {
 				return alert('请先同意养车频道用户协议');
             } 
 
-            ajaxs.goLogin(this.loginToken, this.phoneNumber, this.SMSNumber, this.isAgreement)
+            ajaxs.goLogin(this.loginToken, this.phoneNumber, this.SMSNumber, this.isAgreement, this.wx_code)
             .then(
                 res => {
                     if (res.code === 1000) {
                         Toast({ message: '登录成功', duration: 1000 });
 
                         window.localStorage.setItem('ycpd_token', res.data.token); // 设置 全局的 token
+                        window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
                         _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo);
                         _this.$router.replace({ path: '/' });
 

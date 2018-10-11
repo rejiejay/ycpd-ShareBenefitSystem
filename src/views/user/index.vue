@@ -8,19 +8,22 @@
             <svg :width="clientWidth - 30" :height="Math.floor((clientWidth - 30) * 21 / 71)" viewBox="0 0 710 212" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FF4A00" offset="0%"></stop><stop stop-color="#E50012" offset="100%"></stop></linearGradient><rect id="path-2" x="0" y="0" width="710" height="212" rx="10"></rect></defs><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="个人中心" transform="translate(-20.000000, -148.000000)"><g id="user" transform="translate(20.000000, 148.000000)"><g id="top_bg"><mask id="mask-3" fill="white"><use xlink:href="#path-2"></use></mask><use fill="url(#linearGradient-1)" xlink:href="#path-2"></use><polygon id="Path-3" fill="#000000" opacity="0.0299999993" mask="url(#mask-3)" points="-10 217 294.5 -3 -10 -3"></polygon><polygon id="Path-3-Copy" fill="#000000" opacity="0.0299999993" mask="url(#mask-3)" transform="translate(563.250000, 106.000000) scale(-1, -1) translate(-563.250000, -106.000000) " points="411 216 715.5 -4 411 -4"></polygon><polygon id="Rectangle-8" fill="#000000" opacity="0.0299999993" mask="url(#mask-3)" points="-95 -5 218.5 -5 485.5 216 172 216"></polygon></g></g></g></g></svg>
         </div>
 
-        <div class="user-banner-content flex-start-center">
+        <div class="user-banner-content flex-start-center" @click="jumpToRouter('/user/info')">
             <!-- 头像 -->
-            <div class="user-banner-photo">
+            <div class="user-banner-photo" v-if="imageName">
                 <img src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/logo/001logo.png" />
+            </div>
+            <div class="name-remark-head" v-else>
+                <div>{{agentName ? agentName.substring(0, 1) : '无'}}</div>
             </div>
 
             <!-- 内容 -->
             <div class="user-banner-main flex-rest">
                 <div class="banner-main-name">
-                    张半仙<span>已实名认证</span>
+                    {{agentName}}<!-- <span>已实名认证</span> -->
                 </div>
                 <div class="banner-main-phone">
-                    15976713287
+                    {{telephone}}
                 </div>
             </div>
 
@@ -70,7 +73,7 @@
                     套餐余量
                 </div>
                 <div class="user-combo-center flex-rest">
-                    下次免费用量重置时间：10月1日
+                    下次免费用量重置时间：{{new Date().getMonth() === 11 ? 1 : (new Date().getMonth() + 2)}}月1号月1日
                 </div>
                 <div class="user-combo-right flex-start-center" @click="jumpToRouter('/account/combo/rest')">
                     <span>购买</span>
@@ -84,11 +87,11 @@
                     短信用量:
                 </div>
                 <div class="user-combo-center flex-rest">
-                    18882
+                    {{msgUsedNum}}
                 </div>
-                <div class="user-combo-right">
+                <!-- 暂无 <div class="user-combo-right">
                     新增客户用量：1882
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -221,27 +224,60 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
-            
-            agentId: '8686253daa364003945ddae12b4ff75c', // 用户id
 
             usableMoney: 0, // 可用余额
             totalMoney: 0, // 累计收入
+            msgUsedNum: 0, // 短信用量
+
+            agentName: '', // 用户昵称
+            telephone: '', // 用户手机
+            imageName: '', // 头像名称
         } 
+    },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            return this.$store.getters["userInfo/getAgentInfo"];
+        },
     },
 
 	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据从 store 获取数据 用户信息
+
         this.getClientUsableMoney(); // 获取 - 可用余额
         this.getClientTotalMoney(); // 获取 - 累计收入
+        this.getMsgUsedNum(); // 获取 - 短信用量
     },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            let userInfoStore = this.userInfoStore;
+
+            this.agentName = userInfoStore.agentName; // 用户昵称
+            this.telephone = userInfoStore.telephone; // 用户手机
+            this.imageName = userInfoStore.imageName; // 头像
+
+            ajaxs.getBase64ByImageName(`img/icon/${userInfoStore.imageName}`)
+            .then(
+                res => {
+                    console.log(res)
+                }
+            )
+        },
+
         /**
          * 获取 - 可用余额
          */
     	getClientUsableMoney: function getClientUsableMoney() {
             const _this = this;
 
-            ajaxs.findClientUsableMoney(this.agentId)
+            ajaxs.findClientUsableMoney()
             .then(
                 res => {
                     // 如果返回横杆，说明是空值
@@ -260,12 +296,31 @@ export default {
     	getClientTotalMoney: function getClientTotalMoney() {
             const _this = this;
 
-            ajaxs.findClientTotalMoney(this.agentId)
+            ajaxs.findClientTotalMoney()
             .then(
                 res => {
                     // 如果返回横杆，说明是空值
                     if (res !== '-') {
                         _this.totalMoney = res;
+                    }
+                }, error => {
+                    alert(error);
+                }
+            )
+        },
+
+        /**
+         * 获取 - 短信用量
+         */
+    	getMsgUsedNum: function getMsgUsedNum() {
+            const _this = this;
+
+            ajaxs.funcMsgUsedNum()
+            .then(
+                res => {
+                    // 如果返回横杆，说明是空值
+                    if (res !== '-') {
+                        _this.msgUsedNum = res;
                     }
                 }, error => {
                     alert(error);
@@ -335,6 +390,23 @@ export default {
             height: 60px;
             width: 60px;
             display: block;
+        }
+    }
+
+    // 头像
+    .name-remark-head {
+        padding-right: 15px;
+
+        div {
+            display: block;
+            height: 60px;
+            width: 60px;
+            line-height: 60px;
+            font-size: 26px;
+            border-radius: 90px;
+            border: 2px solid #fff;
+            color: #fff;
+            text-align: center;
         }
     }
 

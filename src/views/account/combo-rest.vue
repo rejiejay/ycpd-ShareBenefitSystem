@@ -6,7 +6,7 @@
     <div class="combo-rest-title">
         <div class="rest-title-content flex-start-center">
             <div class="rest-title-main flex-rest">我的奖励</div>
-            <div class="rest-title-lable flex-start-center">{{new Date().getMonth() === 11 ? 12 : (new Date().getMonth() + 2)}}月1号</div>
+            <div class="rest-title-lable flex-start-center">{{new Date().getMonth() === 11 ? 1 : (new Date().getMonth() + 2)}}月1号</div>
         </div>
     </div>
 

@@ -10,9 +10,13 @@
                 <div class="info-item-label flex-rest">头像</div>
                 <div class="info-item-main flex-start-center">
                     <!-- 头像 -->
-                    <div class="item-main-photo">
+                    <div class="item-main-photo" v-if="imageName">
                         <img src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/logo/001logo.png" />
                     </div>
+                    <div class="name-remark-head" v-else>
+                        <div>{{agentName ? agentName.substring(0, 1) : '无'}}</div>
+                    </div>
+
                     <div class="item-main-icon">
                         <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                             <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
@@ -26,8 +30,8 @@
             <div class="user-info-item flex-start-center">
                 <div class="info-item-label flex-rest">手机号</div>
                 <div class="info-item-main flex-start-center">
-                    <div class="item-main-phone">15976713287</div>
-                    <div class="item-main-blue">修改</div>
+                    <div class="item-main-phone">{{telephone}}</div>
+                    <!-- <div class="item-main-blue">修改</div> -->
                 </div>
             </div>
             <div class="user-info-line"></div>
@@ -36,32 +40,34 @@
             <div class="user-info-item flex-start-center">
                 <div class="info-item-label flex-rest">实名认证</div>
                 <div class="info-item-main info-item-authentication">
-                    <div class="item-main-name">张半仙(已认证)</div>
-                    <div class="item-main-id">441623199403235252</div>
+                    <div class="item-main-name">{{agentName}}<!-- (已认证) --></div>
+                    <!-- 第二期内容 <div class="item-main-id">441623199403235252</div> -->
                 </div>
             </div>
             <div class="user-info-line"></div>
 
             <!-- 绑定银行卡 -->
-            <div class="user-info-item flex-start-center">
+            <!-- <div class="user-info-item flex-start-center">
                 <div class="info-item-label flex-rest">绑定银行卡</div>
                 <div class="info-item-main flex-start-center">
                     <div class="item-main-bank">招商银行<span>***677</span></div>
                     <div class="item-main-blue">修改</div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </div>
 
     <!-- 退出登录 -->
     <div class="user-info-logout" :style="`width: ${clientWidth - 30}px;`">
-        <div class="info-logout-content">退出登录</div>
+        <div class="info-logout-content" @click="logoutSubmit">退出登录</div>
     </div>
 </div>
 </template>
 
 <script>
+
+import ajaxs from "@/api/user/info";
 
 export default {
     name: 'user-info',
@@ -70,12 +76,53 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            agentName: '', // 用户昵称
+            imageName: '', // 头像
+            telephone: '', // 手机号
         } 
     },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            return this.$store.getters["userInfo/getAgentInfo"];
+        },
+    },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据从 store 获取数据 用户信息
+    },
 
-	methods: {}
+	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            let userInfoStore = this.userInfoStore;
+
+            this.agentName = userInfoStore.agentName; // 用户昵称
+            this.imageName = userInfoStore.imageName; // 头像
+            this.telephone = userInfoStore.telephone; // 手机号
+        },
+
+        /**
+         * 退出登录
+         */
+        logoutSubmit: function logoutSubmit() {
+            const _this = this;
+
+            ajaxs.logout()
+            .then(res => {
+                alert('成功退出登录！');
+                this.$router.replace({path: '/login'});
+            }, error => {
+                alert(error);
+            });
+        },
+    }
 }
 
 </script>
@@ -116,6 +163,23 @@ export default {
             height: 60px;
             width: 60px;
             display: block;
+        }
+    }
+
+    // 头像
+    .name-remark-head {
+        padding: 15px 5px 15px 15px;
+
+        div {
+            display: block;
+            height: 60px;
+            width: 60px;
+            line-height: 60px;
+            font-size: 26px;
+            border-radius: 90px;
+            border: 1px solid #469AFF;
+            color: #469AFF;
+            text-align: center;
         }
     }
 

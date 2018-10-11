@@ -8,5 +8,5 @@ module.exports = {
         
         // 初始化微信JS-SDK
         getWxConfig: 'http://store.demo.ichebaoyang.com/wx/apiHandler.ashx',
-    }
+    },
 };

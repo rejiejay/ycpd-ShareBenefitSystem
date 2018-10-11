@@ -11,7 +11,7 @@
 
     <!-- 新增客户 -->
     <div class="home-customer">
-        <div class="home-customer-content flex-start-center">
+        <div class="home-customer-content flex-start-center" @click="jumpToRouter('/customer/add')">
 
             <!-- 新增icon按钮 -->
             <div class="customer-add-icon flex-center">
@@ -131,7 +131,14 @@ export default {
 
 	mounted: function mounted() { },
 
-	methods: {}
+	methods: {
+        /**
+         * 跳转到路由
+         */
+        jumpToRouter: function jumpToRouter(url) {
+            this.$router.push({path: url});
+        },
+    }
 }
 
 </script>

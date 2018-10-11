@@ -10,6 +10,7 @@ const state = {
         "lastUpdatedUser": null,
         "agentInfoId": "40289f33664767560166476af6570000",
         "agentName": "郭俊峰",
+        "imageName": "002cd1b9-8bc5-460c-b62d-2c915585ce4b",
         "telephone": "13316893613",
         "sysuserId": 180422010001149366,
         "storeId": 180329010000848040,

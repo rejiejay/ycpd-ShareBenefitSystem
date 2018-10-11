@@ -91,7 +91,7 @@
 
     <!-- 保存 -->
     <div class="edit-submit">
-        <div class="edit-submit-content">保存</div>
+        <div class="edit-submit-content" @click="submitEdit">保存</div>
     </div>
 </div>
 </template>
@@ -99,10 +99,11 @@
 <script>
 
 import Vue from 'vue';
-import { DatetimePicker } from 'mint-ui';
+import { DatetimePicker, Toast } from 'mint-ui';
 Vue.component(DatetimePicker.name, DatetimePicker);
 
 import TimeConver from "@/utils/TimeConver";
+import ajaxs from "@/api/customer/edit";
 
 export default {
     name: 'customer-edit',
@@ -165,6 +166,26 @@ export default {
                 this.customerBirthday = new Date(TimeConver.YYYYmmDDhhMMssToTimestamp(pageStore.birthday));
             }
             this.remark = pageStore.remark;
+        },
+
+        /**
+         * 提交编辑客户信息
+         */
+        submitEdit: function submitEdit() {
+            const _this = this;
+
+            ajaxs.editCustomer(this.username, this.telphone, this.telphone2, this.customerBirthday, this.remark)
+            .then(
+                res => {
+                    Toast({
+                        message: '修改成功',
+                        duration: 1000
+                    });
+                    _this.$router.go(-1);
+                }, error => {
+                    alert(error);
+                }
+            )
         },
     }
 }

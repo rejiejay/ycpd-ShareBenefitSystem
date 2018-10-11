@@ -415,6 +415,18 @@ export default {
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
+            let clientId = this.$route.params.clientId; // 上个页面传值过来的id
+            window.localStorage.setItem('ycpd_clientId', clientId);
+
+            // ajaxs.getClientById() // 根据客户id 获取 客户信息
+            // .then(
+            //     res => {
+
+            //     }, error => {
+            //         alert(error);
+            //     }
+            // )
+
             let pageStore = this.pageStore;
 
             // 初始化客户信息
@@ -432,7 +444,7 @@ export default {
             this.policyBusinessExpireDate = pageStore.policy.businessExpireDate ? pageStore.policy.businessExpireDate : null; // 商业险过期时间
             this.policyForceExpireDate = pageStore.policy.forceExpireDate ? pageStore.policy.forceExpireDate : null; // 强险过期时间
             this.policyRegisterDate = pageStore.policy.registerDate ? pageStore.policy.registerDate : null; // 注册时间
-            this.policyASDate = null; // 年检多少天到期
+            this.policyASDate = pageStore.policy.annualInspectDate ? pageStore.policy.annualInspectDate : null; // 年检多少天到期
 
             // 渲染违章信息
             let violationUntreatedCount = 0; // 多少条未处理

@@ -213,6 +213,7 @@
 
 import Tabbar from "@/components/Tabbar";
 import ajaxs from "@/api/user/index";
+import getBase64ByImageName from "@/api/common/getBase64ByImageName";
 import { Toast } from 'mint-ui';
 
 export default {
@@ -263,7 +264,7 @@ export default {
             this.telephone = userInfoStore.telephone; // 用户手机
             this.imageName = userInfoStore.imageName; // 头像
 
-            ajaxs.getBase64ByImageName(`img/icon/${userInfoStore.imageName}`)
+            getBase64ByImageName(`img/icon/${userInfoStore.imageName}`)
             .then(
                 res => {
                     console.log(res)

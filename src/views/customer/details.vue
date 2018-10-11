@@ -406,7 +406,6 @@ export default {
     },
 
 	mounted: function mounted() {
-        this.initPageData(); // 初始化页面数据
         this.getFollowupRecord(); // 获取 - 跟进记录
     },
 
@@ -414,19 +413,26 @@ export default {
         /**
          * 初始化页面数据
          */
-	    initPageData: function initPageData() {
+	    getPageData: function getPageData() {
+            const _this = this;
             let clientId = this.$route.params.clientId; // 上个页面传值过来的id
             window.localStorage.setItem('ycpd_clientId', clientId);
 
             // ajaxs.getClientById() // 根据客户id 获取 客户信息
             // .then(
             //     res => {
-
+            //         _this.$store.commit('customer/initCustomerDetails', res);
+                    _this.initPageData(); // 初始化页面数据
             //     }, error => {
             //         alert(error);
             //     }
-            // )
-
+            // );
+        },
+        
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
             let pageStore = this.pageStore;
 
             // 初始化客户信息

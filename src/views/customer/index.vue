@@ -617,7 +617,7 @@ export default {
         jumpToCustomerDetails: function jumpToCustomerDetails(response) {
             this.$router.push({ path: `/customer/detail/${response.clientId}` });
             window.localStorage.setItem('ycpd_clientId', response.clientId);
-            // this.$store.commit('customer/initCustomerDetails', response);
+            this.$store.commit('customer/initCustomerDetails', response);
         },
     }
 }

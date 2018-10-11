@@ -22,6 +22,10 @@
                         <img src="" />
                     </div>
                 </div>
+
+                <div class="sharer-gift-row3">识别二维码关注</div>
+
+                <div class="sharer-gift-row4">关注“养车频道”微信公众号，立享加油钜惠</div>
             </div>
 
         </div>
@@ -142,12 +146,16 @@ export default {
 
     // 二维码
     .sharer-gift-QRcode {
+        margin: auto;
         height: 150px;
         width: 150px;
         border-radius: 5px;
         background: #fff;
+        text-align: center;
 
         .sharer-gift-QRcode {
+            height: 145px;
+            width: 145px;
             padding: 5px;
 
             img {
@@ -156,6 +164,17 @@ export default {
                 height: 100%;
             }
         }
+    }
+
+    .sharer-gift-row3 {
+        font-size: 12px;
+        padding-top: 15px;
+        color: #FFEA00;
+    }
+
+    .sharer-gift-row4 {
+        padding-top: 5px;
+        color: #FFEA00;
     }
 }
 

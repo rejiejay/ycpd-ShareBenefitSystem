@@ -31,6 +31,16 @@
         </div>
     </div>
 
+    <!-- 按钮部分 -->
+    <div class="activity-sharer-button flex-start-center">
+        <div class="sharer-button-left">
+            <div class="button-item button-left-content">返回活动</div>
+        </div>
+        <div class="sharer-button-rigth flex-rest">
+            <div class="button-item button-rigth-content">立即邀请，享加油分成</div>
+        </div>
+    </div>
+
     <!-- 底部svg -->
     <div class="activity-sharer-svg">
         <svg :width="clientWidth" height="65" viewBox="0 0 750 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient x1="14.5612522%" y1="135.070068%" x2="14.5612522%" y2="0%" id="linearGradient-1"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient><linearGradient x1="38.9953707%" y1="158.647828%" x2="38.9953707%" y2="0%" id="linearGradient-2"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient><linearGradient x1="56.5895744%" y1="136.515723%" x2="63.4977092%" y2="0%" id="linearGradient-3"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient><linearGradient x1="66.089026%" y1="154.283574%" x2="75.3648545%" y2="0%" id="linearGradient-4"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient></defs><g id="活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="分享预览B" transform="translate(0.000000, -1204.000000)"><g id="BG" transform="translate(0.000000, 128.000000)"><g id="底纹" transform="translate(0.000000, 1076.000000)"><polygon id="Path-4" fill="url(#linearGradient-1)" opacity="0.200000003" points="75.4935058 37.6471357 0 130 507.226136 130"></polygon><polygon id="Path-4-Copy" fill="url(#linearGradient-2)" opacity="0.200000003" points="198.314499 5.50615304 0 130 496.528698 130"></polygon><polygon id="Path-4-Copy-2" fill="url(#linearGradient-3)" opacity="0.200000003" points="335.887055 1 0 130.635761 531.560617 130.635761"></polygon><polygon id="Path-4-Copy-3" fill="url(#linearGradient-4)" opacity="0.200000003" points="630.927522 7.14023816 750 130.635761 263 130.635761"></polygon><polygon id="Path-5" fill="#000000" style="mix-blend-mode: soft-light;" opacity="0.252399555" points="490 44 480 66 513 61"></polygon><polygon id="Path-5-Copy-3" fill="#000000" style="mix-blend-mode: soft-light;" opacity="0.252399555" points="129 29.4985018 158.554206 18.2492509 148.795846 7"></polygon><polygon id="Path-5-Copy-4" fill="#000000" style="mix-blend-mode: soft-light;" opacity="0.252399555" points="366 20 372.375163 37.4857646 399.5 22"></polygon><polygon id="Path-5-Copy" fill="#000000" style="mix-blend-mode: soft-light;" opacity="0.252399555" points="50.5384894 84.7968508 8 92.0062393 16.691984 66"></polygon><polygon id="Path-5-Copy-2" fill="#000000" style="mix-blend-mode: soft-light;" opacity="0.252399555" points="708.116956 9 695 38.5917011 750 28.0103058"></polygon></g></g></g></g></svg>
@@ -90,10 +100,10 @@ export default {
     font-size: 14px;
     width: 100%;
     height: 100%;
-    background: -webkit-linear-gradient(#F1F1F1, #FFFFFF); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(#F1F1F1, #FFFFFF); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(#F1F1F1, #FFFFFF); /* Firefox 3.6 - 15 */
-    background: linear-gradient(#F1F1F1, #FFFFFF); /* 标准的语法 */
+    background: -webkit-linear-gradient(#FFFFFF, #F1F1F1); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#FFFFFF, #F1F1F1); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#FFFFFF, #F1F1F1); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#FFFFFF, #F1F1F1); /* 标准的语法 */
 }
 
 // 标题部分
@@ -177,6 +187,33 @@ export default {
         color: #FFEA00;
     }
 }
+
+// 按钮部分
+.activity-sharer-button {
+    padding: 15px 25px 0px 25px;
+
+    .button-item {
+        height: 45px;
+        line-height: 45px;
+        border-radius: 45px;
+        text-align: center;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+    .sharer-button-left {
+        padding-right: 20px;
+
+        .button-left-content {
+            padding: 0px 30px 0px 30px;
+        }
+    }
+
+    .button-rigth-content {
+        color: #E50012;
+    }
+}
+
 
 // 底部 icon
 .activity-sharer-svg {

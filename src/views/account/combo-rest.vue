@@ -58,7 +58,7 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            agentId: '40289f33664e6e9901664e6ecbdb0000',
+            agentInfoId: '40289f33664e6e9901664e6ecbdb0000',
 
             list: [
                 {
@@ -70,12 +70,31 @@ export default {
             ]
         } 
     },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            return this.$store.getters["userInfo/getAgentInfo"];
+        },
+    },
 
 	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据从 store 获取数据 用户信息
         this.getFunctionRecords(); // 获取 - 套餐余量列表
     },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            let userInfoStore = this.userInfoStore;
+
+            this.agentInfoId = userInfoStore.agentInfoId;
+        },
+
         /**
          * 套餐余量转换
          * @param {number} functionType 套餐类型
@@ -104,7 +123,7 @@ export default {
     	getFunctionRecords: function getFunctionRecords() {
             const _this = this;
 
-            ajaxs.findFunctionRecords(this.agentId)
+            ajaxs.findFunctionRecords(this.agentInfoId)
             .then(
                 res => {
                     _this.list = res.map(val => {

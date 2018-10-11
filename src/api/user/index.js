@@ -18,6 +18,9 @@ export default {
         $.ajax({
             url: `${config.url.originByYc}/ycpd/cas/findClientUsableMoney?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 if (res.code === 1000) {
@@ -51,6 +54,9 @@ export default {
         $.ajax({
             url: `${config.url.originByYc}/ycpd/cas/findClientTotalMoney?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 if (res.code === 1000) {

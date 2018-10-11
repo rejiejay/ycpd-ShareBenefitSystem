@@ -225,7 +225,7 @@
     
     <!-- 分享预览 -->
     <div class="activity-share-preview flex-start-center">
-        <div class="activity-preview"><span>分享预览</span></div>
+        <div class="activity-preview" @click="jumpToRouter('/activity/sharer')"><span>分享预览</span></div>
         <div class="activity-share-now flex-rest"><span>立即邀请，享加油分成</span></div>
     </div>
 </div>
@@ -260,10 +260,34 @@ export default {
             ],
         } 
     },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            return this.$store.getters["userInfo/getAgentInfo"];
+        },
+    },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据
+    },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            let userInfoStore = this.userInfoStore;
+        },
+
+        /**
+         * 跳转到路由
+         */
+        jumpToRouter: function jumpToRouter(url) {
+            this.$router.push({path: url});
+        },
     }
 }
 

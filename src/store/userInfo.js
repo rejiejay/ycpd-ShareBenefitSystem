@@ -55,7 +55,7 @@ const mutations = {
     /**
      * 初始化 用户信息 到state
      */
-    initCustomerDetails (states, param) {
+    initAgentInfo (states, param) {
         states.agentInfo = param;
     },
 }

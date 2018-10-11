@@ -39,36 +39,56 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            agentId: '40289f33664e6e9901664e6ecbdb0000', // 用户id
+            agentInfoId: '40289f33664e6e9901664e6ecbdb0000', // 用户id
             
             list: [
-                {
-                    describe: '提现', // 内容
-                    time: '2018-10-6 14:52:38', // 时间
-                    expend: '1000.00', // 花费
-                    isIncome: false, // 是否为收入(正值)
-                }, {
-                    describe: '购买短信2000条', // 内容
-                    time: '2018-10-6 14:52:38', // 时间
-                    expend: '2000.00', // 花费
-                    isIncome: true, // 是否为收入(正值)
-                }
+                // {
+                //     describe: '提现', // 内容
+                //     time: '2018-10-6 14:52:38', // 时间
+                //     expend: '1000.00', // 花费
+                //     isIncome: false, // 是否为收入(正值)
+                // }, {
+                //     describe: '购买短信2000条', // 内容
+                //     time: '2018-10-6 14:52:38', // 时间
+                //     expend: '2000.00', // 花费
+                //     isIncome: true, // 是否为收入(正值)
+                // }
             ]
         } 
     },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            return this.$store.getters["userInfo/getAgentInfo"];
+        },
+    },
 
 	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据从 store 获取数据 用户信息
+
         this.getClientBills();
     },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            let userInfoStore = this.userInfoStore;
+
+            this.agentInfoId = userInfoStore.agentInfoId;
+        },
+
         /**
          * 获取 - 消费记录
          */
 	    getClientBills: function getClientBills() {
             const _this = this;
 
-            ajaxs.findClientBills(this.agentId)
+            ajaxs.findClientBills(this.agentInfoId)
             .then(
                 res => {
                     if (res && res instanceof Array) {

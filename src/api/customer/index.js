@@ -86,6 +86,9 @@ export default {
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/client/list?token=${window.localStorage.getItem('ycpd_token')}&${paramString}`,
             type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 if (res.code === 1000) {
@@ -119,6 +122,9 @@ export default {
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/client/countClientNum?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 if (res.code === 1000) {
@@ -152,6 +158,9 @@ export default {
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/client/countInsurance?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 if (res.code === 1000) {
@@ -185,6 +194,9 @@ export default {
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/client/countViolation?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 if (res.code === 1000) {
@@ -218,6 +230,9 @@ export default {
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/client/countAnnualInspect?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 if (res.code === 1000) {
@@ -251,6 +266,9 @@ export default {
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/client/countFollowup?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${agentInfoId}`,
             type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 if (res.code === 1000) {

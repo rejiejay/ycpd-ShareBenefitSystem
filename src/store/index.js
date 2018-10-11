@@ -6,9 +6,11 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 import customer from './customer.js';
+import userInfo from './userInfo.js';
 
 export default new Vuex.Store({
     modules: {
         customer,
+        userInfo,
     }
 });

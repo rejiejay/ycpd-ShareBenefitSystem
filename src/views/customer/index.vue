@@ -237,7 +237,7 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            agentInfoId: 'abcdefg', // 用户的id 暂时写死
+            agentInfoId: '', // 用户的id 暂时写死
 
             /**
              * 导航栏
@@ -386,8 +386,19 @@ export default {
             ],
         } 
     },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            return this.$store.getters["userInfo/getAgentInfo"];
+        },
+    },
 
 	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据从 store 获取数据 用户信息
+        
         this.getCustomerList(); // 获取客户列表
         this.getBarCount(); // 获取顶部导航栏统计数据
 
@@ -399,6 +410,15 @@ export default {
     },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            let userInfoStore = this.userInfoStore;
+
+            this.agentInfoId = userInfoStore.agentInfoId;
+        },
+
         /**
          * 获取顶部导航栏统计数据
          */

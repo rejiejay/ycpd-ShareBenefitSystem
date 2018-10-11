@@ -198,13 +198,12 @@ export default {
             ajaxs.isLogin()
             .then(
                 res => {
-                    console.log(res)
                     _this.machineToken = res.data.token; // 这个 token 获取人机验证码 图片验证码会用到
 
                     if (res.code === 1000) { // 表示用户已经登录过
                         window.localStorage.setItem('ycpd_token', res.data.token); // 正确的是全局的 token
-                        // 初始化登录信息
-                        // 跳转到首页
+                        _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
+                        _this.$router.replace({ path: '/' }); // 跳转到首页
 
                     } else if (res.code === 1001) { // 未登录
                         console.error('用户未登录状态');
@@ -410,52 +409,49 @@ export default {
 		submitLogin: function submitLogin() {
             const _this = this;
 
-            if (this.isAgreement === false) {
-                Toast({
-                    message: '请先同意养车频道用户协议',
-                    duration: 1000
-                });
-            } else if(this.phoneNumber === ''){
-                Toast({
-                    message: '请输入手机号码',
-                    duration: 1000
-                });
-            } else if(this.SMSNumber === ''){
-                Toast({
-                    message: '请输入验证码',
-                    duration: 1000
-                });
-            } else {
-                ajaxs.goLogin(this.loginToken, this.phoneNumber, this.SMSNumber, this.isAgreement)
-                .then(
-                    res => {
-                        if (res.code === 1000) {
-                            Toast({
-                                message: '登入成功',
-                                duration: 1000
-                            });
-
-                            window.localStorage.setItem('ycpd_token', res.data.token); // 设置 全局的 token
-                            _this.$router.push({ path: '/' });
-                        } else if (res.code === 1001) {
-                            Toast({
-                                message: '非法请求',
-                                duration: 1000
-                            });
-                        } else if (res.code === 1004) {
-                            Toast({
-                                message: '验证码错误',
-                                duration: 1000
-                            });
-                        } else if (res.code === 1005) {
-                            Toast({
-                                message: '登录异常,请重新登入',
-                                duration: 1000
-                            });
-                        }
-                    }
-                )
+			// 校验手机号码
+			if (this.verifyPhoneNumber().result !== 1) {
+				return alert(this.verifyPhoneNumber().message);
             }
+            
+			// 校验手机号码
+            if (this.SMSNumber === '') {
+				return alert('请先同意养车频道用户协议');
+            } 
+            
+            // 是否同意协议
+            if (this.isAgreement === false) {
+				return alert('请先同意养车频道用户协议');
+            } 
+
+            ajaxs.goLogin(this.loginToken, this.phoneNumber, this.SMSNumber, this.isAgreement)
+            .then(
+                res => {
+                    if (res.code === 1000) {
+                        Toast({ message: '登录成功', duration: 1000 });
+
+                        window.localStorage.setItem('ycpd_token', res.data.token); // 设置 全局的 token
+                        _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo);
+                        _this.$router.replace({ path: '/' });
+
+                    } else if (res.code === 1001) {
+                        Toast({
+                            message: '非法请求',
+                            duration: 1000
+                        });
+                    } else if (res.code === 1004) {
+                        Toast({
+                            message: '验证码错误',
+                            duration: 1000
+                        });
+                    } else if (res.code === 1005) {
+                        Toast({
+                            message: '登录异常,请重新登入',
+                            duration: 1000
+                        });
+                    }
+                }
+            );
         },
 
 		/**

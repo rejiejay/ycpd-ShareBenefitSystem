@@ -28,6 +28,9 @@ export default {
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/followupRecord/add?token=${window.localStorage.getItem('ycpd_token')}`,
             type: 'POST',
+            xhrFields: {
+                withCredentials: true
+            },
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             data: JSON.stringify(param),
@@ -80,6 +83,9 @@ export default {
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/followupRecord/list?token=${window.localStorage.getItem('ycpd_token')}&clientId=${clientId}`,
             type: "GET",
+            xhrFields: {
+                withCredentials: true
+            },
             success(res) {
                 Indicator.close(); // 关闭加载框
                 if (res.code === 1000) {

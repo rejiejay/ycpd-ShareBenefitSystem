@@ -18,6 +18,9 @@ export default {
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/client/add?token=${window.localStorage.getItem('ycpd_token')}`,
             type: 'POST',
+            xhrFields: {
+                withCredentials: true
+            },
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             data: JSON.stringify({
@@ -59,6 +62,9 @@ export default {
         $.ajax({
             url: `${config.url.origin}/ycpd/cas/client/add?token=${window.localStorage.getItem('ycpd_token')}`,
             type: 'POST',
+            xhrFields: {
+                withCredentials: true
+            },
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             data: JSON.stringify({

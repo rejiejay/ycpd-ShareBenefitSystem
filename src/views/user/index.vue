@@ -359,8 +359,6 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
-@user-banner-background-z-index: 1;
-
 .user {
     position: relative;
     font-size: 14px;

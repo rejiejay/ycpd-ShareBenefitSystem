@@ -260,7 +260,7 @@
                             </div>
                             <div class="main-select-describe">短信</div>
                         </div>
-                        <div class="main-select-item flex-column-center">
+                        <div class="main-select-item flex-column-center" @click="isShareModalShow = true">
                             <div class="main-select-icon">
                                 <svg width="35" height="35" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="邀好友享分成-邀请方式" transform="translate(-567.000000, -1026.000000)" fill="#444444" fill-rule="nonzero"><g id="Alert" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(111.000000, 898.000000)"><path d="M466,10 L466,30 L486,30 L486,10 L466,10 Z M462,6 L490,6 L490,34 L462,34 L462,6 Z M466,42 L466,62 L486,62 L486,42 L466,42 Z M462,38 L490,38 L490,66 L462,66 L462,38 Z M498,10 L498,30 L518,30 L518,10 L498,10 Z M494,6 L522,6 L522,34 L494,34 L494,6 Z M471,15 L481,15 L481,25 L471,25 L471,15 Z M471,47 L481,47 L481,57 L471,57 L471,47 Z M518,46 L522,46 L522,58 L514,58 L514,54 L518,54 L518,50 L514,50 L514,42 L518,42 L518,38 L522,38 L522,42 L518,42 L518,46 Z M503,15 L513,15 L513,25 L503,25 L503,15 Z M502,46 L506,46 L506,50 L502,50 L502,46 Z M510,38 L514,38 L514,42 L510,42 L510,38 Z M502,58 L506,58 L506,62 L502,62 L502,58 Z M506,50 L510,50 L510,58 L506,58 L506,50 Z M506,62 L522,62 L522,66 L506,66 L506,62 Z M494,38 L506,38 L506,42 L510,42 L510,46 L506,46 L506,42 L498,42 L498,50 L494,50 L494,38 Z M494,54 L502,54 L502,58 L498,58 L498,66 L494,66 L494,54 Z" id="Qr"></path></g></g></g></g></svg>
                             </div>
@@ -272,6 +272,30 @@
                 <!-- 取消 -->
                 <div class="upmodal-main-cancel" @click="isInvitationModalShow = false" :style="`width: ${clientWidth - 30}px;`">
                     <div>取消</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 二维码分享 -->
+    <div class="activity-share-QRcode flex-center" v-if="isShareModalShow">
+        <div class="share-QRcode-shade" @click="isShareModalShow = false"></div>
+        <div class="share-QRcode-main" :style="`width: ${clientWidth - 30}px;`">
+            <div class="share-QRcode-content">
+                <div class="QRcode-main-title flex-start-center">
+                    
+                    <!-- 头像 -->
+                    <div class="user-banner-photo" v-if="imageName">
+                        <img :src="`data:image/png;base64,${imageName}`" />
+                    </div>
+                    <div class="name-remark-head" v-else>
+                        <div>{{agentName ? agentName.substring(0, 1) : '无'}}</div>
+                    </div>
+                    <div class="main-title-name">{{agentName}}</div>
+
+                </div>
+                <div class="QRcode-main-content flex-center">
+                    <img src="" />
                 </div>
             </div>
         </div>
@@ -291,11 +315,16 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
+            agentName: '', // 用户昵称
+            imageName: '', // base64位头像
+
             score: 2, // 加油站评分 0~5分
             address: '五和地铁站旁', // 地址
             distance: '1.55', // 地址
 
             isInvitationModalShow: false, // 是否显示 立即邀请，享加油分成
+
+            isShareModalShow: false, // 是否显示 二维码分享模态框
 
             awardList: [ // 我的奖励
                 {
@@ -334,6 +363,20 @@ export default {
          */
 	    initPageData: function initPageData() {
             let userInfoStore = this.userInfoStore;
+
+            this.agentName = userInfoStore.agentName; // 用户昵称
+
+            // 初始化头像
+            if (userInfoStore.imageName) {
+                getBase64ByImageName(`img/icon/${userInfoStore.imageName}`)
+                .then(
+                    res => {
+                        _this.imageName = res; // 头像
+                    }, error => {
+                        alert(error);
+                    }
+                );
+            }
         },
         
         /**
@@ -364,6 +407,11 @@ export default {
 @invitation-modal-z-index: 2;
 @invitation-shade-z-index: 3;
 @invitation-main-z-index: 4;
+
+// 二维码
+@QRcode-modal-z-index: 2;
+@QRcode-shade-z-index: 3;
+@QRcode-main-z-index: 4;
 
 .activity-detail {
     position: relative;
@@ -757,6 +805,86 @@ export default {
             text-align: center;
             color: #469AFF;
             background: #fff;
+        }
+    }
+}
+
+
+// 头像
+.activity-detail {
+    // 头像
+    .user-banner-photo {
+        padding-right: 5px;
+
+        img {
+            height: 35px;
+            width: 35px;
+            display: block;
+        }
+    }
+
+    // 头像
+    .name-remark-head {
+        padding-right: 5px;
+
+        div {
+            display: block;
+            height: 35px;
+            width: 35px;
+            line-height: 35px;
+            font-size: 20px;
+            border-radius: 90px;
+            border: 2px solid #469AFF;
+            color: #469AFF;
+            text-align: center;
+        }
+    }
+}
+
+// 二维码
+.activity-share-QRcode {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @QRcode-modal-z-index;
+
+    // 遮罩
+    .share-QRcode-shade {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.46);
+        z-index: @QRcode-shade-z-index;
+    }
+
+    // 主要区域
+    .share-QRcode-main {
+        position: absolute;
+        border-radius: 5px;
+        z-index: @QRcode-main-z-index;
+        background: #fff;
+
+        .share-QRcode-content {
+            padding: 15px;
+        }
+
+        .QRcode-main-title {
+            padding-bottom: 25px;
+        }
+
+        .QRcode-main-content {
+            text-align: center;
+            padding-bottom: 25px;
+
+            img {
+                display: block;
+                height: 200px;
+                width: 200px;
+            }
         }
     }
 }

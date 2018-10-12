@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div class="award-account-item flex-center">
+            <div class="award-account-item flex-center"  @click="isAwardTipShow = true">
                 <div>
                     <div class="account-item-top">￥{{uncome}}</div>
                     <div class="account-item-bottom">
@@ -75,6 +75,19 @@
     <div class="user-award-tip flex-center" v-if="awardList.length === 0">
         暂无奖励数据
     </div>
+
+    <!-- 待入账模态框 -->
+    <div class="award-tip-modal flex-center" v-if="isAwardTipShow">
+        <div class="award-tip-shade" @click="isAwardTipShow = false"></div>
+        <div class="award-tip-main" :style="`width: ${clientWidth - 100}px;`">
+            <div class="tip-main-content">
+                <div class="tip-main-row1 tip-main-des"><span>已入账: </span>已发放至您余额账户的金额，可用于消费或提现。</div>
+                <div class="tip-main-row2 tip-main-des"><span>待入账: </span>已获得奖励，但未发放至余额账户。</div>
+                <div class="tip-main-row3">每月1日将您上月的所有奖励汇总发放至您的余额账户。</div>
+            </div>
+            <div class="tip-main-cancel" @click="isAwardTipShow = false">我知道了</div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -91,6 +104,8 @@ export default {
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
             amountsCostMoney: 0, // 累计金额
+
+            isAwardTipShow: false, // 待入账模态框
 
             total: 0, // 总金额
             income: 0, // 已入账
@@ -169,6 +184,11 @@ export default {
 @black2: #606266;
 @black3: #909399;
 @black4: #C0C4CC;
+
+// 待入账
+@award-tip-modal-z-index: 2;
+@award-tip-shade-z-index: 3;
+@award-tip-main-z-index: 4;
 
 .user-award {
     position: relative;
@@ -280,6 +300,63 @@ export default {
 .user-award-tip {
     font-size: 18px;
     color: @black3;
+}
+
+// 待入账
+.award-tip-modal {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @award-tip-modal-z-index;
+
+    // 遮罩
+    .award-tip-shade {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.46);
+        z-index: @award-tip-shade-z-index;
+    }
+
+    // 主要区域
+    .award-tip-main {
+        position: absolute;
+        border-radius: 5px;
+        z-index: @award-tip-main-z-index;
+        background: #fff;
+
+        .tip-main-content {
+            padding: 15px;
+        }
+    }
+
+    .tip-main-des {
+        padding-top: 5px;
+        color: @black1;
+
+        span {
+            padding-right: 5px;
+            font-weight: bold;
+        }
+    }
+
+    .tip-main-row3 {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        color: @black2;
+    }
+
+    // 我知道了
+    .tip-main-cancel {
+        border-top: 1px solid #ddd;
+        line-height: 45px;
+        color: #469AFF;
+        text-align: center;
+    }
 }
 
 </style>

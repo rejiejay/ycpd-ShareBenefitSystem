@@ -97,7 +97,7 @@
                     <h1>严格遵守交通法规的老司机</h1>
                     <h2>您没有交通违法信息</h2>
                 </div>
-                <div class="deny-content-btn">返回</div>
+                <div class="deny-content-btn" @click="routerBack">返回</div>
             </div>
         </div>
     </div>
@@ -164,6 +164,13 @@ export default {
                     }
                 });
             }
+        },
+
+        /**
+         * 跳转到路由
+         */
+        routerBack: function routerBack() {
+            this.$router.back(-1);
         },
     }
 }

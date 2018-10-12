@@ -85,7 +85,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByYc}/ycpd/cas/funcMsgUsedNum?token=${window.localStorage.getItem('ycpd_token')}`,
+            url: `${config.url.originByYc}/ycpd/cas/funcMsgUsedNum?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`,
             type: "GET",
             xhrFields: {
                 withCredentials: true

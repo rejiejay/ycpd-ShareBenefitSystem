@@ -535,9 +535,10 @@ export default {
             // 校验发动机号
 			if (this.engineNo ===  '') {
                 return alert('发动机号不能为空');
-            } else if (this.engineNo.length < 6 || this.engineNo.length > 7 ) { // 6~7位
-                return alert('请输入正确的发动机号');
-            }
+            } 
+            // else if (this.engineNo.length < 6 || this.engineNo.length > 7 ) { // 6~7位
+            //     return alert('请输入正确的发动机号');
+            // }
 
             // 校验用户名
             let verifyCustomerName = this.verifyCustomerName();

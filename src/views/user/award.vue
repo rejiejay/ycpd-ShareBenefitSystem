@@ -108,8 +108,8 @@ export default {
     },
 
 	mounted: function mounted() {
-        // this.getMyRewards();
-        // this.getRewardHeads(); // 获取 - 已入账、未入账
+        this.getMyRewards();
+        this.getRewardHeads(); // 获取 - 已入账、未入账
     },
 
 	methods: {

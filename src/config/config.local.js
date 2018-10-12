@@ -2,7 +2,7 @@
 module.exports = {
 
     url: {
-        origin: 'http://cas.api2.hotgz.com', // 请求源
+        origin: 'http://scas.api2.hotgz.com', // 请求源
         originByYc: 'http://scas.api2.hotgz.com', // 有才的测试服务请求源
         originByXy: 'http://scas.api2.hotgz.com', // 孝义的请求源
         

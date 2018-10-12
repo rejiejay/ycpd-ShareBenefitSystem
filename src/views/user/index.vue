@@ -11,7 +11,7 @@
         <div class="user-banner-content flex-start-center" @click="jumpToRouter('/user/info')">
             <!-- 头像 -->
             <div class="user-banner-photo" v-if="imageName">
-                <img src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/logo/001logo.png" />
+                <img :src="`data:image/png;base64,${imageName}`" />
             </div>
             <div class="name-remark-head" v-else>
                 <div>{{agentName ? agentName.substring(0, 1) : '无'}}</div>
@@ -72,9 +72,7 @@
                 <div class="user-combo-left">
                     套餐余量
                 </div>
-                <div class="user-combo-center flex-rest">
-                    下次免费用量重置时间：{{new Date().getMonth() === 11 ? 1 : (new Date().getMonth() + 2)}}月1号月1日
-                </div>
+                <div class="user-combo-center flex-rest">下次免费用量重置时间：{{new Date().getMonth() === 11 ? 1 : (new Date().getMonth() + 2)}}月1日</div>
                 <div class="user-combo-right flex-start-center" @click="jumpToRouter('/account/combo/rest')">
                     <span>购买</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
@@ -203,6 +201,8 @@
             </div>
         </div>
     </div>
+    <!-- 底部 Tabbar -->
+    <div style="height: 75px;"></div>
 
     <!-- 底部 Tabbar -->
     <Tabbar selectTabbar='user'/>
@@ -258,18 +258,22 @@ export default {
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
+            const _this = this;
             let userInfoStore = this.userInfoStore;
 
             this.agentName = userInfoStore.agentName; // 用户昵称
             this.telephone = userInfoStore.telephone; // 用户手机
-            this.imageName = userInfoStore.imageName; // 头像
 
-            getBase64ByImageName(`img/icon/${userInfoStore.imageName}`)
-            .then(
-                res => {
-                    console.log(res)
-                }
-            )
+            if (userInfoStore.imageName) {
+                getBase64ByImageName(`img/icon/${userInfoStore.imageName}`)
+                .then(
+                    res => {
+                        _this.imageName = res; // 头像
+                    }, error => {
+                        alert(error);
+                    }
+                );
+            }
         },
 
         /**

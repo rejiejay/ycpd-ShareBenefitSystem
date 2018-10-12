@@ -104,7 +104,7 @@ export default {
          */
         carRegisterFormat: function () {
             if (this.registerDate) {
-                return TimeConver.dateToFormat(this.registerDate)
+                return TimeConver.dateToFormat(this.registerDate);
             } else {
                 return '请选择注册日期';
             }

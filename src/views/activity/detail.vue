@@ -228,6 +228,10 @@
         <div class="activity-preview" @click="jumpToRouter('/activity/sharer')"><span>分享预览</span></div>
         <div class="activity-share-now flex-rest"><span>立即邀请，享加油分成</span></div>
     </div>
+    
+    <!-- 立即邀请，享加油分成 -->
+    <div class="activity-invitation-modal">
+    </div>
 </div>
 </template>
 
@@ -298,6 +302,11 @@ export default {
 @black2: #606266;
 @black3: #909399;
 @black4: #C0C4CC;
+
+// 立即邀请，享加油分成
+@invitation-modal-z-index: 2;
+@invitation-shade-z-index: 3;
+@invitation-main-z-index: 4;
 
 .activity-detail {
     position: relative;
@@ -618,6 +627,31 @@ export default {
             background: -moz-linear-gradient(135deg,rgba(255,95,50,1) 0%,rgba(229,0,18,1) 100%); /* Firefox 3.6 - 15 */
             background: linear-gradient(135deg,rgba(255,95,50,1) 0%,rgba(229,0,18,1) 100%); /* 标准的语法 */
         }
+    }
+}
+
+// 立即邀请，享加油分成
+.activity-invitation-modal {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @invitation-modal-z-index;
+
+    .up-modal-shade {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.46);
+        z-index: @invitation-shade-z-index;
+    }
+
+    .up-modal-main {
+        position: relative;
+        z-index: @invitation-main-z-index;
     }
 }
 

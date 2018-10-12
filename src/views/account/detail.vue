@@ -1,6 +1,7 @@
 <!-- 账户明细 -->
 <template>
 <div class="account-detail">
+
     <div class="account-detail-list">
         <div class="detail-list-content">
 
@@ -24,6 +25,9 @@
             
         </div>
     </div>
+
+    <!-- 暂无信息 -->
+    <div class="account-detail-tip" v-if="list.length === 0">暂无账户明细</div>
 </div>
 </template>
 
@@ -179,6 +183,14 @@ export default {
         height: 1px;
         background: #ddd;
     }
+}
+
+// 账户明细
+.account-detail-tip {
+    padding: 35px;
+    font-size: 18px;
+    color: @black2;
+    text-align: center;
 }
 
 </style>

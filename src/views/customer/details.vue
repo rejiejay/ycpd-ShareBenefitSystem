@@ -24,7 +24,7 @@
                 <div class="name-remark-main flex-rest">
                     <div class="remark-main-name" v-if="username">{{username}}</div>
                     <div class="remark-main-phone" v-if="telphone">电话: {{telphone}}</div>
-                    <div class="remark-main-birthday">生日: undefined</div>
+                    <div class="remark-main-birthday" v-if="birthday">生日: {{birthday}}</div>
                 </div>
                 <div class="name-remark-icon">
                     <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
@@ -233,9 +233,7 @@
 
             <div class="modal-main-time">
                 <div class="main-time-content flex-start-center" @click="$refs.picker.open()">
-                    <div class="main-time-describe flex-rest">
-                        {{nextFollowUpTimeFormat}}
-                    </div>
+                    <div class="main-time-describe flex-rest">{{nextFollowUpTimeFormat}}</div>
                     <div class="main-time-icon">
                         <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                             <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
@@ -310,7 +308,7 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            clientId: '40289f1e664d369b01664d38cc290003', // 用户id
+            clientId: '', // 用户id
             
             /**
              * 顶部导航栏选择
@@ -325,6 +323,7 @@ export default {
             username: '',
             telphone: '',
             remark: '',
+            birthday: '',
 
             /**
              * 保险部分
@@ -393,10 +392,8 @@ export default {
             } else {
                 return TimeConver.dateToFormat(this.nextFollowUpTime);
             }
-        }
-    },
-    
-    computed: {
+        },
+
         /**
          * 从 store 获取数据
          */
@@ -406,6 +403,7 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.getPageData();
         this.getFollowupRecord(); // 获取 - 跟进记录
     },
 
@@ -416,17 +414,18 @@ export default {
 	    getPageData: function getPageData() {
             const _this = this;
             let clientId = this.$route.params.clientId; // 上个页面传值过来的id
+            this.clientId = clientId;
             window.localStorage.setItem('ycpd_clientId', clientId);
 
-            // ajaxs.getClientById() // 根据客户id 获取 客户信息
-            // .then(
-            //     res => {
-            //         _this.$store.commit('customer/initCustomerDetails', res);
+            ajaxs.getClientById() // 根据客户id 获取 客户信息
+            .then(
+                res => {
+                    _this.$store.commit('customer/initCustomerDetails', res);
                     _this.initPageData(); // 初始化页面数据
-            //     }, error => {
-            //         alert(error);
-            //     }
-            // );
+                }, error => {
+                    alert(error);
+                }
+            );
         },
         
         /**
@@ -437,6 +436,7 @@ export default {
 
             // 初始化客户信息
             this.username = pageStore.username;
+            this.birthday = pageStore.birthday;
             this.telphone = pageStore.telphone;
             this.remark = pageStore.remark;
 
@@ -447,10 +447,12 @@ export default {
             }
             this.carNoType = `${pageStore.carNo ? pageStore.carNo : '暂无车牌号'} ${carType}`;
 
-            this.policyBusinessExpireDate = pageStore.policy.businessExpireDate ? pageStore.policy.businessExpireDate : null; // 商业险过期时间
-            this.policyForceExpireDate = pageStore.policy.forceExpireDate ? pageStore.policy.forceExpireDate : null; // 强险过期时间
-            this.policyRegisterDate = pageStore.policy.registerDate ? pageStore.policy.registerDate : null; // 注册时间
-            this.policyASDate = pageStore.policy.annualInspectDate ? pageStore.policy.annualInspectDate : null; // 年检多少天到期
+            if (pageStore && pageStore.policy) {
+                this.policyBusinessExpireDate = pageStore.policy.businessExpireDate ? pageStore.policy.businessExpireDate : null; // 商业险过期时间
+                this.policyForceExpireDate = pageStore.policy.forceExpireDate ? pageStore.policy.forceExpireDate : null; // 强险过期时间
+                this.policyRegisterDate = pageStore.policy.registerDate ? pageStore.policy.registerDate : null; // 注册时间
+                this.policyASDate = pageStore.policy.annualInspectDate ? pageStore.policy.annualInspectDate : null; // 年检多少天到期
+            }
 
             // 渲染违章信息
             let violationUntreatedCount = 0; // 多少条未处理
@@ -530,7 +532,7 @@ export default {
 
             let result = parseInt(this.followUpList[this.followUpIndex].value);
 
-            ajaxs.addFollowupRecord(this.clientId, result, this.followUpDescribe, this.nextFollowUpTime)
+            ajaxs.addFollowupRecord(result, this.followUpDescribe, this.nextFollowUpTime)
             .then(
                 val => {
                     console.log(val);
@@ -943,7 +945,6 @@ export default {
     }
 
     .up-modal-main {
-        
         color: @black2;
         position: relative;
         border-radius: 10px;

@@ -184,6 +184,8 @@ export default {
 
         this.wx_code = loadPageVar('code') ?  loadPageVar('code') : '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
 
+        console.log('微信头像', this.wx_code);
+
         this.isLogin(); // 判断是否登录
     },
 
@@ -447,15 +449,30 @@ export default {
                             message: '非法请求',
                             duration: 1000
                         });
+                    } else if (res.code === 1003) {
+                        Toast({
+                            message: '手机验证码不能为空',
+                            duration: 1000
+                        });
                     } else if (res.code === 1004) {
                         Toast({
-                            message: '验证码错误',
+                            message: 'openid不能为空',
                             duration: 1000
                         });
                     } else if (res.code === 1005) {
                         Toast({
+                            message: '验证码错误',
+                            duration: 1000
+                        });
+                    } else if (res.code === 1006) {
+                        Toast({
                             message: '登录异常,请重新登入',
                             duration: 1000
+                        });
+                    } else if (res.code === 1007) {
+                        Toast({
+                            message: '此手机不是养车频道用户，请先注册',
+                            duration: 2000
                         });
                     }
                 }

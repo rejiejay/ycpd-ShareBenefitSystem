@@ -11,7 +11,7 @@
                 <div class="info-item-main flex-start-center">
                     <!-- 头像 -->
                     <div class="item-main-photo" v-if="imageName">
-                        <img src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/logo/001logo.png" />
+                        <img :src="`data:image/png;base64,${imageName}`" />
                     </div>
                     <div class="name-remark-head" v-else>
                         <div>{{agentName ? agentName.substring(0, 1) : '无'}}</div>
@@ -68,6 +68,7 @@
 <script>
 
 import ajaxs from "@/api/user/info";
+import getBase64ByImageName from "@/api/common/getBase64ByImageName";
 
 export default {
     name: 'user-info',
@@ -101,11 +102,22 @@ export default {
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
+            const _this = this;
             let userInfoStore = this.userInfoStore;
 
             this.agentName = userInfoStore.agentName; // 用户昵称
-            this.imageName = userInfoStore.imageName; // 头像
             this.telephone = userInfoStore.telephone; // 手机号
+            
+            if (userInfoStore.imageName) {
+                getBase64ByImageName(`img/icon/${userInfoStore.imageName}`)
+                .then(
+                    res => {
+                        _this.imageName = res; // 头像
+                    }, error => {
+                        alert(error);
+                    }
+                );
+            }
         },
 
         /**

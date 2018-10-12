@@ -303,7 +303,9 @@
 
 <script>
 
+import { Toast } from 'mint-ui';
 import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
+
 import Consequencer from "@/utils/Consequencer";
 import ajaxs from "@/api/customer/add";
 
@@ -367,6 +369,22 @@ export default {
         }
     },
 
+    watch: {
+        /**
+         * 监听是否新能源
+         */
+        isNewEnergy: function isNewEnergy(newNewEnergy, oldNewEnergy) {
+            /**
+             * 新能源车牌 切换到 普通车牌的时候
+             * 如果车牌号为 6位 则切换到 5位数
+             */
+            if (newNewEnergy === false && this.plateNo.length === 7) {
+            console.log(this.plateNo.length)
+                this.plateNo = this.plateNo.slice(0, 6); // 裁剪掉多余
+            }
+        },
+    },
+
 	mounted: function mounted() {
         this.initClipboard(); // 初始化剪切板
     },
@@ -380,7 +398,10 @@ export default {
 
             var clipboard = new ClipboardJS('.clipboard-content-right');
             clipboard.on('success', function(e) {
-                alert('复制成功!');
+                Toast({
+                    message: '复制成功!',
+                    duration: 1000
+                });
                 _this.isBatchImportModalShow = false;
                 e.clearSelection();
             });
@@ -399,14 +420,14 @@ export default {
             // 判断是否新能源
             if (this.isNewEnergy) {
                 // 新能源
-                if (this.plateNo.length === 6) {
+                if (this.plateNo.length === 7) {
                     return Consequencer.success();
                 } else {
                     return Consequencer.error('车牌号码格式有误!');
                 }
             } else {
                 // 普通汽车 (非新能源)
-                if (this.plateNo.length === 5) {
+                if (this.plateNo.length === 6) {
                     return Consequencer.success();
                 } else {
                     return Consequencer.error('车牌号码格式有误!');
@@ -471,12 +492,12 @@ export default {
             // 判断是否新能源
             if (this.isNewEnergy) {
                 // 大于6个的时候禁止改变(新能源)
-                if (this.plateNo.length < 6) {
+                if (this.plateNo.length <= 6) {
                     this.plateNo += item;
                 }
             } else {
                 // 大于5个的时候禁止改变(非新能源)
-                if (this.plateNo.length < 5) {
+                if (this.plateNo.length <= 5) {
                     this.plateNo += item;
                 }
             }

@@ -134,7 +134,7 @@
                 <div class="followRecord-list-main" :class="{'followRecord-list-isFirst': key === 0}">
                     <div class="list-main-title flex-start">
                         <div class="main-title-time flex-rest">{{record.createdDate}}</div>
-                        <div class="main-title-name">跟进人: xxx</div>
+                        <div class="main-title-name">跟进人: {{agentName}}</div>
                     </div>
 
                     <div class="list-main-item flex-start">
@@ -318,6 +318,11 @@ export default {
             navigationSelected: 'customerInfor',
 
             /**
+             * 登录用户名称
+             */
+            agentName: '',
+
+            /**
              * 用户信息部分
              */
             username: '',
@@ -328,16 +333,16 @@ export default {
             /**
              * 保险部分
              */
-            policyBusinessExpireDate: '正在加载...', // 商业险过期时间
-            policyForceExpireDate: '正在加载...', // 强险过期时间
-            policyRegisterDate: '正在加载...', // 注册时间
-            policyASDate: '正在加载...', // 年检多少天到期
+            policyBusinessExpireDate: '', // 商业险过期时间
+            policyForceExpireDate: '', // 强险过期时间
+            policyRegisterDate: '', // 注册时间
+            policyASDate: '', // 年检多少天到期
 
             /**
              * 违章信息部分
              */
-            violationUntreatedCount: '正在加载...', // 多少条未处理
-            violationCreatedDate: '正在加载...', // 多少天前查询出来
+            violationUntreatedCount: '', // 多少条未处理
+            violationCreatedDate: '', // 多少天前查询出来
 
             /**
              * 跟进记录
@@ -395,10 +400,19 @@ export default {
         },
 
         /**
-         * 从 store 获取数据
+         * 从 store 获取数据 customer 数据
          */
-        pageStore: function pageStore() {
+        pageCustomerStore: function pageCustomerStore() {
             return this.$store.getters["customer/getCustomerDetails"];
+        },
+
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            let ycpd_userInfo = window.localStorage.getItem('ycpd_userInfo');
+
+            return ycpd_userInfo ? JSON.parse(ycpd_userInfo) : this.$store.getters["userInfo/getAgentInfo"]; // 因为数据刷新页面会失效, 所以优先使用 window.localStorage
         },
     },
 
@@ -432,33 +446,48 @@ export default {
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
-            let pageStore = this.pageStore;
+            let pageCustomerStore = this.pageCustomerStore;
+            let userInfoStore = this.userInfoStore;
+
+            // 初始化用户信息
+            this.agentName = pageCustomerStore.agentName;
 
             // 初始化客户信息
-            this.username = pageStore.username;
-            this.birthday = pageStore.birthday;
-            this.telphone = pageStore.telphone;
-            this.remark = pageStore.remark;
+            this.username = pageCustomerStore.username;
+            this.birthday = pageCustomerStore.birthday;
+            this.telphone = pageCustomerStore.telphone;
+            this.remark = pageCustomerStore.remark;
 
             // 车牌加车型名称
             let carType = '';
-            if (pageStore.brand || pageStore.models || pageStore.series) {
-                carType = `(${pageStore.brand ? pageStore.brand : ''}${pageStore.series ? pageStore.series : ''}${pageStore.models ? pageStore.models : ''})`
+            if (pageCustomerStore.brand || pageCustomerStore.models || pageCustomerStore.series) {
+                carType = `(${pageCustomerStore.brand ? pageCustomerStore.brand : ''}${pageCustomerStore.series ? pageCustomerStore.series : ''}${pageCustomerStore.models ? pageCustomerStore.models : ''})`
             }
-            this.carNoType = `${pageStore.carNo ? pageStore.carNo : '暂无车牌号'} ${carType}`;
+            this.carNoType = `${pageCustomerStore.carNo ? pageCustomerStore.carNo : '暂无车牌号'} ${carType}`;
 
-            if (pageStore && pageStore.policy) {
-                this.policyBusinessExpireDate = pageStore.policy.businessExpireDate ? pageStore.policy.businessExpireDate : null; // 商业险过期时间
-                this.policyForceExpireDate = pageStore.policy.forceExpireDate ? pageStore.policy.forceExpireDate : null; // 强险过期时间
-                this.policyRegisterDate = pageStore.policy.registerDate ? pageStore.policy.registerDate : null; // 注册时间
-                this.policyASDate = pageStore.policy.annualInspectDate ? pageStore.policy.annualInspectDate : null; // 年检多少天到期
+            if (pageCustomerStore && pageCustomerStore.policy) {
+                this.policyBusinessExpireDate = pageCustomerStore.policy.businessExpireDate ? pageCustomerStore.policy.businessExpireDate : null; // 商业险过期时间
+                this.policyForceExpireDate = pageCustomerStore.policy.forceExpireDate ? pageCustomerStore.policy.forceExpireDate : null; // 强险过期时间
+                this.policyRegisterDate = pageCustomerStore.policy.registerDate ? pageCustomerStore.policy.registerDate : null; // 注册时间
+                
+                /**
+                 * 初始化年检多少天后到期
+                 */
+                if (pageCustomerStore.policy.annualInspectDate) {
+                    let annualInspectTimestamp = TimeConver.YYYYmmDDToTimestamp(pageCustomerStore.policy.annualInspectDate);
+                    let annualInspectdifferTimestamp = annualInspectTimestamp - new Date().getTime();
+                    // 时间相差必须大于一天
+                    if (annualInspectdifferTimestamp > 86400000) {
+                        this.policyASDate = Math.floor(annualInspectdifferTimestamp / (1000 * 60 * 60 * 24));
+                    }
+                }
             }
 
             // 渲染违章信息
             let violationUntreatedCount = 0; // 多少条未处理
             let violationCreatedDate = 0; // 多少天前查询出来
-            if (pageStore.violations && pageStore.violations.length > 0) {
-                pageStore.violations.map(val => {
+            if (pageCustomerStore.violations && pageCustomerStore.violations.length > 0) {
+                pageCustomerStore.violations.map(val => {
                     // 判断是否处理
                     if (val.handled && val.handled === '0') {
                         violationUntreatedCount++;
@@ -466,7 +495,7 @@ export default {
                 });
 
                 // 初始化多少天前查询出来
-                let createdTimestamp = TimeConver.YYYYmmDDhhMMssToTimestamp(pageStore.violations[0].createdDate);
+                let createdTimestamp = TimeConver.YYYYmmDDhhMMssToTimestamp(pageCustomerStore.violations[0].createdDate);
                 let differTimestamp = new Date().getTime() - createdTimestamp;
                 // 时间相差必须大于一天
                 if (differTimestamp > 86400000) {
@@ -525,6 +554,7 @@ export default {
          * 添加 - 跟进记录
          */
 	    addFollowupRecord: function addFollowupRecord() {
+            const _this = this;
             // 判断是否选择跟进结果
             if (this.followUpIndex === null) {
                 return alert('请选择跟进结果');
@@ -532,10 +562,10 @@ export default {
 
             let result = parseInt(this.followUpList[this.followUpIndex].value);
 
-            ajaxs.addFollowupRecord(result, this.followUpDescribe, this.nextFollowUpTime)
+            ajaxs.addFollowupRecord(result, this.followUpDescribe, TimeConver.dateToYYYYmmDDhhMMss(this.nextFollowUpTime))
             .then(
                 val => {
-                    console.log(val);
+                    _this.isFollowModalShow = false;
                 }, error => {
                     alert(error);
                 }

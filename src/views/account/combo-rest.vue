@@ -76,7 +76,9 @@ export default {
          * 从 store 获取数据 用户信息
          */
         userInfoStore: function userInfoStore() {
-            return this.$store.getters["userInfo/getAgentInfo"];
+            let ycpd_userInfo = window.localStorage.getItem('ycpd_userInfo');
+
+            return ycpd_userInfo ? JSON.parse(ycpd_userInfo) : this.$store.getters["userInfo/getAgentInfo"]; // 因为数据刷新页面会失效, 所以优先使用 window.localStorage
         },
     },
 

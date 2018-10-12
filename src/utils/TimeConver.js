@@ -113,4 +113,16 @@ export default {
         let hhMMssArray = YDArray[1].split(':');
         return new Date(YYYYmmDDarray[0], (YYYYmmDDarray[1] - 1), YYYYmmDDarray[2], hhMMssArray[0], hhMMssArray[1], hhMMssArray[2]).getTime();
     },
+
+    /**
+     * xxxx-xx-xx字符串 转换 为时间戳
+     * @param {string} YYYYmmDD xxxx-xx-xx xx:xx:xx 字符串
+     * @return {number} 为时间戳 1539051630549
+     */
+    YYYYmmDDToTimestamp: YYYYmmDD => {
+        let YDArray = YYYYmmDD.split(' ');
+        let YYYYmmDDarray = YDArray[0].split('-');
+        
+        return new Date(YYYYmmDDarray[0], (YYYYmmDDarray[1] - 1), YYYYmmDDarray[2]).getTime();
+    },
 }

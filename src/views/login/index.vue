@@ -211,6 +211,7 @@ export default {
                     if (res.code === 1000) { // 表示用户已经登录过
                         window.localStorage.setItem('ycpd_token', res.data.token); // 存储 全局 token
                         window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
+                        window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
                         _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
                         _this.$router.replace({ path: '/' }); // 跳转到首页
 
@@ -441,6 +442,7 @@ export default {
 
                         window.localStorage.setItem('ycpd_token', res.data.token); // 设置 全局的 token
                         window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
+                        window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
                         _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo);
                         _this.$router.replace({ path: '/' });
 

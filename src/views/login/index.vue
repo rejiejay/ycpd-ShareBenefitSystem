@@ -184,7 +184,7 @@ export default {
 
         this.wx_code = loadPageVar('code') ?  loadPageVar('code') : '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
 
-        console.log('微信头像', this.wx_code);
+        console.log('微信code', this.wx_code);
 
         this.isLogin(); // 判断是否登录
     },

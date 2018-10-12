@@ -166,18 +166,16 @@
 
             <div class="bottom-button-item">
                 <div class="button-item-content">
-                    <a href="tel:4008001234" class="call">
-                        <div class="button-item-main flex-center">
-                            <div class="flex-start-center">
-                                <div class="item-content-icon">
-                                    <svg width="14" height="14" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情" transform="translate(-64.000000, -1330.000000)" fill="#FFFFFF"><g id="menu" transform="translate(30.000000, 1306.000000)"><g id="icon" transform="translate(34.000000, 24.000000)">
-                                        <path d="M13.3754966,17.8621295 C15.7952375,21.1465045 18.6871242,24.4202036 20.2806178,23.4020875 C22.4428334,21.835429 23.9182912,20.4271478 27.5183951,24.4705011 C31.043385,28.4084162 27.4486362,30.0967468 25.3025167,31.5737608 C22.8344792,33.272327 15.2533273,29.9260981 8.86864563,20.963859 C2.48396396,12.00162 1.87770054,3.85509534 4.345738,2.15652916 C6.49185754,0.679515097 9.24425739,-2.07899024 11.8786074,2.62901934 C14.5290535,7.24738452 12.6780261,8.12847515 10.4246006,9.67933992 C8.81501095,10.7871005 10.9718518,14.4881101 13.3754966,17.8621295 Z" id="icon_call"></path></g></g></g></g>
-                                    </svg>
-                                </div>
-                                <div class="item-content-describe">联系客户</div>
+                    <div class="button-item-main flex-center" @click="contactCustomer">
+                        <div class="flex-start-center">
+                            <div class="item-content-icon">
+                                <svg width="14" height="14" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情" transform="translate(-64.000000, -1330.000000)" fill="#FFFFFF"><g id="menu" transform="translate(30.000000, 1306.000000)"><g id="icon" transform="translate(34.000000, 24.000000)">
+                                    <path d="M13.3754966,17.8621295 C15.7952375,21.1465045 18.6871242,24.4202036 20.2806178,23.4020875 C22.4428334,21.835429 23.9182912,20.4271478 27.5183951,24.4705011 C31.043385,28.4084162 27.4486362,30.0967468 25.3025167,31.5737608 C22.8344792,33.272327 15.2533273,29.9260981 8.86864563,20.963859 C2.48396396,12.00162 1.87770054,3.85509534 4.345738,2.15652916 C6.49185754,0.679515097 9.24425739,-2.07899024 11.8786074,2.62901934 C14.5290535,7.24738452 12.6780261,8.12847515 10.4246006,9.67933992 C8.81501095,10.7871005 10.9718518,14.4881101 13.3754966,17.8621295 Z" id="icon_call"></path></g></g></g></g>
+                                </svg>
                             </div>
+                            <div class="item-content-describe">联系客户</div>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
 
@@ -570,6 +568,13 @@ export default {
                     alert(error);
                 }
             )
+        },
+
+        /**
+         * 联系客户
+         */
+        contactCustomer: function contactCustomer() {
+            window.location.href = `tel:${this.telphone}`;
         },
 
         /**

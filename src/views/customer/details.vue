@@ -149,7 +149,7 @@
 
                     <div class="list-main-item flex-start">
                         <div class="main-title-lable">下次跟进时间:</div>
-                        <div class="main-title-describe">{{record.lastUpdatedDate}}</div>
+                        <div class="main-title-describe">{{record.nextTime}}</div>
                     </div>
 
                     <svg width="10" height="10" t="1538122765988" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2944" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -350,7 +350,7 @@ export default {
                 //     createdDate: "2018-10-08 03:50:16",
                 //     result: '忙碌中待联系',
                 //     content: '给客户报价，分析车险购买方式',
-                //     lastUpdatedDate: "2018-10-08 03:50:16",
+                //     nextTime: "2018-10-08 03:50:16",
                 // }
             ],
 
@@ -448,7 +448,7 @@ export default {
             let userInfoStore = this.userInfoStore;
 
             // 初始化用户信息
-            this.agentName = pageCustomerStore.agentName;
+            this.agentName = userInfoStore.agentName;
 
             // 初始化客户信息
             this.username = pageCustomerStore.username;
@@ -505,7 +505,7 @@ export default {
         },
 
         /**
-         * 添加跟进记录
+         * 获取 - 跟进记录
          */
 	    getFollowupRecord: function getFollowupRecord() {
             const _this = this;
@@ -539,7 +539,7 @@ export default {
                             createdDate: val.createdDate,
                             result: resultTransverter(val.result),
                             content: val.content,
-                            lastUpdatedDate: val.lastUpdatedDate,
+                            nextTime: val.nextTime,
                         }
                     });
                 }, error => {
@@ -564,6 +564,7 @@ export default {
             .then(
                 val => {
                     _this.isFollowModalShow = false;
+                    _this.getFollowupRecord();
                 }, error => {
                     alert(error);
                 }

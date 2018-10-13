@@ -236,7 +236,7 @@ export default {
 
 // 养车频道用户服务协议
 .agreement-main {
-    padding: 15px;
+    padding: 15px 15px 75px 15px;
     font-size: 14px;
     color: @black2;
 

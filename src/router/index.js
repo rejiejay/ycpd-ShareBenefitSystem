@@ -23,11 +23,6 @@ const routes = [
         name: 'login',
         component: () => import('@/views/login/index'),
         meta: { title: '养车频道福利共享' },
-    }, {
-        path: '/agreement',
-        name: 'agreement',
-        component: () => import('@/views/login/agreement'),
-        meta: { title: '养车频道福利共享' },
     },
 
     /**

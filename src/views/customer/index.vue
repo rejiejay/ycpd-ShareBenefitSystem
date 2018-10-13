@@ -83,6 +83,7 @@
         <div class="bar-page-item"
             v-for="(item, key) in renewalCustomers" 
             :key="key"
+            @click="jumpToCustomerDetails(item.response)"
         >
             <div class="page-item-content flex-start-center">
                 <div class="item-main flex-rest">
@@ -117,6 +118,7 @@
         <div class="bar-page-item"
             v-for="(item, key) in violationCustomers" 
             :key="key"
+            @click="jumpToCustomerDetails(item.response)"
         >
             <div class="page-item-content flex-start-center">
                 <div class="item-main flex-rest">
@@ -151,6 +153,7 @@
         <div class="bar-page-item"
             v-for="(item, key) in ASCustomers" 
             :key="key"
+            @click="jumpToCustomerDetails(item.response)"
         >
             <div class="page-item-content flex-start-center">
                 <div class="item-main flex-rest">
@@ -185,6 +188,7 @@
         <div class="bar-page-item"
             v-for="(item, key) in toFollowCustomers" 
             :key="key"
+            @click="jumpToCustomerDetails(item.response)"
         >
             <div class="page-item-content flex-start-center">
                 <div class="item-main flex-rest">
@@ -396,6 +400,26 @@ export default {
         },
     },
 
+    watch: {
+        /**
+         * 导航栏切换的时候重新请求一下列表
+         */
+        navBarSelected: function navBarSelected(newNavBarSelected, oldNavBarSelected) {
+            /**
+             * 清空一下列表相关的数据
+             */
+            this.pageNo = 1;
+            this.isLoding = false;
+
+            /**
+             * 清空一下 搜索框
+             */
+            this.searchInput = '';
+
+            this.getCustomerList(); // 获取客户列表
+        }
+    },
+
 	mounted: function mounted() {
         this.initPageData(); // 初始化页面数据从 store 获取数据 用户信息
         
@@ -483,6 +507,18 @@ export default {
                 'ASC': 'ASCustomers', // 年检将到期
                 'tofollow': 'toFollowCustomers', // 待跟进客户
             }
+            /**
+             * 导航栏选中类型 转换为 列表查询参数 searchType
+             */
+            let NBarSeleTosearchTy = {
+                total: 'ALL', // 客户总量
+                renewal: 'RENEWAL_INSURANCE', // 可续保客户
+                violation: 'UNTREATED_VIOLATION', // 违章未处理
+                ASC: 'ANNUAL_INSPECT', // 年检将到期
+                tofollow: 'TO_FOLLOWUP', // 年检将到期
+            }
+
+
             let mySelected = selectedKeyVal[this.navBarSelected];
 
             /**
@@ -506,7 +542,7 @@ export default {
                 }
             }
 
-            ajaxs.getCustomerList(this.pageNo, this.pageSize, this.searchInput)
+            ajaxs.getCustomerList(this.pageNo, this.pageSize, NBarSeleTosearchTy[this.navBarSelected], this.searchInput)
             .then(
                 res => {
                     _this.isLoding = false; // 设置 当前列表 为 加载完成

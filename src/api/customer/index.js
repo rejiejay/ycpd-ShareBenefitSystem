@@ -6,9 +6,10 @@ export default {
      * 获取 - 客户列表
      * @param {string} pageNo 当前页码
      * @param {string} pageSize 当前页面有多少条数据
+     * @param {string} searchType 所有：ALL  续保：RENEWAL_INSURANCE  违章未处理：UNTREATED_VIOLATION  年检将到期：ANNUAL_INSPECT 待跟进:TO_FOLLOWUP
      * @param {string} search 查询条件 非必填
      */
-    getCustomerList: (pageNo, pageSize, search) => new Promise((resolve, reject) => {
+    getCustomerList: (pageNo, pageSize, searchType, search) => new Promise((resolve, reject) => {
         // 返回测试数据
         // resolve({ 
         //     "code": 1000,
@@ -78,7 +79,7 @@ export default {
         // });
 
         // 请求参数
-        let paramString = `pageNo=${pageNo}&pageSize=${pageSize}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`
+        let paramString = `pageNo=${pageNo}&pageSize=${pageSize}&searchType=${searchType}`
         search ? paramString += `&search=${search}` : null; // 非必填项
 
 		Indicator.open('正在加载数据...'); // 弹出加载框

@@ -1,7 +1,7 @@
 <!-- 登录页 -->
 <template>
 <div class="login">
-    <div class="login-content" v-if="isAgreementShow === false">
+    <div class="login-content" :style="`display: ${isAgreementShow === false ? 'block' : 'none'};`">
 
         <!-- 登录 -->
         <div class="login-input">
@@ -98,12 +98,15 @@
     </div>
 
     <!-- 用户协议 -->
-    <agreement v-if="isAgreementShow" />
-    
-    <div class="agreement-botton" v-if="isAgreementShow">
-        <div class="agreement-botton-content flex-start-center">
-            <div class="agreement-botton-back" @click="isAgreementShow = false" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>返回</div></div>
-            <div class="agreement-botton-approved" @click="isAgreementShow = false; isAgreement = true;" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>同意</div></div>
+    <div  :style="`display: ${isAgreementShow ? 'block' : 'none'};`">
+
+        <agreement />
+        
+        <div class="agreement-botton">
+            <div class="agreement-botton-content flex-start-center">
+                <div class="agreement-botton-back" @click="isAgreementShow = false" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>返回</div></div>
+                <div class="agreement-botton-approved" @click="isAgreementShow = false; isAgreement = true;" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>同意</div></div>
+            </div>
         </div>
     </div>
 </div>

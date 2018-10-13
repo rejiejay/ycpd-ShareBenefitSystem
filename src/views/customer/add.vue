@@ -180,9 +180,9 @@
         <div class="photograph-modal-operation">
             <div class="modal-operation-content">
                 <div class="operation-content-take">
-                    <div class="content-take-item">拍照</div>
+                    <div class="content-take-item" @click="chooseImageBy(['camera'])">拍照</div>
                     <div class="content-take-line"></div>
-                    <div class="content-take-item">相册</div>
+                    <div class="content-take-item" @click="chooseImageBy(['album'])">相册</div>
                 </div>
                 <div class="operation-content-cancel">
                     <div class="content-cancel-main" @click="isPhotographShow = false">取消</div>
@@ -306,6 +306,7 @@
 import { Toast } from 'mint-ui';
 import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
 
+import initJSSDK from "@/components/initJSSDK";
 import Consequencer from "@/utils/Consequencer";
 import ajaxs from "@/api/customer/add";
 
@@ -345,7 +346,7 @@ export default {
             /**
              * 拍照
              */
-            photographStatus: 'carNo', // 拍照状态 车牌号:carNo 车架号:vinNo
+            photographStatus: 'carNo', // 选择图片状态 车牌号:carNo 车架号:vinNo
             isPhotographShow: false, // 是否显示 拍照模态框
             carNoPhotoSelected: '', // 车牌号 选择中的照片
             vinNoPhotoSelected: '', // 车架号 选择中的照片
@@ -387,6 +388,7 @@ export default {
 
 	mounted: function mounted() {
         this.initClipboard(); // 初始化剪切板
+        this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口
     },
 
 	methods: {
@@ -404,6 +406,39 @@ export default {
                 });
                 _this.isBatchImportModalShow = false;
                 e.clearSelection();
+            });
+        },
+
+        /**
+         * 初始化拍照或从手机相册中选图接口
+         */
+        wxJSSDKchooseImage: function wxJSSDKchooseImage() {
+            initJSSDK(['chooseImage']).then(
+                res => {
+                    console.log('成功初始化拍照或从手机相册中选图接口');
+                }, error => {
+                    console.error('初始化拍照或从手机相册中选图失败');
+                    console.error(error);
+                }
+            );
+        },
+
+        /**
+         * 选择图片 通过 拍照 手机相册
+         * @param {array} sourceType 指定来源是相册还是相机，默认二者都有
+         */
+        chooseImageBy: function chooseImageBy(sourceType) {
+            const _this = this;
+            let photographStatus = this.photographStatus; // 选择图片 车牌号:carNo 车架号:vinNo
+
+            wx.chooseImage({
+                count: 1, // 默认 选择一种图片
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: sourceType, // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    console.log(res);
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                }
             });
         },
 

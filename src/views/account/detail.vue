@@ -107,7 +107,7 @@ export default {
                             return {
                                 describe: val.contentName, // 内容
                                 time: val.date, // 时间
-                                expend: val.money ? val.money.toFixed(2) : 0, // 花费
+                                expend: val.money, // 花费
                                 isIncome: val.content === 4, // 是否为收入(正值)
                             }
                         });

@@ -1,7 +1,7 @@
 /**
  * 初始化微信JS-SDK
  */
-import config from './../config/config.js'; // 请求地址
+import config from "@/config/index";
 
 /**
  * 获取权限验证配置信息
@@ -9,10 +9,18 @@ import config from './../config/config.js'; // 请求地址
 let getWxConfig = function getWxConfig() {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: `${config.url.getWxConfig}?action=WxConfig&url=${window.navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) ? encodeURIComponent(window.location.href.split('#')[0]) : encodeURIComponent(window.location.href)}`,
+            url: `${config.url.origin}/ycpd/cas/wxShare?token=${window.localStorage.getItem('ycpd_token')}&url=${window.navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) ? encodeURIComponent(window.location.href.split('#')[0]) : encodeURIComponent(window.location.href)}`,
             type: "get",
-            success(wxConfig) {
-                resolve(wxConfig)
+            xhrFields: {
+                withCredentials: true
+            },
+            success(res) {
+                if (res.code === 1000) {
+                    resolve(res.data);
+                } else {
+                    console.error(res);
+                    reject(`获取权限验证配置信息失败! 原因: ${res.msg}`);
+                }
             },
             error(error) {
                 reject(`向服务器获取权限验证配置信息发生错误!, 原因: ${error}`);

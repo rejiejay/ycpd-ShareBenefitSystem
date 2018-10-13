@@ -165,9 +165,9 @@ export default {
             .then(
                 res => {
                     if (res && res.income && res.uncome) {
-                        _this.total = res.total; // 总金额
-                        _this.income = res.income; // 已入账
-                        _this.uncome = res.uncome; // 未入账
+                        _this.total = res.total === '-' ? '0.00' : res.total; // 总金额
+                        _this.income = res.income === '-' ? '0.00' : res.total; // 已入账
+                        _this.uncome = res.uncome === '-' ? '0.00' : res.uncome; // 未入账
                     }
                 }, error => {
                     alert(error);

@@ -108,6 +108,19 @@
             <div class="register-submit-content">注册</div>
         </div>
     </div>
+
+    <!-- 用户协议 -->
+    <div  :style="`display: ${isAgreementShow ? 'block' : 'none'};`">
+
+        <agreement />
+        
+        <div class="agreement-botton">
+            <div class="agreement-botton-content flex-start-center">
+                <div class="agreement-botton-back" @click="isAgreementShow = false" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>返回</div></div>
+                <div class="agreement-botton-approved" @click="isAgreementShow = false; isAgreement = true;" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>同意</div></div>
+            </div>
+        </div>
+    </div>
    
 </div>
 </template>
@@ -615,5 +628,44 @@ export default {
         background-color: #E50012;
     }
 }
+
+// 用户协议按钮
+.agreement-botton {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+
+    .agreement-botton-content {
+        padding: 10px 15px;
+        text-align: center;
+        line-height: 45px;
+        font-size: 16px;
+        background: #fff;
+        border-top: 1px solid #ddd;
+    }
+
+    .agreement-botton-back {
+        padding-right: 7.5px;
+
+        div {
+            border-radius: 4px;
+            background: #fff;
+            color: @black1;
+            border: 1px solid #ddd;
+        }
+    }
+
+    .agreement-botton-approved {
+        padding-left: 7.5px;
+
+        div {
+            border-radius: 4px;
+            background: #E50012;
+            color: #fff;
+        }
+    }
+}
+
  
 </style>

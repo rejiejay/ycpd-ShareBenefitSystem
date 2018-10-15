@@ -25,9 +25,25 @@ const routes = [
         meta: { title: '养车频道福利共享' },
     }, {
         path: '/register',
-        name: 'register',
-        component: () => import('@/views/login/register'),
-        meta: { title: '养车频道推广员注册' },
+        component: () => import('@/views/login/register/index'),
+        children: [
+            {
+                path: 'index',
+                name: 'register-input',
+                component: () => import('@/views/login/register/register-input'),
+                meta: { title: '养车频道推广员注册' },
+            }, 
+            
+            // {
+            //     path: 'agreement',
+            //     name: 'register-agreement',
+            //     component: import('@/views/login/register/register-agreement'),
+            // }, {
+            //     path: 'company',
+            //     name: 'register-company',
+            //     component: import('@/views/login/register/register-company'),
+            // },
+        ],
     },
 
     /**

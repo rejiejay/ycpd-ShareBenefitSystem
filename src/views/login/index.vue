@@ -201,6 +201,7 @@ export default {
 			// 校验手机号码
 			if (this.verifyPhoneNumber().result !== 1) {
                 this.SMSNumber = '';
+                this.verifySMSHandle()
                 return Toast({ message: this.verifyPhoneNumber().message, duration: 1000 });
             }
             

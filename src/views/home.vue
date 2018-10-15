@@ -21,7 +21,7 @@
             <!-- 内容区域 -->
             <div class="customer-main flex-rest">
                 <div class="customer-main-title">新增客户</div>
-                <div class="customer-main-label">车险/违章/年审提醒、报价出单</div>
+                <div class="customer-main-label">车险/违章/年审提醒、<!-- 这一期暂时不显示 报价出单 --></div>
             </div>
 
             <!-- 拍车照 -->
@@ -38,7 +38,7 @@
 
     <!-- 两行的列表 -->
     <div class="home-invite-tow flex-start-center">
-        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`">
+        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="upgrading">
             <div class="tow-item-content flex-start-center">
                 <!-- 服务礼品商城 icon按钮 -->
                 <div class="tow-item-icon">
@@ -55,7 +55,7 @@
 
         <div class="invite-tow-gap"></div>
         
-        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`">
+        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="upgrading">
             <div class="tow-item-content flex-start-center">
                 <!-- 服务礼品商城 icon按钮 -->
                 <div class="tow-item-icon">
@@ -73,7 +73,7 @@
 
     <!-- 服务礼品商城 -->
     <div class="home-invite">
-        <div class="home-invite-content flex-start-center">
+        <div class="home-invite-content flex-start-center" @click="upgrading">
 
             <!-- 服务礼品商城 icon按钮 -->
             <div class="home-invite-icon">
@@ -91,7 +91,7 @@
 
     <!-- 车辆知识实战课堂 -->
     <div class="home-invite">
-        <div class="home-invite-content flex-start-center">
+        <div class="home-invite-content flex-start-center" @click="upgrading">
 
             <!-- 车辆知识实战课堂 icon按钮 -->
             <div class="home-invite-icon">
@@ -158,6 +158,7 @@
 <script>
 
 import Tabbar from "@/components/Tabbar";
+import { Toast } from 'mint-ui';
 
 export default {
     name: 'home',
@@ -186,6 +187,13 @@ export default {
 	mounted: function mounted() { },
 
 	methods: {
+        /**
+         * 升级中
+         */
+        upgrading: function upgrading() {
+            Toast({ message: "升级中", duration: 1000 });
+        },
+
         /**
          * 跳转到路由
          */

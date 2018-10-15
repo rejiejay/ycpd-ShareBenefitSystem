@@ -250,6 +250,7 @@ export default {
              * @param {String} tofollow 跟进客户
              */
             navBarSelected: 'total', // 导航栏选中类型
+            isBarSwitch: false, // 是否 导航栏 正在切换 （防止因为 搜索框 监听到改变而 再调用一次 获取客户列表）
             navBarList: [ // 导航栏列表
                 {
                     count: '正在加载', // 统计
@@ -405,6 +406,8 @@ export default {
          * 导航栏切换的时候重新请求一下列表
          */
         navBarSelected: function navBarSelected(newNavBarSelected, oldNavBarSelected) {
+            this.isBarSwitch = true; // 设置导航栏 正在切换
+
             /**
              * 清空一下列表相关的数据
              */
@@ -417,7 +420,20 @@ export default {
             this.searchInput = '';
 
             this.getCustomerList(); // 获取客户列表
-        }
+        },
+
+        /**
+         * 搜索框每次改变，都要获取一次数据
+         */
+        searchInput: function searchInput(newSearchInput, oldSearchInput) {
+
+            // 判断 导航栏 是否正在切换 切换的情况下
+            if (this.isBarSwitch) {
+                return this.isBarSwitch = false;
+            }
+            
+            this.getCustomerList(); // 获取客户列表
+        },
     },
 
 	mounted: function mounted() {

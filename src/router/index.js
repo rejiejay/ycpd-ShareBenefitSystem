@@ -23,6 +23,11 @@ const routes = [
         name: 'login',
         component: () => import('@/views/login/index'),
         meta: { title: '养车频道福利共享' },
+    }, {
+        path: '/register',
+        name: 'register',
+        component: () => import('@/views/login/register'),
+        meta: { title: '养车频道推广员注册' },
     },
 
     /**

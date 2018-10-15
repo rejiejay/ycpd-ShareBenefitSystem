@@ -1,21 +1,40 @@
-<!-- 登录页 -->
+<!-- 注册页 -->
 <template>
-<div class="login">
-    <div class="login-content" :style="`display: ${isAgreementShow === false ? 'block' : 'none'};`">
+<div class="register">
+    <div class="register-content" :style="`display: ${isAgreementShow === false ? 'block' : 'none'};`">
 
-        <!-- 登录 -->
-        <div class="login-input">
-            <div class="login-content">
+        <!-- banner -->
+        <div class="register-banner">
+            <img alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image003.jpg?x-oss-process=image/resize,m_fill,w_${clientWidth * 2},h_320,limit_0/auto-orient,0/quality,q_100`" />
+        </div>
 
-                <div class="login-input-item flex-start-center">
+        <div class="register-company">
+            <div class="register-company-content flex-start-center">
+                <div class="register-company-lable">所在公司:</div>
+                <div class="register-company-select flex-rest">
+                    {{company ? company : "请选择公司"}}
+                </div>
+                <div class="register-company-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手机号码验证码 -->
+        <div class="register-input">
+            <div class="register-content">
+
+                <div class="register-input-item flex-start-center">
                     <div class="input-item-lable">手机号码:</div>
                     <div class="input-item-main flex-rest">
                         <input v-model="phoneNumber" placeholder="请填写手机号码" />
                     </div>
                 </div>
-                <div class="login-input-line"></div>
+                <div class="register-input-line"></div>
                 
-                <div class="login-input-item flex-start-center">
+                <div class="register-input-item flex-start-center">
                     <div class="input-item-lable">短信验证:</div>
                     <div class="input-item-main flex-start-center flex-rest">
                         <input v-model="SMSNumber" placeholder="输入4位手机验证码"  @click="verifySMSHandle" />
@@ -26,6 +45,20 @@
                             @click="verifySMSHandle"
                         >{{isSMSGeting ? (reGetCount + '秒后获取') : '获取验证码'}}</div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 协议 -->
+        <div class="register-agreement">
+            <div class="register-agreement-content flex-start-center" @click="isAgreement = !isAgreement">
+                <div class="register-agreement-main flex-rest" @click="isAgreementShow = true">《养车频道推广员注册协议》</div>
+                <div class="register-agreement-label flex-start-center" :class="[isAgreement ? 'agreement-radio-selected' : '']">
+                    <svg width="16" height="16" t="1535773287663" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2604" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <path d="M511.452 957.752c-246.502 0-447.037-200.535-447.037-447.027 0-246.497 200.535-447.037 447.037-447.037S958.49 264.228 958.49 510.725c0 246.492-200.535 447.027-447.038 447.027z m0-842.788c-218.224 0-395.766 177.542-395.766 395.766s177.542 395.75 395.766 395.75 395.766-177.525 395.766-395.75-177.541-395.766-395.766-395.766z" p-id="2605"></path>
+                        <path v-if="isAgreement" d="M438.477 684.841a25.605 25.605 0 0 1-18.125-7.516l-148.46-148.47a25.626 25.626 0 0 1 0-36.25 25.626 25.626 0 0 1 36.25 0l130.335 130.33 272.44-272.42a25.626 25.626 0 0 1 36.25 0 25.626 25.626 0 0 1 0 36.25L456.602 677.32a25.641 25.641 0 0 1-18.125 7.521z" p-id="2606"></path>
+                    </svg>
+                    <span>我已阅读并同意</span>
                 </div>
             </div>
         </div>
@@ -70,59 +103,25 @@
             </div>
         </div>
 
-        <!-- 协议 -->
-        <div class="login-agreement">
-            <div class="login-agreement-content flex-start-center" @click="isAgreement = !isAgreement">
-                <div class="agreement-radio-content" 
-                    :class="[isAgreement ? 'agreement-radio-selected' : 'login-agreement-radio']"
-                >
-                    <svg width="16" height="16" t="1535773287663" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2604" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <path d="M511.452 957.752c-246.502 0-447.037-200.535-447.037-447.027 0-246.497 200.535-447.037 447.037-447.037S958.49 264.228 958.49 510.725c0 246.492-200.535 447.027-447.038 447.027z m0-842.788c-218.224 0-395.766 177.542-395.766 395.766s177.542 395.75 395.766 395.75 395.766-177.525 395.766-395.75-177.541-395.766-395.766-395.766z" p-id="2605"></path>
-                        <path v-if="isAgreement" d="M438.477 684.841a25.605 25.605 0 0 1-18.125-7.516l-148.46-148.47a25.626 25.626 0 0 1 0-36.25 25.626 25.626 0 0 1 36.25 0l130.335 130.33 272.44-272.42a25.626 25.626 0 0 1 36.25 0 25.626 25.626 0 0 1 0 36.25L456.602 677.32a25.641 25.641 0 0 1-18.125 7.521z" p-id="2606"></path>
-                    </svg>
-                </div>
-
-                <div class="login-agreement-text">
-                    我已阅读并同意<span @click="isAgreementShow = true">《养车频道用户服务协议》</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 提交 -->
-        <div class="login-submit" @click="submitLogin">
-            <div class="login-submit-content">登录</div>
-        </div>
+        <!-- 登录 -->
         <div class="register-submit" @click="submitRegister">
             <div class="register-submit-content">注册</div>
         </div>
     </div>
-
-    <!-- 用户协议 -->
-    <div  :style="`display: ${isAgreementShow ? 'block' : 'none'};`">
-
-        <agreement />
-        
-        <div class="agreement-botton">
-            <div class="agreement-botton-content flex-start-center">
-                <div class="agreement-botton-back" @click="isAgreementShow = false" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>返回</div></div>
-                <div class="agreement-botton-approved" @click="isAgreementShow = false; isAgreement = true;" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>同意</div></div>
-            </div>
-        </div>
-    </div>
+   
 </div>
 </template>
 
 <script>
-
+ 
 import { MessageBox, Toast } from 'mint-ui';
 
 import agreement from "@/components/agreement";
-import loadPageVar from "@/utils/loadPageVar";
 import Consequencer from "@/utils/Consequencer";
 import ajaxs from "@/api/login/index";
 
 export default {
-    name: 'login',
+    name: 'register',
 
     components: { agreement },
 
@@ -131,8 +130,9 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            wx_code: '081ykH7t0bhN2d1417at00RJ7t0ykH7X', // 获取微信网页信息的 code
-            
+            // 公司
+            company: '',
+
 			// 手机号码
             phoneNumber: '',
 
@@ -149,14 +149,6 @@ export default {
             machineNumber: '', // 人机验证码
             isMachineModalShow: false, // 是否显示人机验证码模态框
             machineNumberErrorMsg: '', // 人机验证码错误信息
-            
-            /**
-             * token
-             */
-            machineToken: '', // 获取人机验证码使用的 token
-            checkoutToken: '', // 获取 验证图片滑动距离 使用的 token
-            SMSToken: '', // 获取 短信验证码 使用的 token
-            loginToken: '', // 账号登录 使用的 token
 
             /**
              * 滑动拼图状态
@@ -175,9 +167,9 @@ export default {
              * 协议
              */
             isAgreement: false, // 是否同意协议
-            isAgreementShow: false, // 是否显示协议            
+            isAgreementShow: false, // 是否显示协议   
         }
-    },
+    }, 
 
     computed: {
         // 滑块 ClassName 计算属性
@@ -193,78 +185,9 @@ export default {
         }
     },
 
-    watch: {
-        /**
-         * 未发送请求短信验证的时候，不允许输入短信验证码
-         */
-        SMSNumber: function SMSNumber(newSMSNumber, oldSMSNumber) {
-			// 校验手机号码
-			if (this.verifyPhoneNumber().result !== 1) {
-                this.SMSNumber = '';
-                return Toast({ message: this.verifyPhoneNumber().message, duration: 1000 });
-            }
-            
-			// 校验短信验证码
-            if (this.loginToken === '') {
-                this.SMSNumber = '';
-                return Toast({ message: '请获取手机短信验证码', duration: 1000 });
-            }
-        }
-    },
-
-    mounted: function () {
-
-        this.wx_code = loadPageVar('code') ?  loadPageVar('code') : '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
-
-        console.log('微信code', this.wx_code);
-
-        this.isLogin(); // 判断是否登录
-    },
+    mounted: function () { },
 
     methods: {
-        /**
-		 * 判断是否已经登录
-		 */
-        isLogin: function isLogin() {
-            const _this = this;
-            /**
-             * 获取人机验证码
-             */
-            const getMachinePicture = () => {
-                _this.getMachinePicture(); // 获取人机验证码图片
-                _this.initSliderDrag(); // 初始化滑块拖动
-            }
-
-            ajaxs.isLogin()
-            .then(
-                res => {
-                    _this.machineToken = res.data.token; // 这个 token 获取人机验证码 图片验证码会用到
-
-                    if (res.code === 1000) { // 表示用户已经登录过
-                        window.localStorage.setItem('ycpd_token', res.data.token); // 存储 全局 token
-                        window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
-                        window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
-                        _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
-                        _this.$router.replace({ path: '/' }); // 跳转到首页
-
-                    } else if (res.code === 1001) { // 未登录
-                        console.error('用户未登录状态');
-                        getMachinePicture(); // 获取人机验证码
-
-                    } else if (res.code === 1002) { // 异常
-                        console.error('请求登录状态异常');
-                        getMachinePicture(); // 获取人机验证码
-
-                    } else {
-                        console.error('请求登录状态异常');
-                        getMachinePicture(); // 获取人机验证码
-                    }
-                }, error => {
-                    alert('向服务器请求登录状态出错');
-                }
-            )
-        },
-
 		/**
 		 * 获取人机验证码图片
 		 */
@@ -305,7 +228,7 @@ export default {
 		},
 
 		/**
-		 * 获取验证码
+		 * 获取手机验证码 （实际上是打开 人机验证码模态框）
 		 */
 		verifySMSHandle: function verifySMSHandle() {
           
@@ -320,203 +243,13 @@ export default {
 				this.isMachineModalShow = true; // 弹出模态框
 			}
         },
-        
-		/**
-		 * 初始化滑块拖动
-		 */
-        initSliderDrag: function initSliderDrag() {
-            const _this = this;
-            /**
-             * 滑块 DOM
-             */
-            let dragHandle = this.$refs['slider-drag-handle'];
-            let originX = 0; // 原始坐标 X轴
-
-            /**
-             * 获取手机验证码
-             */
-            let getVerificationCode = () => {
-                ajaxs.getVerificationCode(_this.phoneNumber, _this.SMSToken)
-                .then(
-                    res1 => {
-                        if (res1.code === 1000) { // 获取
-                            _this.isMachineModalShow = false; // 关闭人机验证 模态框
-                            _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
-                            _this.jigsawMovepx = 0;
-                            _this.loginToken = res1.data.token;
-                            
-                            _this.isSMSGeting = true; // 表示正在获取
-                            // 定时器倒计时 60 秒
-                            for(var i = 0; i < 60; i++ ) {
-                                (function (i) { // 匿名函数自执行创建闭包
-                                    setTimeout(function() {
-                                        _this.reGetCount--;
-                                        if (i === 59) {
-                                            _this.reGetCount = 60;
-                                            _this.isSMSGeting = false;
-                                        }
-                                    }, i * 1000);
-                                })(i);
-                            }
-
-                        } else {
-
-                            alert('发送短信过于频繁');
-                            _this.isMachineModalShow = false;
-                            _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
-                            _this.jigsawMovepx = 0;
-                            _this.getMachinePicture();
-                        }
-                    }
-                );
-            }
-
-            /**
-             * 校验滑动图片距离是否正确
-             */
-            let checkoutDistance = () => {
-                ajaxs.checkoutDistance(_this.checkoutToken, Math.floor(_this.jigsawMovepx))
-                .then(
-                    res => {
-                        
-                        if (res.code === 1000) { // 校验成功
-                            _this.jigsawStatus = 'succeed'; // 将 滑动拼图状态 设置为 成功状态
-                            _this.SMSToken = res.data.token;
-                            getVerificationCode(); // 获取手机验证码
-                        
-                        } else { // 校验失败
-                            _this.jigsawStatus = 'failure'; // 将 滑动拼图状态 设置为 失败
-                            setTimeout(function () {
-                                _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
-                                _this.jigsawMovepx = 0;
-                                _this.getMachinePicture(); // 重新获取验证码图片
-                            }, 2000);
-                        }
-                    }, error => {
-                        alert('向服务器请求验证图片失败');
-                    }
-                );
-            }
-
-            /**
-             * 注册 触摸移动事件
-             */
-            let handleMouseMove = function handleMouseMove(event) {
-                // 位移量
-                var mouseOffset = event.changedTouches[0].clientX - originX;
-
-                /**
-                 * 判断是否在移动的范围内
-                 */
-                if (
-                    mouseOffset > 0 &&  // 不能负数 范围内
-                    mouseOffset < (_this.clientWidth - 60 - 60) // 不能超过 范围内
-                ) {
-                    _this.jigsawMovepx = mouseOffset;
-                }
-            }
-
-            /**
-             * 注册 触摸移动结束事件
-             */
-            let handleMouseEnd = function handleMouseEnd(event) {
-
-                checkoutDistance(); // 校验滑动图片距离是否正确
-
-                window.removeEventListener('touchmove', handleMouseMove);
-                window.removeEventListener('touchend', handleMouseEnd);
-            }
-
-            // 添加触摸事件
-            dragHandle.addEventListener('touchstart', function (event) {
-                _this.jigsawStatus = 'activate'; // 将 滑动拼图状态 设置为 激活状态
-
-                originX = event.changedTouches[0].clientX; // 设置 X轴 原始坐标
-  
-                window.addEventListener('touchmove', handleMouseMove);
-                window.addEventListener('touchend', handleMouseEnd);
-            });
-        },
-
-		/**
-		 * 登录
-		 */
-		submitLogin: function submitLogin() {
-            const _this = this;
-
-			// 校验手机号码
-			if (this.verifyPhoneNumber().result !== 1) {
-				return alert(this.verifyPhoneNumber().message);
-            }
-            
-			// 校验手机短信验证码
-            if (this.SMSNumber === '') {
-				return alert('手机短信验证码不能为空');
-            } 
-                
-			// 校验手机短信验证码
-            if (this.loginToken === '') {
-				return alert('手机短信验证码不能为空');
-            } 
-            
-            // 是否同意协议
-            if (this.isAgreement === false) {
-				return alert('请先同意养车频道用户协议');
-            } 
-
-            ajaxs.goLogin(this.loginToken, this.phoneNumber, this.SMSNumber, this.isAgreement, this.wx_code)
-            .then(
-                res => {
-                    if (res.code === 1000) {
-                        Toast({ message: '登录成功', duration: 1000 });
-
-                        window.localStorage.setItem('ycpd_token', res.data.token); // 设置 全局的 token
-                        window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
-                        window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
-                        _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo);
-                        _this.$router.replace({ path: '/' });
-
-                    } else if (res.code === 1001) {
-                        Toast({
-                            message: '非法请求',
-                            duration: 1000
-                        });
-                    } else if (res.code === 1003) {
-                        Toast({
-                            message: '手机验证码不能为空',
-                            duration: 1000
-                        });
-                    } else if (res.code === 1004) {
-                        Toast({
-                            message: 'openid不能为空',
-                            duration: 1000
-                        });
-                    } else if (res.code === 1005) {
-                        Toast({
-                            message: '验证码错误',
-                            duration: 1000
-                        });
-                    } else if (res.code === 1006) {
-                        Toast({
-                            message: '登录异常,请重新登入',
-                            duration: 1000
-                        });
-                    } else if (res.code === 1007) {
-                        Toast({
-                            message: '此手机不是养车频道用户，请先注册',
-                            duration: 2000
-                        });
-                    }
-                }
-            );
-        },
 
 		/**
 		 * 注册
 		 */
 		submitRegister: function submitRegister() {
         },
-	},
+    },
 }
 
 </script>
@@ -532,23 +265,91 @@ export default {
 @machine-verify-shade-z-index: 2;
 @machine-verify-content-z-index: 3;
 
-.login {
+.register {
+    position: relative;
+    font-size: 14px;
     width: 100%;
     min-height: 100%;
-    background: #F1F1F1;
+    background-color: #F1F1F1;
 }
 
-// 输入
-.login-input {
-    padding-top: 10px;
+.register-banner {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+
+    img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+// 选择公司
+.register-company {
+    padding-top: 5px;
+    line-height: 45px;
+    color: @black1;
+
+    // 框架部分
+    .register-company-content {
+        padding: 0px 15px;
+        height: 45px;
+        background: #fff;
+    }
+
+    .register-company-lable {
+        color: @black1;
+        width: 70px;
+    }
+}
+
+// 协议
+.register-agreement {
+    padding-top: 5px;
+
+    // 框架部分
+    .register-agreement-content {
+        padding: 0px 15px;
+        height: 45px;
+        background: #fff;
+
+        // 单选框
+        .agreement-radio-content {
+            position: relative;
+            top: 1px;
+            width: 15px;
+        }
+    }
+
+    // 协议文字
+    .register-agreement-main {
+        color: #469AFF;
+    }
+
+    .register-agreement-label {
+        path {
+            fill: #469AFF;
+        }
+
+        span {
+            color: @black2;
+            padding-left: 2.5px;
+        }
+    }
+}
+
+// 手机号码验证码
+.register-input {
+    padding-top: 5px;
     font-size: 14px;
 
     // 框架
-    .login-content {
+    .register-content {
         background-color: #fff;
         padding-left: 15px;
 
-        .login-input-item {
+        .register-input-item {
             height: 45px;
 
             .input-item-lable {
@@ -599,47 +400,10 @@ export default {
     }
 
     // 横线
-    .login-input-line {
+    .register-input-line {
         background-color: #ddd;
         height: 1px;
         width: 100%;
-    }
-}
-
-// 协议
-.login-agreement {
-    padding: 0px 15px;
-
-    .login-agreement-content {
-        height: 35px;
-
-        // 单选框
-        .agreement-radio-content {
-            position: relative;
-            top: 1px;
-            width: 15px;
-        }
-    }
-
-    // 单选框
-    .login-agreement-radio path {
-        fill: @black3;
-    }
-    
-    // 单选框选中
-    .agreement-radio-selected path {
-        fill: #E50012;
-    }
-
-    // 协议文本
-    .login-agreement-text {
-        padding-left: 5px;
-        font-size: 12px;
-        color: @black3;
-
-        span {
-            color: #5594FF;
-        }
     }
 }
 
@@ -837,11 +601,11 @@ export default {
     display: flex;
 }
 
-// 登录
-.login-submit {
-    padding: 10px 15px;
+// 注册按钮
+.register-submit {
+    padding: 15px;
     
-    .login-submit-content {
+    .register-submit-content {
         height: 45px;
         line-height: 45px;
         font-size: 16px;
@@ -851,58 +615,5 @@ export default {
         background-color: #E50012;
     }
 }
-
-// 注册
-.register-submit {
-    padding: 5px 15px 10px;
-    
-    .register-submit-content {
-        height: 45px;
-        line-height: 45px;
-        font-size: 16px;
-        border-radius: 3px;
-        text-align: center;
-        color: #E50012;
-        background-color: #fff;
-    }
-}
-
-// 用户协议按钮
-.agreement-botton {
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-
-    .agreement-botton-content {
-        padding: 10px 15px;
-        text-align: center;
-        line-height: 45px;
-        font-size: 16px;
-        background: #fff;
-        border-top: 1px solid #ddd;
-    }
-
-    .agreement-botton-back {
-        padding-right: 7.5px;
-
-        div {
-            border-radius: 4px;
-            background: #fff;
-            color: @black1;
-            border: 1px solid #ddd;
-        }
-    }
-
-    .agreement-botton-approved {
-        padding-left: 7.5px;
-
-        div {
-            border-radius: 4px;
-            background: #E50012;
-            color: #fff;
-        }
-    }
-}
-
+ 
 </style>

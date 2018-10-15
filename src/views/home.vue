@@ -21,7 +21,7 @@
             <!-- 内容区域 -->
             <div class="customer-main flex-rest">
                 <div class="customer-main-title">新增客户</div>
-                <div class="customer-main-label">车险/违章/年审提醒、<!-- 这一期暂时不显示 报价出单 --></div>
+                <div class="customer-main-label">车险/违章/年审提醒<!-- 这一期暂时不显示 报价出单 --></div>
             </div>
 
             <!-- 拍车照 -->

@@ -179,7 +179,7 @@
                 </div>
             </div>
 
-            <div class="bottom-button-item">
+            <!-- 这期暂时不显示 <div class="bottom-button-item">
                 <div class="button-item-content">
                     <div class="button-item-main flex-center">
                         <div class="flex-start-center">
@@ -192,7 +192,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="bottom-button-item" @click="isFollowModalShow = true">
                 <div class="button-item-content">
@@ -564,6 +564,9 @@ export default {
             .then(
                 val => {
                     _this.isFollowModalShow = false;
+                    _this.followUpDescribe = '';
+                    _this.nextFollowUpTime = null;
+                    _this.followUpIndex = null;
                     _this.getFollowupRecord();
                 }, error => {
                     alert(error);
@@ -846,7 +849,7 @@ export default {
     }
 
     .bottom-button-item {
-        width: 33.33%;
+        width: 50%;
 
         .button-item-content {
             padding: 0px 5px;

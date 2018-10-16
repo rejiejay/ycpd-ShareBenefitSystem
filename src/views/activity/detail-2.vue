@@ -308,7 +308,7 @@
 import { Toast } from 'mint-ui';
 
 export default {
-    name: 'activity-detail',
+    name: 'activity-detail-2',
 
 	data: function data() { 
         return {
@@ -362,21 +362,6 @@ export default {
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
-            let userInfoStore = this.userInfoStore;
-
-            this.agentName = userInfoStore.agentName; // 用户昵称
-
-            // 初始化头像
-            if (userInfoStore.imageName) {
-                getBase64ByImageName(`img/icon/${userInfoStore.imageName}`)
-                .then(
-                    res => {
-                        _this.imageName = res; // 头像
-                    }, error => {
-                        alert(error);
-                    }
-                );
-            }
         },
         
         /**

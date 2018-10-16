@@ -18,8 +18,11 @@
                 <div class="activity-item-title" :class="`item-title-${item.status}`">{{item.describe}}
                     <span>{{renderActivityStatus(item.status)}}</span>
                 </div>
+
+                <!-- 活动奖励 -->
+                <div class="activity-item-award">{{item.award}}</div>
                 
-                <!-- 活动图片 -->
+                <!-- 活动时间 -->
                 <div class="activity-item-time">{{item.time}}</div>
             </div>
         </div>
@@ -33,6 +36,8 @@
 <script>
 
 import Tabbar from "@/components/Tabbar";
+
+import activity001 from "@/static/activity001.jpg";
 
 export default {
     name: 'activity',
@@ -53,13 +58,15 @@ export default {
                      */
                     id: 1, // 活动唯一标识
                     status: 'going', 
-                    picture: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image001.jpg',
+                    picture: activity001,
+                    award: '享好友加油总金额1%返佣',
                     describe: '养车频道优惠加油双重返利活动', // 活动描述
                     time: '2018-10-6 至 2018-12-9', // 活动时间
                 }, {
                     id: 1,
-                    status: 'finish', 
+                    status: 'going', 
                     picture: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image002.jpg',
+                    award: '推荐成功享10元/人返佣',
                     describe: '养车频道优惠加油双重返利活动', 
                     time: '2018-10-6 至 2018-12-9',
                 }
@@ -155,6 +162,13 @@ export default {
         color: #E50012;
         border-color: #E50012;
         background:rgba(255, 227, 227, 1);
+    }
+
+    // 活动奖励
+    .activity-item-award {
+        padding-bottom: 2.5px;
+        font-size: 12px;
+        color: #FFA100;
     }
 
     // 活动结束

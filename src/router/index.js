@@ -158,11 +158,16 @@ const routes = [
         component: () => import('@/views/activity/index'),
         meta: { title: '最新活动' },
     }, {
-        path: '/activity/detail/:id',
-        name: 'activity-detail',
-        component: () => import('@/views/activity/detail'),
+        path: '/activity/detail/1',
+        name: 'activity-detail-1',
+        component: () => import('@/views/activity/detail-1'),
         meta: { title: '邀请好友享加油分成' },
-    },  {
+    }, {
+        path: '/activity/detail/2',
+        name: 'activity-detail-2',
+        component: () => import('@/views/activity/detail-2'),
+        meta: { title: '邀请好友享加油分成' },
+    }, {
         path: '/activity/sharer',
         name: 'activity-sharer',
         component: () => import('@/views/activity/sharer'),

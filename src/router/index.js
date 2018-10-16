@@ -36,10 +36,12 @@ const routes = [
                 path: 'agreement',
                 name: 'register-agreement',
                 component: () => import('@/views/login/register/register-agreement'),
+                meta: { title: '养车频道推广员注册' },
             }, {
                 path: 'company',
                 name: 'register-company',
                 component: () => import('@/views/login/register/register-company'),
+                meta: { title: '选择公司' },
             },
         ],
     },

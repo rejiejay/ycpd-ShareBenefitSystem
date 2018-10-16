@@ -9,8 +9,8 @@
     <div class="register-company">
         <div class="register-company-content flex-start-center">
             <div class="register-company-lable">所在公司:</div>
-            <div class="register-company-select flex-rest">
-                {{company ? company : "请选择公司"}}
+            <div class="register-company-select flex-rest"  @click="jumpToRouter('/register/company')">
+                {{selectRegisterCompany ? selectRegisterCompany : "请选择公司"}}
             </div>
             <div class="register-company-icon">
                 <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
@@ -49,9 +49,9 @@
 
     <!-- 协议 -->
     <div class="register-agreement">
-        <div class="register-agreement-content flex-start-center">
-            <div class="register-agreement-main flex-rest" @click="jumpToRouter('/register/agreement')">《养车频道推广员注册协议》</div>
-            <div class="register-agreement-label flex-start-center" @click="RegisterAgreementSwitcher" :class="[isRegisterAgreement ? 'agreement-radio-selected' : '']">
+        <div class="register-agreement-content flex-start-center" @click="jumpToRouter('/register/agreement')">
+            <div class="register-agreement-main flex-rest">《养车频道推广员注册协议》</div>
+            <div class="register-agreement-label flex-start-center" :class="[isRegisterAgreement ? 'agreement-radio-selected' : '']">
                 <svg width="16" height="16" t="1535773287663" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2604" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path d="M511.452 957.752c-246.502 0-447.037-200.535-447.037-447.027 0-246.497 200.535-447.037 447.037-447.037S958.49 264.228 958.49 510.725c0 246.492-200.535 447.027-447.038 447.027z m0-842.788c-218.224 0-395.766 177.542-395.766 395.766s177.542 395.75 395.766 395.75 395.766-177.525 395.766-395.75-177.541-395.766-395.766-395.766z" p-id="2605"></path>
                     <path v-if="isRegisterAgreement" d="M438.477 684.841a25.605 25.605 0 0 1-18.125-7.516l-148.46-148.47a25.626 25.626 0 0 1 0-36.25 25.626 25.626 0 0 1 36.25 0l130.335 130.33 272.44-272.42a25.626 25.626 0 0 1 36.25 0 25.626 25.626 0 0 1 0 36.25L456.602 677.32a25.641 25.641 0 0 1-18.125 7.521z" p-id="2606"></path>
@@ -181,10 +181,17 @@ export default {
         },
     
         /**
-         * 从 store 获取数据 用户信息
+         * 从 store 获取数据 是否阅读并且同意
          */
         isRegisterAgreement: function isRegisterAgreement() {
             return this.$store.getters["MulFunStorage/getRegisterAgreement"]; // 获取 是否阅读并且同意
+        },
+    
+        /**
+         * 从 store 获取数据 注册页选中公司
+         */
+        selectRegisterCompany: function selectRegisterCompany() {
+            return this.$store.getters["MulFunStorage/getSelectRegisterCompany"]; // 获取 是否阅读并且同意
         },
     },
 

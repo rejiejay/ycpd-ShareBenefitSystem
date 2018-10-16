@@ -1,4 +1,4 @@
-<!-- 注册页 -->
+<!-- 注册页——同意协议 -->
 <template>
 <div class="register-agreement">
     <div class="agreement">

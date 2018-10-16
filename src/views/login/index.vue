@@ -92,7 +92,7 @@
         <div class="login-submit" @click="submitLogin">
             <div class="login-submit-content">登录</div>
         </div>
-        <div class="register-submit" @click="submitRegister">
+        <div class="register-submit" @click="jumpToRouter('/register/index')">
             <div class="register-submit-content">注册</div>
         </div>
     </div>
@@ -511,10 +511,11 @@ export default {
             );
         },
 
-		/**
-		 * 注册
-		 */
-		submitRegister: function submitRegister() {
+        /**
+         * 跳转到路由
+         */
+        jumpToRouter: function jumpToRouter(url) {
+            this.$router.push({path: url});
         },
 	},
 }

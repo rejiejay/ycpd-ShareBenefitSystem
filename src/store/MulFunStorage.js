@@ -8,6 +8,7 @@
  */
 const state = {
     isRegisterAgreement: false, // 是否阅读并且同意
+    selectRegisterCompany: '', // 注册页选中公司
 }
 
 /**
@@ -21,11 +22,18 @@ const getters = {
     getRegisterAgreement(states) {
         return states.isRegisterAgreement;
     },
+
+    /**
+     * 获取 注册页选中公司
+     */
+    getSelectRegisterCompany(states) {
+        return states.selectRegisterCompany;
+    },
 }
 
 /**
  * Action 类似于 mutation
- * Action 可以包含任意异步操作。
+ * Action 可以包含任意异步操作。-
  */
 const actions = {
 }
@@ -34,6 +42,13 @@ const actions = {
  * 更改 Vuex 的 store 中的状态的唯一方法是提交 mutation。
  */
 const mutations = {
+    /**
+     * 初始化 注册页选中公司
+     */
+    initSelectRegisterCompany (states, param) {
+        states.selectRegisterCompany = param;
+    },
+
     /**
      * 初始化 是否阅读并且同意
      */

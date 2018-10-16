@@ -124,7 +124,7 @@ export default {
     padding: 15px 0px 15px 15px;
 
     .tag-company-item {
-
+        margin-right: 5px;
     }
 }
 

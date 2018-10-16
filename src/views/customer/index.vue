@@ -582,6 +582,7 @@ export default {
                             let businessExpireTimestamp = new Date(parseInt(businessExpireArray[0]), (parseInt(businessExpireArray[1]) - 1), parseInt(businessExpireArray[2])).getTime();
                             // 相差时间戳
                             let differTimestamp = businessExpireTimestamp - new Date().getTime();
+
                             /**
                              * 时间相差必须大于一天
                              * 而且超过 90天也不显示
@@ -589,6 +590,9 @@ export default {
                             if (differTimestamp > 86400000 && differTimestamp < 7776000000) {
                                 // 设置保险日期进去
                                 tag.push(`保险${Math.floor(differTimestamp / (1000 * 60 * 60 * 24))}天`);
+                            } else if (differTimestamp < 0) {
+                                // 当时间差小于零的时候，展示已经脱保
+                                tag.push(`已脱保`);
                             }
                         }
 

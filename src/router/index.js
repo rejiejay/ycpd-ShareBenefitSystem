@@ -32,17 +32,15 @@ const routes = [
                 name: 'register-input',
                 component: () => import('@/views/login/register/register-input'),
                 meta: { title: '养车频道推广员注册' },
-            }, 
-            
-            // {
-            //     path: 'agreement',
-            //     name: 'register-agreement',
-            //     component: import('@/views/login/register/register-agreement'),
-            // }, {
-            //     path: 'company',
-            //     name: 'register-company',
-            //     component: import('@/views/login/register/register-company'),
-            // },
+            }, {
+                path: 'agreement',
+                name: 'register-agreement',
+                component: () => import('@/views/login/register/register-agreement'),
+            }, {
+                path: 'company',
+                name: 'register-company',
+                component: () => import('@/views/login/register/register-company'),
+            },
         ],
     },
 

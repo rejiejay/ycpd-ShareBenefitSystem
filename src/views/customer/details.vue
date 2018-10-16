@@ -474,8 +474,11 @@ export default {
                 if (pageCustomerStore.policy.annualInspectDate) {
                     let annualInspectTimestamp = TimeConver.YYYYmmDDToTimestamp(pageCustomerStore.policy.annualInspectDate);
                     let annualInspectdifferTimestamp = annualInspectTimestamp - new Date().getTime();
-                    // 时间相差必须大于一天
-                    if (annualInspectdifferTimestamp > 86400000) {
+                    /**
+                     * 时间相差必须大于一天
+                     * 而且超过 90天也不显示
+                     */
+                    if (annualInspectdifferTimestamp > 86400000 && annualInspectdifferTimestamp < 7776000000 ) {
                         this.policyASDate = Math.floor(annualInspectdifferTimestamp / (1000 * 60 * 60 * 24));
                     }
                 }

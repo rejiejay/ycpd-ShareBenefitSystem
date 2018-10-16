@@ -7,10 +7,12 @@ Vue.use(Vuex);
 
 import customer from './customer.js';
 import userInfo from './userInfo.js';
+import MulFunStorage from './MulFunStorage.js';
 
 export default new Vuex.Store({
     modules: {
         customer,
         userInfo,
+        MulFunStorage,
     }
 });

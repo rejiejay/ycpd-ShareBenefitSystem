@@ -285,7 +285,7 @@
             <div class="tip-content-clipboard">
                 <div class="tip-clipboard-content flex-start-center">
                     <div class="clipboard-content-left flex-rest">http://ycpd.hotgz.com/</div>
-                    <div class="clipboard-content-right flex-center"  data-clipboard-text="http://ycpd.hotgz.com/">
+                    <div class="clipboard-content-right flex-center" id="clipboard-content-right" data-clipboard-text="http://ycpd.hotgz.com/">
                         <svg width="12" height="12" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-批量" transform="translate(-476.000000, -694.000000)" fill="#999999" fill-rule="nonzero"><g id="Alert" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(95.000000, 420.000000)"><g id="Group-2" transform="translate(381.000000, 146.000000)">
                             <path d="M6,2 L6,0 L24,0 L24,22 L22,22 L22,2 L6,2 Z M2,4 L20,4 L20,26 L2,26 L2,4 Z M4,6 L4,24 L18,24 L18,6 L4,6 Z M6,10 L12,10 L12,12 L6,12 L6,10 Z M6,14 L16,14 L16,16 L6,16 L6,14 Z" id="icon_copy"></path></g></g></g></g></g>
                         </svg>
@@ -398,7 +398,7 @@ export default {
         initClipboard: function initClipboard() {
             const _this = this;
 
-            var clipboard = new ClipboardJS('.clipboard-content-right');
+            var clipboard = new ClipboardJS('#clipboard-content-right');
             clipboard.on('success', function(e) {
                 Toast({
                     message: '复制成功!',
@@ -406,6 +406,12 @@ export default {
                 });
                 _this.isBatchImportModalShow = false;
                 e.clearSelection();
+            });
+
+            clipboard.on('error', function(e) {
+                alert('复制失败，请手动复制！')
+                console.error('Action:', e.action);
+                console.error('Trigger:', e.trigger);
             });
         },
 

@@ -63,7 +63,7 @@ export default {
                     describe: '养车频道优惠加油双重返利活动', // 活动描述
                     time: '2018-10-6 至 2018-12-9', // 活动时间
                 }, {
-                    id: 1,
+                    id: 2,
                     status: 'going', 
                     picture: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image002.jpg',
                     award: '推荐成功享10元/人返佣',

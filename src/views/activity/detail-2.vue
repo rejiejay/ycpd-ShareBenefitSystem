@@ -2,7 +2,7 @@
 <template>
 <div class="activity-detail">
     <div class="activity-detail-content">
-    
+
         <!-- 活动规则 -->
         <div class="activity-rules">
             <div class="activity-rules-content">
@@ -37,10 +37,21 @@
                 <div class="participation-way-main">
                     <div class="way-main-title">1. 点击下方“立即参与”按钮注册成为推广员</div>
                     <div class="way-main-row">· 请使用{{userInfoStore.telephone ? userInfoStore.telephone : ''}}手机号注册</div>
+                    <div class="way-main-row flex-start-center">
+                        <div class="flex-rest">· 活动邀请码: <span style="padding-left: 10px; color: #2F8AFF;">rjhlwl</span></div>
+                        <div class="copy-invitation-code" id="copy-invitation-code" data-clipboard-text="rjhlwl" style="color: #2F8AFF;">复制验证码</div>
+                    </div>
+                    <div class="way-main-pictures flex-center">
+                        <img :src="pictures.activity002content001" alt="activity002content001">
+                    </div>
+                    
+                    <div class="way-main-title">2. 点击“我要推荐”—“推荐好友参加”</div>
+                    <div class="way-main-pictures flex-center">
+                        <img :src="pictures.activity002content002" alt="activity002content002">
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- 底部背景 -->
@@ -53,6 +64,9 @@
 <script>
 
 import { Toast } from 'mint-ui';
+import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
+import activity002content001 from "@/static/activity002content001.png";
+import activity002content002 from "@/static/activity002content002.png";
 
 export default {
     name: 'activity-detail-2',
@@ -61,6 +75,11 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            pictures: { // 页面使用的图片
+                activity002content001: activity002content001,
+                activity002content002: activity002content002,
+            },
         } 
     },
     
@@ -75,7 +94,33 @@ export default {
         },
     },
 
+	mounted: function mounted() {
+        this.initClipboard(); // 初始化剪切板
+    },
+
 	methods: {
+        /**
+         * 初始化剪切板
+         */
+        initClipboard: function initClipboard() {
+            const _this = this;
+
+            var clipboard = new ClipboardJS('#copy-invitation-code');
+            clipboard.on('success', function(e) {
+                Toast({
+                    message: '复制成功!',
+                    duration: 1000
+                });
+                _this.isBatchImportModalShow = false;
+                e.clearSelection();
+            });
+
+            clipboard.on('error', function(e) {
+                alert('复制失败，请手动复制！')
+                console.error('Action:', e.action);
+                console.error('Trigger:', e.trigger);
+            });
+        },
     }
 }
 
@@ -86,6 +131,9 @@ export default {
 @black2: #606266;
 @black3: #909399;
 @black4: #C0C4CC; 
+
+@activity-bottom-bg-z-index: 1; // 底部背景
+@activity-detail-content-z-index: 2; // 内容区域 为了盖住底部背景
 
 .activity-detail {
     position: relative;
@@ -100,6 +148,8 @@ export default {
 
 // 内容
 .activity-detail-content {
+    position: relative;
+    z-index: @activity-detail-content-z-index;
     padding-bottom: 75px; // 预留缝隙
 }
 
@@ -163,7 +213,16 @@ export default {
     }
 
     .way-main-row {
+        padding-bottom: 2.5px;
         padding-left: 10px;
+    }
+
+    .way-main-pictures {
+        img {
+            display: block;
+            width: 280px;
+            height: 150px;
+        }
     }
 }
 
@@ -172,6 +231,7 @@ export default {
     position: fixed;
     left: 0px;
     bottom: 0px;
+    z-index: @activity-bottom-bg-z-index;
 }
 
 </style>

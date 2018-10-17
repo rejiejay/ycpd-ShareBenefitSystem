@@ -157,7 +157,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByXy}/ycpd/cas/login`,
+            url: `${config.url.originByXy}/ycpd/cas/loginByWx`,
             type: "post",
             dataType: "json",
             contentType: "application/json; charset=utf-8",

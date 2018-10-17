@@ -55,7 +55,7 @@
                 <div class="user-wallet-left">
                     累计总收入
                 </div>
-                <div class="user-wallet-center flex-rest">
+                <div class="user-wallet-center flex-rest" style="color: #469AFF;">
                     ￥{{totalMoney}}
                 </div>
                 <div class="user-wallet-right" @click="jumpToRouter('/account/detail')">
@@ -226,9 +226,9 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            usableMoney: 0, // 可用余额
-            totalMoney: 0, // 累计收入
-            msgUsedNum: 0, // 短信用量
+            usableMoney: '0.00', // 可用余额
+            totalMoney: '0.00', // 累计收入
+            msgUsedNum: '0.00', // 短信用量
 
             agentName: '', // 用户昵称
             telephone: '', // 用户手机

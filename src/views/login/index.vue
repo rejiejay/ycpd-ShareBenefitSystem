@@ -234,22 +234,18 @@ export default {
                 _this.getMachinePicture(); // 获取人机验证码图片
                 _this.initSliderDrag(); // 初始化滑块拖动
             }
-
-            let LoginSucceed = () => {
-                window.localStorage.setItem('ycpd_token', res.data.token); // 存储 全局 token
-                window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
-                window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
-                _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
-                _this.$router.replace({ path: '/' }); // 跳转到首页
-            }
-
+            
             ajaxs.isLogin()
             .then(
                 res => {
                     _this.machineToken = res.data.token; // 这个 token 获取人机验证码 图片验证码会用到
 
                     if (res.code === 1000) { // 表示用户已经登录过
-                        LoginSucceed(); // 登录成功
+                        window.localStorage.setItem('ycpd_token', res.data.token); // 存储 全局 token
+                        window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
+                        window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
+                        _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
+                        _this.$router.replace({ path: '/' }); // 跳转到首页
 
                     } else if (res.code === 1001) { // 未登录
                         console.error('用户未登录状态');
@@ -533,7 +529,7 @@ export default {
                         });
                     } else if (res.code === 1008) {
                         Toast({
-                            message: '该手机号还未注册，请先注册!',
+                            message: '机号还未注册,请先注册!',
                             duration: 2000
                         });
                     } else if (res.code === 1009) {

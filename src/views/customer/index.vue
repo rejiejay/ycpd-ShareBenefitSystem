@@ -218,6 +218,11 @@
         </div>
     </div>
 
+    <!-- 新增客户 -->
+    <div class="customer-jump-add" @click="jumpToRouter('/customer/add')">
+        <svg width="54" height="54" viewBox="0 0 91 91" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FF887F" offset="0%"></stop><stop stop-color="#FF3B3B" offset="100%"></stop></linearGradient><circle id="path-2" cx="37.5" cy="37.5" r="37.5"></circle><filter x="-22.0%" y="-15.3%" width="144.0%" height="144.0%" filterUnits="objectBoundingBox" id="filter-3"><feMorphology radius="1" operator="erode" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology><feOffset dx="0" dy="5" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset><feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur><feColorMatrix values="0 0 0 0 0.898039216   0 0 0 0 0   0 0 0 0 0.0705882353  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix></filter></defs><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-637.000000, -1078.000000)"><g id="添加btn" transform="translate(645.000000, 1081.000000)"><g id="Oval"><use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use><use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use></g><path d="M50,47 L50,43 C50,42.4477153 50.4477153,42 51,42 C51.5522847,42 52,42.4477153 52,43 L52,47 L56,47 C56.5522847,47 57,47.4477153 57,48 C57,48.5522847 56.5522847,49 56,49 L52,49 L52,53 C52,53.5522847 51.5522847,54 51,54 C50.4477153,54 50,53.5522847 50,53 L50,49 L46,49 C45.4477153,49 45,48.5522847 45,48 C45,47.4477153 45.4477153,47 46,47 L50,47 Z M33.097164,36.7176604 C30.0546558,35.0028665 28,31.7413785 28,28 C28,22.4771525 32.4771525,18 38,18 C43.5228475,18 48,22.4771525 48,28 C48,31.7414912 45.9452204,35.003063 42.9025611,36.7178153 C44.9802433,37.3422422 46.9198855,38.3618675 48.6249697,39.7286088 C49.0559017,40.0740303 49.1252218,40.7033892 48.7798003,41.1343212 C48.4343788,41.5652533 47.8050199,41.6345734 47.3740879,41.2891519 C44.732871,39.1720364 41.457416,38 38,38 C29.7157288,38 23,44.7157288 23,53 C23,53.5522847 22.5522847,54 22,54 C21.4477153,54 21,53.5522847 21,53 C21,45.3156632 26.0984674,38.8221373 33.097164,36.7176604 Z M38,36 C42.418278,36 46,32.418278 46,28 C46,23.581722 42.418278,20 38,20 C33.581722,20 30,23.581722 30,28 C30,32.418278 33.581722,36 38,36 Z" id="Oval-9" fill="#FFFFFF" fill-rule="nonzero"></path></g></g></g></svg>
+    </div>
+
     <!-- 底部 Tabbar -->
     <Tabbar selectTabbar='customer'/>
 </div>
@@ -680,6 +685,13 @@ export default {
             window.localStorage.setItem('ycpd_clientId', response.clientId);
             this.$store.commit('customer/initCustomerDetails', response);
         },
+
+        /**
+         * 跳转到路由
+         */
+        jumpToRouter: function jumpToRouter(url) {
+            this.$router.push({path: url});
+        },
     }
 }
 
@@ -690,6 +702,9 @@ export default {
 @black2: #606266;
 @black3: #909399;
 @black4: #C0C4CC;
+
+// 右下角新增客户按钮
+@customer-jump-add-z-index: 2;
 
 .customer {
     position: relative;
@@ -871,6 +886,14 @@ export default {
             text-align: right;
         }
     }
+}
+
+// 右下角跳转到新增客户
+.customer-jump-add {
+    position: fixed;
+    right: 15px;
+    bottom: 75px;
+    z-index: @customer-jump-add-z-index;
 }
 
 </style>

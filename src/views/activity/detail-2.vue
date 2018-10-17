@@ -26,6 +26,21 @@
             </div>
         </div>
 
+        <!-- 参与方式 -->
+        <div class="activity-participation-way">
+            <div class="participation-way-content">
+
+                <!-- 标题部分 -->
+                <div class="participation-way-title">参与方式</div>
+
+                <!-- 内容部分 -->
+                <div class="participation-way-main">
+                    <div class="way-main-title">1. 点击下方“立即参与”按钮注册成为推广员</div>
+                    <div class="way-main-row">· 请使用{{userInfoStore.telephone ? userInfoStore.telephone : ''}}手机号注册</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- 底部背景 -->
@@ -47,6 +62,17 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
         } 
+    },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            let ycpd_userInfo = window.localStorage.getItem('ycpd_userInfo');
+
+            return ycpd_userInfo ? JSON.parse(ycpd_userInfo) : this.$store.getters["userInfo/getAgentInfo"]; // 因为数据刷新页面会失效, 所以优先使用 window.localStorage
+        },
     },
 
 	methods: {
@@ -79,7 +105,7 @@ export default {
 
 // 活动规则
 .activity-rules {
-    padding: 15px;
+    padding: 15px 15px 0px 15px;
     color: @black1;
 
     // 框架
@@ -105,6 +131,39 @@ export default {
         font-weight: bold;
         padding-top: 10px;
         padding-bottom: 5px;
+    }
+}
+
+// 参与方式
+.activity-participation-way {
+    padding: 15px 15px 0px 15px;
+
+    // 框架
+    .participation-way-content {
+        border-radius: 5px;
+        background: #fff;
+
+        .participation-way-main {
+            color: @black3;
+            padding: 5px 15px 15px 15px;
+            font-size: 12px;
+        }
+    }
+
+    // 标题
+    .participation-way-title {
+        padding-left: 15px;
+        line-height: 45px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .way-main-title {
+        padding-top: 10px;
+        padding-bottom: 5px;
+    }
+
+    .way-main-row {
+        padding-left: 10px;
     }
 }
 

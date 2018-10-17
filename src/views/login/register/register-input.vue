@@ -127,6 +127,13 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
+            /**
+             * 注册时候, 用于判断一级代理还是二级代理
+             * 通过url传值获得
+             * 目前二级代理的情况下是可以拿到此参数
+             */
+            parentId: null,
+
             // 公司
             company: '',
 
@@ -193,6 +200,10 @@ export default {
         selectRegisterCompany: function selectRegisterCompany() {
             return this.$store.getters["MulFunStorage/getSelectRegisterCompany"]; // 获取 是否阅读并且同意
         },
+    },
+
+    mounted: function () {
+        // 初始化 parentId
     },
 
     methods: {

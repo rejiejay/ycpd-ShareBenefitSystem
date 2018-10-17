@@ -52,6 +52,36 @@
                 </div>
             </div>
         </div>
+
+        <!-- 我的奖励 -->
+        <div class="activity-my-reward">
+            <div class="my-reward-content">
+
+                <!-- 标题部分 -->
+                <div class="my-reward-title flex-start">
+                    <div class="flex-rest">我的奖励</div>
+                    <div class="reward-title-lable">2018-10-12之前统计</div>
+                </div>
+
+                <!-- 内容部分 -->
+                <div class="my-reward-main">
+                    <div class="reward-main-row flex-start">
+                        <div class="flex-rest">累计推荐成功数量：</div>
+                        <div class="main-row-lable" style="color: #606266;">9人</div>
+                    </div>
+                    <div class="reward-main-row flex-start">
+                        <div class="flex-rest">累计返佣金额：</div>
+                        <div class="main-row-lable" style="color: #E50012;">￥90.00</div>
+                    </div>
+                    <div class="reward-main-lable">每天10点更新前一天的数据</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 立即参与 -->
+    <div class="activity-immediately-attend flex-center">
+        <div class="immediately-attend-content" :style="`width: ${clientWidth -30}px;`">立即参与</div>
     </div>
 
     <!-- 底部背景 -->
@@ -134,6 +164,8 @@ export default {
 
 @activity-bottom-bg-z-index: 1; // 底部背景
 @activity-detail-content-z-index: 2; // 内容区域 为了盖住底部背景
+@activity-immediately-attend-z-index: 3;
+
 
 .activity-detail {
     position: relative;
@@ -173,6 +205,7 @@ export default {
     .activity-rules-title {
         padding-left: 15px;
         line-height: 45px;
+        font-weight: bold;
         border-bottom: 1px solid #ddd;
     }
 
@@ -204,6 +237,7 @@ export default {
     .participation-way-title {
         padding-left: 15px;
         line-height: 45px;
+        font-weight: bold;
         border-bottom: 1px solid #ddd;
     }
 
@@ -223,6 +257,67 @@ export default {
             width: 280px;
             height: 150px;
         }
+    }
+}
+
+// 参与方式
+.activity-my-reward {
+    padding: 15px 15px 0px 15px;
+
+    // 框架
+    .my-reward-content {
+        border-radius: 5px;
+        background: #fff;
+    }
+
+    // 标题
+    .my-reward-title {
+        padding: 0px 15px;
+        line-height: 45px;
+        border-bottom: 1px solid #ddd;
+
+        .flex-rest {
+            font-weight: bold;
+        }
+
+        .reward-title-lable {
+            font-size: 12px;
+            color: @black3;
+        }
+    }
+
+    // 内容部分
+    .my-reward-main {
+        padding: 15px;
+
+        .reward-main-row {
+            padding-bottom: 5px;
+        }
+
+        .reward-main-lable {
+            font-size: 12px;
+            color: #FFA100;
+        }
+    }
+}
+
+// 立即参与
+.activity-immediately-attend {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.36);
+    z-index: @activity-immediately-attend-z-index;
+
+    .immediately-attend-content {
+        height: 36px;
+        line-height: 36px;
+        border-radius: 36px;
+        text-align: center;
+        color: #fff;
+        background: #3fabff;
     }
 }
 

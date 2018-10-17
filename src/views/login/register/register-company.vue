@@ -10,18 +10,26 @@
 
     <!-- 标签栏 内容 -->
     <div class="register-tag-content" v-if="tagSelected === 'insurance'">
-        <div class="tag-company-list">
-            <div class="tag-company-item" v-for="(item, key) in insuranceCompanyList" :key="key">
-
-            </div>
+        <div class="tag-insuranceCompanyList-list">
+            <div class="tag-insuranceCompanyList-item" 
+                v-for="(item, key) in insuranceCompanyList" 
+                :key="key"
+                :style="`width: ${Math.floor( (clientWidth - 60) / 3 )}px;`"
+                @click="initCompany(item)"
+            >{{item}}</div>
         </div>
     </div>
 
     <!-- 标签栏 内容 -->
     <div class="register-tag-content" v-if="tagSelected === 'agency'">
-        <div class="tag-company-list">
-            <div class="tag-company-item" v-for="(item, key) in agencyCompanyList" :key="key">
-
+        <div class="register-tag-agencyCompanyList">
+            <div class="tag-agencyCompanyList-list">
+                <div class="tag-agencyCompanyList-item" 
+                    :class="{'agencyCompanyList-item-line' : (agencyCompanyList.length - 1) !== key}"
+                    v-for="(item, key) in agencyCompanyList" 
+                    :key="key"
+                    @click="initCompany(item)"
+                >{{item}}</div>
             </div>
         </div>
     </div>
@@ -136,6 +144,14 @@ export default {
     mounted: function () { },
 
     methods: {
+        /**
+         * 初始化选择公司
+         * @param {string} company 选中的公司
+         */
+        initCompany: function initCompany(company) {
+            this.$store.commit('MulFunStorage/initSelectRegisterCompany', company); // 初始化选择公司
+            this.$router.back(-1);
+        },
     },
 }
 
@@ -183,10 +199,42 @@ export default {
 
 // 标签栏 内容
 .register-tag-content {
-    padding: 15px 0px 15px 15px;
+    // 保险公司
+    .tag-insuranceCompanyList-list {
+        padding-left: 15px;
+        position: relative;
+        overflow: hidden;
 
-    .tag-company-item {
-        margin-right: 5px;
+        .tag-insuranceCompanyList-item {
+            float: left;
+            margin-top: 15px;
+            margin-right: 15px;
+            height: 45px;
+            line-height: 45px;
+            border-radius: 5px;
+            color: @black3;
+            text-align: center;
+            background: #fff;
+        }
+    }
+
+    .register-tag-agencyCompanyList {
+        padding-top: 5px;
+        padding-bottom: 35px;
+    }
+
+    // 代理公司
+    .tag-agencyCompanyList-list {
+        padding-left: 15px;
+        background: #fff;
+
+        .tag-agencyCompanyList-item {
+            line-height: 45px;
+        }
+
+        .agencyCompanyList-item-line {
+            border-bottom: 1px solid #ddd;
+        }
     }
 }
 

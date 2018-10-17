@@ -65,7 +65,7 @@
         <div class="tag-carno-list flex-start-center">
             <div class="carno-list-title">客户姓名:</div>
             <div class="carno-list-input flex-rest">
-                <input placeholder="请输入客户姓名" v-model="customerName"/>
+                <input placeholder="请输入客户姓名(选填)" v-model="customerName"/>
             </div>
         </div>
 
@@ -75,7 +75,7 @@
         <div class="tag-carno-list flex-start-center">
             <div class="carno-list-title">手&ensp;机&ensp;号:</div>
             <div class="carno-list-input flex-rest">
-                <input placeholder="请输入手机号" v-model="phoneNumber"/>
+                <input placeholder="请输入手机号(选填)" v-model="phoneNumber"/>
             </div>
         </div>
 
@@ -134,7 +134,7 @@
         <div class="tag-carvin-list flex-start-center">
             <div class="carvin-list-title">客户姓名:</div>
             <div class="carvin-list-input flex-rest">
-                <input placeholder="请输入客户姓名" v-model="customerName"/>
+                <input placeholder="请输入客户姓名(选填)" v-model="customerName"/>
             </div>
         </div>
         <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
@@ -143,7 +143,7 @@
         <div class="tag-carvin-list flex-start-center">
             <div class="carvin-list-title">手&ensp;机&ensp;号:</div>
             <div class="carvin-list-input flex-rest">
-                <input placeholder="请输入手机号" v-model="phoneNumber"/>
+                <input placeholder="请输入手机号(选填)" v-model="phoneNumber"/>
             </div>
         </div>
 
@@ -550,17 +550,17 @@ export default {
                 return alert(verifyPlateNo.message);
             }
             
-            // 校验用户名
-            let verifyCustomerName = this.verifyCustomerName();
-            if (verifyCustomerName.result !== 1) {
-                return alert(verifyCustomerName.message);
-            }
+            // // 校验用户名 （非必填）
+            // let verifyCustomerName = this.verifyCustomerName();
+            // if (verifyCustomerName.result !== 1) {
+            //     return alert(verifyCustomerName.message);
+            // }
 
-            // 校验手机号
-            let verifyPhoneNumber = this.verifyPhoneNumber();
-            if (verifyPhoneNumber.result !== 1) {
-                return alert(verifyPhoneNumber.message);
-            }
+            // // 校验手机号 （非必填）
+            // let verifyPhoneNumber = this.verifyPhoneNumber();
+            // if (verifyPhoneNumber.result !== 1) {
+            //     return alert(verifyPhoneNumber.message);
+            // }
 
             let carNo = this.carNoProvince + this.plateNo; // 车牌号 等于 车牌省份 + 车牌号码
             
@@ -596,17 +596,17 @@ export default {
             //     return alert('请输入正确的发动机号');
             // }
 
-            // 校验用户名
-            let verifyCustomerName = this.verifyCustomerName();
-            if (verifyCustomerName.result !== 1) {
-                return alert(verifyCustomerName.message);
-            }
+            // // 校验用户名 （非必填）
+            // let verifyCustomerName = this.verifyCustomerName();
+            // if (verifyCustomerName.result !== 1) {
+            //     return alert(verifyCustomerName.message);
+            // }
 
-            // 校验手机号
-            let verifyPhoneNumber = this.verifyPhoneNumber();
-            if (verifyPhoneNumber.result !== 1) {
-                return alert(verifyPhoneNumber.message);
-            }
+            // // 校验手机号 （非必填）
+            // let verifyPhoneNumber = this.verifyPhoneNumber();
+            // if (verifyPhoneNumber.result !== 1) {
+            //     return alert(verifyPhoneNumber.message);
+            // }
 
             ajaxs.addCustomerByVinNo(this.vinNo, this.engineNo, this.customerName, this.phoneNumber)
             .then(

@@ -235,17 +235,21 @@ export default {
                 _this.initSliderDrag(); // 初始化滑块拖动
             }
 
+            let LoginSucceed = () => {
+                window.localStorage.setItem('ycpd_token', res.data.token); // 存储 全局 token
+                window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
+                window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
+                _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
+                _this.$router.replace({ path: '/' }); // 跳转到首页
+            }
+
             ajaxs.isLogin()
             .then(
                 res => {
                     _this.machineToken = res.data.token; // 这个 token 获取人机验证码 图片验证码会用到
 
                     if (res.code === 1000) { // 表示用户已经登录过
-                        window.localStorage.setItem('ycpd_token', res.data.token); // 存储 全局 token
-                        window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
-                        window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
-                        _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
-                        _this.$router.replace({ path: '/' }); // 跳转到首页
+                        LoginSucceed(); // 登录成功
 
                     } else if (res.code === 1001) { // 未登录
                         console.error('用户未登录状态');
@@ -253,6 +257,22 @@ export default {
 
                     } else if (res.code === 1002) { // 异常
                         console.error('请求登录状态异常');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else if (res.code === 1003) { // 微信code为空，跳转至登陆页
+                        console.error('微信code为空');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else if (res.code === 1004) { // 使用微信登陆成功
+                        console.error('使用微信登陆成功');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else if (res.code === 1005) { // 获取用户微信openId失败，跳转至登陆页
+                        console.error('获取用户微信openId失败');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else if (res.code === 1006) { // 该微信未绑定代理用户，跳转至登陆页
+                        console.error('该微信未绑定代理用户');
                         getMachinePicture(); // 获取人机验证码
 
                     } else {
@@ -464,7 +484,7 @@ export default {
 				return alert('请先同意养车频道用户协议');
             } 
 
-            ajaxs.goLogin(this.loginToken, this.phoneNumber, this.SMSNumber, this.isAgreement, this.wx_code)
+            ajaxs.goLogin(this.loginToken, this.phoneNumber, this.SMSNumber, this.wx_code)
             .then(
                 res => {
                     if (res.code === 1000) {
@@ -479,6 +499,11 @@ export default {
                     } else if (res.code === 1001) {
                         Toast({
                             message: '非法请求',
+                            duration: 1000
+                        });
+                    } else if (res.code === 1002) {
+                        Toast({
+                            message: '请求异常',
                             duration: 1000
                         });
                     } else if (res.code === 1003) {
@@ -503,7 +528,17 @@ export default {
                         });
                     } else if (res.code === 1007) {
                         Toast({
-                            message: '此手机不是养车频道用户，请先注册',
+                            message: '登陆异常,请重新登陆!',
+                            duration: 2000
+                        });
+                    } else if (res.code === 1008) {
+                        Toast({
+                            message: '该手机号还未注册，请先注册!',
+                            duration: 2000
+                        });
+                    } else if (res.code === 1009) {
+                        Toast({
+                            message: '登陆异常,请重新登陆!',
                             duration: 2000
                         });
                     }

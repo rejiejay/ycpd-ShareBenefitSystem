@@ -113,14 +113,12 @@
  
 import { MessageBox, Toast } from 'mint-ui';
 
-import agreement from "@/components/agreement";
+import loadPageVar from "@/utils/loadPageVar";
 import Consequencer from "@/utils/Consequencer";
-import ajaxs from "@/api/login/index";
+import ajaxs from "@/api/login/register";
 
 export default {
     name: 'register-input',
-
-    components: { agreement },
 
     data () {
         return {
@@ -133,6 +131,8 @@ export default {
              * 目前二级代理的情况下是可以拿到此参数
              */
             parentId: null,
+
+            wx_code: '081ykH7t0bhN2d1417at00RJ7t0ykH7X', // 获取微信网页信息的 code
 
             // 公司
             company: '',
@@ -204,9 +204,79 @@ export default {
 
     mounted: function () {
         // 初始化 parentId
+        this.parentId = this.$route.params.parentId ? this.$route.params.parentId : null;
+
+        
+        this.wx_code = loadPageVar('code') ?  loadPageVar('code') : '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
+        console.log('微信code', this.wx_code);
+
+        this.isLogin(); // 判断是否登录
     },
 
     methods: {
+        /**
+		 * 判断是否已经登录
+		 */
+        isLogin: function isLogin() {
+            const _this = this;
+            /**
+             * 获取人机验证码
+             */
+            const getMachinePicture = () => {
+                _this.getMachinePicture(); // 获取人机验证码图片
+                _this.initSliderDrag(); // 初始化滑块拖动
+            }
+
+            let LoginSucceed = () => {
+                window.localStorage.setItem('ycpd_token', res.data.token); // 存储 全局 token
+                window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
+                window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
+                _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
+                _this.$router.replace({ path: '/' }); // 跳转到首页
+            }
+
+            ajaxs.isLogin()
+            .then(
+                res => {
+                    _this.machineToken = res.data.token; // 这个 token 获取人机验证码 图片验证码会用到
+
+                    if (res.code === 1000) { // 表示用户已经登录过
+                        LoginSucceed(); // 登录成功
+
+                    } else if (res.code === 1001) { // 未登录
+                        console.error('用户未登录状态');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else if (res.code === 1002) { // 异常
+                        console.error('请求登录状态异常');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else if (res.code === 1003) { // 微信code为空，跳转至登陆页
+                        console.error('微信code为空');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else if (res.code === 1004) { // 使用微信登陆成功
+                        console.error('使用微信登陆成功');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else if (res.code === 1005) { // 获取用户微信openId失败，跳转至登陆页
+                        console.error('获取用户微信openId失败');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else if (res.code === 1006) { // 该微信未绑定代理用户，跳转至登陆页
+                        console.error('该微信未绑定代理用户');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else {
+                        console.error('请求登录状态异常');
+                        getMachinePicture(); // 获取人机验证码
+                    }
+                }, error => {
+                    alert('向服务器请求登录状态出错');
+                }
+            )
+        },
+
         /**
          * 是否阅读并且同意 切换
          */
@@ -269,11 +339,217 @@ export default {
 				this.isMachineModalShow = true; // 弹出模态框
 			}
         },
+        
+		/**
+		 * 初始化滑块拖动
+		 */
+        initSliderDrag: function initSliderDrag() {
+            const _this = this;
+            /**
+             * 滑块 DOM
+             */
+            let dragHandle = this.$refs['slider-drag-handle'];
+            let originX = 0; // 原始坐标 X轴
+
+            /**
+             * 获取手机验证码
+             */
+            let getVerificationCode = () => {
+                ajaxs.getVerificationCode(_this.phoneNumber, _this.SMSToken)
+                .then(
+                    res1 => {
+                        if (res1.code === 1000) { // 获取
+                            _this.isMachineModalShow = false; // 关闭人机验证 模态框
+                            _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
+                            _this.jigsawMovepx = 0;
+                            _this.loginToken = res1.data.token;
+                            
+                            _this.isSMSGeting = true; // 表示正在获取
+                            // 定时器倒计时 60 秒
+                            for(var i = 0; i < 60; i++ ) {
+                                (function (i) { // 匿名函数自执行创建闭包
+                                    setTimeout(function() {
+                                        _this.reGetCount--;
+                                        if (i === 59) {
+                                            _this.reGetCount = 60;
+                                            _this.isSMSGeting = false;
+                                        }
+                                    }, i * 1000);
+                                })(i);
+                            }
+
+                        } else {
+
+                            alert('发送短信过于频繁');
+                            _this.isMachineModalShow = false;
+                            _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
+                            _this.jigsawMovepx = 0;
+                            _this.getMachinePicture();
+                        }
+                    }
+                );
+            }
+
+            /**
+             * 校验滑动图片距离是否正确
+             */
+            let checkoutDistance = () => {
+                ajaxs.checkoutDistance(_this.checkoutToken, Math.floor(_this.jigsawMovepx))
+                .then(
+                    res => {
+                        
+                        if (res.code === 1000) { // 校验成功
+                            _this.jigsawStatus = 'succeed'; // 将 滑动拼图状态 设置为 成功状态
+                            _this.SMSToken = res.data.token;
+                            getVerificationCode(); // 获取手机验证码
+                        
+                        } else { // 校验失败
+                            _this.jigsawStatus = 'failure'; // 将 滑动拼图状态 设置为 失败
+                            setTimeout(function () {
+                                _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
+                                _this.jigsawMovepx = 0;
+                                _this.getMachinePicture(); // 重新获取验证码图片
+                            }, 2000);
+                        }
+                    }, error => {
+                        alert('向服务器请求验证图片失败');
+                    }
+                );
+            }
+
+            /**
+             * 注册 触摸移动事件
+             */
+            let handleMouseMove = function handleMouseMove(event) {
+                // 位移量
+                var mouseOffset = event.changedTouches[0].clientX - originX;
+
+                /**
+                 * 判断是否在移动的范围内
+                 */
+                if (
+                    mouseOffset > 0 &&  // 不能负数 范围内
+                    mouseOffset < (_this.clientWidth - 60 - 60) // 不能超过 范围内
+                ) {
+                    _this.jigsawMovepx = mouseOffset;
+                }
+            }
+
+            /**
+             * 注册 触摸移动结束事件
+             */
+            let handleMouseEnd = function handleMouseEnd(event) {
+
+                checkoutDistance(); // 校验滑动图片距离是否正确
+
+                window.removeEventListener('touchmove', handleMouseMove);
+                window.removeEventListener('touchend', handleMouseEnd);
+            }
+
+            // 添加触摸事件
+            dragHandle.addEventListener('touchstart', function (event) {
+                _this.jigsawStatus = 'activate'; // 将 滑动拼图状态 设置为 激活状态
+
+                originX = event.changedTouches[0].clientX; // 设置 X轴 原始坐标
+  
+                window.addEventListener('touchmove', handleMouseMove);
+                window.addEventListener('touchend', handleMouseEnd);
+            });
+        },
 
 		/**
 		 * 注册
 		 */
 		submitRegister: function submitRegister() {
+            const _this = this;
+
+			// 校验是否选择公司
+            if (this.selectRegisterCompany === '') {
+				return alert('请选择公司');
+            }
+          
+			// 校验手机号码
+			if (this.verifyPhoneNumber().result !== 1) {
+				return alert(this.verifyPhoneNumber().message);
+			}
+            
+			// 校验手机短信验证码
+            if (this.SMSNumber === '') {
+				return alert('手机短信验证码不能为空');
+            } 
+                
+			// 校验手机短信验证码
+            if (this.loginToken === '') {
+				return alert('手机短信验证码不能为空');
+            } 
+
+            // 是否同意协议
+            if (this.isRegisterAgreement === false) {
+				return alert('请同意《养车频道推广员注册协议》');
+            }
+
+            ajaxs.registerByWx(this.loginToken, this.phoneNumber, this.SMSNumber, this.wx_code, this.selectRegisterCompany, this.parentId)
+            .then(
+                res => {
+                    if (res.code === 1000) {
+                        Toast({ message: '登录成功', duration: 1000 });
+
+                        window.localStorage.setItem('ycpd_token', res.data.token); // 设置 全局的 token
+                        window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
+                        window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
+                        _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo);
+                        _this.$router.replace({ path: '/' });
+
+                    } else if (res.code === 1001) {
+                        Toast({
+                            message: '非法请求',
+                            duration: 1000
+                        });
+                    } else if (res.code === 1002) {
+                        Toast({
+                            message: '手机号码不能为空',
+                            duration: 1000
+                        });
+                    } else if (res.code === 1003) {
+                        Toast({
+                            message: '手机验证码不能为空',
+                            duration: 1000
+                        });
+                    } else if (res.code === 1004) {
+                        Toast({
+                            message: 'code不能为空',
+                            duration: 1000
+                        });
+                    } else if (res.code === 1005) {
+                        Toast({
+                            message: '验证码错误',
+                            duration: 1000
+                        });
+                    } else if (res.code === 1006) {
+                        Toast({
+                            message: '注册异常,请重新注册',
+                            duration: 1000
+                        });
+                    } else if (res.code === 1007) {
+                        Toast({
+                            message: '该手机号已注册!',
+                            duration: 2000
+                        });
+                    } else if (res.code === 1008) {
+                        Toast({
+                            message: '该手机号校验失败，请重新注册!',
+                            duration: 2000
+                        });
+                    } else if (res.code === 1009) {
+                        Toast({
+                            message: '注册异常,请重新注册!',
+                            duration: 2000
+                        });
+                    }
+                }, error => {
+                    alert(error);
+                }
+            );
         },
 
         /**

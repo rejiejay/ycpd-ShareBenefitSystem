@@ -148,16 +148,19 @@ export default {
     }),
 
     /**
-     * 登入验证
-     * @param {string} token token
+     * 微信端用户注册登陆校验
+     * @param {string} token token请求令牌
      * @param {string} telephone 电话号码
      * @param {string} msgCode 验证码
+     * @param {string} code 微信换取openid凭证
+     * @param {string} affiliation 所属机构
+     * @param {string} parentId 父代理id，一级代理注册时传Null
      */
-    goLogin: (token, telephone, msgCode, code) => new Promise((resolve, reject) => {
+    registerByWx: (token, telephone, msgCode, code, affiliation, parentId) => new Promise((resolve, reject) => {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByXy}/ycpd/cas/login`,
+            url: `${config.url.originByXy}/ycpd/cas/registerByWx`,
             type: "post",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
@@ -165,10 +168,12 @@ export default {
                 withCredentials: true
             },
             data: JSON.stringify({
-                code: code, // 微信code
                 token: token,
                 telephone: telephone,
                 msgCode: msgCode,
+                code: code,
+                affiliation: affiliation,
+                parentId: parentId,
             }),
             success(res) {
                 Indicator.close(); // 关闭加载框

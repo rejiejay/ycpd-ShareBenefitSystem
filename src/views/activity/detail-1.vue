@@ -1,14 +1,8 @@
 <!-- 活动详情 -->
 <template>
 <div class="activity-detail">
-    <!-- 顶部提示信息 -->
-    <div class="activity-detail-tip">
-        <div class="detail-tip-row1">邀请好友使用养车频道“优惠加油”</div>
-        <div class="detail-tip-row2">享加油金额分成！</div>
-        <div class="detail-tip-row3">深圳40多家油站，最高直降1.3元/L</div>
-    </div>
     
-    <!-- 活动规则以及特权 -->
+    <!-- 活动规则 -->
     <div class="activity-privilege-rules">
         <div class="privilege-rules-content">
             <!-- 活动规则 -->
@@ -27,16 +21,14 @@
                     <div class="rules-row-describe flex-rest">活动时间：2018-10-7 11:03:03至2018-10-7 11:03:11</div>
                 </div>
             </div>
-            <div class="activity-detail-privilege">
-                <div class="detail-privilege-title">活动规则</div>
-                <div class="detail-privilege-describe">车主客户，且首次关注注册养车频道的，计入门店邀请客户中，门店可享客户加油分成。</div>
-            </div>
         </div>
     </div>
 
     <!-- 加油站面板页面 -->
     <div class="activity-detail-panel">
         <div class="detail-panel-content">
+            <div class="detail-panel-title">深圳40多家油站，最高直降1.3元/L</div>
+
             <div class="detail-panel-item flex-start">
                 
                 <!-- 面板 图片 -->
@@ -409,28 +401,9 @@ export default {
     background: linear-gradient(#F32E2E, #FF6F46); /* 标准的语法 */
 }
 
-// 顶部提示信息
-.activity-detail-tip {
-    padding: 35px 15px 30px 15px;
-    text-align: center;
-
-    .detail-tip-row1,
-    .detail-tip-row2 {
-        padding-bottom: 10px;
-        font-size: 20px;
-        color: #FFEA00;
-    }
-
-    .detail-tip-row3 {
-        padding-top: 5px;
-        font-size: 16px;
-        color: #fff;
-    }
-}
-
-// 活动规则以及特权
+// 活动规则
 .activity-privilege-rules {
-    padding: 0px 15px;
+    padding: 15px 15px 0px 15px;
 
     .privilege-rules-content {
         background: #fff;
@@ -443,7 +416,6 @@ export default {
 
     // 活动规则
     .activity-detail-rules {
-        border-bottom: 1px solid #ddd;
 
         .detail-rules-title {
             padding-bottom: 5px;
@@ -495,6 +467,11 @@ export default {
             border-bottom: 1px solid #ddd;
         }
     }
+
+    // 深圳40多家油站，最高直降1.3元/L
+    .detail-panel-title {
+        text-align: center;
+    }
     
     // 面板 图片
     .detail-panel-picture {
@@ -512,7 +489,7 @@ export default {
         }
     }
 
-    // 标题
+    // 加油站 标题
     .panel-main-title {
         font-size: 16px;
         font-weight: bold;

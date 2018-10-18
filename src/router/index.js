@@ -46,11 +46,11 @@ const routes = [
             },
         ],
     }, {
-        path: '/invite/register',
+        path: '/invite',
         component: () => import('@/views/login/invite/index'),
         children: [
             {
-                path: 'index',
+                path: 'register',
                 alias: ['/'],
                 name: 'invite-input',
                 component: () => import('@/views/login/invite/invite-input'),

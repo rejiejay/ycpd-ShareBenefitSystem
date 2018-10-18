@@ -36,10 +36,67 @@
                 </div>
             </div>
 
-            
+            <!-- 协议 -->
+            <div class="register-agreement">
+                <div class="register-agreement-content flex-start-center" @click="jumpToRouter('/invite/agreement')">
+                    <div class="agreement-radio-content flex-center" 
+                        :class="[isRegisterAgreement ? 'agreement-radio-selected' : 'register-agreement-radio']"
+                    >
+                        <svg width="16" height="16" t="1535773287663" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2604" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path d="M511.452 957.752c-246.502 0-447.037-200.535-447.037-447.027 0-246.497 200.535-447.037 447.037-447.037S958.49 264.228 958.49 510.725c0 246.492-200.535 447.027-447.038 447.027z m0-842.788c-218.224 0-395.766 177.542-395.766 395.766s177.542 395.75 395.766 395.75 395.766-177.525 395.766-395.75-177.541-395.766-395.766-395.766z" p-id="2605"></path>
+                            <path v-if="isRegisterAgreement" d="M438.477 684.841a25.605 25.605 0 0 1-18.125-7.516l-148.46-148.47a25.626 25.626 0 0 1 0-36.25 25.626 25.626 0 0 1 36.25 0l130.335 130.33 272.44-272.42a25.626 25.626 0 0 1 36.25 0 25.626 25.626 0 0 1 0 36.25L456.602 677.32a25.641 25.641 0 0 1-18.125 7.521z" p-id="2606"></path>
+                        </svg>
+                    </div>
+
+                    <div class="register-agreement-text">
+                        我已阅读并同意<span @click="isAgreementShow = true">《养车频道用户服务协议》</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- 注册 -->
             <div class="register-submit" @click="submitRegister">
-                <div class="register-submit-content">注册</div>
+                <div class="register-submit-content">立即加入</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 人机验证模态框 -->
+    <div class="machine-verify-modal flex-center" :class="{'machine-verify-show': isMachineModalShow}">
+        <div class="verify-modal-shade" @click="isMachineModalShow = false"></div>
+        <div class="verify-modal-main" :style="'width: ' + (clientWidth - 30) + 'px;'">
+            <div class="modal-main-content">
+
+                <!-- 拼图 -->
+                <div class="main-content-jigsaw">
+                    <div class="content-jigsaw-refresh" id="slider-refresh" @click="getMachinePicture">
+                        <svg width="23" height="23" t="1530243424799" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6039" xmlns:xlink="http://www.w3.org/1999/xlink" >
+                            <path d="M55.935033 264.48948c0 0 85.897017-132.548409 221.81443-203.673173 135.916406-71.121743 303.368504-50.646859 413.187968 18.319527 109.819465 68.970415 146.791894 127.160016 146.791894 127.160016l94.59499-53.879895c0 0 19.576483-9.697092 19.576483 12.932142l0 338.379961c0 0 0 30.17399-22.837719 19.395191-19.210878-9.062571-226.959086-127.198289-292.424528-164.466828-35.950145-16.035251-4.365101-29.062068-4.365101-29.062068l91.284402-52.173738c0 0-52.068992-65.209619-128.278989-99.744682-81.576231-42.501826-157.948384-47.541735-251.497925-12.224097-61.002644 23.025054-132.823368 81.988166-184.553949 169.082716L55.935033 264.48948 55.935033 264.48948 55.935033 264.48948zM904.056909 711.697844c0 0-85.897017 132.550423-221.816444 203.671159-135.917413 71.12275-303.366489 50.651895-413.186961-18.315498-109.825508-68.972429-146.790886-127.165052-146.790886-127.165052L27.662591 823.768348c0 0-19.572454 9.703135-19.572454-12.932142L8.090137 472.459267c0 0 0-30.170968 22.831676-19.397205 19.211885 9.067607 226.965129 127.198289 292.430571 164.470856 35.950145 16.035251 4.366109 29.058039 4.366109 29.058039l-91.285409 52.175753c0 0 52.071006 65.206598 128.279996 99.744682 81.57321 42.498804 157.942341 47.540728 251.496918 12.222082 60.998616-23.026061 132.820346-81.983131 184.546898-169.082716L904.056909 711.697844 904.056909 711.697844 904.056909 711.697844zM904.056909 711.697844" p-id="6040" ></path>
+                        </svg>
+                    </div>
+                    <img class="content-jigsaw-bg" :src="jigsawBgPicture ? ('data:image/jpg;base64,' + jigsawBgPicture) : ''" />
+                    <img class="content-jigsaw-front" :style="`left: ${jigsawMovepx}px; top: ${jigsawHeighty}px;`" :src="jigsawFrontPicture ? ('data:image/jpg;base64,' + jigsawFrontPicture) : ''" />
+                </div>
+
+                <!-- 滑块 -->
+                <div class="main-content-slider">
+                    <div class="captcha-slider-drag" :class="sliderClassStatus">
+                        <div class="slider-drag-mask" :style="'width: ' + jigsawMovepx  + 'px;'">
+                            <div class="slider-drag-handle flex-center" ref="slider-drag-handle" :style="'left: ' + jigsawMovepx  + 'px;'">
+                                <svg v-if="jigsawStatus === 'succeed'" width="24" height="24" t="1530238678016" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3369" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path fill="#fff" d="M378.410667 850.450963C364.491852 850.450963 350.610963 845.293037 340.02963 834.939259L20.920889 523.529481C-0.279704 502.821926-0.279704 469.295407 20.920889 448.587852 42.121481 427.880296 76.48237 427.880296 97.682963 448.587852L378.410667 722.526815 925.75763 188.491852C946.958222 167.784296 981.319111 167.784296 1002.519704 188.491852 1023.720296 209.161481 1023.720296 242.688 1002.519704 263.395556L416.791704 834.939259C406.172444 845.293037 392.291556 850.450963 378.410667 850.450963L378.410667 850.450963Z" p-id="3370"></path>
+                                </svg>
+                                <svg v-else-if="jigsawStatus === 'failure'" width="32" height="32" t="1530238694639" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4162" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path fill="#fff" d="M733.952 336.333l-46.285-46.285L512 465.664 336.333 290.048l-46.285 46.285L465.664 512 290.048 687.667l46.285 46.285L512 558.336l175.667 175.616 46.285-46.285L558.336 512z" p-id="4163" ></path>
+                                </svg>
+                                <svg v-else width="23" height="23" t="1530238656201" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2557" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path d="M244.363636 556.939636h469.248l-184.762181 170.565819a34.909091 34.909091 0 1 0 47.36 51.29309l250.391272-231.121454a34.955636 34.955636 0 0 0 0-51.293091l-250.391272-231.121455a34.862545 34.862545 0 0 0-49.338182 1.95491 34.909091 34.909091 0 0 0 1.978182 49.338181l184.762181 170.565819H244.363636a34.909091 34.909091 0 1 0 0 69.818181" p-id="2558"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div v-if="jigsawStatus === 'natural' || 'activate'" class="slider-drag-text" id="drag-text">向右滑动滑块验证</div>
+                    </div> 
+                </div>
             </div>
         </div>
     </div>
@@ -126,7 +183,14 @@ export default {
             }
             
             return keyValue[this.jigsawStatus];
-        }
+        },
+    
+        /**
+         * 从 store 获取数据 是否阅读并且同意
+         */
+        isRegisterAgreement: function isRegisterAgreement() {
+            return this.$store.getters["MulFunStorage/getInviteAgreement"]; // 获取 是否阅读并且同意
+        },
     },
 
     watch: {
@@ -515,8 +579,14 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
+// 框架部分
 @invite-input-content-z-index: 3;
 @invite-input-bg-z-index: 2;
+
+// 人机验证模态框
+@machine-verify-modal-z-index: 2;
+@machine-verify-shade-z-index: 2;
+@machine-verify-content-z-index: 3;
 
 .invite-input {
     position: relative;
@@ -623,6 +693,248 @@ export default {
             height: 45px;
         }
     }
+
+    // 注册
+    .register-submit {
+        padding: 15px 0px 15px 0px;
+
+        .register-submit-content {
+            line-height: 45px;
+            border-radius: 5px;
+            text-align: center;
+            color: #fff;
+            background: #FA3838;
+        }
+    }
+}
+
+// 协议
+.register-agreement {
+    .register-agreement-content {
+        height: 35px;
+
+        // 单选框
+        .agreement-radio-content {
+            position: relative;
+            top: 1px;
+            width: 15px;
+        }
+    }
+
+    // 单选框
+    .register-agreement-radio path {
+        fill: #FFA100;
+    }
+    
+    // 单选框选中
+    .agreement-radio-selected path {
+        fill: #E50012;
+    }
+
+    // 协议文本
+    .register-agreement-text {
+        font-size: 12px;
+        color: @black3;
+
+        span {
+            color: #FFA100;
+        }
+    }
+}
+
+
+// 人机验证模态框
+.machine-verify-modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    z-index: @machine-verify-modal-z-index;
+
+    // 遮罩层
+    .verify-modal-shade {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+        z-index: @machine-verify-shade-z-index;
+        background-color: rgba(0, 0, 0, 0.46);
+    }
+
+    // 内容 整体框架部分
+    .verify-modal-main {
+        position: relative;
+        border-radius: 5px;
+        background: #fff;
+        z-index: @machine-verify-content-z-index;
+
+        .modal-main-content {
+            padding: 15px;
+        }
+    }
+
+    // 拼图部分
+    .main-content-jigsaw {
+        position: relative;
+
+        // 刷新
+        .content-jigsaw-refresh {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+
+            svg {
+                fill: #fff;
+            }
+        }
+
+        .content-jigsaw-refresh:active {
+            svg {
+                fill: #F56C6C;
+            }
+        }
+
+        .content-jigsaw-bg {
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+
+        .content-jigsaw-front {
+            position: absolute;
+            top: 0px;
+            display: block;
+            outline: rgb(255, 255, 255);
+            box-shadow: rgba(0, 0, 0, 0.36) 0px 2px 4px, rgba(0, 0, 0, 0.24) 0px 2px 4px;
+        }
+    }
+
+    // 滑块
+    .main-content-slider {
+        
+        // 滑块
+        .captcha-slider-drag {
+            position: relative;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            margin-top: 15px;
+            background: #f7f9fa;
+            color: #45494c;
+            border: 1px solid #e4e7eb;
+
+            .slider-drag-mask {
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 40px;
+                border: 0 solid #1991FA;
+                background: #D1E9FE;
+
+                .slider-drag-handle {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 40px;
+                    height: 40px;
+                    background: #fff;
+                    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+                    cursor: pointer;
+                    transition: background 0.2s linear;
+                    
+                    svg {
+                        fill: #606266;
+                        transition: fill 0.2s linear;
+                    }
+                }
+
+                .slider-drag-handle:hover {
+                    background: #1991FA;
+                    
+                    svg {
+                        fill: #fff;
+                    }
+                }
+            }
+
+            .slider-drag-text {
+                color: @black2;
+                font-size: 16px;
+                text-align: center;
+                line-height: 40px;
+                user-select: none;
+                -webkit-user-select: none;
+            }
+        }
+
+        // 滑块激活
+        .slider-drag-activate .slider-drag-mask {
+            height: 38px;
+            border: 1px solid #1991FA;
+
+            .slider-drag-handle {
+                height: 38px;
+                top: -1px;
+                background: #1991FA;
+                border: 1px solid #1991FA;
+
+                svg {
+                    fill: #fff;
+                }
+            }
+        }
+
+        // 滑块成功
+        .slider-drag-succeed .slider-drag-mask {
+            height: 38px;
+            border: 1px solid #52CCBA;
+            background: #D2F4EF;
+
+            .slider-drag-handle {
+                height: 38px;
+                top: -1px;
+                background: #52CCBA;
+                border: 1px solid #52CCBA;
+
+                svg {
+                    fill: #fff;
+                }
+            }
+
+            .slider-drag-handle:hover {
+                background: #52CCBA;
+            }
+        }
+        
+        // 滑块失败
+        .slider-drag-failure .slider-drag-mask {
+            height: 38px;
+            border: 1px solid #f57a7a;
+            background: #fce1e1;
+
+            .slider-drag-handle {
+                height: 38px;
+                top: -1px;
+                background: #f57a7a;
+                border: 1px solid #f57a7a;
+
+                svg {
+                    fill: #fff;
+                }
+            }
+
+            .slider-drag-handle:hover {
+                background: #f57a7a;
+            }
+        }
+    }
+}
+.machine-verify-show {
+    display: flex;
 }
 
 // SVG——背景图

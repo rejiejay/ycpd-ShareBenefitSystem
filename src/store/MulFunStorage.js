@@ -7,8 +7,10 @@
  * 单一状态树 唯一数据源 (SSOT)
  */
 const state = {
-    isRegisterAgreement: false, // 是否阅读并且同意
+    isRegisterAgreement: false, // 是否 注册页 阅读并且同意
     selectRegisterCompany: '', // 注册页选中公司
+
+    isInviteAgreement: false, // 是否 邀请页 阅读并且同意
 }
 
 /**
@@ -17,17 +19,24 @@ const state = {
  */
 const getters = {
     /**
-     * 获取 是否阅读并且同意
+     * 获取 注册页 阅读并且同意
      */
     getRegisterAgreement(states) {
         return states.isRegisterAgreement;
     },
 
     /**
-     * 获取 注册页选中公司
+     * 获取 注册页 选中公司
      */
     getSelectRegisterCompany(states) {
         return states.selectRegisterCompany;
+    },
+
+    /**
+     * 获取 邀请页 阅读并且同意
+     */
+    getInviteAgreement(states) {
+        return states.isInviteAgreement;
     },
 }
 
@@ -50,14 +59,21 @@ const mutations = {
     },
 
     /**
-     * 初始化 是否阅读并且同意
+     * 初始化 邀请页 阅读并且同意
+     */
+    initInviteAgreement (states, param) {
+        states.isInviteAgreement = param;
+    },
+
+    /**
+     * 初始化 注册页 阅读并且同意
      */
     initRegisterAgreement (states, param) {
         states.isRegisterAgreement = param;
     },
 
     /**
-     * 是否阅读并且同意 切换
+     * 注册页 阅读并且同意 切换
      */
     RegisterAgreementSwitcher (states, param) {
         states.isRegisterAgreement = !states.isRegisterAgreement;

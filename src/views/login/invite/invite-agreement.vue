@@ -1,6 +1,6 @@
 <!-- 团队管理——邀请——注册——同意协议 -->
 <template>
-<div class="register-agreement">
+<div class="invite-agreement">
     <div class="agreement">
         <div class="agreement-main">
             <div class="agreement-title">《养车频道推广员注册协议》</div>
@@ -217,7 +217,7 @@
 <script>
 
 export default {
-    name: 'register-agreement',
+    name: 'invite-agreement',
 
     data () {
         return {
@@ -235,7 +235,7 @@ export default {
          */
         jumpToBack(isAgreement) {
             if (isAgreement) {
-                this.$store.commit('MulFunStorage/initRegisterAgreement', isAgreement); //初始化 是否阅读并且同意
+                this.$store.commit('MulFunStorage/initInviteAgreement', true); //初始化 是否阅读并且同意
             }
             this.$router.back(-1);
         },
@@ -255,7 +255,7 @@ export default {
 @machine-verify-shade-z-index: 2;
 @machine-verify-content-z-index: 3;
 
-.register-agreement {
+.invite-agreement {
     position: relative;
     font-size: 14px;
     width: 100%;

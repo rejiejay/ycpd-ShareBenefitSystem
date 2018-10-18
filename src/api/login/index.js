@@ -168,7 +168,7 @@ export default {
                 withCredentials: true
             },
             data: JSON.stringify({
-                code: window.localStorage.wx_code, // 微信code
+                // code: window.localStorage.wx_code, // 微信code
                 token: token,
                 telephone: telephone,
                 msgCode: msgCode,

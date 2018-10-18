@@ -80,7 +80,7 @@
     </div>
 
     <!-- 立即参与 -->
-    <div class="activity-immediately-attend flex-center">
+    <div class="activity-immediately-attend flex-center" @click="jumpToActiveLink">
         <div class="immediately-attend-content" :style="`width: ${clientWidth -30}px;`">立即参与</div>
     </div>
 
@@ -151,6 +151,13 @@ export default {
                 console.error('Trigger:', e.trigger);
             });
         },
+
+        /**
+         * 跳转到活动链接地址
+         */
+        jumpToActiveLink: function jumpToActiveLink() {
+            window.location.href = 'http://rec.mobi88.cn';
+        }
     }
 }
 

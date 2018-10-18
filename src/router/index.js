@@ -44,7 +44,28 @@ const routes = [
                 meta: { title: '选择公司' },
             },
         ],
-    },
+    }, {
+        path: '/invite/register',
+        component: () => import('@/views/login/invite/index'),
+        children: [
+            {
+                path: 'index',
+                name: 'invite-input',
+                component: () => import('@/views/login/invite/invite-input'),
+                meta: { title: '养车频道推广员注册' },
+            }, {
+                path: 'agreement',
+                name: 'invite-agreement',
+                component: () => import('@/views/login/invite/invite-agreement'),
+                meta: { title: '养车频道推广员注册' },
+            },
+        ],
+    }, {
+        path: '/invite/succeed',
+        name: 'invite-succeed',
+        component: () => import('@/views/login/invite/succeed'),
+        meta: { title: '养车频道福利共享' },
+    }, 
 
     /**
      * 个人中心

@@ -171,7 +171,7 @@ export default {
                 token: token,
                 telephone: telephone,
                 msgCode: msgCode,
-                code: window.localStorage.wx_code,
+                // code: window.localStorage.wx_code,  // 微信code
                 affiliation: affiliation,
                 parentId: parentId,
             }),

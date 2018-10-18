@@ -264,8 +264,11 @@ export default {
                         getMachinePicture(); // 获取人机验证码
 
                     } else if (res.code === 1004) { // 使用微信登陆成功
-                        console.error('使用微信登陆成功');
-                        getMachinePicture(); // 获取人机验证码
+                        window.localStorage.setItem('ycpd_token', res.data.token); // 存储 全局 token
+                        window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
+                        window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
+                        _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
+                        _this.$router.replace({ path: '/' }); // 跳转到首页
 
                     } else if (res.code === 1005) { // 获取用户微信openId失败，跳转至登陆页
                         console.error('获取用户微信openId失败');

@@ -3,6 +3,9 @@ import { Indicator } from 'mint-ui';
 
 export default {
     // 判断是否已经登录
+    /**
+     * 判断是否已经登录
+     */
     isLogin: () => new Promise((resolve, reject) => {
         // return resolve({ 
         //     /**
@@ -36,7 +39,7 @@ export default {
         // });
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByXy}/ycpd/cas/phone`,
+            url: `${config.url.originByXy}/ycpd/cas/phone?code=${window.localStorage.wx_code}`,
             xhrFields: {
                 withCredentials: true
             },
@@ -165,7 +168,7 @@ export default {
                 withCredentials: true
             },
             data: JSON.stringify({
-                code: code, // 微信code
+                code: window.localStorage.wx_code, // 微信code
                 token: token,
                 telephone: telephone,
                 msgCode: msgCode,

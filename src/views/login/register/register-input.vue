@@ -206,9 +206,21 @@ export default {
         // 初始化 parentId
         this.parentId = this.$route.params.parentId ? this.$route.params.parentId : null;
 
-        
-        this.wx_code = loadPageVar('code') ?  loadPageVar('code') : '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
-        console.log('微信code', this.wx_code);
+        // 判断是否存在微信 code
+        if (loadPageVar('code')) {
+            this.wx_code = loadPageVar('code');
+            window.localStorage.setItem('wx_code', this.wx_code);
+
+        } else {
+            
+            // 判断是否本地开发环境
+            if (window.location.hostname === 'localhost') {
+                this.wx_code = '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
+                window.localStorage.setItem('wx_code', '081ykH7t0bhN2d1417at00RJ7t0ykH7X');
+            } else {
+                console.error('微信code为空');
+            }
+        }
 
         this.isLogin(); // 判断是否登录
     },

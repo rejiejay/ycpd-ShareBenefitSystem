@@ -214,9 +214,21 @@ export default {
 
     mounted: function () {
 
-        this.wx_code = loadPageVar('code') ?  loadPageVar('code') : '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
+        // 判断是否存在微信 code
+        if (loadPageVar('code')) {
+            this.wx_code = loadPageVar('code');
+            window.localStorage.setItem('wx_code', this.wx_code);
 
-        console.log('微信code', this.wx_code);
+        } else {
+            
+            // 判断是否本地开发环境
+            if (window.location.hostname === 'localhost') {
+                this.wx_code = '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
+                window.localStorage.setItem('wx_code', '081ykH7t0bhN2d1417at00RJ7t0ykH7X');
+            } else {
+                console.error('微信code为空');
+            }
+        }
 
         this.isLogin(); // 判断是否登录
     },
@@ -529,7 +541,7 @@ export default {
                         });
                     } else if (res.code === 1008) {
                         Toast({
-                            message: '机号还未注册,请先注册!',
+                            message: '手机号还未注册,请先注册!',
                             duration: 2000
                         });
                     } else if (res.code === 1009) {

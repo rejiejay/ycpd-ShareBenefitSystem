@@ -260,7 +260,7 @@ export default {
     }
 }
 
-// 参与方式
+// 奖励方式
 .activity-my-reward {
     padding: 15px 15px 0px 15px;
 

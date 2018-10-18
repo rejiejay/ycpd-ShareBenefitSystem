@@ -29,6 +29,7 @@ const routes = [
         children: [
             {
                 path: 'index',
+                alias: ['/'],
                 name: 'register-input',
                 component: () => import('@/views/login/register/register-input'),
                 meta: { title: '养车频道推广员注册' },

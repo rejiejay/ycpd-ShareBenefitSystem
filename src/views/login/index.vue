@@ -137,7 +137,7 @@ export default {
             phoneNumber: '',
 
 			/**
-             * 人机验证码
+             * 短信验证码
              */
 			SMSNumber: '', // 短信验证码
 			isSMSGeting: false, // 是否 正在获取短信验证码

@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="sharer-gift-QRcode">
-                    <div class="sharer-gift-QRcode">
+                    <div class="gift-QRcode-content">
                         <img src="" />
                     </div>
                 </div>
@@ -165,7 +165,7 @@ export default {
         background: #fff;
         text-align: center;
 
-        .sharer-gift-QRcode {
+        .gift-QRcode-content {
             height: 145px;
             width: 145px;
             padding: 5px;

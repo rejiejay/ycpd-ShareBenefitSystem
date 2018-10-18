@@ -1,4 +1,4 @@
-<!-- 注册页 -->
+<!-- 团队管理——邀请——注册- -->
 <template>
     <div class="invite-register">
         <keep-alive>

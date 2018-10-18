@@ -50,21 +50,22 @@ const routes = [
         children: [
             {
                 path: 'index',
+                alias: ['/'],
                 name: 'invite-input',
                 component: () => import('@/views/login/invite/invite-input'),
-                meta: { title: '养车频道推广员注册' },
+                meta: { title: '加入养车福利平台' },
             }, {
                 path: 'agreement',
                 name: 'invite-agreement',
                 component: () => import('@/views/login/invite/invite-agreement'),
-                meta: { title: '养车频道推广员注册' },
+                meta: { title: '加入养车福利平台' },
             },
         ],
     }, {
         path: '/invite/succeed',
         name: 'invite-succeed',
         component: () => import('@/views/login/invite/succeed'),
-        meta: { title: '养车频道福利共享' },
+        meta: { title: '加入养车福利平台' },
     }, 
 
     /**

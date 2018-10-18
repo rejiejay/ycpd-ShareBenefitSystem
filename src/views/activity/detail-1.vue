@@ -241,6 +241,9 @@
             </div>
         </div>
     </div>
+
+    <!-- 分享引导指示 -->
+    <shareGuidance />
 </div>
 </template>
 
@@ -248,9 +251,12 @@
 
 import { Toast } from 'mint-ui';
 import activity001content001 from "@/static/activity001content001.jpg";
+import shareGuidance from "@/components/shareGuidance";
 
 export default {
     name: 'activity-detail-1',
+
+    components: { shareGuidance },
 
 	data: function data() { 
         return {

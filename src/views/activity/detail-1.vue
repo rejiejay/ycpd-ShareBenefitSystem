@@ -243,7 +243,7 @@
     </div>
 
     <!-- 分享引导指示 -->
-    <shareGuidance />
+    <shareGuidance v-if="isShareGuidanceShow" @click="isShareGuidanceShow = false;" />
 </div>
 </template>
 
@@ -252,6 +252,7 @@
 import { Toast } from 'mint-ui';
 import activity001content001 from "@/static/activity001content001.jpg";
 import shareGuidance from "@/components/shareGuidance";
+import initJSSDK from "@/components/initJSSDK";
 
 export default {
     name: 'activity-detail-1',
@@ -291,6 +292,9 @@ export default {
                     time: '2018-10-7', // 时间
                 }, 
             ],
+
+            // 是否显示 分享引导指示 提示
+            isShareGuidanceShow: false,
         } 
     },
     
@@ -307,6 +311,8 @@ export default {
 
 	mounted: function mounted() {
         this.initPageData(); // 初始化页面数据
+
+        this.initShareTimeline(); // 初始化 分享到朋友圈 与 分享给朋友
     },
 
 	methods: {
@@ -314,6 +320,42 @@ export default {
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
+        },
+
+        /**
+         * 初始化 分享到朋友圈 与 分享给朋友
+         */
+	    initShareTimeline: function initShareTimeline() {
+            const _this = this;
+
+            initJSSDK()
+            .then(
+                () => {
+                    /**
+                     * 初始化“分享给朋友”及“分享到QQ”按钮的分享
+                     */
+                    wx.updateAppMessageShareData({ 
+                        title: '', // 分享标题
+                        desc: '', // 分享描述
+                        link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: '', // 分享图标
+                    }, function(res) { 
+                        console.log('初始化“分享给朋友”及“分享到QQ”按钮的分享内容成功', res);
+                    }); 
+                    /**
+                     * 初始化“分享到朋友圈”及“分享到QQ空间”
+                     */
+                    wx.updateTimelineShareData({ 
+                        title: '', // 分享标题
+                        link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: '', // 分享图标
+                    }, function(res) { 
+                        console.log('初始化“分享到朋友圈”及“分享到QQ空间”按钮的分享内容成功', res);
+                    }); 
+                }, error => {
+                    console.error(error);
+                }
+            )
         },
         
         /**

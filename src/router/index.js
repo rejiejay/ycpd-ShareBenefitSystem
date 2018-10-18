@@ -67,6 +67,11 @@ const routes = [
         name: 'invite-succeed',
         component: () => import('@/views/login/invite/succeed'),
         meta: { title: '加入养车福利平台' },
+    }, {
+        path: '/redirect',
+        name: 'redirect',
+        component: () => import('@/views/login/redirect'),
+        meta: { title: '养车频道福利共享' },
     }, 
 
     /**

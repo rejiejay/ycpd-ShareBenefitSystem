@@ -69,6 +69,7 @@
 
 import ajaxs from "@/api/user/info";
 import getBase64ByImageName from "@/api/common/getBase64ByImageName";
+import config from "@/config/index";
 
 export default {
     name: 'user-info',
@@ -131,11 +132,11 @@ export default {
             ajaxs.logout()
             .then(res => {
                 alert('成功退出登录！');
-                if (process.env.NODE_ENV === 'development') {
-                    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa21f56d22d9482b1&redirect_uri=http%3A%2F%2Fscas.api2.hotgz.com%2Fhome%2Fcas%2Findex.html%23%2Flogin&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect";
-                } else {
-                    this.$router.replace({path: '/login'});
-                }
+                /**
+                 * 打开跳转到注册链接, 
+                 * 目的是防止出现路由后退
+                 */
+                window.location.href = config.location.href;
             }, error => {
                 alert(error);
             });

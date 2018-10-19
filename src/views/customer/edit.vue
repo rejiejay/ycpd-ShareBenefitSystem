@@ -255,7 +255,7 @@ export default {
         }
 
         span {
-            width: 65px;
+            width: 75px;
             padding-right: 10px;
             display: block;
         }

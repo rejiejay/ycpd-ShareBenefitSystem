@@ -233,7 +233,7 @@
 
                 </div>
                 <div class="QRcode-main-content flex-center">
-                    <img src="" />
+                    <img :src="qRcodeImg" />
                 </div>
             </div>
         </div>
@@ -281,6 +281,8 @@ export default {
             
             proportion: 1, // 分成
             time: '2018-10-6 至 2018-12-9', // 活动时间
+
+            qRcodeImg: '', // 分享 二维码 图片
 
             score: 4.0, // 加油站评分 0~5分
 
@@ -348,13 +350,14 @@ export default {
          * 获取 - 二维码
          */
         getQRcode: function getQRcode() {
+            const _this = this;
 
             // 通过二维码名称交换base64的图片
             let exchangeImage = quickMark => {
-                getBase64ByImageName(quickMark)
+                getBase64ByImageName(`img/QuickMark/${quickMark}`)
                 .then(
                     res => {
-                        console.log(res)
+                        _this.qRcodeImg = `data:image/png;base64,${res}`;
                     }, error => {
                         alert(error);
                     }
@@ -418,32 +421,62 @@ export default {
 	    initShareTimeline: function initShareTimeline() {
             const _this = this;
             let agentName = this.userInfoStore.agentName;
+            let title = `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`; // 分享标题
+            let desc = '加油钜惠，保养特价，还能做任务赚佣金'; // 分享描述
+            let link = config.location.redirect_href; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 
-            initJSSDK()
+            initJSSDK(['updateAppMessageShareData', 'updateTimelineShareData', 'onMenuShareTimeline', 'onMenuShareAppMessage'])
             .then(
                 () => {
                     /**
                      * 初始化“分享给朋友”及“分享到QQ”按钮的分享
                      */
                     wx.updateAppMessageShareData({ 
-                        title: `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`, // 分享标题
-                        desc: '加油钜惠，保养特价，还能做任务赚佣金', // 分享描述
-                        link: config.location.redirect_href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        title: title,
+                        desc: desc,
+                        link: link,
                         imgUrl: '', // 分享图标
                     }, function(res) { 
-                        console.log('初始化“分享给朋友”及“分享到QQ”按钮的分享内容成功', res);
+                        console.log('成功“分享给朋友”及“分享到QQ”', res);
                     }); 
                     
                     /**
                      * 初始化“分享到朋友圈”及“分享到QQ空间”
                      */
                     wx.updateTimelineShareData({ 
-                        title: `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`, // 分享标题
-                        link: config.location.redirect_href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        title: title,
+                        link: link,
                         imgUrl: '', // 分享图标
                     }, function(res) { 
-                        console.log('初始化“分享到朋友圈”及“分享到QQ空间”按钮的分享内容成功', res);
+                        console.log('成功“分享到朋友圈”及“分享到QQ空间”', res);
                     }); 
+                    
+                    /**
+                     * 初始化“分享到朋友圈”
+                     */
+                    wx.onMenuShareTimeline({
+                        title: title,
+                        link: link,
+                        imgUrl: '', // 分享图标
+                        success: function () {
+                            console.log('成功“分享到朋友圈”', res);
+                        },
+                    }); 
+
+                    /**
+                     * 初始化“分享给朋友”及“分享到QQ”按钮的分享
+                     */
+                    wx.onMenuShareAppMessage({
+                        title: title,
+                        desc: desc,
+                        link: link,
+                        imgUrl: '', // 分享图标
+                        type: 'link', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function () {
+                            console.log('成功“分享给朋友”', res);
+                        }
+                    });
                 }, error => {
                     console.error(error);
                 }

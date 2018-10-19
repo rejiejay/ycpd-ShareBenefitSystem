@@ -3,6 +3,7 @@ import { Indicator } from 'mint-ui';
 
 /**
  * 获取 - base64位的图像
+ * @param {string} imagePath 图片相对路径 头像: img/icon/xxxxxx 二维码: img/QuickMark/xxxxxxxxx
  */
 let getBase64ByImageName = (imagePath) => new Promise((resolve, reject) => {
     // 返回测试数据

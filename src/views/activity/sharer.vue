@@ -14,7 +14,7 @@
                     深圳40多家油站
                 </div>
                 <div class="sharer-gift-row2">
-                    最高<span>直降1.2元/L</span>
+                    最高<span>直降1.3元/L</span>
                 </div>
 
                 <div class="sharer-gift-QRcode">
@@ -31,17 +31,89 @@
         </div>
     </div>
 
-    <!-- 按钮部分 -->
+    <!-- 底部 按钮部分 -->
     <div class="activity-sharer-button flex-start-center">
         <div class="sharer-button-left">
-            <div class="button-item button-left-content">返回活动</div>
+            <div class="button-item button-left-content" @click="routerBack">返回活动</div>
         </div>
         <div class="sharer-button-rigth flex-rest">
-            <div class="button-item button-rigth-content">立即邀请，享加油分成</div>
+            <div class="button-item button-rigth-content" @click="isInvitationModalShow = true">立即邀请，享加油分成</div>
+        </div>
+    </div>
+    
+    <!-- 模态框 —— 底部分享 -->
+    <div class="activity-invitation-modal" v-if="isInvitationModalShow">
+        <div class="up-modal-shade" @click="isInvitationModalShow = false;"></div>
+        <div class="up-modal-main">
+            <div class="upmodal-main-content flex-column-center">
+                
+                <!-- 选择的内容 -->
+                <div class="upmodal-main-select" :style="`width: ${clientWidth - 30}px;`">
+                    <div class="main-select-content flex-start-center">
+
+                        <div class="main-select-item flex-column-center" @click="isShareGuidanceShow = true; isInvitationModalShow = false;">
+                            <div class="main-select-icon">
+                                <svg width="35" height="35" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="邀好友享分成-邀请方式" transform="translate(-111.000000, -1026.000000)" fill="#36CB3E"><g id="Alert" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(111.000000, 898.000000)">
+                                    <path d="M50.2996516,63.195122 C38.3148801,63.195122 28.5993031,55.1081677 28.5993031,45.1324042 C28.5993031,35.1566406 38.3148801,27.0696864 50.2996516,27.0696864 C62.2844231,27.0696864 72,35.1566406 72,45.1324042 C72,50.7902011 68.874849,55.8404361 63.9830136,59.1523624 C63.8305465,59.5344631 64.1915313,61.3136035 65.0659679,64.4897836 C65.1098286,64.6490971 65.0862864,64.8194351 65.0008581,64.9608797 C64.8289436,65.2455206 64.4588323,65.3369033 64.1741914,65.1649888 L64.174194,65.1649845 C60.7321046,63.0860663 58.8188865,61.992096 58.4345396,61.8830736 C55.922298,62.7292011 53.1763434,63.195122 50.2996516,63.195122 Z M43.0243902,42.1219512 C44.6177414,42.1219512 45.9094077,40.8302849 45.9094077,39.2369338 C45.9094077,37.6435827 44.6177414,36.3519164 43.0243902,36.3519164 C41.4310391,36.3519164 40.1393728,37.6435827 40.1393728,39.2369338 C40.1393728,40.8302849 41.4310391,42.1219512 43.0243902,42.1219512 Z M57.5749129,42.1219512 C59.168264,42.1219512 60.4599303,40.8302849 60.4599303,39.2369338 C60.4599303,37.6435827 59.168264,36.3519164 57.5749129,36.3519164 C55.9815618,36.3519164 54.6898955,37.6435827 54.6898955,39.2369338 C54.6898955,40.8302849 55.9815618,42.1219512 57.5749129,42.1219512 Z M50.2996516,25.3135889 C37.2064619,25.3135889 26.5923345,34.1867747 26.5923345,45.1324042 C26.5923345,46.9463745 26.883851,48.7034252 27.4298561,50.3726018 C26.9862666,50.3912567 26.5397549,50.4006969 26.0905923,50.4006969 C23.0196931,50.4006969 20.0727095,49.9594255 17.3363014,49.1489605 C15.9303136,48.7700348 13.4216028,50.5261324 11.9163763,51.4041812 C11.3557063,51.7312387 10.651459,52.188821 9.80363447,52.776928 C9.39379556,53.0612208 8.83109093,52.9594442 8.54679916,52.5496046 C8.3864233,52.3184042 8.34296908,52.0256649 8.42927075,51.7578477 C9.57534915,48.2012592 9.94732485,46.1086655 9.54519783,45.4800668 C3.71752008,41.5002588 0,35.4613885 0,28.7003484 C0,16.7155769 11.6811561,7 26.0905923,7 C39.1328238,7 49.9399458,14.959365 51.8733461,25.3565569 C51.3531823,25.3280616 50.8284387,25.3135889 50.2996516,25.3135889 Z M17.3101045,25.3135889 C19.2498363,25.3135889 20.8222997,23.7411255 20.8222997,21.8013937 C20.8222997,19.8616619 19.2498363,18.2891986 17.3101045,18.2891986 C15.3703727,18.2891986 13.7979094,19.8616619 13.7979094,21.8013937 C13.7979094,23.7411255 15.3703727,25.3135889 17.3101045,25.3135889 Z M34.6202091,25.3135889 C36.5599409,25.3135889 38.1324042,23.7411255 38.1324042,21.8013937 C38.1324042,19.8616619 36.5599409,18.2891986 34.6202091,18.2891986 C32.6804773,18.2891986 31.1080139,19.8616619 31.1080139,21.8013937 C31.1080139,23.7411255 32.6804773,25.3135889 34.6202091,25.3135889 Z" id="wechat"></path></g></g></g></g>
+                                </svg>
+                            </div>
+                            <div class="main-select-describe">好友</div>
+                        </div>
+
+                        <div class="main-select-item flex-column-center" @click="isShareGuidanceShow = true; isInvitationModalShow = false;">
+                            <div class="main-select-icon">
+                                <svg width="35" height="35" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="邀好友享分成-邀请方式" transform="translate(-263.000000, -1026.000000)"><g id="Alert" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(111.000000, 898.000000)"><g id="朋友圈" transform="translate(156.000000, 4.000000)"><path d="M61.4963378,19.5703288 C63.108645,23.3917635 64,27.5917882 64,32 C64,35.2141795 63.5261225,38.3176791 62.6444217,41.2444444 L39.8222222,41.2444444 L61.4963378,19.5703288 Z" id="Combined-Shape" fill="#5482F0"></path><path d="M22.7555556,62.6444217 L22.7555556,39.8222222 L44.4296712,61.4963378 C40.6082365,63.108645 36.4082118,64 32,64 C28.7858205,64 25.6823209,63.5261225 22.7555556,62.6444217 Z" id="Combined-Shape" fill="#65CF1E"></path><path d="M44.0888889,2.36220573 C50.7713037,5.09068324 56.3247073,10.0134811 59.8536946,16.2351943 L44.0888889,32 L44.0888889,2.36220573 Z" id="Combined-Shape" fill="#6469F0"></path><path d="M19.9111111,61.6377943 C13.2286963,58.9093168 7.6752927,53.9865189 4.14630541,47.7648057 L19.9111111,32 L19.9111111,61.6377943 Z" id="Combined-Shape" fill="#99D123"></path><path d="M61.6377943,44.0888889 C58.9093168,50.7713037 53.9865189,56.3247073 47.7648057,59.8536946 L32,44.0888889 L61.6377943,44.0888889 Z" id="Combined-Shape" fill="#0EB0FF"></path><path d="M2.36220573,19.9111111 C5.09068324,13.2286963 10.0134811,7.6752927 16.2351943,4.14630541 L32,19.9111111 L2.36220573,19.9111111 Z" id="Combined-Shape" fill="#FD7712"></path><path d="M19.5703288,2.50366218 C23.3917635,0.891355011 27.5917882,0 32,0 C35.2141795,0 38.3176791,0.47387748 41.2444444,1.35557832 L41.2444444,24.1777778 L19.5703288,2.50366218 Z" id="Combined-Shape" fill="#F85452"></path><path d="M2.50366218,44.4296712 C0.891355011,40.6082365 0,36.4082118 0,32 C0,28.7858205 0.47387748,25.6823209 1.35557832,22.7555556 L24.1777778,22.7555556 L2.50366218,44.4296712 Z" id="Combined-Shape" fill="#FDC813"></path></g></g></g></g></g></svg>
+                            </div>
+                            <div class="main-select-describe">朋友圈</div>
+                        </div>
+                        <div class="main-select-item flex-column-center" @click="upgrading">
+                            <div class="main-select-icon">
+                                <svg width="35" height="35" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="邀好友享分成-邀请方式" transform="translate(-415.000000, -1026.000000)"><g id="Alert" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(111.000000, 898.000000)"><g id="短信" transform="translate(306.000000, 2.000000)"><rect id="Rectangle-Copy-2" fill="#28D631" x="0" y="0" width="68" height="68" rx="12"></rect><path d="M34,53 C47.254834,53 58,44.045695 58,33 C58,21.954305 47.254834,13 34,13 C20.745166,13 10,21.954305 10,33 C10,39.544367 13.7719187,45.354585 19.6029285,49.0032975 C20.6234514,49.6384969 20.0571752,51.8057986 17.9040999,55.5052027 L17.9040647,55.5051821 C17.7095882,55.8393308 17.8228148,56.2678662 18.1569635,56.4623427 C18.3357189,56.5663795 18.5513304,56.5860451 18.7459577,56.516064 C19.7193971,56.1660499 20.8055015,55.6606953 22.0042708,55 C23.8891266,53.9611719 26.3071503,51.9351599 27.0374795,52.1454192 C29.2411037,52.7011946 31.578678,53 34,53 Z" id="Oval" fill="#FFFFFF"></path></g></g></g></g></g></svg>
+                            </div>
+                            <div class="main-select-describe">短信</div>
+                        </div>
+                        <div class="main-select-item flex-column-center" @click="isShareModalShow = true">
+                            <div class="main-select-icon">
+                                <svg width="35" height="35" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="邀好友享分成-邀请方式" transform="translate(-567.000000, -1026.000000)" fill="#444444" fill-rule="nonzero"><g id="Alert" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(111.000000, 898.000000)"><path d="M466,10 L466,30 L486,30 L486,10 L466,10 Z M462,6 L490,6 L490,34 L462,34 L462,6 Z M466,42 L466,62 L486,62 L486,42 L466,42 Z M462,38 L490,38 L490,66 L462,66 L462,38 Z M498,10 L498,30 L518,30 L518,10 L498,10 Z M494,6 L522,6 L522,34 L494,34 L494,6 Z M471,15 L481,15 L481,25 L471,25 L471,15 Z M471,47 L481,47 L481,57 L471,57 L471,47 Z M518,46 L522,46 L522,58 L514,58 L514,54 L518,54 L518,50 L514,50 L514,42 L518,42 L518,38 L522,38 L522,42 L518,42 L518,46 Z M503,15 L513,15 L513,25 L503,25 L503,15 Z M502,46 L506,46 L506,50 L502,50 L502,46 Z M510,38 L514,38 L514,42 L510,42 L510,38 Z M502,58 L506,58 L506,62 L502,62 L502,58 Z M506,50 L510,50 L510,58 L506,58 L506,50 Z M506,62 L522,62 L522,66 L506,66 L506,62 Z M494,38 L506,38 L506,42 L510,42 L510,46 L506,46 L506,42 L498,42 L498,50 L494,50 L494,38 Z M494,54 L502,54 L502,58 L498,58 L498,66 L494,66 L494,54 Z" id="Qr"></path></g></g></g></g></svg>
+                            </div>
+                            <div class="main-select-describe">二维码</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 取消 -->
+                <div class="upmodal-main-cancel" @click="isInvitationModalShow = false" :style="`width: ${clientWidth - 30}px;`">
+                    <div>取消</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 二维码分享 -->
+    <div class="activity-share-QRcode flex-center" v-if="isShareModalShow">
+        <div class="share-QRcode-shade" @click="isShareModalShow = false"></div>
+        <div class="share-QRcode-main" :style="`width: ${clientWidth - 30}px;`">
+            <div class="share-QRcode-content">
+                <div class="QRcode-main-title flex-start-center">
+                    
+                    <!-- 头像 -->
+                    <div class="user-banner-photo" v-if="imageName">
+                        <img :src="`data:image/png;base64,${imageName}`" />
+                    </div>
+                    <div class="name-remark-head" v-else>
+                        <div>{{agentName ? agentName.substring(0, 1) : '无'}}</div>
+                    </div>
+                    <div class="main-title-name">{{agentName}}</div>
+
+                </div>
+                <div class="QRcode-main-content flex-center">
+                    <img src="" />
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- 底部svg -->
+    <!-- 底部背景 svg -->
     <div class="activity-sharer-svg">
         <svg :width="clientWidth" height="65" viewBox="0 0 750 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient x1="14.5612522%" y1="135.070068%" x2="14.5612522%" y2="0%" id="linearGradient-1"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient><linearGradient x1="38.9953707%" y1="158.647828%" x2="38.9953707%" y2="0%" id="linearGradient-2"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient><linearGradient x1="56.5895744%" y1="136.515723%" x2="63.4977092%" y2="0%" id="linearGradient-3"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient><linearGradient x1="66.089026%" y1="154.283574%" x2="75.3648545%" y2="0%" id="linearGradient-4"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient></defs><g id="活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="分享预览B" transform="translate(0.000000, -1204.000000)"><g id="BG" transform="translate(0.000000, 128.000000)"><g id="底纹" transform="translate(0.000000, 1076.000000)"><polygon id="Path-4" fill="url(#linearGradient-1)" opacity="0.200000003" points="75.4935058 37.6471357 0 130 507.226136 130"></polygon><polygon id="Path-4-Copy" fill="url(#linearGradient-2)" opacity="0.200000003" points="198.314499 5.50615304 0 130 496.528698 130"></polygon><polygon id="Path-4-Copy-2" fill="url(#linearGradient-3)" opacity="0.200000003" points="335.887055 1 0 130.635761 531.560617 130.635761"></polygon><polygon id="Path-4-Copy-3" fill="url(#linearGradient-4)" opacity="0.200000003" points="630.927522 7.14023816 750 130.635761 263 130.635761"></polygon><polygon id="Path-5" fill="#000000" style="mix-blend-mode: soft-light;" opacity="0.252399555" points="490 44 480 66 513 61"></polygon><polygon id="Path-5-Copy-3" fill="#000000" style="mix-blend-mode: soft-light;" opacity="0.252399555" points="129 29.4985018 158.554206 18.2492509 148.795846 7"></polygon><polygon id="Path-5-Copy-4" fill="#000000" style="mix-blend-mode: soft-light;" opacity="0.252399555" points="366 20 372.375163 37.4857646 399.5 22"></polygon><polygon id="Path-5-Copy" fill="#000000" style="mix-blend-mode: soft-light;" opacity="0.252399555" points="50.5384894 84.7968508 8 92.0062393 16.691984 66"></polygon><polygon id="Path-5-Copy-2" fill="#000000" style="mix-blend-mode: soft-light;" opacity="0.252399555" points="708.116956 9 695 38.5917011 750 28.0103058"></polygon></g></g></g></g></svg>
     </div>
@@ -50,15 +122,27 @@
 
 <script>
 
+import shareGuidance from "@/components/shareGuidance";
+
 export default {
     name: 'activity-sharer',
+
+    components: { shareGuidance },
 
 	data: function data() { 
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            agentName: '', // 用户名称
+            agentName: '', // 用户昵称
+            imageName: '', // base64位头像
+
+            isInvitationModalShow: false, // 是否显示 立即邀请，享加油分成
+
+            isShareModalShow: false, // 是否显示 二维码分享模态框
+
+            // 是否显示 分享引导指示 提示
+            isShareGuidanceShow: false,
         } 
     },
     
@@ -86,6 +170,20 @@ export default {
 
             this.agentName = userInfoStore.agentName;
         },
+        
+        /**
+         * 升级中
+         */
+        upgrading: function upgrading() {
+            Toast({ message: "升级中", duration: 1000 });
+        },
+
+        /**
+         * 返回到上一页
+         */
+        routerBack: function routerBack() {
+            this.$router.back(-1);
+        },
     }
 }
 
@@ -96,6 +194,11 @@ export default {
 @black2: #606266;
 @black3: #909399;
 @black4: #C0C4CC;
+
+// 模态框 立即邀请，享加油分成
+@invitation-modal-z-index: 2;
+@invitation-shade-z-index: 3;
+@invitation-main-z-index: 4;
 
 .activity-sharer {
     position: relative;
@@ -216,6 +319,79 @@ export default {
     }
 }
 
+// 模态框 立即邀请，享加油分成
+.activity-invitation-modal {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @invitation-modal-z-index;
+
+    // 遮罩
+    .up-modal-shade {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.46);
+        z-index: @invitation-shade-z-index;
+    }
+
+    // 主要区域
+    .up-modal-main {
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        width: 100%;
+        z-index: @invitation-main-z-index;
+
+        .upmodal-main-content {
+            padding: 15px;
+        }
+    }
+
+    // 选择的内容
+    .upmodal-main-select {
+        border-radius: 5px;
+        background: #fff;
+
+        .main-select-content {
+            padding: 15px;
+        }
+
+        // 其中的一个item
+        .main-select-item {
+            padding: 15px 0px;
+            width: 25%;
+        }
+
+        // 描述
+        .main-select-describe {
+            padding-top: 5px;
+            color: @black1;
+            text-align: center;
+        }
+    }
+
+    // 取消
+    .upmodal-main-cancel {
+        padding-top: 10px;
+
+        div {
+            display: block;
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            font-size: 16px;
+            border-radius: 5px;
+            text-align: center;
+            color: #469AFF;
+            background: #fff;
+        }
+    }
+}
 
 // 底部 icon
 .activity-sharer-svg {

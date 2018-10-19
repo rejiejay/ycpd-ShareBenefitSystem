@@ -1,6 +1,7 @@
 <!-- 活动详情 -->
 <template>
 <div class="activity-detail">
+    <PortraitPhoto />
     
     <!-- 活动规则 -->
     <div class="activity-privilege-rules">
@@ -164,13 +165,13 @@
         </div>
     </div>
     
-    <!-- 分享预览 -->
+    <!-- 底部 按钮 -->
     <div class="activity-share-preview flex-start-center">
         <div class="activity-preview" @click="jumpToRouter('/activity/sharer')"><span>分享预览</span></div>
         <div class="activity-share-now flex-rest" @click="isInvitationModalShow = true"><span>立即邀请，享加油分成</span></div>
     </div>
-    
-    <!-- 立即邀请，享加油分成 -->
+
+    <!-- 模态框 —— 底部分享 -->
     <div class="activity-invitation-modal" v-if="isInvitationModalShow">
         <div class="up-modal-shade" @click="isInvitationModalShow = false;"></div>
         <div class="up-modal-main">
@@ -251,17 +252,22 @@
 
 <script>
 
+// 框架类
 import { Toast } from 'mint-ui';
-import activity001content001 from "@/static/activity001content001.jpg";
-import shareGuidance from "@/components/shareGuidance";
+// 请求类
 import initJSSDK from "@/components/initJSSDK";
 import config from "@/config/index";
 import ajaxsAward from "@/api/common/award";
+// 组件类
+import shareGuidance from "@/components/shareGuidance";
+import PortraitPhoto from "@/components/PortraitPhoto";
+// 静态资源类
+import activity001content001 from "@/static/activity001content001.jpg";
 
 export default {
     name: 'activity-detail-1',
 
-    components: { shareGuidance },
+    components: { shareGuidance, PortraitPhoto },
 
 	data: function data() { 
         return {
@@ -752,7 +758,7 @@ export default {
     }
 }
 
-// 模态框 分享预览
+// 底部 分享预览 按钮
 .activity-share-preview {
     position: fixed;
     left: 0px;
@@ -867,7 +873,6 @@ export default {
         }
     }
 }
-
 
 // 头像
 .activity-detail {

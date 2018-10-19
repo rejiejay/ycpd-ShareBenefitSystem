@@ -126,7 +126,7 @@
             <!-- 标题 -->
             <div class="detail-award-title flex-start-center">
                 <div class="award-title-main flex-rest">我的奖励</div>
-                <div class="award-title-lable flex-start-center">累计:<span>¥99.98</span></div>
+                <div class="award-title-lable flex-start-center">累计:<span>¥{{awardTotal}}</span></div>
             </div>
 
             <!-- 列表标题 -->
@@ -153,7 +153,7 @@
             </div>
 
             <!-- 查看全部 -->
-            <div class="detail-award-showmore flex-center">
+            <div class="detail-award-showmore flex-center" @click="jumpToRouter('/user/award')">
                 <div class="award-showmore-content flex-start-center">
                     <span>查看全部</span>
                     <svg width="12" height="12" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
@@ -256,6 +256,7 @@ import activity001content001 from "@/static/activity001content001.jpg";
 import shareGuidance from "@/components/shareGuidance";
 import initJSSDK from "@/components/initJSSDK";
 import config from "@/config/index";
+import ajaxsAward from "@/api/common/award";
 
 export default {
     name: 'activity-detail-1',
@@ -282,18 +283,15 @@ export default {
 
             isShareModalShow: false, // 是否显示 二维码分享模态框
 
+            awardTotal: 0, // 总金额
+
             awardList: [ // 我的奖励
-                {
-                    name: '昵称', // 昵称
-                    sum: '300.00', // 加油金额
-                    sharing: '3.00', // 我的分成
-                    time: '2018-10-7', // 时间
-                }, {
-                    name: '昵称', // 昵称
-                    sum: '300.00', // 加油金额
-                    sharing: '3.00', // 我的分成
-                    time: '2018-10-7', // 时间
-                }, 
+                // {
+                //     name: '昵称', // 昵称
+                //     sum: '300.00', // 加油金额
+                //     sharing: '3.00', // 我的分成
+                //     time: '2018-10-7', // 时间
+                // },
             ],
 
             // 是否显示 分享引导指示 提示
@@ -313,16 +311,52 @@ export default {
     },
 
 	mounted: function mounted() {
-        this.initPageData(); // 初始化页面数据
+        this.getMyRewards(); // 获取 - 我的奖励
+        this.getRewardHeads(); // 获取 - 已入账、未入账
 
         this.initShareTimeline(); // 初始化 分享到朋友圈 与 分享给朋友
     },
 
 	methods: {
         /**
-         * 初始化页面数据
+         * 我的奖励
          */
-	    initPageData: function initPageData() {
+        getMyRewards: function getMyRewards() {
+            const _this = this;
+
+            ajaxsAward.findMyRewards()
+            .then(
+                res => {
+                    _this.awardList = res.map(val => {
+                        return {
+                            name: val.userName, // 昵称
+                            sum: val.costMoney, // 加油金额
+                            sharing: val.obtainMoney.toFixed(2), // 我的分成
+                            time: val.recordDate, // 时间
+                        }
+                    });
+                }, error => {
+                    alert(error);
+                }
+            );
+        },
+
+        /**
+         * 获取 - 已入账、未入账
+         */
+    	getRewardHeads: function getRewardHeads() {
+            const _this = this;
+
+            ajaxsAward.findRewardHeads()
+            .then(
+                res => {
+                    if (res && res.total) {
+                        _this.awardTotal = res.total === '-' ? '0.00' : res.total; // 总金额
+                    }
+                }, error => {
+                    alert(error);
+                }
+            )
         },
 
         /**
@@ -676,6 +710,12 @@ export default {
 
         > div {
             width: 25%;
+        }
+
+        .award-item-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .award-item-oil,

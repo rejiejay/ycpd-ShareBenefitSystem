@@ -29,7 +29,7 @@
     </div>
 
     <!-- 底部 Tabbar -->
-    <Tabbar selectTabbar='activity'/>
+    <Tabbar selectTabbar='activity' />
 </div>
 </template>
 
@@ -76,7 +76,7 @@ export default {
     },
 
 	mounted: function mounted() {
-        this.getActivity()
+        this.getActivity(); // 获取 - 所有活动列表
     },
 
 	methods: {

@@ -93,7 +93,7 @@
 
 <script>
 
-import ajaxs from "@/api/user/award";
+import ajaxsAward from "@/api/common/award";
 
 export default {
     name: 'user-award',
@@ -102,8 +102,6 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
-
-            amountsCostMoney: 0, // 累计金额
 
             isAwardTipShow: false, // 待入账模态框
 
@@ -123,7 +121,7 @@ export default {
     },
 
 	mounted: function mounted() {
-        this.getMyRewards();
+        this.getMyRewards(); // 获取 - 我的奖励
         this.getRewardHeads(); // 获取 - 已入账、未入账
     },
 
@@ -134,14 +132,10 @@ export default {
         getMyRewards: function getMyRewards() {
             const _this = this;
 
-            ajaxs.findMyRewards()
+            ajaxsAward.findMyRewards()
             .then(
                 res => {
-                    let amountsCostMoney = 0;
-
                     _this.awardList = res.map(val => {
-                        amountsCostMoney += parseInt(val.costMoney);
-
                         return {
                             name: val.userName, // 昵称
                             sum: val.costMoney, // 加油金额
@@ -161,12 +155,12 @@ export default {
     	getRewardHeads: function getRewardHeads() {
             const _this = this;
 
-            ajaxs.findRewardHeads()
+            ajaxsAward.findRewardHeads()
             .then(
                 res => {
                     if (res && res.income && res.uncome) {
                         _this.total = res.total === '-' ? '0.00' : res.total; // 总金额
-                        _this.income = res.income === '-' ? '0.00' : res.total; // 已入账
+                        _this.income = res.income === '-' ? '0.00' : res.income; // 已入账
                         _this.uncome = res.uncome === '-' ? '0.00' : res.uncome; // 未入账
                     }
                 }, error => {
@@ -271,6 +265,9 @@ export default {
 
         > div {
             width: 25%;
+        }
+
+        .award-item-name {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;

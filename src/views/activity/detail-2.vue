@@ -60,18 +60,18 @@
                 <!-- 标题部分 -->
                 <div class="my-reward-title flex-start">
                     <div class="flex-rest">我的奖励</div>
-                    <div class="reward-title-lable">2018-10-12之前统计</div>
+                    <div class="reward-title-lable">{{nowFormat}}之前统计</div>
                 </div>
 
                 <!-- 内容部分 -->
                 <div class="my-reward-main">
                     <div class="reward-main-row flex-start">
                         <div class="flex-rest">累计推荐成功数量：</div>
-                        <div class="main-row-lable" style="color: #606266;">9人</div>
+                        <div class="main-row-lable" style="color: #606266;">0人</div>
                     </div>
                     <div class="reward-main-row flex-start">
                         <div class="flex-rest">累计返佣金额：</div>
-                        <div class="main-row-lable" style="color: #E50012;">￥90.00</div>
+                        <div class="main-row-lable" style="color: #E50012;">￥0.00</div>
                     </div>
                     <div class="reward-main-lable">每天10点更新前一天的数据</div>
                 </div>
@@ -97,6 +97,8 @@ import { Toast } from 'mint-ui';
 import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
 import activity002content001 from "@/static/activity002content001.png";
 import activity002content002 from "@/static/activity002content002.png";
+import ajaxsAward from "@/api/common/award";
+import TimeConver from "@/utils/TimeConver";
 
 export default {
     name: 'activity-detail-2',
@@ -121,6 +123,13 @@ export default {
             let ycpd_userInfo = window.localStorage.getItem('ycpd_userInfo');
 
             return ycpd_userInfo ? JSON.parse(ycpd_userInfo) : this.$store.getters["userInfo/getAgentInfo"]; // 因为数据刷新页面会失效, 所以优先使用 window.localStorage
+        },
+
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        nowFormat: function nowFormat() {
+            return TimeConver.dateToFormat(new Date());
         },
     },
 

@@ -126,6 +126,8 @@
 
 // 框架类
 import { Toast } from 'mint-ui';
+// 请求类
+import initJSSDK from "@/components/initJSSDK";
 // 组件类
 import PortraitPhoto from "@/components/PortraitPhoto";
 import shareGuidance from "@/components/shareGuidance";

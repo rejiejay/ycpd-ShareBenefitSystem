@@ -5,7 +5,7 @@
         <div class="activity-item"
             v-for="(item, key) in activityList" 
             :key="key"
-            @click="jumpToRouter(`/activity/detail/${item.id}`)"
+            @click="jumpToActivityRouter(`/activity/detail/${item.id}`, item.projectId)"
         >
             <div class="activity-item-content">
                 
@@ -35,10 +35,13 @@
 
 <script>
 
-import Tabbar from "@/components/Tabbar";
-
-import activity001 from "@/static/activity001.jpg";
+// 请求类
 import ajaxs from "@/api/activity/index";
+// 组件类
+import Tabbar from "@/components/Tabbar";
+import TimeConver from "@/utils/TimeConver";
+// 静态资源类
+import activity001 from "@/static/activity001.jpg";
 
 export default {
     name: 'activity',
@@ -58,6 +61,7 @@ export default {
                      * @param {string} finish 活动结束
                      */
                     id: 1, // 活动唯一标识
+                    projectId: "3AF07C7AB66140C592FAC852C67CF650",
                     status: 'going', 
                     picture: activity001,
                     award: '享好友加油总金额1%返佣',
@@ -65,13 +69,14 @@ export default {
                     time: '2018-10-6 至 2018-12-9', // 活动时间
                 }, {
                     id: 2,
+                    projectId: "3AF07C7AB66140C592FAC852C67CF650",
                     status: 'going', 
-                    picture: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image002.jpg',
+                    picture: '',
                     award: '推荐成功享10元/人返佣',
                     describe: '养车频道优惠加油双重返利活动', 
                     time: '2018-10-6 至 2018-12-9',
                 }
-            ]
+            ],
         } 
     },
 
@@ -89,7 +94,76 @@ export default {
             ajaxs.getAllActivity()
             .then(
                 res => {
+                    // 按理应当通过数据转换，但是因为现阶段数据是写死的
+                    // _this.activityList = res.map(val => {
+                    // });
+
+                    if (res && res[0]) {
+                        res[0].projectId ? _this.activityList[0].projectId = res[0].projectId : null;
+                        res[0].projectName ? _this.activityList[0].describe = res[0].projectName : null;
+
+                        // 判断是否进行中
+                        if (new Date().getTime() < TimeConver.YYYYmmDDhhMMssToTimestamp(res[0].endTime)) {
+                            _this.activityList[0].status = 'going';
+                        } else {
+                            _this.activityList[0].status = 'finish';
+                        }
+                        
+                        /**
+                         * 渲染标签信息
+                         */
+                        if (res[0].category === 1) {
+                            // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）
+                            if (res[0].proportion) {
+                                _this.activityList[0].award = `享好友加油总金额${res[0].proportion * 100}%返佣`
+                            }
+                        } else if (res[0].category === 2) {
+                            // 2 表示基数，取决于baseCount，提成基数 推荐成功享10元/人返佣
+                            if (res[0].baseCount) {
+                                _this.activityList[0].award = `推荐成功享${res[0].baseCount}元/人返佣`
+                            }
+                        }
+
+                        // 渲染时间
+                        if (res[0].startTime && res[0].endTime) {
+                            _this.activityList[0].time = `${res[0].startTime} 至 ${res[0].endTime}`
+                        }
+                    }
+
+                    if (res && res[1]) {
+                        res[1].projectId ? _this.activityList[1].projectId = res[1].projectId : null;
+                        res[1].projectName ? _this.activityList[1].describe = res[1].projectName : null;
+
+                        // 判断是否进行中
+                        if (new Date().getTime() < TimeConver.YYYYmmDDhhMMssToTimestamp(res[1].endTime)) {
+                            _this.activityList[1].status = 'going';
+                        } else {
+                            _this.activityList[1].status = 'finish';
+                        }
+                        
+                        /**
+                         * 渲染标签信息
+                         */
+                        if (res[1].category === 1) {
+                            // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）
+                            if (res[1].proportion) {
+                                _this.activityList[1].award = `享好友加油总金额${res[1].proportion * 100}%返佣`
+                            }
+                        } else if (res[1].category === 2) {
+                            // 2 表示基数，取决于baseCount，提成基数 推荐成功享10元/人返佣
+                            if (res[1].baseCount) {
+                                _this.activityList[1].award = `推荐成功享${res[1].baseCount}元/人返佣`
+                            }
+                        }
+
+                        // 渲染时间
+                        if (res[1].startTime && res[1].endTime) {
+                            _this.activityList[1].time = `${res[1].startTime} 至 ${res[1].endTime}`
+                        }
+                    }
+
                 }, error => {
+                    alert(error);
                 }
             );
         },
@@ -107,10 +181,10 @@ export default {
         },
 
         /**
-         * 跳转到路由
+         * 跳转到活动详情
          */
-        jumpToRouter: function jumpToRouter(url) {
-            this.$router.push({path: url});
+        jumpToActivityRouter: function jumpToActivityRouter(url, projectId) {
+            this.$router.push({path: url, query: {projectId: projectId} });
         },
     }
 }

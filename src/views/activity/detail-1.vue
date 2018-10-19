@@ -14,7 +14,7 @@
                 </div>
                 <div class="detail-rules-row flex-start">
                     <div class="rules-row-no">2.</div>
-                    <div class="rules-row-describe flex-rest">好友使用“优惠加油”功能，您将获得加油金额 1 %的分成；</div>
+                    <div class="rules-row-describe flex-rest">好友使用“优惠加油”功能，您将获得加油金额 {{proportion * 100}} %的分成；</div>
                 </div>
                 <div class="detail-rules-row flex-start">
                     <div class="rules-row-no">3.</div>
@@ -253,7 +253,9 @@ import { Toast } from 'mint-ui';
 // 请求类
 import initJSSDK from "@/components/initJSSDK";
 import config from "@/config/index";
+import ajaxs from "@/api/activity/detail";
 import ajaxsAward from "@/api/common/award";
+import getBase64ByImageName from "@/api/common/getBase64ByImageName";
 // 组件类
 import shareGuidance from "@/components/shareGuidance";
 import PortraitPhoto from "@/components/PortraitPhoto";
@@ -276,10 +278,11 @@ export default {
 
             agentName: '', // 用户昵称
             imageName: '', // base64位头像
+            
+            proportion: 1, // 分成
+            time: '2018-10-6 至 2018-12-9', // 活动时间
 
             score: 4.0, // 加油站评分 0~5分
-            address: '五和地铁站旁', // 地址
-            distance: '1.55', // 地址
 
             isInvitationModalShow: false, // 是否显示 立即邀请，享加油分成
 
@@ -313,6 +316,9 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据
+
+        this.getQRcode(); // 获取 - 二维码
         this.getMyRewards(); // 获取 - 我的奖励
         this.getRewardHeads(); // 获取 - 已入账、未入账
 
@@ -320,6 +326,51 @@ export default {
     },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+        initPageData: function initPageData() {
+            const _this = this;
+
+            // 获取 - 活动详情 根据id
+            ajaxs.getActivityDetail(this.$route.query.projectId)
+            .then(
+                res => {
+                    _this.proportion = res.proportion;
+                    _this.time = `${res.startTime} 至 ${res.endTime}`
+                }, error => {
+                    alert(error);
+                }
+            );
+        },
+
+        /**
+         * 获取 - 二维码
+         */
+        getQRcode: function getQRcode() {
+
+            // 通过二维码名称交换base64的图片
+            let exchangeImage = quickMark => {
+                getBase64ByImageName(quickMark)
+                .then(
+                    res => {
+                        console.log(res)
+                    }, error => {
+                        alert(error);
+                    }
+                )
+            }
+
+            ajaxs.getQRcode(this.$route.query.projectId)
+            .then(
+                res => {
+                    exchangeImage(res.quickMark); // 通过二维码名称交换base64的图片
+                }, error => {
+                    alert(error);
+                }
+            );
+        },
+
         /**
          * 我的奖励
          */

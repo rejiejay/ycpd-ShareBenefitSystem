@@ -61,12 +61,12 @@ export default {
             agentInfoId: '40289f33664e6e9901664e6ecbdb0000',
 
             list: [
-                {
-                    title: '短信数量', // 标题
-                    functionType: 1, // 套餐类型
-                    buyUseableNum: 0, // 单独购买剩余量
-                    freeNum: 100 // 本月免费用量剩余/总量
-                }, 
+                // {
+                //     title: '短信数量', // 标题
+                //     functionType: 1, // 套餐类型
+                //     buyUseableNum: 0, // 单独购买剩余量
+                //     freeNum: 100 // 本月免费用量剩余/总量
+                // }, 
             ]
         } 
     },

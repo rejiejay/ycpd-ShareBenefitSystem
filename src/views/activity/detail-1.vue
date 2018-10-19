@@ -172,7 +172,7 @@
     
     <!-- 立即邀请，享加油分成 -->
     <div class="activity-invitation-modal" v-if="isInvitationModalShow">
-        <div class="up-modal-shade" @click="isInvitationModalShow = false"></div>
+        <div class="up-modal-shade" @click="isInvitationModalShow = false;"></div>
         <div class="up-modal-main">
             <div class="upmodal-main-content flex-column-center">
                 
@@ -180,7 +180,7 @@
                 <div class="upmodal-main-select" :style="`width: ${clientWidth - 30}px;`">
                     <div class="main-select-content flex-start-center">
 
-                        <div class="main-select-item flex-column-center">
+                        <div class="main-select-item flex-column-center" @click="isShareGuidanceShow = true; isInvitationModalShow = false;">
                             <div class="main-select-icon">
                                 <svg width="35" height="35" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="邀好友享分成-邀请方式" transform="translate(-111.000000, -1026.000000)" fill="#36CB3E"><g id="Alert" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(111.000000, 898.000000)">
                                     <path d="M50.2996516,63.195122 C38.3148801,63.195122 28.5993031,55.1081677 28.5993031,45.1324042 C28.5993031,35.1566406 38.3148801,27.0696864 50.2996516,27.0696864 C62.2844231,27.0696864 72,35.1566406 72,45.1324042 C72,50.7902011 68.874849,55.8404361 63.9830136,59.1523624 C63.8305465,59.5344631 64.1915313,61.3136035 65.0659679,64.4897836 C65.1098286,64.6490971 65.0862864,64.8194351 65.0008581,64.9608797 C64.8289436,65.2455206 64.4588323,65.3369033 64.1741914,65.1649888 L64.174194,65.1649845 C60.7321046,63.0860663 58.8188865,61.992096 58.4345396,61.8830736 C55.922298,62.7292011 53.1763434,63.195122 50.2996516,63.195122 Z M43.0243902,42.1219512 C44.6177414,42.1219512 45.9094077,40.8302849 45.9094077,39.2369338 C45.9094077,37.6435827 44.6177414,36.3519164 43.0243902,36.3519164 C41.4310391,36.3519164 40.1393728,37.6435827 40.1393728,39.2369338 C40.1393728,40.8302849 41.4310391,42.1219512 43.0243902,42.1219512 Z M57.5749129,42.1219512 C59.168264,42.1219512 60.4599303,40.8302849 60.4599303,39.2369338 C60.4599303,37.6435827 59.168264,36.3519164 57.5749129,36.3519164 C55.9815618,36.3519164 54.6898955,37.6435827 54.6898955,39.2369338 C54.6898955,40.8302849 55.9815618,42.1219512 57.5749129,42.1219512 Z M50.2996516,25.3135889 C37.2064619,25.3135889 26.5923345,34.1867747 26.5923345,45.1324042 C26.5923345,46.9463745 26.883851,48.7034252 27.4298561,50.3726018 C26.9862666,50.3912567 26.5397549,50.4006969 26.0905923,50.4006969 C23.0196931,50.4006969 20.0727095,49.9594255 17.3363014,49.1489605 C15.9303136,48.7700348 13.4216028,50.5261324 11.9163763,51.4041812 C11.3557063,51.7312387 10.651459,52.188821 9.80363447,52.776928 C9.39379556,53.0612208 8.83109093,52.9594442 8.54679916,52.5496046 C8.3864233,52.3184042 8.34296908,52.0256649 8.42927075,51.7578477 C9.57534915,48.2012592 9.94732485,46.1086655 9.54519783,45.4800668 C3.71752008,41.5002588 0,35.4613885 0,28.7003484 C0,16.7155769 11.6811561,7 26.0905923,7 C39.1328238,7 49.9399458,14.959365 51.8733461,25.3565569 C51.3531823,25.3280616 50.8284387,25.3135889 50.2996516,25.3135889 Z M17.3101045,25.3135889 C19.2498363,25.3135889 20.8222997,23.7411255 20.8222997,21.8013937 C20.8222997,19.8616619 19.2498363,18.2891986 17.3101045,18.2891986 C15.3703727,18.2891986 13.7979094,19.8616619 13.7979094,21.8013937 C13.7979094,23.7411255 15.3703727,25.3135889 17.3101045,25.3135889 Z M34.6202091,25.3135889 C36.5599409,25.3135889 38.1324042,23.7411255 38.1324042,21.8013937 C38.1324042,19.8616619 36.5599409,18.2891986 34.6202091,18.2891986 C32.6804773,18.2891986 31.1080139,19.8616619 31.1080139,21.8013937 C31.1080139,23.7411255 32.6804773,25.3135889 34.6202091,25.3135889 Z" id="wechat"></path></g></g></g></g>
@@ -189,7 +189,7 @@
                             <div class="main-select-describe">好友</div>
                         </div>
 
-                        <div class="main-select-item flex-column-center">
+                        <div class="main-select-item flex-column-center" @click="isShareGuidanceShow = true; isInvitationModalShow = false;">
                             <div class="main-select-icon">
                                 <svg width="35" height="35" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="邀好友享分成-邀请方式" transform="translate(-263.000000, -1026.000000)"><g id="Alert" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(111.000000, 898.000000)"><g id="朋友圈" transform="translate(156.000000, 4.000000)"><path d="M61.4963378,19.5703288 C63.108645,23.3917635 64,27.5917882 64,32 C64,35.2141795 63.5261225,38.3176791 62.6444217,41.2444444 L39.8222222,41.2444444 L61.4963378,19.5703288 Z" id="Combined-Shape" fill="#5482F0"></path><path d="M22.7555556,62.6444217 L22.7555556,39.8222222 L44.4296712,61.4963378 C40.6082365,63.108645 36.4082118,64 32,64 C28.7858205,64 25.6823209,63.5261225 22.7555556,62.6444217 Z" id="Combined-Shape" fill="#65CF1E"></path><path d="M44.0888889,2.36220573 C50.7713037,5.09068324 56.3247073,10.0134811 59.8536946,16.2351943 L44.0888889,32 L44.0888889,2.36220573 Z" id="Combined-Shape" fill="#6469F0"></path><path d="M19.9111111,61.6377943 C13.2286963,58.9093168 7.6752927,53.9865189 4.14630541,47.7648057 L19.9111111,32 L19.9111111,61.6377943 Z" id="Combined-Shape" fill="#99D123"></path><path d="M61.6377943,44.0888889 C58.9093168,50.7713037 53.9865189,56.3247073 47.7648057,59.8536946 L32,44.0888889 L61.6377943,44.0888889 Z" id="Combined-Shape" fill="#0EB0FF"></path><path d="M2.36220573,19.9111111 C5.09068324,13.2286963 10.0134811,7.6752927 16.2351943,4.14630541 L32,19.9111111 L2.36220573,19.9111111 Z" id="Combined-Shape" fill="#FD7712"></path><path d="M19.5703288,2.50366218 C23.3917635,0.891355011 27.5917882,0 32,0 C35.2141795,0 38.3176791,0.47387748 41.2444444,1.35557832 L41.2444444,24.1777778 L19.5703288,2.50366218 Z" id="Combined-Shape" fill="#F85452"></path><path d="M2.50366218,44.4296712 C0.891355011,40.6082365 0,36.4082118 0,32 C0,28.7858205 0.47387748,25.6823209 1.35557832,22.7555556 L24.1777778,22.7555556 L2.50366218,44.4296712 Z" id="Combined-Shape" fill="#FDC813"></path></g></g></g></g></g></svg>
                             </div>
@@ -243,7 +243,9 @@
     </div>
 
     <!-- 分享引导指示 -->
-    <shareGuidance v-if="isShareGuidanceShow" @click="isShareGuidanceShow = false;" />
+    <div @click="isShareGuidanceShow = false;">
+        <shareGuidance v-if="isShareGuidanceShow" />
+    </div>
 </div>
 </template>
 
@@ -253,6 +255,7 @@ import { Toast } from 'mint-ui';
 import activity001content001 from "@/static/activity001content001.jpg";
 import shareGuidance from "@/components/shareGuidance";
 import initJSSDK from "@/components/initJSSDK";
+import config from "@/config/index";
 
 export default {
     name: 'activity-detail-1',
@@ -327,6 +330,7 @@ export default {
          */
 	    initShareTimeline: function initShareTimeline() {
             const _this = this;
+            let agentName = this.userInfoStore.agentName;
 
             initJSSDK()
             .then(
@@ -335,19 +339,20 @@ export default {
                      * 初始化“分享给朋友”及“分享到QQ”按钮的分享
                      */
                     wx.updateAppMessageShareData({ 
-                        title: '', // 分享标题
-                        desc: '', // 分享描述
-                        link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        title: `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`, // 分享标题
+                        desc: '加油钜惠，保养特价，还能做任务赚佣金', // 分享描述
+                        link: config.location.redirect_href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                         imgUrl: '', // 分享图标
                     }, function(res) { 
                         console.log('初始化“分享给朋友”及“分享到QQ”按钮的分享内容成功', res);
                     }); 
+                    
                     /**
                      * 初始化“分享到朋友圈”及“分享到QQ空间”
                      */
                     wx.updateTimelineShareData({ 
-                        title: '', // 分享标题
-                        link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        title: `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`, // 分享标题
+                        link: config.location.redirect_href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                         imgUrl: '', // 分享图标
                     }, function(res) { 
                         console.log('初始化“分享到朋友圈”及“分享到QQ空间”按钮的分享内容成功', res);

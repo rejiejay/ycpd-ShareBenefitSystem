@@ -2,8 +2,8 @@
 module.exports = {
     location: {
         href: 'http://scas.api2.hotgz.com/home/cas/index.html',
-        redirect_href: 'http://scas.api2.hotgz.com/home/cas/index.html#/redirect',
-        wx_href: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa21f56d22d9482b1&redirect_uri=http%3A%2F%2Fscas.api2.hotgz.com%2Fhome%2Fcas%2Findex.html%23%2Flogin&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect',
+        redirect_href: 'http://scas.api2.hotgz.com/home/cas/index.html#/redirect', // 重定向页面， 因为需要获取 openId， 但是 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        wx_href: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa21f56d22d9482b1&redirect_uri=http%3A%2F%2Fscas.api2.hotgz.com%2Fhome%2Fcas%2Findex.html%23%2Flogin&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect', // 微信跳转登录页
     },
 
     url: {

@@ -271,6 +271,9 @@ export default {
 
         > div {
             width: 25%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .award-item-oil,

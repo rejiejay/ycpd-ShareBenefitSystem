@@ -288,7 +288,7 @@ export default {
             .then(
                 res => {
                     // 如果返回横杆，说明是空值
-                    if (res !== '-') {
+                    if (res && res !== '-') {
                         _this.usableMoney = res;
                     }
                 }, error => {
@@ -307,7 +307,7 @@ export default {
             .then(
                 res => {
                     // 如果返回横杆，说明是空值
-                    if (res !== '-') {
+                    if (res && res !== '-') {
                         _this.totalMoney = res;
                     }
                 }, error => {
@@ -326,7 +326,7 @@ export default {
             .then(
                 res => {
                     // 如果返回横杆，说明是空值
-                    if (res !== '-') {
+                    if (res && res !== '-') {
                         _this.msgUsedNum = res;
                     }
                 }, error => {

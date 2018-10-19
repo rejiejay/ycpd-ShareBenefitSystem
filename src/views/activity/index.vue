@@ -38,6 +38,7 @@
 import Tabbar from "@/components/Tabbar";
 
 import activity001 from "@/static/activity001.jpg";
+import ajaxs from "@/api/activity/index";
 
 export default {
     name: 'activity',
@@ -74,9 +75,25 @@ export default {
         } 
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.getActivity()
+    },
 
 	methods: {
+        /**
+         * 获取 - 所有活动列表
+         */
+        getActivity: function getActivity() {
+            const _this = this;
+
+            ajaxs.getAllActivity()
+            .then(
+                res => {
+                }, error => {
+                }
+            );
+        },
+
         /**
          * 将活动状态转换成文字
          */

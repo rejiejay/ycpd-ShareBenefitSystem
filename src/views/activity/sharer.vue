@@ -97,13 +97,10 @@
                 <div class="QRcode-main-title flex-start-center">
                     
                     <!-- 头像 -->
-                    <div class="user-banner-photo" v-if="imageName">
-                        <img :src="`data:image/png;base64,${imageName}`" />
+                    <div class="user-banner-photo">
+                        <PortraitPhoto propsRadius="60" />
                     </div>
-                    <div class="name-remark-head" v-else>
-                        <div>{{agentName ? agentName.substring(0, 1) : '无'}}</div>
-                    </div>
-                    <div class="main-title-name">{{agentName}}</div>
+                    <div class="main-title-name">{{userInfoStore.agentName}}</div>
 
                 </div>
                 <div class="QRcode-main-content flex-center">
@@ -111,6 +108,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- 分享引导指示 -->
+    <div @click="isShareGuidanceShow = false;">
+        <shareGuidance v-if="isShareGuidanceShow" />
     </div>
 
     <!-- 底部背景 svg -->
@@ -122,12 +124,16 @@
 
 <script>
 
+// 框架类
+import { Toast } from 'mint-ui';
+// 组件类
+import PortraitPhoto from "@/components/PortraitPhoto";
 import shareGuidance from "@/components/shareGuidance";
 
 export default {
     name: 'activity-sharer',
 
-    components: { shareGuidance },
+    components: { shareGuidance, PortraitPhoto },
 
 	data: function data() { 
         return {
@@ -159,6 +165,8 @@ export default {
 
 	mounted: function mounted() {
         this.initPageData(); // 初始化页面数据
+
+        this.initShareTimeline(); // 初始化 分享到朋友圈 与 分享给朋友
     },
 
 	methods: {
@@ -176,6 +184,44 @@ export default {
          */
         upgrading: function upgrading() {
             Toast({ message: "升级中", duration: 1000 });
+        },
+
+        /**
+         * 初始化 分享到朋友圈 与 分享给朋友
+         */
+	    initShareTimeline: function initShareTimeline() {
+            const _this = this;
+            let agentName = this.userInfoStore.agentName;
+
+            initJSSDK()
+            .then(
+                () => {
+                    /**
+                     * 初始化“分享给朋友”及“分享到QQ”按钮的分享
+                     */
+                    wx.updateAppMessageShareData({ 
+                        title: `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`, // 分享标题
+                        desc: '加油钜惠，保养特价，还能做任务赚佣金', // 分享描述
+                        link: config.location.redirect_href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: '', // 分享图标
+                    }, function(res) { 
+                        console.log('初始化“分享给朋友”及“分享到QQ”按钮的分享内容成功', res);
+                    }); 
+                    
+                    /**
+                     * 初始化“分享到朋友圈”及“分享到QQ空间”
+                     */
+                    wx.updateTimelineShareData({ 
+                        title: `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`, // 分享标题
+                        link: config.location.redirect_href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: '', // 分享图标
+                    }, function(res) { 
+                        console.log('初始化“分享到朋友圈”及“分享到QQ空间”按钮的分享内容成功', res);
+                    }); 
+                }, error => {
+                    console.error(error);
+                }
+            )
         },
 
         /**
@@ -199,6 +245,11 @@ export default {
 @invitation-modal-z-index: 2;
 @invitation-shade-z-index: 3;
 @invitation-main-z-index: 4;
+
+// 二维码
+@QRcode-modal-z-index: 2;
+@QRcode-shade-z-index: 3;
+@QRcode-main-z-index: 4;
 
 .activity-sharer {
     position: relative;
@@ -389,6 +440,54 @@ export default {
             text-align: center;
             color: #469AFF;
             background: #fff;
+        }
+    }
+}
+
+// 二维码
+.activity-share-QRcode {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @QRcode-modal-z-index;
+
+    // 遮罩
+    .share-QRcode-shade {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.46);
+        z-index: @QRcode-shade-z-index;
+    }
+
+    // 主要区域
+    .share-QRcode-main {
+        position: absolute;
+        border-radius: 5px;
+        z-index: @QRcode-main-z-index;
+        background: #fff;
+
+        .share-QRcode-content {
+            padding: 15px;
+        }
+
+        .QRcode-main-title {
+            padding-bottom: 25px;
+        }
+
+        .QRcode-main-content {
+            text-align: center;
+            padding-bottom: 25px;
+
+            img {
+                display: block;
+                height: 200px;
+                width: 200px;
+            }
         }
     }
 }

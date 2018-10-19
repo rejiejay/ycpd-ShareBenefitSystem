@@ -1,7 +1,6 @@
 <!-- 活动详情 -->
 <template>
 <div class="activity-detail">
-    <PortraitPhoto />
     
     <!-- 活动规则 -->
     <div class="activity-privilege-rules">
@@ -227,13 +226,10 @@
                 <div class="QRcode-main-title flex-start-center">
                     
                     <!-- 头像 -->
-                    <div class="user-banner-photo" v-if="imageName">
-                        <img :src="`data:image/png;base64,${imageName}`" />
+                    <div class="user-banner-photo">
+                        <PortraitPhoto propsRadius="60" />
                     </div>
-                    <div class="name-remark-head" v-else>
-                        <div>{{agentName ? agentName.substring(0, 1) : '无'}}</div>
-                    </div>
-                    <div class="main-title-name">{{agentName}}</div>
+                    <div class="main-title-name">{{userInfoStore.agentName}}</div>
 
                 </div>
                 <div class="QRcode-main-content flex-center">

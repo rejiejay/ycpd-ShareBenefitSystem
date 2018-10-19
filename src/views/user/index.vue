@@ -10,11 +10,8 @@
 
         <div class="user-banner-content flex-start-center" @click="jumpToRouter('/user/info')">
             <!-- 头像 -->
-            <div class="user-banner-photo" v-if="imageName">
-                <img :src="`data:image/png;base64,${imageName}`" />
-            </div>
-            <div class="name-remark-head" v-else>
-                <div>{{agentName ? agentName.substring(0, 1) : '无'}}</div>
+            <div class="user-banner-photo">
+                <PortraitPhoto propsRadius="60" />
             </div>
 
             <!-- 内容 -->
@@ -211,15 +208,19 @@
 
 <script>
 
-import Tabbar from "@/components/Tabbar";
+// 框架类
+import { Toast } from 'mint-ui';
+// 请求类
 import ajaxs from "@/api/user/index";
 import getBase64ByImageName from "@/api/common/getBase64ByImageName";
-import { Toast } from 'mint-ui';
+// 组件类
+import Tabbar from "@/components/Tabbar";
+import PortraitPhoto from "@/components/PortraitPhoto";
 
 export default {
     name: 'user-home',
 
-    components: { Tabbar },
+    components: { Tabbar, PortraitPhoto },
 
 	data: function data() { 
         return {

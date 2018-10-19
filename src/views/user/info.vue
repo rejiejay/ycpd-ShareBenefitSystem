@@ -10,11 +10,8 @@
                 <div class="info-item-label flex-rest">头像</div>
                 <div class="info-item-main flex-start-center">
                     <!-- 头像 -->
-                    <div class="item-main-photo" v-if="imageName">
-                        <img :src="`data:image/png;base64,${imageName}`" />
-                    </div>
-                    <div class="name-remark-head" v-else>
-                        <div>{{agentName ? agentName.substring(0, 1) : '无'}}</div>
+                    <div class="item-main-photo">
+                        <PortraitPhoto propsRadius="60" />
                     </div>
 
                     <div class="item-main-icon">
@@ -67,12 +64,18 @@
 
 <script>
 
-import ajaxs from "@/api/user/info";
-import getBase64ByImageName from "@/api/common/getBase64ByImageName";
+// 配置类
 import config from "@/config/index";
+// 请求类
+import ajaxs from "@/api/user/info";
+// 组件类
+import getBase64ByImageName from "@/api/common/getBase64ByImageName";
+import PortraitPhoto from "@/components/PortraitPhoto";
 
 export default {
     name: 'user-info',
+
+    components: { PortraitPhoto },
 
 	data: function data() { 
         return {

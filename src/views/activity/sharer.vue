@@ -2,7 +2,7 @@
 <template>
 <div class="activity-sharer">
     <!-- 标题部分 -->
-    <div class="activity-sharer-headline"><span>{{agentName}}</span>送你一个加油大礼包</div>
+    <div class="activity-sharer-headline"><span>{{userInfoStore.agentName}}</span>送你一个加油大礼包</div>
 
     <!-- 礼包部分 -->
     <div class="activity-sharer-gift flex-center">
@@ -19,7 +19,7 @@
 
                 <div class="sharer-gift-QRcode">
                     <div class="gift-QRcode-content">
-                        <img src="" />
+                        <img :src="qRcodeImg" />
                     </div>
                 </div>
 
@@ -104,7 +104,7 @@
 
                 </div>
                 <div class="QRcode-main-content flex-center">
-                    <img src="" />
+                    <img :src="qRcodeImg" />
                 </div>
             </div>
         </div>
@@ -128,7 +128,10 @@
 import { Toast } from 'mint-ui';
 // 请求类
 import initJSSDK from "@/components/initJSSDK";
+import ajaxs from "@/api/activity/detail";
+import getBase64ByImageName from "@/api/common/getBase64ByImageName";
 // 组件类
+import config from "@/config/index";
 import PortraitPhoto from "@/components/PortraitPhoto";
 import shareGuidance from "@/components/shareGuidance";
 
@@ -142,10 +145,9 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            agentName: '', // 用户昵称
-            imageName: '', // base64位头像
-
             isInvitationModalShow: false, // 是否显示 立即邀请，享加油分成
+
+            qRcodeImg: '', // 分享 二维码 图片
 
             isShareModalShow: false, // 是否显示 二维码分享模态框
 
@@ -168,6 +170,8 @@ export default {
 	mounted: function mounted() {
         this.initPageData(); // 初始化页面数据
 
+        this.getQRcode(); // 获取 - 二维码
+
         this.initShareTimeline(); // 初始化 分享到朋友圈 与 分享给朋友
     },
 
@@ -177,15 +181,34 @@ export default {
          */
 	    initPageData: function initPageData() {
             let userInfoStore = this.userInfoStore;
-
-            this.agentName = userInfoStore.agentName;
         },
-        
+
         /**
-         * 升级中
+         * 获取 - 二维码
          */
-        upgrading: function upgrading() {
-            Toast({ message: "升级中", duration: 1000 });
+        getQRcode: function getQRcode() {
+            const _this = this;
+
+            // 通过二维码名称交换base64的图片
+            let exchangeImage = quickMark => {
+                getBase64ByImageName(`img/QuickMark/${quickMark}`)
+                .then(
+                    res => {
+                        _this.qRcodeImg = `data:image/png;base64,${res}`;
+                    }, error => {
+                        alert(error);
+                    }
+                )
+            }
+
+            ajaxs.getQRcode(this.$route.query.projectId)
+            .then(
+                res => {
+                    exchangeImage(res.quickMark); // 通过二维码名称交换base64的图片
+                }, error => {
+                    alert(error);
+                }
+            );
         },
 
         /**
@@ -194,36 +217,73 @@ export default {
 	    initShareTimeline: function initShareTimeline() {
             const _this = this;
             let agentName = this.userInfoStore.agentName;
+            let title = `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`; // 分享标题
+            let desc = '加油钜惠，保养特价，还能做任务赚佣金'; // 分享描述
+            let link = config.location.redirect_href; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 
-            initJSSDK()
+            initJSSDK(['updateAppMessageShareData', 'updateTimelineShareData', 'onMenuShareTimeline', 'onMenuShareAppMessage'])
             .then(
                 () => {
                     /**
                      * 初始化“分享给朋友”及“分享到QQ”按钮的分享
                      */
                     wx.updateAppMessageShareData({ 
-                        title: `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`, // 分享标题
-                        desc: '加油钜惠，保养特价，还能做任务赚佣金', // 分享描述
-                        link: config.location.redirect_href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        title: title,
+                        desc: desc,
+                        link: link,
                         imgUrl: '', // 分享图标
                     }, function(res) { 
-                        console.log('初始化“分享给朋友”及“分享到QQ”按钮的分享内容成功', res);
+                        console.log('成功“分享给朋友”及“分享到QQ”', res);
                     }); 
                     
                     /**
                      * 初始化“分享到朋友圈”及“分享到QQ空间”
                      */
                     wx.updateTimelineShareData({ 
-                        title: `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`, // 分享标题
-                        link: config.location.redirect_href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        title: title,
+                        link: link,
                         imgUrl: '', // 分享图标
                     }, function(res) { 
-                        console.log('初始化“分享到朋友圈”及“分享到QQ空间”按钮的分享内容成功', res);
+                        console.log('成功“分享到朋友圈”及“分享到QQ空间”', res);
                     }); 
+                    
+                    /**
+                     * 初始化“分享到朋友圈”
+                     */
+                    wx.onMenuShareTimeline({
+                        title: title,
+                        link: link,
+                        imgUrl: '', // 分享图标
+                        success: function () {
+                            console.log('成功“分享到朋友圈”', res);
+                        },
+                    }); 
+
+                    /**
+                     * 初始化“分享给朋友”及“分享到QQ”按钮的分享
+                     */
+                    wx.onMenuShareAppMessage({
+                        title: title,
+                        desc: desc,
+                        link: link,
+                        imgUrl: '', // 分享图标
+                        type: 'link', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function () {
+                            console.log('成功“分享给朋友”', res);
+                        }
+                    });
                 }, error => {
                     console.error(error);
                 }
             )
+        },
+        
+        /**
+         * 升级中
+         */
+        upgrading: function upgrading() {
+            Toast({ message: "升级中", duration: 1000 });
         },
 
         /**

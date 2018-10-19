@@ -6,7 +6,10 @@
 
 <script>
 
+// 框架类
 import { Indicator } from 'mint-ui';
+// 组件类
+import config from "@/config/index";
 
 export default {
     name: 'redirect',

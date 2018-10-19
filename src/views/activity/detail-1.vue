@@ -166,7 +166,7 @@
     
     <!-- 底部 按钮 -->
     <div class="activity-share-preview flex-start-center">
-        <div class="activity-preview" @click="jumpToRouter('/activity/sharer')"><span>分享预览</span></div>
+        <div class="activity-preview" @click="jumpToSharerRouter"><span>分享预览</span></div>
         <div class="activity-share-now flex-rest" @click="isInvitationModalShow = true"><span>立即邀请，享加油分成</span></div>
     </div>
 
@@ -252,11 +252,11 @@
 import { Toast } from 'mint-ui';
 // 请求类
 import initJSSDK from "@/components/initJSSDK";
-import config from "@/config/index";
 import ajaxs from "@/api/activity/detail";
 import ajaxsAward from "@/api/common/award";
 import getBase64ByImageName from "@/api/common/getBase64ByImageName";
 // 组件类
+import config from "@/config/index";
 import shareGuidance from "@/components/shareGuidance";
 import PortraitPhoto from "@/components/PortraitPhoto";
 // 静态资源类
@@ -276,9 +276,6 @@ export default {
                 activity001content001: activity001content001,
             },
 
-            agentName: '', // 用户昵称
-            imageName: '', // base64位头像
-            
             proportion: 1, // 分成
             time: '2018-10-6 至 2018-12-9', // 活动时间
 
@@ -495,6 +492,13 @@ export default {
          */
         jumpToRouter: function jumpToRouter(url) {
             this.$router.push({path: url});
+        },
+
+        /**
+         * 跳转到分享页面
+         */
+        jumpToSharerRouter: function jumpToSharerRouter() {
+            this.$router.push({path: '/activity/sharer', query: {projectId: this.$route.query.projectId} });
         },
     }
 }

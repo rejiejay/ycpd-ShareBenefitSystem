@@ -147,7 +147,8 @@ export default {
 
             isInvitationModalShow: false, // 是否显示 立即邀请，享加油分成
 
-            qRcodeImg: '', // 分享 二维码 图片
+            quickMark: '', // 用于交换的二维码图片， 分享的时候使用
+            qRcodeImg: '', // 带参数的 养车频道 二维码 图片
 
             isShareModalShow: false, // 是否显示 二维码分享模态框
 
@@ -171,8 +172,6 @@ export default {
         this.initPageData(); // 初始化页面数据
 
         this.getQRcode(); // 获取 - 二维码
-
-        this.initShareTimeline(); // 初始化 分享到朋友圈 与 分享给朋友
     },
 
 	methods: {
@@ -190,8 +189,8 @@ export default {
             const _this = this;
 
             // 通过二维码名称交换base64的图片
-            let exchangeImage = quickMark => {
-                getBase64ByImageName(`img/QuickMark/${quickMark}`)
+            let exchangeImage = () => {
+                getBase64ByImageName(`img/QuickMark/${_this.quickMark}`)
                 .then(
                     res => {
                         _this.qRcodeImg = `data:image/png;base64,${res}`;
@@ -204,7 +203,9 @@ export default {
             ajaxs.getQRcode(this.$route.query.projectId)
             .then(
                 res => {
-                    exchangeImage(res.quickMark); // 通过二维码名称交换base64的图片
+                    _this.quickMark = res.quickMark; // 存储下来，因为之后分享的时候会用到
+                    _this.initShareTimeline(); // 初始化 分享到朋友圈 与 分享给朋友
+                    exchangeImage(); // 通过二维码名称交换base64的图片
                 }, error => {
                     alert(error);
                 }
@@ -218,8 +219,8 @@ export default {
             const _this = this;
             let agentName = this.userInfoStore.agentName;
             let title = `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`; // 分享标题
-            let desc = '加油钜惠，保养特价，还能做任务赚佣金'; // 分享描述
-            let link = config.location.redirect_href; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            let desc = '关注“养车频道”微信公众号，立享加油钜惠'; // 分享描述
+            let link = `${config.location.share_href}?agentName=${this}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
             document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
 

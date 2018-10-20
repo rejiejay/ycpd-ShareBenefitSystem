@@ -279,7 +279,8 @@ export default {
             proportion: 1, // 分成
             time: '2018-10-6 至 2018-12-9', // 活动时间
 
-            qRcodeImg: '', // 分享 二维码 图片
+            quickMark: '', // 用于交换的二维码图片， 分享的时候使用
+            qRcodeImg: '', // 带参数的 养车频道 二维码 图片
 
             score: 4.0, // 加油站评分 0~5分
 
@@ -320,8 +321,6 @@ export default {
         this.getQRcode(); // 获取 - 二维码
         this.getMyRewards(); // 获取 - 我的奖励
         this.getRewardHeads(); // 获取 - 已入账、未入账
-
-        this.initShareTimeline(); // 初始化 分享到朋友圈 与 分享给朋友
     },
 
 	methods: {
@@ -350,8 +349,8 @@ export default {
             const _this = this;
 
             // 通过二维码名称交换base64的图片
-            let exchangeImage = quickMark => {
-                getBase64ByImageName(`img/QuickMark/${quickMark}`)
+            let exchangeImage = () => {
+                getBase64ByImageName(`img/QuickMark/${_this.quickMark}`)
                 .then(
                     res => {
                         _this.qRcodeImg = `data:image/png;base64,${res}`;
@@ -364,7 +363,9 @@ export default {
             ajaxs.getQRcode(this.$route.query.projectId)
             .then(
                 res => {
-                    exchangeImage(res.quickMark); // 通过二维码名称交换base64的图片
+                    _this.quickMark = res.quickMark; // 存储下来，因为之后分享的时候会用到
+                    _this.initShareTimeline(); // 这个时候才开始，初始化 分享到朋友圈 与 分享给朋友
+                    exchangeImage(); // 通过二维码名称交换base64的图片
                 }, error => {
                     alert(error);
                 }
@@ -418,9 +419,9 @@ export default {
 	    initShareTimeline: function initShareTimeline() {
             const _this = this;
             let agentName = this.userInfoStore.agentName;
-            let title = `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`; // 分享标题
+            let title = '关注“养车频道”微信公众号，立享加油钜惠'; // 分享标题
             let desc = '加油钜惠，保养特价，还能做任务赚佣金'; // 分享描述
-            let link = config.location.redirect_href; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            let link = `${config.location.share_href}?agentName=${agentName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
             document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
 
@@ -500,7 +501,7 @@ export default {
          * 跳转到分享页面
          */
         jumpToSharerRouter: function jumpToSharerRouter() {
-            this.$router.push({path: '/activity/sharer', query: {projectId: this.$route.query.projectId} });
+            this.$router.push({path: '/activity/sharer/preview', query: {projectId: this.$route.query.projectId} });
         },
     }
 }

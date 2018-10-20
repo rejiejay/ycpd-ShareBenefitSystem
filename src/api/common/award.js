@@ -4,8 +4,9 @@ import { Indicator } from 'mint-ui';
 export default {
     /**
      * 获取 - 我的奖励
+     * @param {string number} pageNo 查询的页码
      */
-    findMyRewards: () => new Promise((resolve, reject) => {
+    findMyRewards: (pageNo) => new Promise((resolve, reject) => {
         // 返回测试数据
         // resolve({ 
         //     "code": 1000,
@@ -22,7 +23,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByYc}/ycpd/cas/findMyRewards?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`,
+            url: `${config.url.originByYc}/ycpd/cas/findMyRewards?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}&pageNo=${pageNo}`,
             type: "GET",
             xhrFields: {
                 withCredentials: true

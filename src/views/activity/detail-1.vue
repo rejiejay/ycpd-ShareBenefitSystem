@@ -377,7 +377,7 @@ export default {
         getMyRewards: function getMyRewards() {
             const _this = this;
 
-            ajaxsAward.findMyRewards()
+            ajaxsAward.findMyRewards(1) // 只查询一页
             .then(
                 res => {
                     _this.awardList = res.map(val => {
@@ -421,6 +421,8 @@ export default {
             let title = `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`; // 分享标题
             let desc = '加油钜惠，保养特价，还能做任务赚佣金'; // 分享描述
             let link = config.location.redirect_href; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            let imgUrl = config.common.picture.wx_sharer;
+            document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
 
             initJSSDK(['updateAppMessageShareData', 'updateTimelineShareData', 'onMenuShareTimeline', 'onMenuShareAppMessage'])
             .then(
@@ -432,7 +434,7 @@ export default {
                         title: title,
                         desc: desc,
                         link: link,
-                        imgUrl: '', // 分享图标
+                        imgUrl: imgUrl, // 分享图标
                     }, function(res) { 
                         console.log('成功“分享给朋友”及“分享到QQ”', res);
                     }); 
@@ -443,7 +445,7 @@ export default {
                     wx.updateTimelineShareData({ 
                         title: title,
                         link: link,
-                        imgUrl: '', // 分享图标
+                        imgUrl: imgUrl, // 分享图标
                     }, function(res) { 
                         console.log('成功“分享到朋友圈”及“分享到QQ空间”', res);
                     }); 
@@ -454,7 +456,7 @@ export default {
                     wx.onMenuShareTimeline({
                         title: title,
                         link: link,
-                        imgUrl: '', // 分享图标
+                        imgUrl: imgUrl, // 分享图标
                         success: function () {
                             console.log('成功“分享到朋友圈”', res);
                         },
@@ -467,7 +469,7 @@ export default {
                         title: title,
                         desc: desc,
                         link: link,
-                        imgUrl: '', // 分享图标
+                        imgUrl: imgUrl, // 分享图标
                         type: 'link', // 分享类型,music、video或link，不填默认为link
                         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                         success: function () {

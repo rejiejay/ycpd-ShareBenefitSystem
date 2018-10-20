@@ -132,7 +132,11 @@ export default {
         getMyRewards: function getMyRewards() {
             const _this = this;
 
-            ajaxsAward.findMyRewards()
+            /**
+             * 暂时只查一页
+             * 晚点再做分页
+             */
+            ajaxsAward.findMyRewards(1)
             .then(
                 res => {
                     _this.awardList = res.map(val => {

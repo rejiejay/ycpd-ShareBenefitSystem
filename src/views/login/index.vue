@@ -114,12 +114,14 @@
 
 <script>
 
+// 框架类
 import { MessageBox, Toast } from 'mint-ui';
-
+// 请求类
+import ajaxs from "@/api/login/index";
+// 组件类
 import agreement from "@/components/agreement";
 import loadPageVar from "@/utils/loadPageVar";
 import Consequencer from "@/utils/Consequencer";
-import ajaxs from "@/api/login/index";
 
 export default {
     name: 'login',

@@ -1,4 +1,4 @@
-<!-- 重定向页面， 因为需要获取 openId， 但是 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致 -->
+<!-- 重定向页面，跳转到养车频道， 因为需要获取 openId， 但是 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致 -->
 <template>
 <div class="redirect">
 </div>
@@ -24,7 +24,7 @@ export default {
          * 因为需要获取 openId
          * 所以需要重新跳转
          */
-        window.location.href = config.location.wx_href;
+        window.location.href = config.location.ycpd_href;
     },
 
     destroyed: function destroyed() {

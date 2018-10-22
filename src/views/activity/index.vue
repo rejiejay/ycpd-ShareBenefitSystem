@@ -112,21 +112,24 @@ export default {
                         /**
                          * 渲染标签信息
                          */
-                        if (res[0].category === 1) {
-                            // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）
-                            if (res[0].proportion) {
-                                _this.activityList[0].award = `享好友加油总金额${res[0].proportion * 100}%返佣`
-                            }
-                        } else if (res[0].category === 2) {
-                            // 2 表示基数，取决于baseCount，提成基数 推荐成功享10元/人返佣
-                            if (res[0].baseCount) {
-                                _this.activityList[0].award = `推荐成功享${res[0].baseCount}元/人返佣`
-                            }
+                        if (res[0].label) {
+                            _this.activityList[0].award = res[0].label;
                         }
+                        // if (res[0].category === 1) {
+                        //     // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）
+                        //     if (res[0].proportion) {
+                        //         _this.activityList[0].award = `享好友加油总金额${res[0].proportion * 100}%返佣`
+                        //     }
+                        // } else if (res[0].category === 2) {
+                        //     // 2 表示基数，取决于baseCount，提成基数 推荐成功享10元/人返佣
+                        //     if (res[0].baseCount) {
+                        //         _this.activityList[0].award = `推荐成功享${res[0].baseCount}元/人返佣`
+                        //     }
+                        // }
 
                         // 渲染时间
                         if (res[0].startTime && res[0].endTime) {
-                            _this.activityList[0].time = `${res[0].startTime} 至 ${res[0].endTime}`
+                            _this.activityList[0].time = `${res[0].startTime.split(' ')[0]} 至 ${res[0].endTime.split(' ')[0]}`
                         }
                     }
 
@@ -144,21 +147,24 @@ export default {
                         /**
                          * 渲染标签信息
                          */
-                        if (res[1].category === 1) {
-                            // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）
-                            if (res[1].proportion) {
-                                _this.activityList[1].award = `享好友加油总金额${res[1].proportion * 100}%返佣`
-                            }
-                        } else if (res[1].category === 2) {
-                            // 2 表示基数，取决于baseCount，提成基数 推荐成功享10元/人返佣
-                            if (res[1].baseCount) {
-                                _this.activityList[1].award = `推荐成功享${res[1].baseCount}元/人返佣`
-                            }
+                        if (res[0].label) {
+                            _this.activityList[0].award = res[0].label;
                         }
+                        // if (res[1].category === 1) {
+                        //     // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）
+                        //     if (res[1].proportion) {
+                        //         _this.activityList[1].award = `享好友加油总金额${res[1].proportion * 100}%返佣`
+                        //     }
+                        // } else if (res[1].category === 2) {
+                        //     // 2 表示基数，取决于baseCount，提成基数 推荐成功享10元/人返佣
+                        //     if (res[1].baseCount) {
+                        //         _this.activityList[1].award = `推荐成功享${res[1].baseCount}元/人返佣`
+                        //     }
+                        // }
 
                         // 渲染时间
                         if (res[1].startTime && res[1].endTime) {
-                            _this.activityList[1].time = `${res[1].startTime} 至 ${res[1].endTime}`
+                            _this.activityList[1].time = `${res[1].startTime.split(' ')[0]} 至 ${res[1].endTime.split(' ')[0]}`
                         }
                     }
 

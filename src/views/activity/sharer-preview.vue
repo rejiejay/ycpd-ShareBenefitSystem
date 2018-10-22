@@ -220,7 +220,7 @@ export default {
             let agentName = this.userInfoStore.agentName;
             let title = `${agentName}邀请你加入团队，养车省钱，分享赚钱，分享赚不停`; // 分享标题
             let desc = '关注“养车频道”微信公众号，立享加油钜惠'; // 分享描述
-            let link = `${config.location.share_href}?agentName=${this}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            let link = `${config.location.share_href}?agentName=${agentName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
             document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
 

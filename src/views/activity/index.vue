@@ -42,6 +42,7 @@ import Tabbar from "@/components/Tabbar";
 import TimeConver from "@/utils/TimeConver";
 // 静态资源类
 import activity001 from "@/static/activity001.jpg";
+import activity002 from "@/static/activity002.jpg";
 
 export default {
     name: 'activity',
@@ -71,7 +72,7 @@ export default {
                     id: 2,
                     projectId: "3AF07C7AB66140C592FAC852C67CF650",
                     status: 'going', 
-                    picture: '',
+                    picture: activity002,
                     award: '推荐成功享10元/人返佣',
                     describe: '养车频道优惠加油双重返利活动', 
                     time: '2018-10-6 至 2018-12-9',

@@ -148,8 +148,8 @@ export default {
                         /**
                          * 渲染标签信息
                          */
-                        if (res[0].label) {
-                            _this.activityList[0].award = res[0].label;
+                        if (res[1].label) {
+                            _this.activityList[1].award = res[1].label;
                         }
                         // if (res[1].category === 1) {
                         //     // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）

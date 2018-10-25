@@ -38,7 +38,7 @@
 
     <!-- 两行的列表 -->
     <div class="home-invite-tow flex-start-center">
-        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="upgrading">
+        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="jumpToRouter('/activity/detail/1')">
             <div class="tow-item-content flex-start-center">
                 <!-- 服务礼品商城 icon按钮 -->
                 <div class="tow-item-icon">
@@ -196,9 +196,16 @@ export default {
 
         /**
          * 跳转到路由
+         * @param {object} query 携带的参数 非必填
          */
-        jumpToRouter: function jumpToRouter(url) {
-            this.$router.push({path: url});
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
         },
     }
 }

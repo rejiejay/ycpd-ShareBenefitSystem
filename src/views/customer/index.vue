@@ -688,9 +688,16 @@ export default {
 
         /**
          * 跳转到路由
+         * @param {object} query 携带的参数 非必填
          */
-        jumpToRouter: function jumpToRouter(url) {
-            this.$router.push({path: url});
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
         },
     }
 }

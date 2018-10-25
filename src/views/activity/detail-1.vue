@@ -18,7 +18,7 @@
                 </div>
                 <div class="detail-rules-row flex-start">
                     <div class="rules-row-no">3.</div>
-                    <div class="rules-row-describe flex-rest">活动时间：2018-10-7 11:03:03至2018-10-7 11:03:11</div>
+                    <div class="rules-row-describe flex-rest">活动时间：{{time}}</div>
                 </div>
             </div>
         </div>
@@ -492,9 +492,16 @@ export default {
 
         /**
          * 跳转到路由
+         * @param {object} query 携带的参数 非必填
          */
-        jumpToRouter: function jumpToRouter(url) {
-            this.$router.push({path: url});
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
         },
 
         /**

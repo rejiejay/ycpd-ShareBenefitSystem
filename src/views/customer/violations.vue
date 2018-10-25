@@ -167,7 +167,7 @@ export default {
         },
 
         /**
-         * 跳转到路由
+         * 路由返回
          */
         routerBack: function routerBack() {
             this.$router.back(-1);

@@ -39,7 +39,9 @@
                     <div class="way-main-row">· 请使用{{userInfoStore.telephone ? userInfoStore.telephone : ''}}手机号注册</div>
                     <div class="way-main-row flex-start-center">
                         <div class="flex-rest">· 活动邀请码: <span style="padding-left: 10px; color: #2F8AFF;">rjhlwl</span></div>
-                        <div class="copy-invitation-code" id="copy-invitation-code" data-clipboard-text="rjhlwl" style="color: #2F8AFF;">复制验证码</div>
+                        <input style="display: none;" id="rjhlwl" type="text" value="rjhlwl">
+                        
+                        <button class="copy-invitation-code" id="copy-invitation-code" data-clipboard-text="rjhlwl" style="color: #2F8AFF;" @click="copyClipboard">复制验证码</button>
                     </div>
                     <div class="way-main-pictures flex-center">
                         <img :src="pictures.activity002content001" alt="activity002content001">
@@ -93,11 +95,15 @@
 
 <script>
 
+// 框架类
 import { Toast } from 'mint-ui';
-import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
+// import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
+// 请求类
+import ajaxsAward from "@/api/common/award";
+// 资源类
 import activity002content001 from "@/static/activity002content001.png";
 import activity002content002 from "@/static/activity002content002.png";
-import ajaxsAward from "@/api/common/award";
+// 组件类
 import TimeConver from "@/utils/TimeConver";
 
 export default {
@@ -134,31 +140,36 @@ export default {
     },
 
 	mounted: function mounted() {
-        this.initClipboard(); // 初始化剪切板
+        // this.initClipboard(); // 初始化剪切板
     },
 
 	methods: {
         /**
-         * 初始化剪切板
+         * 复制验证码
          */
-        initClipboard: function initClipboard() {
+        copyClipboard: function copyClipboard() {
             const _this = this;
-
-            var clipboard = new ClipboardJS('#copy-invitation-code');
-            clipboard.on('success', function(e) {
+            const input = document.createElement('input');
+            document.body.appendChild(input);
+            input.setAttribute('value', 'rjhlwl');
+            input.contentEditable = true;
+            input.readOnly = false;
+            const range = document.createRange();
+            range.selectNodeContents(input);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            input.select();
+            if (document.execCommand('copy')) {
                 Toast({
                     message: '复制成功!',
                     duration: 1000
                 });
                 _this.isBatchImportModalShow = false;
-                e.clearSelection();
-            });
-
-            clipboard.on('error', function(e) {
-                alert('复制失败，请手动复制！')
-                console.error('Action:', e.action);
-                console.error('Trigger:', e.trigger);
-            });
+            } else {
+                // alert('复制失败，请手动复制！')
+            }
+            input.blur();
         },
 
         /**
@@ -265,6 +276,12 @@ export default {
     .way-main-row {
         padding-bottom: 2.5px;
         padding-left: 10px;
+
+        #copy-invitation-code {
+            border: 1px solid transparent;  //自定义边框
+            outline: none;    //消除默认点击蓝色边框效果
+            background: #fff;
+        }
     }
 
     .way-main-pictures {

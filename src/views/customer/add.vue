@@ -289,7 +289,7 @@
                         <svg width="12" height="12" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-批量" transform="translate(-476.000000, -694.000000)" fill="#999999" fill-rule="nonzero"><g id="Alert" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(95.000000, 420.000000)"><g id="Group-2" transform="translate(381.000000, 146.000000)">
                             <path d="M6,2 L6,0 L24,0 L24,22 L22,22 L22,2 L6,2 Z M2,4 L20,4 L20,26 L2,26 L2,4 Z M4,6 L4,24 L18,24 L18,6 L4,6 Z M6,10 L12,10 L12,12 L6,12 L6,10 Z M6,14 L16,14 L16,16 L6,16 L6,14 Z" id="icon_copy"></path></g></g></g></g></g>
                         </svg>
-                        <span>复制</span>
+                        <button class="copy-invitation-code" id="copy-invitation-code" data-clipboard-text="rjhlwl" style="color: #2F8AFF;" @click="copyClipboard">复制验证码</button>
                     </div>
                 </div>
             </div>
@@ -304,7 +304,7 @@
 <script>
 // 框架类
 import { Toast } from 'mint-ui';
-import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
+// import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
 // 请求类
 import ajaxs from "@/api/customer/add";
 // 组件类
@@ -394,32 +394,37 @@ export default {
     },
 
 	mounted: function mounted() {
-        this.initClipboard(); // 初始化剪切板
         this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口
     },
 
 	methods: {
-        /**
-         * 初始化剪切板
-         */
-        initClipboard: function initClipboard() {
-            const _this = this;
 
-            var clipboard = new ClipboardJS('#clipboard-content-right');
-            clipboard.on('success', function(e) {
+        /**
+         * 复制验证码
+         */
+        copyClipboard: function copyClipboard() {
+            const _this = this;
+            const input = document.createElement('input');
+            document.body.appendChild(input);
+            input.setAttribute('value', 'rjhlwl');
+            input.contentEditable = true;
+            input.readOnly = false;
+            const range = document.createRange();
+            range.selectNodeContents(input);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            input.select();
+            if (document.execCommand('copy')) {
                 Toast({
                     message: '复制成功!',
                     duration: 1000
                 });
                 _this.isBatchImportModalShow = false;
-                e.clearSelection();
-            });
-
-            clipboard.on('error', function(e) {
-                alert('复制失败，请手动复制！')
-                console.error('Action:', e.action);
-                console.error('Trigger:', e.trigger);
-            });
+            } else {
+                // alert('复制失败，请手动复制！')
+            }
+            input.blur();
         },
 
         /**
@@ -1311,6 +1316,12 @@ export default {
 
                 span {
                     padding-left: 5px;
+                }
+
+                #copy-invitation-code {
+                    border: 1px solid transparent;  //自定义边框
+                    outline: none;    //消除默认点击蓝色边框效果
+                    background: #fff;
                 }
             }
         }

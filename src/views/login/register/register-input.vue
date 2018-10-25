@@ -3,7 +3,7 @@
 <div class="register">
     <!-- banner -->
     <div class="register-banner">
-        <img alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image003.jpg?x-oss-process=image/resize,m_fill,w_${clientWidth * 2},h_320,limit_0/auto-orient,0/quality,q_100`" />
+        <img alt="banner" :src="picture.register" />
     </div>
 
     <div class="register-company">
@@ -110,12 +110,15 @@
 </template>
 
 <script>
- 
+// 框架类
 import { MessageBox, Toast } from 'mint-ui';
-
+// 请求类
+import ajaxs from "@/api/login/register";
+// 组件类
 import loadPageVar from "@/utils/loadPageVar";
 import Consequencer from "@/utils/Consequencer";
-import ajaxs from "@/api/login/register";
+// 静态资源类
+import register from "@/static/register.png";
 
 export default {
     name: 'register-input',
@@ -124,6 +127,10 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            picture: {
+                register: register
+            },
 
             /**
              * 注册时候, 用于判断一级代理还是二级代理
@@ -370,6 +377,10 @@ export default {
                 .then(
                     res1 => {
                         if (res1.code === 1000) { // 获取
+                            Toast({
+                                message: '验证码已发送!',
+                                duration: 2000
+                            });
                             _this.isMachineModalShow = false; // 关闭人机验证 模态框
                             _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
                             _this.jigsawMovepx = 0;
@@ -595,7 +606,7 @@ export default {
 
 .register-banner {
     width: 100%;
-    height: 160px;
+    height: 100px;
     overflow: hidden;
 
     img {

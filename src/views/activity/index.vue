@@ -40,9 +40,6 @@ import ajaxs from "@/api/activity/index";
 // 组件类
 import Tabbar from "@/components/Tabbar";
 import TimeConver from "@/utils/TimeConver";
-// 静态资源类
-import activity001 from "@/static/activity001.jpg";
-import activity002 from "@/static/activity002.jpg";
 
 export default {
     name: 'activity',
@@ -64,7 +61,7 @@ export default {
                     id: 1, // 活动唯一标识
                     projectId: "3AF07C7AB66140C592FAC852C67CF650",
                     status: 'going', 
-                    picture: activity001,
+                    picture: '',
                     award: '享好友加油总金额1%返佣',
                     describe: '养车频道优惠加油双重返利活动', // 活动描述
                     time: '2018-10-6 至 2018-12-9', // 活动时间
@@ -72,7 +69,7 @@ export default {
                     id: 2,
                     projectId: "3AF07C7AB66140C592FAC852C67CF650",
                     status: 'going', 
-                    picture: activity002,
+                    picture: '',
                     award: '推荐成功享10元/人返佣',
                     describe: '养车频道优惠加油双重返利活动', 
                     time: '2018-10-6 至 2018-12-9',
@@ -109,7 +106,10 @@ export default {
                         } else {
                             _this.activityList[0].status = 'finish';
                         }
-                        
+
+                        // 渲染图片
+                        _this.activityList[0].picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(_this.clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`;
+
                         /**
                          * 渲染标签信息
                          */
@@ -144,7 +144,10 @@ export default {
                         } else {
                             _this.activityList[1].status = 'finish';
                         }
-                        
+
+                        // 渲染图片
+                        _this.activityList[1].picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(_this.clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`;
+
                         /**
                          * 渲染标签信息
                          */

@@ -5,7 +5,11 @@
     <!-- banner图 -->
     <div class="home-banner">
         <div class="home-banner-content">
-            <img alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image003.jpg?x-oss-process=image/resize,m_fill,w_${clientWidth * 2},h_290,limit_0/auto-orient,0/quality,q_100`" />
+            <mt-swipe :auto="4000">
+                <mt-swipe-item><img @click="jumpToRouter('/activity/detail/1', {projectId: '3AF07C7AB66140C592FAC852C67CF650'})" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_290,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
+                <mt-swipe-item><img @click="jumpToRouter('/activity/detail/2', {projectId: '3AF07C7AB66140C592FAC852C67CF650'})" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_290,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
+            </mt-swipe>
+            
         </div>
     </div>
 
@@ -38,7 +42,7 @@
 
     <!-- 两行的列表 -->
     <div class="home-invite-tow flex-start-center">
-        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="jumpToRouter('/activity/detail/1')">
+        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="jumpToRouter('/activity/detail/1', {projectId: '3AF07C7AB66140C592FAC852C67CF650'})">
             <div class="tow-item-content flex-start-center">
                 <!-- 服务礼品商城 icon按钮 -->
                 <div class="tow-item-icon">
@@ -108,7 +112,7 @@
     </div>
 
     <!-- 最新资讯 -->
-    <div class="home-news">
+    <div class="home-news" v-if="'这期' === '暂时不上'">
         <div class="home-news-content">
 
             <!-- 标题部分 -->
@@ -157,8 +161,14 @@
 
 <script>
 
+// 框架类
+import Vue from "vue";
+// 组件类
 import Tabbar from "@/components/Tabbar";
-import { Toast } from 'mint-ui';
+import { Toast, Swipe, SwipeItem } from 'mint-ui';
+// 初始化类
+Vue.component('mt-swipe', Swipe);
+Vue.component('mt-swipe-item', SwipeItem);
 
 export default {
     name: 'home',

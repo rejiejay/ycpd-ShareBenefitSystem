@@ -12,7 +12,7 @@ const routes = [
         alias: ['/', '/home'],
         name: 'home',
         component: () => import('@/views/home'),
-        meta: { title: '养车频道福利共享' },
+        meta: { title: '车挖挖' },
     }, 
 
     /**
@@ -22,7 +22,7 @@ const routes = [
         path: '/login',
         name: 'login',
         component: () => import('@/views/login/index'),
-        meta: { title: '养车频道福利共享' },
+        meta: { title: '车挖挖' },
     }, {
         path: '/register',
         component: () => import('@/views/login/register/index'),
@@ -54,24 +54,24 @@ const routes = [
                 alias: ['/'],
                 name: 'invite-input',
                 component: () => import('@/views/login/invite/invite-input'),
-                meta: { title: '加入养车福利平台' },
+                meta: { title: '加入车挖挖' },
             }, {
                 path: 'agreement',
                 name: 'invite-agreement',
                 component: () => import('@/views/login/invite/invite-agreement'),
-                meta: { title: '加入养车福利平台' },
+                meta: { title: '加入车挖挖' },
             },
         ],
     }, {
         path: '/invite/succeed',
         name: 'invite-succeed',
         component: () => import('@/views/login/invite/succeed'),
-        meta: { title: '加入养车福利平台' },
+        meta: { title: '加入车挖挖' },
     }, {
         path: '/redirect',
         name: 'redirect',
         component: () => import('@/views/login/redirect'),
-        meta: { title: '养车频道福利共享' },
+        meta: { title: '车挖挖' },
     }, 
 
     /**

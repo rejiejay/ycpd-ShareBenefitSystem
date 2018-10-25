@@ -374,6 +374,10 @@ export default {
                 .then(
                     res1 => {
                         if (res1.code === 1000) { // 获取
+                            Toast({
+                                message: '验证码已发送!',
+                                duration: 2000
+                            });
                             _this.isMachineModalShow = false; // 关闭人机验证 模态框
                             _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
                             _this.jigsawMovepx = 0;

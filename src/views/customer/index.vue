@@ -230,11 +230,13 @@
 
 <script>
 
+// 框架类
 import { MessageBox } from 'mint-ui';
-
+// 请求类
+import ajaxs from "@/api/customer/index";
+// 组件类
 import Tabbar from "@/components/Tabbar";
 import TimeConver from "@/utils/TimeConver";
-import ajaxs from "@/api/customer/index";
 
 export default {
     name: 'customer-home',
@@ -581,10 +583,9 @@ export default {
 
                         // 初始化保险日期
                         if (val.policy && val.policy.businessExpireDate) {
-                            // 过期的时间的数组
-                            let businessExpireArray = val.policy.businessExpireDate.split('-');
                             // 过期的时间戳
-                            let businessExpireTimestamp = new Date(parseInt(businessExpireArray[0]), (parseInt(businessExpireArray[1]) - 1), parseInt(businessExpireArray[2])).getTime();
+                            let businessExpireTimestamp = TimeConver.YYYYmmDDToTimestamp(val.policy.businessExpireDate);
+                            
                             // 相差时间戳
                             let differTimestamp = businessExpireTimestamp - new Date().getTime();
 
@@ -596,8 +597,8 @@ export default {
                                 // 设置保险日期进去
                                 tag.push(`保险${Math.floor(differTimestamp / (1000 * 60 * 60 * 24))}天`);
                             } else if (differTimestamp < 0) {
-                                // 当时间差小于零的时候，展示已经脱保
-                                tag.push(`已脱保`);
+                                // 当时间差小于零的时候，展示可能脱保
+                                tag.push(`可能脱保`);
                             }
                         }
 

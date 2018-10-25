@@ -47,27 +47,32 @@
                         </svg>
                     </div>
                 </div>
-                <div class="customerInfor-car-line"></div>
+                <div class="customerInfor-car-line" v-if="policyRegisterDate || policyASDate"></div>
 
                 <div class="customerInfor-car-other flex-start-center" v-if="policyRegisterDate || policyASDate">
                     <div class="car-other-left">注册日期</div>
                     <div class="car-other-center flex-rest">{{policyRegisterDate}}</div>
                     <div class="car-other-right customerInfor-car-notice">{{policyASDate ? `年检${policyASDate}天后到期` : ''}}</div>
                 </div>
-                <div class="customerInfor-car-line"></div>
+                <div class="customerInfor-car-line" v-if="policyBusinessExpireDate"></div>
 
                 <div class="customerInfor-car-other flex-start-center" v-if="policyBusinessExpireDate">
                     <div class="car-other-left">交强险</div>
-                    <div class="car-other-center flex-rest"><!-- 平安保险 暂无 --></div>
+                    <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
+                    <div class="car-other-center flex-rest" v-if="'平安保险' === '暂无'">平安保险</div>
                     <div class="car-other-right">{{policyForceExpireDate}}到期</div>
                 </div>
-                <div class="customerInfor-car-line"></div>
+                <div class="customerInfor-car-line" v-if="policyBusinessExpireDate"></div>
 
                 <div class="customerInfor-car-other flex-start-center" v-if="policyBusinessExpireDate">
                     <div class="car-other-left">商业险</div>
-                    <div class="car-other-center flex-rest"><!-- 平安保险 暂无 --></div>
+                    <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
+                    <div class="car-other-center flex-rest" v-if="'平安保险' === '暂无'">平安保险</div>
                     <div class="car-other-right">{{policyBusinessExpireDate}}到期</div>
                 </div>
+                <div class="customerInfor-car-line" v-if="isMayTuoBao"></div>
+
+                <div class="customerInfor-car-other flex-center" v-if="isMayTuoBao" style="font-size: 12px; font-weight: normal; color: #909399;">部分保险公司数据存在延时，请以实际情况为准</div>
             </div>
         </div>
 
@@ -166,7 +171,7 @@
 
             <div class="bottom-button-item">
                 <div class="button-item-content">
-                    <div class="button-item-main flex-center" @click="contactCustomer">
+                    <div class="button-item-main flex-center" @click="contactCustomer" :class="telphone ? '' : 'item-main-disable'">
                         <div class="flex-start-center">
                             <div class="item-content-icon">
                                 <svg width="14" height="14" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情" transform="translate(-64.000000, -1330.000000)" fill="#FFFFFF"><g id="menu" transform="translate(30.000000, 1306.000000)"><g id="icon" transform="translate(34.000000, 24.000000)">
@@ -291,12 +296,15 @@
 
 <script>
 
+// 框架类
 import Vue from 'vue';
-import { DatetimePicker } from 'mint-ui';
-Vue.component(DatetimePicker.name, DatetimePicker);
-
+import { DatetimePicker, Toast } from 'mint-ui';
+// 请求类
 import ajaxs from "@/api/customer/details";
+// 自定义组件类
 import TimeConver from "@/utils/TimeConver";
+// 初始化类
+Vue.component(DatetimePicker.name, DatetimePicker);
 
 export default {
     name: 'customer-details',
@@ -335,6 +343,7 @@ export default {
             policyForceExpireDate: '', // 强险过期时间
             policyRegisterDate: '', // 注册时间
             policyASDate: '', // 年检多少天到期
+            isMayTuoBao: false, // 是否可能脱保
 
             /**
              * 违章信息部分
@@ -482,6 +491,22 @@ export default {
                         this.policyASDate = Math.floor(annualInspectdifferTimestamp / (1000 * 60 * 60 * 24));
                     }
                 }
+
+                /**
+                 * 判断是否可能脱保
+                 */
+                if (pageCustomerStore.policy.businessExpireDate) {
+                    // 过期的时间戳
+                    let businessExpireTimestamp = TimeConver.YYYYmmDDToTimestamp(pageCustomerStore.policy.businessExpireDate);
+                            
+                    /**
+                     * 相差时间 小于零
+                     * 表示可能脱保
+                     */
+                    if ((businessExpireTimestamp - new Date().getTime()) < 0) {
+                        this.isMayTuoBao = true;
+                    }
+                }
             }
 
             // 渲染违章信息
@@ -581,7 +606,11 @@ export default {
          * 联系客户
          */
         contactCustomer: function contactCustomer() {
-            window.location.href = `tel:${this.telphone}`;
+            if (this.telphone) {
+                window.location.href = `tel:${this.telphone}`;
+            } else {
+                Toast({ message: '客户手机号未录入，无法拨打电话', duration: 2000 });
+            }
         },
 
         /**
@@ -726,19 +755,22 @@ export default {
         padding-right: 15px;
     }
 
+    // 可能脱保的标签
+    .other-isMayTuoBao-icon {
+        font-size: 10px;
+        padding: 0px 5px;
+        height: 16px;
+        line-height: 16px;
+        border-radius: 16px;
+        color: #469AFF;
+        border: 1px solid #469AFF;
+    }
+
     .customerInfor-car-other {
         padding-right: 15px;
 
         .car-other-left {
             width: 80px;
-            color: @black3;
-        }
-
-        .car-other-left {
-            color: @black2;
-        }
-
-        .car-other-right {
             color: @black3;
         }
     }
@@ -889,6 +921,11 @@ export default {
             background: -o-linear-gradient(#FFB700, #FFA100); /* Opera 11.1 - 12.0 */
             background: -moz-linear-gradient(#FFB700, #FFA100); /* Firefox 3.6 - 15 */
             background: linear-gradient(#FFB700, #FFA100); /* 标准的语法 */
+        }
+
+        .item-main-disable {
+            color: @black1;
+            background: #ddd;
         }
     }
 }

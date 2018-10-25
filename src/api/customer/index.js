@@ -80,7 +80,7 @@ export default {
 
         // 请求参数
         let paramString = `pageNo=${pageNo}&pageSize=${pageSize}&searchType=${searchType}`
-        search ? paramString += `&search=${search}` : null; // 非必填项
+        search ? paramString += `&searchParam=${search}` : null; // 非必填项
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({

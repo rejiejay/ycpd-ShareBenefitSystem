@@ -116,7 +116,7 @@ export default {
 
     /**
      * xxxx-xx-xx字符串 转换 为时间戳
-     * @param {string} YYYYmmDD xxxx-xx-xx xx:xx:xx 字符串
+     * @param {string} YYYYmmDD xxxx-xx-xx 字符串
      * @return {number} 为时间戳 1539051630549
      */
     YYYYmmDDToTimestamp: YYYYmmDD => {

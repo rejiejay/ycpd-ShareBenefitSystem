@@ -6,8 +6,8 @@
     <div class="home-banner">
         <div class="home-banner-content">
             <mt-swipe :auto="4000">
-                <mt-swipe-item><img @click="jumpToRouter('/activity/detail/1', {projectId: '3AF07C7AB66140C592FAC852C67CF650'})" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_290,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
-                <mt-swipe-item><img @click="jumpToRouter('/activity/detail/2', {projectId: '3AF07C7AB66140C592FAC852C67CF650'})" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_290,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
+                <mt-swipe-item><img @click="jumpToRouter('/activity/detail/1', {projectId: projectId_1})" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
+                <mt-swipe-item><img @click="jumpToRouter('/activity/detail/2', {projectId: projectId_2})" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
             </mt-swipe>
             
         </div>
@@ -42,7 +42,7 @@
 
     <!-- 两行的列表 -->
     <div class="home-invite-tow flex-start-center">
-        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="jumpToRouter('/activity/detail/1', {projectId: '3AF07C7AB66140C592FAC852C67CF650'})">
+        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="jumpToRouter('/activity/detail/1', {projectId: projectId_1})">
             <div class="tow-item-content flex-start-center">
                 <!-- 服务礼品商城 icon按钮 -->
                 <div class="tow-item-icon">
@@ -163,6 +163,8 @@
 
 // 框架类
 import Vue from "vue";
+// 请求类
+import ajaxsgetAllActivity from "@/api/common/getAllActivity";
 // 组件类
 import Tabbar from "@/components/Tabbar";
 import { Toast, Swipe, SwipeItem } from 'mint-ui';
@@ -191,12 +193,44 @@ export default {
                     time: '2018-10-6 16:43:01',
                 }
             ],
+
+            projectId_1: '', // 活动1的id
+            projectId_2: '', // 活动2的id
         } 
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.getActivity(); // 获取 - 所有活动列表
+    },
 
 	methods: {
+        /**
+         * 获取 - 所有活动列表
+         */
+        getActivity: function getActivity() {
+            const _this = this;
+
+            ajaxsgetAllActivity()
+            .then(
+                res => {
+                    // 按理应当通过数据转换，但是因为现阶段数据是写死的
+                    // _this.activityList = res.map(val => {
+                    // });
+
+                    if (res && res[0] && res[0].projectId) {
+                        _this.projectId_1 = res[0].projectId;
+                    }
+
+                    if (res && res[1] && res[1].projectId) {
+                        _this.projectId_2 = res[1].projectId;
+                    }
+
+                }, error => {
+                    alert(error);
+                }
+            );
+        },
+
         /**
          * 升级中
          */
@@ -241,7 +275,7 @@ export default {
     padding: 15px 15px 0px 15px;
 
     .home-banner-content {
-        height: 145px;
+        height: 130px;
         border-radius: 10px;
         overflow: hidden;
 

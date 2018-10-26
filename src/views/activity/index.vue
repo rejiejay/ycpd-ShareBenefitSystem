@@ -36,7 +36,7 @@
 <script>
 
 // 请求类
-import ajaxs from "@/api/activity/index";
+import ajaxsgetAllActivity from "@/api/common/getAllActivity";
 // 组件类
 import Tabbar from "@/components/Tabbar";
 import TimeConver from "@/utils/TimeConver";
@@ -89,7 +89,7 @@ export default {
         getActivity: function getActivity() {
             const _this = this;
 
-            ajaxs.getAllActivity()
+            ajaxsgetAllActivity()
             .then(
                 res => {
                     // 按理应当通过数据转换，但是因为现阶段数据是写死的

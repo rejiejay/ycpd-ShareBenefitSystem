@@ -299,11 +299,12 @@
     <mt-datetime-picker
         ref="picker"
         type="date"
+        @confirm="handleNextFollowUpTime"
         :startDate="new Date()"
         year-format="{value} 年"
         month-format="{value} 月"
         date-format="{value} 日"
-        v-model="nextFollowUpTime"
+        v-model="nextFollowUpTimeModal"
     ></mt-datetime-picker>
 
 </div>
@@ -388,7 +389,8 @@ export default {
             isFollowModalShow: false, // 录入跟进模态框
             isFollowSelectedShow: false, // 选择录入跟进模态框
             followUpDescribe: '', // 跟进内容
-            nextFollowUpTime: new Date(), // 下次跟进时间
+            nextFollowUpTime: null, // 下次跟进时间
+            nextFollowUpTimeModal: new Date(), // 模态框
             followUpIndex: null, // 选择跟进结果的下标 如果为 null 表示未选择
             followUpList: [
                 {
@@ -637,6 +639,13 @@ export default {
             } else {
                 alert('无法更新数据, 因为找不到车牌，发动机号以及车架号！');
             }
+        },
+
+        /**
+         * 下次跟进时间 点击确认
+         */
+        handleNextFollowUpTime: function handleNextFollowUpTime() {
+            this.nextFollowUpTime = this.nextFollowUpTimeModal;
         },
 
         /**

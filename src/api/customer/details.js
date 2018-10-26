@@ -205,4 +205,78 @@ export default {
             }
         });
     }),
+
+    /**
+     * 刷新 - 信息 - 通过车牌号
+     * @param {string} carNo 车牌号
+     */
+    updateInforByCarNo: carNo => new Promise((resolve, reject) => {
+
+        let requestReason = '刷新信息';
+		Indicator.open('正在加载数据...'); // 弹出加载框
+        $.ajax({
+            url: `${config.url.origin}/ycpd/cas/client/update?token=${window.localStorage.getItem('ycpd_token')}`,
+            type: "post",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: JSON.stringify({
+                carNo: carNo,
+            }),
+            success(res) {
+                Indicator.close(); // 关闭加载框
+                if (res.code === 1000) {
+                    resolve(res.data);
+                } else {
+                    console.error(res);
+                    reject(`${requestReason}数据有误! 原因: ${res.msg}`);
+                }
+            },
+            error(error) {
+                Indicator.close(); // 关闭加载框
+                console.error(error);
+                reject(`向服务器发起${requestReason}发生错误! 原因: ${JSON.stringify(error)}`);
+            }
+        });
+    }),
+
+    /**
+     * 刷新 - 信息 - 发动机号，车架号
+     * @param {string} vinNo 车牌号
+     * @param {string} engineNo 车牌号
+     */
+    updateInforByVinengineNo: (vinNo, engineNo) => new Promise((resolve, reject) => {
+
+        let requestReason = '刷新信息';
+		Indicator.open('正在加载数据...'); // 弹出加载框
+        $.ajax({
+            url: `${config.url.origin}/ycpd/cas/client/update?token=${window.localStorage.getItem('ycpd_token')}`,
+            type: "post",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: JSON.stringify({
+                vinNo: vinNo,
+                engineNo: engineNo,
+            }),
+            success(res) {
+                Indicator.close(); // 关闭加载框
+                if (res.code === 1000) {
+                    resolve(res.data);
+                } else {
+                    console.error(res);
+                    reject(`${requestReason}数据有误! 原因: ${res.msg}`);
+                }
+            },
+            error(error) {
+                Indicator.close(); // 关闭加载框
+                console.error(error);
+                reject(`向服务器发起${requestReason}发生错误! 原因: ${JSON.stringify(error)}`);
+            }
+        });
+    }),
 }

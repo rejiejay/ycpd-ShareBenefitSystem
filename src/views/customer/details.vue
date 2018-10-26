@@ -184,6 +184,21 @@
                 </div>
             </div>
 
+            <div class="bottom-button-item">
+                <div class="button-item-content">
+                    <div class="button-item-main flex-center" @click="updateInformation">
+                        <div class="flex-start-center">
+                            <div class="item-content-icon">
+                                <svg width="14" height="14" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情" transform="translate(-301.000000, -1330.000000)" fill="#FFFFFF" fill-rule="nonzero"><g id="menu" transform="translate(30.000000, 1306.000000)"><g id="icon" transform="translate(34.000000, 24.000000)">
+                                    <path d="M242.659912,19.7310009 C242.735225,19.9546546 242.806211,20.1448495 242.87287,20.3015854 C244.547463,24.2390624 248.451306,27 253,27 C258.035108,27 262.280077,23.6170096 263.585935,19 L265,19 L265,21 L266.080742,21 C264.067898,26.2627404 258.970391,30 253,30 C247.079453,30 242.017276,26.3248807 239.970314,21.1314872 C239.894572,20.9393208 239.812933,20.703488 239.725398,20.4239886 L239.725368,20.4239981 C239.495725,19.6907529 239.903976,18.9101785 240.637221,18.6805362 C240.684194,18.6658252 240.731913,18.6536173 240.780179,18.6439641 L240.780179,18.6439641 C241.59101,18.481798 242.396059,18.9473393 242.659945,19.7309897 Z M241.069095,8.67137878 C243.53303,4.66866017 247.954865,2 253,2 C258.852189,2 263.865714,5.59074359 265.957581,10.6892351 C266.054216,10.9247633 266.158797,11.2218018 266.271323,11.5803508 L266.27135,11.5803421 C266.500764,12.3113408 266.09415,13.0899092 265.363151,13.3193233 C265.316061,13.3341018 265.268216,13.3463567 265.219821,13.3560359 C264.405163,13.5189675 263.596108,13.0520757 263.329567,12.2652022 C263.211243,11.9158608 263.100191,11.6285443 262.99642,11.4032496 C261.255537,7.62365139 257.434162,5 253,5 C248.79878,5 245.147654,7.35523371 243.294955,10.8173681 L245.308103,10.0846423 C246.08657,9.8013035 246.947333,10.2026841 247.230672,10.981151 C247.514011,11.7596178 247.11263,12.6203814 246.334163,12.9037201 L241.6357,14.6138208 C240.857233,14.8971596 239.99647,14.495779 239.713131,13.7173121 L238.00303,9.01884902 C237.719691,8.24038217 238.121072,7.37961864 238.899539,7.09627988 C239.678006,6.81294111 240.538769,7.21432174 240.822108,7.99278859 L241.069095,8.67137878 Z M264.224524,20.8451383 L260.935599,22.0422088 C260.157133,22.3255476 259.296369,21.9241669 259.01303,21.1457001 C258.729691,20.3672332 259.131072,19.5064697 259.909539,19.2231309 L264.608002,17.5130302 C265.386469,17.2296915 266.247232,17.6310721 266.530571,18.4095389 L268.240672,23.108002 C268.524011,23.8864689 268.12263,24.7472324 267.344163,25.0305712 C266.565696,25.3139099 265.704933,24.9125293 265.421594,24.1340625 L264.224524,20.8451383 Z" id="更新"></path></g></g></g></g>
+                                </svg>
+                            </div>
+                            <div class="item-content-describe">更新信息</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- 这期暂时不显示 <div class="bottom-button-item">
                 <div class="button-item-content">
                     <div class="button-item-main flex-center">
@@ -301,6 +316,7 @@ import Vue from 'vue';
 import { DatetimePicker, Toast } from 'mint-ui';
 // 请求类
 import ajaxs from "@/api/customer/details";
+import getClientDetailById from "@/api/common/getClientDetailById";
 // 自定义组件类
 import TimeConver from "@/utils/TimeConver";
 // 初始化类
@@ -335,6 +351,9 @@ export default {
             telphone: '',
             remark: '',
             birthday: '',
+            carNo: '',
+            vinNo: '',
+            engineNo: '',
 
             /**
              * 保险部分
@@ -438,7 +457,7 @@ export default {
             this.clientId = clientId;
             window.localStorage.setItem('ycpd_clientId', clientId);
 
-            ajaxs.getClientById() // 根据客户id 获取 客户信息
+            getClientDetailById() // 根据客户id 获取 客户信息
             .then(
                 res => {
                     _this.$store.commit('customer/initCustomerDetails', res);
@@ -464,6 +483,11 @@ export default {
             this.birthday = pageCustomerStore.birthday;
             this.telphone = pageCustomerStore.telphone;
             this.remark = pageCustomerStore.remark;
+
+            // 存储 车牌 发动机号，车架号
+            this.carNo = pageCustomerStore.carNo;
+            this.vinNo = pageCustomerStore.vinNo;
+            this.engineNo = pageCustomerStore.engineNo;
 
             // 车牌加车型名称
             let carType = '';
@@ -577,6 +601,45 @@ export default {
         },
 
         /**
+         * 联系客户
+         */
+        contactCustomer: function contactCustomer() {
+            if (this.telphone) {
+                window.location.href = `tel:${this.telphone}`;
+            } else {
+                Toast({ message: '客户手机号未录入，无法拨打电话', duration: 2000 });
+            }
+        },
+
+        /**
+         * 更新信息
+         */
+        updateInformation: function updateInformation() {
+            const _this = this;
+
+            // 判断是否存在车牌
+            if (this.carNo) {
+                ajaxs.updateInforByCarNo(this.carNo)
+                .then(
+                    res => {
+                        Toast({ message: '成功更新数据', duration: 1000 });
+                    }, error => alert(error)
+                )
+            } else if (this.vinNo && this.engineNo) {
+                // 发动机号，车架号
+                ajaxs.updateInforByVinengineNo(this.vinNo, this.engineNo)
+                .then(
+                    res => {
+                        Toast({ message: '成功更新数据', duration: 1000 });
+                    }, error => alert(error)
+                )
+
+            } else {
+                alert('无法更新数据, 因为找不到车牌，发动机号以及车架号！');
+            }
+        },
+
+        /**
          * 添加 - 跟进记录
          */
 	    addFollowupRecord: function addFollowupRecord() {
@@ -600,17 +663,6 @@ export default {
                     alert(error);
                 }
             )
-        },
-
-        /**
-         * 联系客户
-         */
-        contactCustomer: function contactCustomer() {
-            if (this.telphone) {
-                window.location.href = `tel:${this.telphone}`;
-            } else {
-                Toast({ message: '客户手机号未录入，无法拨打电话', duration: 2000 });
-            }
         },
 
         /**

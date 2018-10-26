@@ -369,7 +369,7 @@ export default {
             isFollowModalShow: false, // 录入跟进模态框
             isFollowSelectedShow: false, // 选择录入跟进模态框
             followUpDescribe: '', // 跟进内容
-            nextFollowUpTime: null, // 下次跟进时间
+            nextFollowUpTime: new Date(), // 下次跟进时间
             followUpIndex: null, // 选择跟进结果的下标 如果为 null 表示未选择
             followUpList: [
                 {
@@ -588,12 +588,12 @@ export default {
 
             let result = parseInt(this.followUpList[this.followUpIndex].value);
 
-            ajaxs.addFollowupRecord(result, this.followUpDescribe, TimeConver.dateToYYYYmmDDhhMMss(this.nextFollowUpTime))
+            ajaxs.addFollowupRecord(result, this.followUpDescribe, this.nextFollowUpTime ? TimeConver.dateToYYYYmmDDhhMMss(this.nextFollowUpTime) : null)
             .then(
                 val => {
                     _this.isFollowModalShow = false;
                     _this.followUpDescribe = '';
-                    _this.nextFollowUpTime = null;
+                    _this.nextFollowUpTime = new Date();
                     _this.followUpIndex = null;
                     _this.getFollowupRecord();
                 }, error => {

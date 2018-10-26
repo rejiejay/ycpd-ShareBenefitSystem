@@ -38,9 +38,10 @@
                     <div class="way-main-title">1. 点击下方“立即参与”按钮注册成为推广员</div>
                     <div class="way-main-row">· 请使用{{userInfoStore.telephone ? userInfoStore.telephone : ''}}手机号注册</div>
                     <div class="way-main-row flex-start-center">
-                        <div class="flex-rest">· 活动邀请码: <span style="padding-left: 10px; color: #2F8AFF;">rjhlwl</span></div>
-                        <input style="display: none;" id="rjhlwl" type="text" value="rjhlwl">
-                        
+                        <div class="flex-rest flex-start-center">
+                            <span>· 活动邀请码: </span>
+                            <div class="invitation-rjhlwl-code">rjhlwl</div>
+                        </div>
                         <button class="copy-invitation-code" id="copy-invitation-code" data-clipboard-text="rjhlwl" style="color: #2F8AFF;" @click="copyClipboard">复制验证码</button>
                     </div>
                     <div class="way-main-pictures flex-center">
@@ -274,9 +275,22 @@ export default {
     }
 
     .way-main-row {
-        padding-bottom: 2.5px;
+        padding-bottom: 5px;
         padding-left: 10px;
 
+        span {
+            padding-right: 10px;
+        }
+
+        .invitation-rjhlwl-code {
+            padding: 10px 24px;
+            border-radius: 5px;
+            font-size: 18px;
+            color: #3692FF;
+            background: #CBE3FF;
+        }
+
+        // 点击按钮
         #copy-invitation-code {
             border: 1px solid transparent;  //自定义边框
             outline: none;    //消除默认点击蓝色边框效果

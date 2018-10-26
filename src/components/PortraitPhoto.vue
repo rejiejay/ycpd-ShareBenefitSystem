@@ -8,8 +8,11 @@
     </div>
     
     <!-- 不存在，则使用名称 -->
-    <div class="portrait-photo-name flex-center" v-else :style="`width: ${propsRadius ? propsRadius : 45}px; height: ${propsRadius ? propsRadius : 45}px; line-height: ${propsRadius ? propsRadius : 45}px; border-radius: ${propsRadius ? propsRadius : 45}px;`">{{userInfoStore.agentName ? userInfoStore.agentName.substring(0, 1) : '无'}}</div>
+    <!-- <div class="portrait-photo-name flex-center" v-else :style="`width: ${propsRadius ? propsRadius : 45}px; height: ${propsRadius ? propsRadius : 45}px; line-height: ${propsRadius ? propsRadius : 45}px; border-radius: ${propsRadius ? propsRadius : 45}px;`">{{userInfoStore.agentName ? userInfoStore.agentName.substring(0, 1) : '无'}}</div> -->
     
+    <div class="portrait-photo-image" v-else>
+        <svg :width="propsRadius ? propsRadius : 45" :height="propsRadius ? propsRadius : 45" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="图片" transform="translate(-412.000000, -158.000000)"><g id="默认头像" transform="translate(412.000000, 158.000000)"><rect id="Rectangle-13" fill="#E6EAF0" x="0" y="0" width="256" height="256"></rect><circle id="Oval-10" fill="#B8C5D1" cx="128" cy="79" r="39"></circle><path d="M128,138 L128,138 C177.705627,138 218,178.294373 218,228 L218,256 L38,256 L38,228 C38,178.294373 78.2943725,138 128,138 Z" id="Rectangle" fill="#FFFFFF"></path></g></g></g></svg>
+    </div>
 </div>
 </template>
 

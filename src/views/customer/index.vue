@@ -53,7 +53,7 @@
                 <div class="item-main flex-rest">
                     <div class="item-main-title">{{item.title}}</div>
                     <div class="item-main-label flex-start flex-start-center">
-                        <div class="main-label-name">{{item.name}}</div>
+                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
                         <div class="main-label-tag"
                             v-for="(tagItem, tagkey) in item.tag" 
                             :key="tagkey"
@@ -89,7 +89,7 @@
                 <div class="item-main flex-rest">
                     <div class="item-main-title">{{item.title}}</div>
                     <div class="item-main-label flex-start flex-start-center">
-                        <div class="main-label-name">{{item.name}}</div>
+                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
                         <div class="main-label-tag"
                             v-for="(tagItem, tagkey) in item.tag" 
                             :key="tagkey"
@@ -124,7 +124,7 @@
                 <div class="item-main flex-rest">
                     <div class="item-main-title">{{item.title}}</div>
                     <div class="item-main-label flex-start flex-start-center">
-                        <div class="main-label-name">{{item.name}}</div>
+                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
                         <div class="main-label-tag"
                             v-for="(tagItem, tagkey) in item.tag" 
                             :key="tagkey"
@@ -159,7 +159,7 @@
                 <div class="item-main flex-rest">
                     <div class="item-main-title">{{item.title}}</div>
                     <div class="item-main-label flex-start flex-start-center">
-                        <div class="main-label-name">{{item.name}}</div>
+                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
                         <div class="main-label-tag"
                             v-for="(tagItem, tagkey) in item.tag" 
                             :key="tagkey"
@@ -194,7 +194,7 @@
                 <div class="item-main flex-rest">
                     <div class="item-main-title">{{item.title}}</div>
                     <div class="item-main-label flex-start flex-start-center">
-                        <div class="main-label-name">{{item.name}}</div>
+                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
                         <div class="main-label-tag"
                             v-for="(tagItem, tagkey) in item.tag" 
                             :key="tagkey"
@@ -602,8 +602,20 @@ export default {
                             }
                         }
 
-                        // 初始化年检 (暂时写死)
-                        // tag.push('年检23天');
+                        /**
+                         * 初始化年检多少天后到期
+                         */
+                        if (val.policy && val.policy.annualInspectDate) {
+                            let annualInspectTimestamp = TimeConver.YYYYmmDDToTimestamp(val.policy.annualInspectDate);
+                            let annualInspectdifferTimestamp = annualInspectTimestamp - new Date().getTime();
+                            /**
+                             * 时间相差必须大于一天
+                             * 而且超过 90天也不显示
+                             */
+                            if (annualInspectdifferTimestamp > 86400000 && annualInspectdifferTimestamp < 7776000000) {
+                                tag.push(`年检${Math.floor(annualInspectdifferTimestamp / (1000 * 60 * 60 * 24))}天`);
+                            }
+                        }
 
                         // 判断是否有没有违章
                         if (val.violations && val.violations.length > 0) {

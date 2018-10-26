@@ -143,7 +143,7 @@ export default {
                         return {
                             name: val.userName, // 昵称
                             sum: val.costMoney, // 加油金额
-                            sharing: val.obtainMoney.toFixed(2), // 我的分成
+                            sharing: val.obtainMoney, // 我的分成
                             time: val.recordDate, // 时间
                         }
                     });

@@ -2,7 +2,7 @@
 <template>
 <div class="activity-sharer-preview">
     <!-- 标题部分 -->
-    <div class="activity-sharer-headline"><span>{{userInfoStore.agentName}}</span>送你一个加油大礼包</div>
+    <div class="activity-sharer-headline"><span>{{shareName}}</span>送你一个加油大礼包</div>
 
     <!-- 礼包部分 -->
     <div class="activity-sharer-gift flex-center">
@@ -154,6 +154,8 @@ export default {
 
             // 是否显示 分享引导指示 提示
             isShareGuidanceShow: false,
+
+            shareName: '', // 分享的名称
         } 
     },
     
@@ -180,6 +182,13 @@ export default {
          */
 	    initPageData: function initPageData() {
             let userInfoStore = this.userInfoStore;
+
+            // 初始化shareName
+            if (userInfoStore.agentName) { // 判断有没有昵称
+                this.shareName = userInfoStore.agentName;
+            } else { // 否则使用手机后四位
+                this.shareName = `**${userInfoStore.telephone.slice((userInfoStore.telephone.length - 4), userInfoStore.telephone.length)}`
+            }
         },
 
         /**
@@ -218,9 +227,9 @@ export default {
 	    initShareTimeline: function initShareTimeline() {
             const _this = this;
             let agentName = this.userInfoStore.agentName;
-            let title = `“${agentName}”送你一个加油大礼包`; // 分享标题
+            let title = `“${this.shareName}”送你一个加油大礼包`; // 分享标题
             let desc = '深圳40多家油站，最高直降1.2元/L'; // 分享描述
-            let link = `${config.location.share_href}?agentName=${agentName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            let link = `${config.location.share_href}?shareName=${this.shareName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
             document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
 

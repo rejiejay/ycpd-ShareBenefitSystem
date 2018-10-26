@@ -139,7 +139,12 @@ export default {
                  * 打开跳转到注册链接, 
                  * 目的是防止出现路由后退
                  */
-                window.location.href = config.location.href;
+                let jumpTohref = `${config.location.href}#/login`;
+                if (window.open) {
+                    window.open(jumpTohref);
+                } else {
+                    window.location.href = jumpTohref;
+                }
             }, error => {
                 alert(error);
             });

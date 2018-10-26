@@ -2,7 +2,7 @@
 <template>
 <div class="activity-sharer">
     <!-- 标题部分 -->
-    <div class="activity-sharer-headline"><span>{{agentName}}</span>送你一个加油大礼包</div>
+    <div class="activity-sharer-headline"><span>{{shareName}}</span>送你一个加油大礼包</div>
 
     <!-- 礼包部分 -->
     <div class="activity-sharer-gift flex-center">
@@ -55,7 +55,7 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            agentName: '', // 邀请人的姓名 通过 url进行获取
+            shareName: '', // 邀请人的姓名 通过 url进行获取
 
             qRcodeImg: '', // 分享 二维码 图片 通过 url进行获取
         } 
@@ -72,7 +72,7 @@ export default {
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
-            this.agentName = this.$route.query.agentName;
+            this.shareName = this.$route.query.shareName;
         },
 
         /**

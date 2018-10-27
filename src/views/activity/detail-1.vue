@@ -27,7 +27,7 @@
     <!-- 加油站面板页面 -->
     <div class="activity-detail-panel">
         <div class="detail-panel-content">
-            <div class="detail-panel-title">深圳40多家油站，最高<span style="font-weight: bold; color: #E50012;">直降1.3元/ L</span></div>
+            <div class="detail-panel-title">全市覆盖最高<span style="font-weight: bold; color: #E50012;">直降1.2元/ L</span></div>
 
             <div class="detail-panel-item flex-start">
                 
@@ -430,7 +430,7 @@ export default {
             const _this = this;
             let agentName = this.userInfoStore.agentName;
             let title = `“${this.shareName}”送你一个加油大礼包`; // 分享标题
-            let desc = '深圳40多家油站，最高直降1.2元/L'; // 分享描述
+            let desc = '全市覆盖最高直降1.2元/L'; // 分享描述
             let link = `${config.location.share_href}?shareName=${this.shareName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
             document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
@@ -621,7 +621,7 @@ export default {
         }
     }
 
-    // 深圳40多家油站，最高直降1.3元/L
+    // 全市覆盖家油站，最高直降1.2元/L
     .detail-panel-title {
         padding: 15px 15px 5px 15px;
         font-size: 16px;

@@ -1,6 +1,6 @@
 <!-- 我的奖励 -->
 <template>
-<div class="user-award">
+<div class="user-award" id="user-award">
 
     <!-- 入账状态 -->
     <div class="user-award-account flex-start-center">
@@ -72,9 +72,7 @@
         </div>
     </div>
 
-    <div class="user-award-tip flex-center" v-if="awardList.length === 0">
-        暂无奖励数据
-    </div>
+    <div class="user-award-tip flex-center" v-if="awardList.length === 0">暂无奖励数据</div>
 
     <!-- 待入账模态框 -->
     <div class="award-tip-modal flex-center" v-if="isAwardTipShow">
@@ -109,6 +107,10 @@ export default {
             income: 0, // 已入账
             uncome: 0, // 未入账
 
+            pageNo: 1, // 当前页面
+            isLoding: true, // 是否正在加载..
+            isNull: false, // 用于判断当前页面是否可以下拉
+
             awardList: [ // 我的奖励
                 // {
                 //     name: '昵称', // 昵称
@@ -123,6 +125,12 @@ export default {
 	mounted: function mounted() {
         this.getMyRewards(); // 获取 - 我的奖励
         this.getRewardHeads(); // 获取 - 已入账、未入账
+
+		window.addEventListener('scroll', this.scrollBottom); // 添加滚动事件，检测滚动到页面底部
+    },
+
+    destroyed: function () {
+		window.removeEventListener('scroll', this.scrollBottom); // 移除滚动事件，检测滚动到页面底部
     },
 
 	methods: {
@@ -136,22 +144,49 @@ export default {
              * 暂时只查一页
              * 晚点再做分页
              */
-            ajaxsAward.findMyRewards(1)
+            this.isLoding = true;
+            ajaxsAward.findMyRewards(this.pageNo)
             .then(
                 res => {
-                    _this.awardList = res.map(val => {
-                        return {
-                            name: val.userName, // 昵称
-                            sum: val.costMoney, // 加油金额
-                            sharing: val.obtainMoney, // 我的分成
-                            time: val.recordDate, // 时间
-                        }
-                    });
+                    if (res.length === 0) {
+                        _this.isNull = true;
+                    } else {
+                        _this.awardList = JSON.parse(JSON.stringify(_this.awardList)).concat(res.map(val => {
+                            return {
+                                name: val.userName, // 昵称
+                                sum: val.costMoney, // 加油金额
+                                sharing: val.obtainMoney, // 我的分成
+                                time: val.recordDate, // 时间
+                            }
+                        }));
+                    }
+
+                    _this.isLoding = false;
                 }, error => {
                     alert(error);
                 }
             );
         },
+
+        /**
+         * 检测滚动到页面底部
+         */
+		scrollBottom: function scrollBottom(event) {
+
+			let screenHeight = window.screen.height; // 屏幕的高度
+			let clientHeight = document.getElementById('user-award').clientHeight; // 页面的总高度
+			let myScrollTop = document.documentElement.scrollTop || document.body.scrollTop; // 滚动的距离
+
+			if (
+				screenHeight + myScrollTop >= clientHeight - 50 && // (屏幕高度 + 滚动的距离) 必须 (大于整个页面的总高度 - 50像素的预留空间)
+				this.isLoding === false && // 并且页面不是请求状态
+				this.isNull === false // 是否有空值
+			) {
+                this.pageNo = this.pageNo + 1; // 请求的页码 加一
+                // 开始请求 并且 该请求 设置为 新增stores列表
+				this.getMyRewards();
+			}
+		},
 
         /**
          * 获取 - 已入账、未入账
@@ -232,7 +267,7 @@ export default {
 // 奖励列表页
 .user-award-main {
     padding-top: 5px;
-    padding-bottom: 75px;
+    padding-bottom: 25px;
 
     .user-award-content {
         background: #fff;

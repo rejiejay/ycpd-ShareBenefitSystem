@@ -7,7 +7,7 @@
         <div class="output-list-content">
 
             <div class="output-item flex-start-center">
-                <div class="output-item-lastUpdatedDate flex-rest">{{pageStore.lastUpdatedDate}}更新</div>
+                <div class="output-item-lastUpdatedDate flex-rest">{{violaUpdatedDate}}更新</div>
                 <div class="item-query-again flex-start-center" @click="queryagain">
                     <svg width="12" height="12" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情-违章信息" transform="translate(-560.000000, -157.000000)" fill="#FFA100" fill-rule="nonzero"><g id="查询时间" transform="translate(0.000000, 128.000000)"><g id="查询btn" transform="translate(535.000000, 12.000000)"><g id="icon" transform="translate(25.000000, 17.000000)">
                         <path d="M15.4170963,3.14630051 L15.2275653,2.87692617 C14.7508594,2.19939912 14.913657,1.26370837 15.5911841,0.787002392 C16.2687111,0.310296416 17.2044019,0.473094068 17.6811079,1.15062113 L20.5582829,5.23985865 C21.133718,6.05770616 20.7628976,7.19897398 19.8166421,7.52239429 L15.0853651,9.13949586 C14.3014615,9.40742602 13.4487817,8.98914687 13.1808515,8.20524322 C12.9129214,7.42133957 13.3312005,6.56865979 14.1151042,6.30072963 L14.7550592,6.08199961 C14.3421383,6.02759554 13.9231536,5.99999988 13.5,5.99999988 C8.25329488,5.99999988 4,10.2532948 4,15.4999999 C4,20.746705 8.25329488,24.9999999 13.5,24.9999999 C18.7467051,24.9999999 23,20.746705 23,15.4999999 C23,14.6715728 23.6715729,13.9999999 24.5,13.9999999 C25.3284271,13.9999999 26,14.6715728 26,15.4999999 C26,22.4035592 20.4035594,27.9999999 13.5,27.9999999 C6.59644063,27.9999999 1,22.4035592 1,15.4999999 C1,8.5964405 6.59644063,2.99999988 13.5,2.99999988 C14.1470596,2.99999988 14.7875152,3.04931693 15.4170963,3.14630051 Z" id="重新查询"></path></g></g></g></g></g>
@@ -136,6 +136,8 @@ export default {
             // 车牌号码
             carNo: '',
 
+            violaUpdatedDate: '', // 违章正在更新时间
+
             // 查询结果
             resultList: [
                 // {
@@ -191,6 +193,8 @@ export default {
             let pageStore = this.pageStore;
 
             this.carNo = pageStore.carNo;
+
+            // 初始化违章列表
             if (pageStore.violations && pageStore.violations.length > 0) {
                 this.resultList = pageStore.violations.map(val => {
                     return {
@@ -204,6 +208,18 @@ export default {
                     }
                 });
             }
+
+            // 初始化违章更新时间
+            if (pageStore.followupRecord && pageStore.followupRecord.followupRecord) {
+                this.violaUpdatedDate = pageStore.followupRecord.followupRecord;
+            } else if (pageStore.violations && pageStore.violations.length > 0) {
+                this.violaUpdatedDate = pageStore.violations[0].lastUpdatedDate;
+            } else if (pageStore.lastUpdatedDate) {
+                this.violaUpdatedDate = pageStore.lastUpdatedDate;
+            } else {
+                this.violaUpdatedDate = '暂无';
+            }
+
         },
 
         /**

@@ -171,6 +171,7 @@ export default {
                 // alert('复制失败，请手动复制！')
             }
             input.blur();
+            input.setAttribute('style', 'visibility: hidden;');
         },
 
         /**

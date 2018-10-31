@@ -185,6 +185,8 @@ export default {
             } else { // 否则使用手机后四位
                 this.shareName = `**${userInfoStore.telephone.slice((userInfoStore.telephone.length - 4), userInfoStore.telephone.length)}`
             }
+            // 初始化标题
+            window.document.title = `${this.shareName}送你一个加油大礼包`;
         },
 
         /**

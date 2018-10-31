@@ -60,7 +60,7 @@
                     <div class="car-other-left">交强险</div>
                     <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
                     <div class="car-other-center flex-rest" v-if="'平安保险' === '暂无'">平安保险</div>
-                    <div class="car-other-right">{{policyForceExpireDate}}到期</div>
+                    <div class="car-other-right">{{policyForceExpireDate}}<span v-if="policyForceExpireDate">到期</span></div>
                 </div>
                 <div class="customerInfor-car-line" v-if="policyBusinessExpireDate"></div>
 

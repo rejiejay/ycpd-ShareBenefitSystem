@@ -69,6 +69,9 @@ export default {
          */
 	    initPageData: function initPageData() {
             this.shareName = this.$route.query.shareName;
+
+            // 初始化标题
+            window.document.title = `${this.shareName}送你一个加油大礼包`;
         },
 
         /**

@@ -160,6 +160,11 @@ const routes = [
         component: () => import('@/views/customer/add'),
         meta: { title: '添加客户' },
     }, {
+        path: '/customer/addlot',
+        name: 'add-lot',
+        component: () => import('@/views/customer/add-lot'),
+        meta: { title: '批量添加客户' },
+    }, {
         path: '/customer/supplement',
         name: 'customer-supplement',
         component: () => import('@/views/customer/supplement'),

@@ -387,7 +387,6 @@ export default {
              * 如果车牌号为 6位 则切换到 5位数
              */
             if (newNewEnergy === false && this.plateNo.length === 7) {
-            console.log(this.plateNo.length)
                 this.plateNo = this.plateNo.slice(0, 6); // 裁剪掉多余
             }
         },

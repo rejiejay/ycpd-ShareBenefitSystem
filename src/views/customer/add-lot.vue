@@ -10,17 +10,17 @@
                     <div class="input-item-title">车牌号码:</div>
 
                     <div class="input-item-main flex-rest flex-start-center">
-                        
+
                         <!-- 车牌省份 -->
-                        <div class="item-select-province flex-start-center" @click="isProvincesKeyboardShow = true">
+                        <div class="item-select-province flex-start-center" @click="isProvincesKeyboardShow = true; customerselected_index = key;">
                             <span>{{customerItem.carNoProvince}}</span>
                             <svg width="18" height="18" t="1530499422424" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1464" xmlns:xlink="http://www.w3.org/1999/xlink" >
                                 <path fill="#909399" d="M325.399273 235.124364L600.157091 488.727273 325.399273 742.353455a34.909091 34.909091 0 1 0 47.36 51.316363l302.545454-279.272727a34.909091 34.909091 0 0 0 0-51.316364l-302.545454-279.272727a34.909091 34.909091 0 1 0-47.36 51.316364" p-id="1465"></path>
                             </svg>
                         </div>
-                        
+
                         <!-- 车牌号码 -->
-                        <div class="input-item-lable flex-rest" @click="isPlateNoKeyboardShow = true">
+                        <div class="input-item-lable flex-rest" @click="isPlateNoKeyboardShow = true; customerselected_index = key; lastIsNewEnergy = customerList[key].isNewEnergy;">
                             <div class="item-lable-placeholder" v-if="customerItem.plateNo === ''">请输入车牌号</div>
                             <div class="item-lable-plateNo" v-else>{{customerItem.plateNo}}</div>
                         </div>
@@ -86,11 +86,11 @@
                 <div class="carkeyboard-status-content flex-start-center">
                     <div class="carkeyboard-status-describe flex-rest">是否新能源汽车</div>
 
-                    <span>{{isNewEnergy ? '是' : '否'}}</span>
+                    <span>{{customerList[customerselected_index].isNewEnergy ? '是' : '否'}}</span>
                     
                     <div class="setting-default-switch">
                         <label for="switch-cp" class="weui-switch-cp">
-                            <input v-model="isNewEnergy" id="switch-cp" ref="settingDefault" class="weui-switch-cp__input" type="checkbox">
+                            <input v-model="customerList[customerselected_index].isNewEnergy" id="switch-cp" ref="settingDefault" class="weui-switch-cp__input" type="checkbox">
                             <div class="weui-switch-cp__box"></div>
                         </label>
                     </div>
@@ -132,10 +132,9 @@
         </div>
     </div>
 
-
     <!-- 增加客户按钮 -->
     <div class="add-btn">
-        <div class="add-btn-container flex-center">
+        <div class="add-btn-container flex-center" @click="addCustomerList">
             <div class="add-btn-describe flex-start-center">
                 <svg width="12" height="12" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-批量" transform="translate(-303.000000, -1031.000000)"><rect fill="#F1F1F1" x="0" y="0" width="750" height="1334"></rect><g id="增加" transform="translate(0.000000, 999.000000)"><rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="750" height="88"></rect><g id="Group" transform="translate(303.000000, 32.000000)" fill="#666666"><path d="M13,11 L23,11 C23.5522847,11 24,11.4477153 24,12 C24,12.5522847 23.5522847,13 23,13 L13,13 L13,23 C13,23.5522847 12.5522847,24 12,24 C11.4477153,24 11,23.5522847 11,23 L11,13 L1,13 C0.44771525,13 6.76353751e-17,12.5522847 0,12 C-6.76353751e-17,11.4477153 0.44771525,11 1,11 L11,11 L11,1 C11,0.44771525 11.4477153,1.01453063e-16 12,0 C12.5522847,-1.01453063e-16 13,0.44771525 13,1 L13,11 Z" id="Combined-Shape"></path></g></g></g></g></svg>
                 <span>增加客户</span>
@@ -146,6 +145,8 @@
 </template>
 
 <script>
+// 组件类
+import Consequencer from "@/utils/Consequencer";
 
 export default {
     name: 'add-lot',
@@ -166,12 +167,6 @@ export default {
             isNewEnergy: false, // 是否新能源汽车牌
 
             /**
-             * 客户姓名手机号
-             */
-            customerName: '', 
-            phoneNumber: '',
-
-            /**
              * 客户列表
              */
             customerList: [
@@ -181,14 +176,11 @@ export default {
                     isNewEnergy: false, // 是否新能源汽车牌
                     customerName: '', // 客户姓名
                     phoneNumber: '', // 客户手机号
-                }, {
-                    carNoProvince: '粤', // 车牌省份
-                    plateNo: '', // 车牌号码
-                    isNewEnergy: false, // 是否新能源汽车牌
-                    customerName: '', // 客户姓名
-                    phoneNumber: '', // 客户手机号
                 },
             ],
+
+            customerselected_index: 0, // 客户列表选中下标
+            lastIsNewEnergy: false, // 上次选中的是否是新能源，用于判断车牌号是否可以从 6位 切换到 5位数
         }
     },
 
@@ -198,21 +190,27 @@ export default {
             var myIntervalWidth = (this.clientWidth - 288) / 18;
             myIntervalWidth = myIntervalWidth > 0 ? myIntervalWidth : 0;
             return myIntervalWidth;
-        }
+        },
     },
 
     watch: {
         /**
-         * 监听是否新能源
+         * 客户列表发生改变
          */
-        isNewEnergy: function isNewEnergy(newNewEnergy, oldNewEnergy) {
-            /**
-             * 新能源车牌 切换到 普通车牌的时候
-             * 如果车牌号为 6位 则切换到 5位数
-             */
-            if (newNewEnergy === false && this.plateNo.length === 7) {
-                this.plateNo = this.plateNo.slice(0, 6); // 裁剪掉多余
-            }
+        customerList: {
+            handler(newCustomerList, oldCustomerList) {
+                /**
+                 * 新能源车牌 切换到 普通车牌的时候
+                 * 如果车牌号为 6位 则切换到 5位数
+                 */
+                if (this.lastIsNewEnergy === true && newCustomerList[this.customerselected_index].isNewEnergy === false &&  newCustomerList[this.customerselected_index].plateNo.length === 7) {
+                    this.customerList[this.customerselected_index].plateNo = this.customerList[this.customerselected_index].plateNo.slice(0, 6); // 裁剪掉多余
+                }
+
+                // 判断完毕之后, 设置为最新的是否新能源车
+                this.lastIsNewEnergy = newCustomerList[this.customerselected_index].isNewEnergy;
+            },
+            deep: true
         },
     },
 
@@ -220,15 +218,43 @@ export default {
 
 	methods: {
         /**
+         * 校验车牌号码
+         */
+        verifyPlateNo: function verifyPlateNo() {
+            // 判断车牌号码是否为空
+            if (this.customerList[this.customerselected_index].plateNo === '') {
+                // 如果为空
+                return Consequencer.error('车牌号码不能为空!');
+            }
+
+            // 判断是否新能源
+            if (this.isNewEnergy) {
+                // 新能源
+                if (this.customerList[this.customerselected_index].plateNo.length === 7) {
+                    return Consequencer.success();
+                } else {
+                    return Consequencer.error('车牌号码格式有误!');
+                }
+            } else {
+                // 普通汽车 (非新能源)
+                if (this.customerList[this.customerselected_index].plateNo.length === 6) {
+                    return Consequencer.success();
+                } else {
+                    return Consequencer.error('车牌号码格式有误!');
+                }
+            }
+        },
+
+        /**
          * 选择车牌省份
          */
         selectProvince: function selectProvince(item) {
-            this.carNoProvince = item; // 设置车牌省份
+            this.customerList[this.customerselected_index].carNoProvince = item; // 设置车牌省份
             this.isProvincesKeyboardShow = false; // 隐藏遮罩层
 
             // 自动弹出输入车牌号
             if (this.verifyPlateNo().result !== 1) {
-                this.isPlateNoKeyboardShow = true; // 隐藏遮罩层
+                this.customerList[this.customerselected_index].isPlateNoKeyboardShow = true; // 隐藏遮罩层
             }
         },
 
@@ -236,28 +262,41 @@ export default {
          * 删除车牌号
          */
         deletePlateNo: function deletePlateNo() {
-            if (this.plateNo.length > 0) {
-                var cutLength = this.plateNo.length - 1;
-                this.plateNo = this.plateNo.slice(0, cutLength);
+            if (this.customerList[this.customerselected_index].plateNo.length > 0) {
+                var cutLength = this.customerList[this.customerselected_index].plateNo.length - 1;
+                this.customerList[this.customerselected_index].plateNo = this.customerList[this.customerselected_index].plateNo.slice(0, cutLength);
             }
         },
 
         /**
-         * 选择车牌号
+         * 选择(输入)车牌号
          */
         selectPlateNo: function selectPlateNo(item) {
             // 判断是否新能源
-            if (this.isNewEnergy) {
+            if (this.customerList[this.customerselected_index].isNewEnergy) {
                 // 大于6个的时候禁止改变(新能源)
-                if (this.plateNo.length <= 6) {
-                    this.plateNo += item;
+                if (this.customerList[this.customerselected_index].plateNo.length < 7) {
+                    this.customerList[this.customerselected_index].plateNo += item;
                 }
             } else {
                 // 大于5个的时候禁止改变(非新能源)
-                if (this.plateNo.length <= 5) {
-                    this.plateNo += item;
+                if (this.customerList[this.customerselected_index].plateNo.length < 6) {
+                    this.customerList[this.customerselected_index].plateNo += item;
                 }
             }
+        },
+
+        /**
+         * 点击 增加客户
+         */
+        addCustomerList: function addCustomerList() {
+            this.customerList.push({
+                carNoProvince: '粤', // 车牌省份
+                plateNo: '', // 车牌号码
+                isNewEnergy: false, // 是否新能源汽车牌
+                customerName: '', // 客户姓名
+                phoneNumber: '', // 客户手机号
+            })
         },
     }
 }

@@ -145,7 +145,7 @@ export default {
              * 晚点再做分页
              */
             this.isLoding = true;
-            ajaxsAward.findMyRewards(this.pageNo)
+            ajaxsAward.findMyRewards(this.pageNo, this)
             .then(
                 res => {
                     if (res.length === 0) {
@@ -194,7 +194,7 @@ export default {
     	getRewardHeads: function getRewardHeads() {
             const _this = this;
 
-            ajaxsAward.findRewardHeads()
+            ajaxsAward.findRewardHeads(this)
             .then(
                 res => {
                     if (res && res.income && res.uncome) {

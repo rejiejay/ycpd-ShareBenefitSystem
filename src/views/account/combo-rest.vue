@@ -125,7 +125,7 @@ export default {
     	getFunctionRecords: function getFunctionRecords() {
             const _this = this;
 
-            ajaxs.findFunctionRecords(this.agentInfoId)
+            ajaxs.findFunctionRecords(this)
             .then(
                 res => {
                     _this.list = res.map(val => {

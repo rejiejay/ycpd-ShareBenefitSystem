@@ -132,7 +132,7 @@ export default {
         logoutSubmit: function logoutSubmit() {
             const _this = this;
 
-            ajaxs.logout()
+            ajaxs.logout(this)
             .then(res => {
                 alert('成功退出登录！');
                 /**

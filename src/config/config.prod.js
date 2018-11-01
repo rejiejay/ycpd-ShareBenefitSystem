@@ -10,7 +10,5 @@ module.exports = {
 
     url: {
         origin: 'http://cas.sz2.ichebaoyang.com', // 请求源
-        originByYc: 'http://cas.sz2.ichebaoyang.com', // 有才的测试服务请求源
-        originByXy: 'http://cas.sz2.ichebaoyang.com', // 孝义的请求源
     },
 };

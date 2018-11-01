@@ -470,7 +470,7 @@ export default {
         getBarCount: function getCustomerList() {
             const _this = this;
 
-            ajaxs.getCountClientNum()
+            ajaxs.getCountClientNum(this)
             .then(
                 res => {
                     _this.navBarList[0].count = res;
@@ -479,7 +479,7 @@ export default {
                 }
             );
 
-            ajaxs.getCountInsurance()
+            ajaxs.getCountInsurance(this)
             .then(
                 res => {
                     _this.navBarList[1].count = res;
@@ -488,7 +488,7 @@ export default {
                 }
             );
 
-            ajaxs.getCountViolation()
+            ajaxs.getCountViolation(this)
             .then(
                 res => {
                     _this.navBarList[2].count = res;
@@ -497,7 +497,7 @@ export default {
                 }
             );
 
-            ajaxs.getCountAnnualInspect()
+            ajaxs.getCountAnnualInspect(this)
             .then(
                 res => {
                     _this.navBarList[3].count = res;
@@ -506,7 +506,7 @@ export default {
                 }
             );
 
-            ajaxs.getCountFollowup()
+            ajaxs.getCountFollowup(this)
             .then(
                 res => {
                     _this.navBarList[4].count = res;
@@ -565,7 +565,7 @@ export default {
                 }
             }
 
-            ajaxs.getCustomerList(this.pageNo, this.pageSize, NBarSeleTosearchTy[this.navBarSelected], this.searchInput)
+            ajaxs.getCustomerList(this.pageNo, this.pageSize, NBarSeleTosearchTy[this.navBarSelected], this.searchInput, this)
             .then(
                 res => {
                     _this.isLoding = false; // 设置 当前列表 为 加载完成

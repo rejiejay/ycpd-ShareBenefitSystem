@@ -228,7 +228,7 @@ export default {
             }
 
             // 判断是否新能源
-            if (this.isNewEnergy) {
+            if (this.customerList[this.customerselected_index].isNewEnergy) {
                 // 新能源
                 if (this.customerList[this.customerselected_index].plateNo.length === 7) {
                     return Consequencer.success();

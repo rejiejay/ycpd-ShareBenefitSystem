@@ -174,7 +174,7 @@ export default {
         submitEdit: function submitEdit() {
             const _this = this;
 
-            ajaxs.editCustomer(this.username, this.telphone, this.telphone2, this.customerBirthday, this.remark)
+            ajaxs.editCustomer(this.username, this.telphone, this.telphone2, this.customerBirthday, this.remark, this)
             .then(
                 res => {
                     Toast({

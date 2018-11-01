@@ -1,168 +1,171 @@
 <!-- 客户管理 首页 -->
 <template>
 <div class="customer-details">
+    <div class="customer-details-container">
 
-    <!-- 顶部导航栏 -->
-    <div class="navigation-bar flex-start">
-        <div class="navigation-bar-item flex-center" :class="{'bar-item-selected': navigationSelected === 'customerInfor'}" @click="navigationSelected = 'customerInfor'">
-            <span>客户信息</span>
-        </div>
-        <div class="navigation-bar-item flex-center" :class="{'bar-item-selected': navigationSelected === 'followRecord'}" @click="navigationSelected = 'followRecord'">
-            <span>跟进记录</span>
-        </div>
-    </div>
-
-    <!-- 客户信息 -->
-    <div class="navigation-item-customerInfor" v-if="navigationSelected === 'customerInfor'" >
-
-        <!-- 客户姓名与备注 -->
-        <div class="customerInfor-name-remark" @click="jumpToRouter(`/customer/edit/${clientId}`)">
-            <div class="customerInfor-name flex-start-center">
-                <div class="name-remark-head">
-                    <div>{{username ? username.substring(0, 1) : '无'}}</div>
-                </div>
-                <div class="name-remark-main flex-rest">
-                    <div class="remark-main-name" v-if="username">{{username}}</div>
-                    <div class="remark-main-phone" v-if="telphone">电话: {{telphone}}</div>
-                    <div class="remark-main-birthday" v-if="birthday">生日: {{birthday}}</div>
-                </div>
-                <div class="name-remark-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
-                    </svg>
-                </div>
+        <!-- 顶部导航栏 -->
+        <div class="navigation-bar flex-start">
+            <div class="navigation-bar-item flex-center" :class="{'bar-item-selected': navigationSelected === 'customerInfor'}" @click="navigationSelected = 'customerInfor'">
+                <span>客户信息</span>
             </div>
-            <div class="customerInfor-remark"><span>备注:</span>{{remark ? remark : '无'}}</div>
+            <div class="navigation-bar-item flex-center" :class="{'bar-item-selected': navigationSelected === 'followRecord'}" @click="navigationSelected = 'followRecord'">
+                <span>跟进记录</span>
+            </div>
         </div>
 
-        <!-- 客户车辆 -->
-        <div class="customerInfor-car">
-            <div class="customerInfor-car-content">
+        <!-- 客户信息 -->
+        <div class="navigation-item-customerInfor" v-if="navigationSelected === 'customerInfor'" >
 
-                <div class="customerInfor-car-title flex-start-center" @click="jumpToRouter(`/customer/edit/car/${clientId}`)">
-                    <div class="car-title-main flex-rest">{{carNoType}}</div>
-                    <div class="car-title-icon">
+            <!-- 客户姓名与备注 -->
+            <div class="customerInfor-name-remark" @click="jumpToRouter(`/customer/edit/${clientId}`)">
+                <div class="customerInfor-name flex-start-center">
+                    <div class="name-remark-head">
+                        <div>{{username ? username.substring(0, 1) : '无'}}</div>
+                    </div>
+                    <div class="name-remark-main flex-rest">
+                        <div class="remark-main-name" v-if="username">{{username}}</div>
+                        <div class="remark-main-phone" v-if="telphone">电话: {{telphone}}</div>
+                        <div class="remark-main-birthday" v-if="birthday">生日: {{birthday}}</div>
+                    </div>
+                    <div class="name-remark-icon">
                         <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                             <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
                         </svg>
                     </div>
                 </div>
-                <div class="customerInfor-car-line" v-if="policyRegisterDate || policyASDate"></div>
-
-                <div class="customerInfor-car-other flex-start-center" v-if="policyRegisterDate || policyASDate">
-                    <div class="car-other-left">注册日期</div>
-                    <div class="car-other-center flex-rest">{{policyRegisterDate}}</div>
-                    <div class="car-other-right customerInfor-car-notice">{{policyASDate ? `年检${policyASDate}天后到期` : ''}}</div>
-                </div>
-                <div class="customerInfor-car-line" v-if="policyBusinessExpireDate"></div>
-
-                <div class="customerInfor-car-other flex-start-center" v-if="policyBusinessExpireDate">
-                    <div class="car-other-left">交强险</div>
-                    <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
-                    <div class="car-other-center flex-rest" v-if="'平安保险' === '暂无'">平安保险</div>
-                    <div class="car-other-right">{{policyForceExpireDate}}<span v-if="policyForceExpireDate">到期</span></div>
-                </div>
-                <div class="customerInfor-car-line" v-if="policyBusinessExpireDate"></div>
-
-                <div class="customerInfor-car-other flex-start-center" v-if="policyBusinessExpireDate">
-                    <div class="car-other-left">商业险</div>
-                    <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
-                    <div class="car-other-center flex-rest" v-if="'平安保险' === '暂无'">平安保险</div>
-                    <div class="car-other-right">{{policyBusinessExpireDate}}到期</div>
-                </div>
-                <div class="customerInfor-car-line" v-if="isMayTuoBao"></div>
-
-                <div class="customerInfor-car-other flex-center" v-if="isMayTuoBao" style="font-size: 12px; font-weight: normal; color: #909399;">部分保险公司数据存在延时，请以实际情况为准</div>
+                <div class="customerInfor-remark"><span>备注:</span>{{remark ? remark : '无'}}</div>
             </div>
-        </div>
 
-        <!-- 违章 -->
-        <div class="customerInfor-violation" @click="jumpToRouter(`/customer/violations/${clientId}`)">
-            <div class="customerInfor-violation-content flex-start-center">
-                <div class="customerInfor-violation-left">违章信息</div>
-                <div class="customerInfor-violation-center flex-rest">{{violationUntreatedCount ? `${violationUntreatedCount}条未处理` : ''}}<span>{{violationCreatedDate ? `（${violationCreatedDate}天前）` : ''}}</span></div>
-                <div class="customerInfor-violation-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
-                    </svg>
-                </div>
-            </div>
-        </div>
+            <!-- 客户车辆 -->
+            <div class="customerInfor-car">
+                <div class="customerInfor-car-content">
 
-        <!-- 报价 —— 暂无 -->
-        <!-- <div class="customerInfor-offer">
-            <div class="customerInfor-offer-content">
-
-                <div class="customerInfor-offer-title flex-start">
-                    <div class="offer-title-left flex-rest">报价</div>
-                    <div class="offer-title-right">今天</div>
-                </div>
-
-                <div class="customerInfor-offer-main flex-start">
-                    <div class="offer-main-left">违章信息</div>
-                    <div class="offer-main-center flex-start flex-rest">
-                        <div class="main-center-item">￥4583.45</div>
-                        <div class="main-center-item">商业险系数: 0.45</div>
+                    <div class="customerInfor-car-title flex-start-center" @click="jumpToRouter(`/customer/edit/car/${clientId}`)">
+                        <div class="car-title-main flex-rest">{{carNoType}}</div>
+                        <div class="car-title-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                                <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="offer-main-icon">
+                    <div class="customerInfor-car-line" v-if="policyRegisterDate || policyASDate"></div>
+
+                    <div class="customerInfor-car-other flex-start-center" v-if="policyRegisterDate || policyASDate">
+                        <div class="car-other-left">注册日期</div>
+                        <div class="car-other-center flex-rest">{{policyRegisterDate}}</div>
+                        <div class="car-other-right customerInfor-car-notice">{{policyASDate ? `年检${policyASDate}天后到期` : ''}}</div>
+                    </div>
+                    <div class="customerInfor-car-line" v-if="policyBusinessExpireDate"></div>
+
+                    <div class="customerInfor-car-other flex-start-center" v-if="policyBusinessExpireDate">
+                        <div class="car-other-left">交强险</div>
+                        <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
+                        <div class="car-other-center flex-rest" v-if="'平安保险' === '暂无'">平安保险</div>
+                        <div class="car-other-right">{{policyForceExpireDate}}<span v-if="policyForceExpireDate">到期</span></div>
+                    </div>
+                    <div class="customerInfor-car-line" v-if="policyBusinessExpireDate"></div>
+
+                    <div class="customerInfor-car-other flex-start-center" v-if="policyBusinessExpireDate">
+                        <div class="car-other-left">商业险</div>
+                        <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
+                        <div class="car-other-center flex-rest" v-if="'平安保险' === '暂无'">平安保险</div>
+                        <div class="car-other-right">{{policyBusinessExpireDate}}到期</div>
+                    </div>
+                    <div class="customerInfor-car-line" v-if="isMayTuoBao"></div>
+
+                    <div class="customerInfor-car-other flex-center" v-if="isMayTuoBao" style="font-size: 12px; font-weight: normal; color: #909399;">部分保险公司数据存在延时，请以实际情况为准</div>
+                </div>
+            </div>
+
+            <!-- 违章 -->
+            <div class="customerInfor-violation" @click="jumpToRouter(`/customer/violations/${clientId}`)">
+                <div class="customerInfor-violation-content flex-start-center">
+                    <div class="customerInfor-violation-left">违章信息</div>
+                    <div class="customerInfor-violation-center flex-rest">{{violationUntreatedCount ? `${violationUntreatedCount}条未处理` : ''}}<span>{{violationCreatedDate ? `（${violationCreatedDate}天前）` : ''}}</span></div>
+                    <div class="customerInfor-violation-icon">
                         <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                             <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
                         </svg>
                     </div>
                 </div>
             </div>
-        </div> -->
 
-        <!-- 邀请关注 —— 暂无 -->
-        <!-- <div class="customerInfor-star">
-            <div class="customerInfor-star-content">
-                <div class="customerInfor-star-title">邀请关注/注册养车频道</div>
-                <div class="customerInfor-star-item flex-start"><span>邀请成功</span>2018-09-17 12:1</div>
-            </div>
-        </div> -->
-    </div>
+            <!-- 报价 —— 暂无 -->
+            <!-- <div class="customerInfor-offer">
+                <div class="customerInfor-offer-content">
 
-    <!-- 跟进记录 -->
-    <div class="navigation-item-followRecord" v-if="navigationSelected === 'followRecord'">
-        <div class="item-followRecord-list"
-            v-for="(record, key) in followRecordList" 
-            :key="key"
-        >
-            <!-- 左上角圈圈 -->
-            <div class="list-top-icon">
-                <svg v-if="key === 0" width="10" height="10" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情-跟进记录" transform="translate(-30.000000, -236.000000)"><g id="详细记录" transform="translate(30.000000, 236.000000)"><g id="进度条"><rect id="Rectangle-4" fill="#CCCCCC" x="8" y="19" width="4" height="745" rx="2"></rect><circle id="Oval-2" fill="#E50012" cx="10" cy="10" r="10"></circle><circle id="Oval-2-Copy-4" fill="#FFFFFF" cx="10" cy="10" r="4"></circle></g></g></g></g></svg>
-                <svg v-else width="10" height="10" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情-跟进记录" transform="translate(-30.000000, -472.000000)"><g id="详细记录" transform="translate(30.000000, 236.000000)"><g id="进度条"><rect id="Rectangle-4" fill="#CCCCCC" x="8" y="19" width="4" height="745" rx="2"></rect><circle id="Oval-2-Copy" fill="#CCCCCC" cx="10" cy="246" r="10"></circle><circle id="Oval-2-Copy-5" fill="#EFEFEF" cx="10" cy="246" r="4"></circle></g></g></g></g></svg>
-            </div>
-            <!-- 左下角圈圈 -->
-            <div class="list-bottom-icon"></div>
-            <div class="followRecord-list-content">
-                <div class="followRecord-list-main" :class="{'followRecord-list-isFirst': key === 0}">
-                    <div class="list-main-title flex-start">
-                        <div class="main-title-time flex-rest">{{record.createdDate}}</div>
-                        <div class="main-title-name">跟进人: {{agentName}}</div>
+                    <div class="customerInfor-offer-title flex-start">
+                        <div class="offer-title-left flex-rest">报价</div>
+                        <div class="offer-title-right">今天</div>
                     </div>
 
-                    <div class="list-main-item flex-start">
-                        <div class="main-title-lable">跟进结果:</div>
-                        <div class="main-title-describe">{{record.result}}</div>
+                    <div class="customerInfor-offer-main flex-start">
+                        <div class="offer-main-left">违章信息</div>
+                        <div class="offer-main-center flex-start flex-rest">
+                            <div class="main-center-item">￥4583.45</div>
+                            <div class="main-center-item">商业险系数: 0.45</div>
+                        </div>
+                        <div class="offer-main-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                                <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                            </svg>
+                        </div>
                     </div>
+                </div>
+            </div> -->
 
-                    <div class="list-main-item flex-start">
-                        <div class="main-title-lable">跟进内容:</div>
-                        <div class="main-title-describe">{{record.content}}</div>
+            <!-- 邀请关注 —— 暂无 -->
+            <!-- <div class="customerInfor-star">
+                <div class="customerInfor-star-content">
+                    <div class="customerInfor-star-title">邀请关注/注册养车频道</div>
+                    <div class="customerInfor-star-item flex-start"><span>邀请成功</span>2018-09-17 12:1</div>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- 跟进记录 -->
+        <div class="navigation-item-followRecord" v-if="navigationSelected === 'followRecord'">
+            <div class="item-followRecord-list"
+                v-for="(record, key) in followRecordList" 
+                :key="key"
+            >
+                <!-- 左上角圈圈 -->
+                <div class="list-top-icon">
+                    <svg v-if="key === 0" width="10" height="10" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情-跟进记录" transform="translate(-30.000000, -236.000000)"><g id="详细记录" transform="translate(30.000000, 236.000000)"><g id="进度条"><rect id="Rectangle-4" fill="#CCCCCC" x="8" y="19" width="4" height="745" rx="2"></rect><circle id="Oval-2" fill="#E50012" cx="10" cy="10" r="10"></circle><circle id="Oval-2-Copy-4" fill="#FFFFFF" cx="10" cy="10" r="4"></circle></g></g></g></g></svg>
+                    <svg v-else width="10" height="10" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情-跟进记录" transform="translate(-30.000000, -472.000000)"><g id="详细记录" transform="translate(30.000000, 236.000000)"><g id="进度条"><rect id="Rectangle-4" fill="#CCCCCC" x="8" y="19" width="4" height="745" rx="2"></rect><circle id="Oval-2-Copy" fill="#CCCCCC" cx="10" cy="246" r="10"></circle><circle id="Oval-2-Copy-5" fill="#EFEFEF" cx="10" cy="246" r="4"></circle></g></g></g></g></svg>
+                </div>
+                <!-- 左下角圈圈 -->
+                <div class="list-bottom-icon"></div>
+                <div class="followRecord-list-content">
+                    <div class="followRecord-list-main" :class="{'followRecord-list-isFirst': key === 0}">
+                        <div class="list-main-title flex-start">
+                            <div class="main-title-time flex-rest">{{record.createdDate}}</div>
+                            <div class="main-title-name">跟进人: {{agentName}}</div>
+                        </div>
+
+                        <div class="list-main-item flex-start">
+                            <div class="main-title-lable">跟进结果:</div>
+                            <div class="main-title-describe">{{record.result}}</div>
+                        </div>
+
+                        <div class="list-main-item flex-start">
+                            <div class="main-title-lable">跟进内容:</div>
+                            <div class="main-title-describe">{{record.content}}</div>
+                        </div>
+
+                        <div class="list-main-item flex-start">
+                            <div class="main-title-lable">下次跟进时间:</div>
+                            <div class="main-title-describe">{{record.nextTime}}</div>
+                        </div>
+
+                        <svg width="10" height="10" t="1538122765988" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2944" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path fill="#fff" d="M71.675 962l-9.675-900 890.325 900z" p-id="2945"></path>
+                        </svg>
                     </div>
-
-                    <div class="list-main-item flex-start">
-                        <div class="main-title-lable">下次跟进时间:</div>
-                        <div class="main-title-describe">{{record.nextTime}}</div>
-                    </div>
-
-                    <svg width="10" height="10" t="1538122765988" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2944" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <path fill="#fff" d="M71.675 962l-9.675-900 890.325 900z" p-id="2945"></path>
-                    </svg>
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- 底部按钮 -->
@@ -459,7 +462,7 @@ export default {
             this.clientId = clientId;
             window.localStorage.setItem('ycpd_clientId', clientId);
 
-            getClientDetailById() // 根据客户id 获取 客户信息
+            getClientDetailById(this) // 根据客户id 获取 客户信息
             .then(
                 res => {
                     _this.$store.commit('customer/initCustomerDetails', res);
@@ -585,7 +588,7 @@ export default {
                 }
             }
 
-            ajaxs.getFollowupRecord(this.clientId)
+            ajaxs.getFollowupRecord(this)
             .then(
                 res => {
                     _this.followRecordList = res.map(val => {
@@ -621,7 +624,7 @@ export default {
 
             // 判断是否存在车牌
             if (this.carNo) {
-                ajaxs.updateInforByCarNo(this.carNo)
+                ajaxs.updateInforByCarNo(this.carNo, this)
                 .then(
                     res => {
                         Toast({ message: '成功更新数据', duration: 1000 });
@@ -629,13 +632,12 @@ export default {
                 )
             } else if (this.vinNo && this.engineNo) {
                 // 发动机号，车架号
-                ajaxs.updateInforByVinengineNo(this.vinNo, this.engineNo)
+                ajaxs.updateInforByVinengineNo(this.vinNo, this.engineNo, this)
                 .then(
                     res => {
                         Toast({ message: '成功更新数据', duration: 1000 });
                     }, error => alert(error)
-                )
-
+                );
             } else {
                 alert('无法更新数据, 因为找不到车牌，发动机号以及车架号！');
             }
@@ -660,7 +662,7 @@ export default {
 
             let result = parseInt(this.followUpList[this.followUpIndex].value);
 
-            ajaxs.addFollowupRecord(result, this.followUpDescribe, this.nextFollowUpTime ? TimeConver.dateToYYYYmmDDhhMMss(this.nextFollowUpTime) : null)
+            ajaxs.addFollowupRecord(result, this.followUpDescribe, this.nextFollowUpTime ? TimeConver.dateToYYYYmmDDhhMMss(this.nextFollowUpTime) : null, this)
             .then(
                 val => {
                     _this.isFollowModalShow = false;
@@ -714,6 +716,11 @@ export default {
     min-height: 100%;
     font-size: 14px;
     background-color: #f1f1f1;
+
+    // 设置下边距
+    .customer-details-container {
+        padding-bottom: 75px;
+    }
 }
 
 // 顶部导航栏

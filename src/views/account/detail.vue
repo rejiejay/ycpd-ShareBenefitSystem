@@ -94,7 +94,7 @@ export default {
 	    getClientBills: function getClientBills() {
             const _this = this;
 
-            ajaxs.findClientBills(this.agentInfoId)
+            ajaxs.findClientBills(this)
             .then(
                 res => {
                     if (res && res instanceof Array) {

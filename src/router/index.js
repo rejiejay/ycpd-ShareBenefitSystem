@@ -211,6 +211,16 @@ const routes = [
         component: () => import('@/views/activity/sharer-preview'),
         meta: { title: '分享预览' },
     }, 
+
+    /**
+     * 找不到页面
+     */
+    {
+        path: '/404',
+        name: 'notfound404',
+        component: () => import('@/views/login/notfound404'),
+        meta: { title: '服务正在升级' },
+    },
 ];
 
 let router = new Router({

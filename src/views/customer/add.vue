@@ -626,7 +626,7 @@ export default {
             //     return alert(verifyPhoneNumber.message);
             // }
 
-            ajaxs.addCustomerByVinNo(this.vinNo, this.engineNo, this.customerName, this.phoneNumber)
+            ajaxs.addCustomerByVinNo(this.vinNo, this.engineNo, this.customerName, this.phoneNumber, this)
             .then(
                 res => { // 添加成功
                     // 跳转到客户列表页

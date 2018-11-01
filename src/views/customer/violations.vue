@@ -175,7 +175,7 @@ export default {
              * 根据客户id 获取 客户信息
              * 因为上个页面缓存过id了，所以这个页面
              */
-            getClientDetailById() // 根据客户id 获取 客户信息
+            getClientDetailById(this) // 根据客户id 获取 客户信息
             .then(
                 res => {
                     _this.$store.commit('customer/initCustomerDetails', res);
@@ -228,7 +228,7 @@ export default {
         queryagain: function queryagain() {
             const _this = this;
 
-            ajaxs.updateViolation(this.carNo)
+            ajaxs.updateViolation(this.carNo, this)
             .then(
                 res => {
                     alert('成功更新违章数据！');

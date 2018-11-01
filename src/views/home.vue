@@ -210,13 +210,9 @@ export default {
         getActivity: function getActivity() {
             const _this = this;
 
-            ajaxsgetAllActivity()
+            ajaxsgetAllActivity(this)
             .then(
                 res => {
-                    // 按理应当通过数据转换，但是因为现阶段数据是写死的
-                    // _this.activityList = res.map(val => {
-                    // });
-
                     if (res && res[0] && res[0].projectId) {
                         _this.projectId_1 = res[0].projectId;
                     }

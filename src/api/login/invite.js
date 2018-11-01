@@ -36,7 +36,7 @@ export default {
         // });
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByXy}/ycpd/cas/phone?code=${window.localStorage.wx_code}`,
+            url: `${config.url.origin}/ycpd/cas/phone?code=${window.localStorage.wx_code}`,
             xhrFields: {
                 withCredentials: true
             },
@@ -70,7 +70,7 @@ export default {
         // });
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByXy}/ycpd/cas/reqCheckImage?width=${width}&height=${height}&token=${token}`,
+            url: `${config.url.origin}/ycpd/cas/reqCheckImage?width=${width}&height=${height}&token=${token}`,
             type: "GET",
             xhrFields: {
                 withCredentials: true
@@ -101,7 +101,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByXy}/ycpd/cas/checkImage?token=${token}&xWidth=${xWidth}`,
+            url: `${config.url.origin}/ycpd/cas/checkImage?token=${token}&xWidth=${xWidth}`,
             type: "get",
             xhrFields: {
                 withCredentials: true
@@ -126,7 +126,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByXy}/ycpd/cas/reqCheckMsg`,
+            url: `${config.url.origin}/ycpd/cas/reqCheckMsg`,
             type: "post",
             xhrFields: {
                 withCredentials: true
@@ -160,7 +160,7 @@ export default {
 
 		Indicator.open('正在加载数据...'); // 弹出加载框
         $.ajax({
-            url: `${config.url.originByXy}/ycpd/cas/registerByWx`,
+            url: `${config.url.origin}/ycpd/cas/registerByWx`,
             type: "post",
             dataType: "json",
             contentType: "application/json; charset=utf-8",

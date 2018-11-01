@@ -15,7 +15,7 @@ let getBase64ByImageName = (imagePath) => new Promise((resolve, reject) => {
 
     Indicator.open('正在加载数据...'); // 弹出加载框
     $.ajax({
-        url: `${config.url.originByYc}/ycpd/cas/getAgentImg?token=${window.localStorage.getItem('ycpd_token')}&imagePath=${imagePath}`,
+        url: `${config.url.origin}/ycpd/cas/getAgentImg?token=${window.localStorage.getItem('ycpd_token')}&imagePath=${imagePath}`,
         type: "GET",
         xhrFields: {
             withCredentials: true

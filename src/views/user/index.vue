@@ -286,7 +286,7 @@ export default {
     	getClientUsableMoney: function getClientUsableMoney() {
             const _this = this;
 
-            ajaxs.findClientUsableMoney()
+            ajaxs.findClientUsableMoney(this)
             .then(
                 res => {
                     // 如果返回横杆，说明是空值
@@ -305,7 +305,7 @@ export default {
     	getClientTotalMoney: function getClientTotalMoney() {
             const _this = this;
 
-            ajaxs.findClientTotalMoney()
+            ajaxs.findClientTotalMoney(this)
             .then(
                 res => {
                     // 如果返回横杆，说明是空值
@@ -324,7 +324,7 @@ export default {
     	getMsgUsedNum: function getMsgUsedNum() {
             const _this = this;
 
-            ajaxs.funcMsgUsedNum()
+            ajaxs.funcMsgUsedNum(this)
             .then(
                 res => {
                     // 如果返回横杆，说明是空值

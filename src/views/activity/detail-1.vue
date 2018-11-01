@@ -341,7 +341,7 @@ export default {
             }
 
             // 获取 - 活动详情 根据id
-            ajaxs.getActivityDetail(this.$route.query.projectId)
+            ajaxs.getActivityDetail(this.$route.query.projectId, this)
             .then(
                 res => {
                     _this.proportion = res.proportion;
@@ -370,7 +370,7 @@ export default {
                 )
             }
 
-            ajaxs.getQRcode(this.$route.query.projectId)
+            ajaxs.getQRcode(this.$route.query.projectId, this)
             .then(
                 res => {
                     _this.quickMark = res.quickMark; // 存储下来，因为之后分享的时候会用到
@@ -388,7 +388,7 @@ export default {
         getMyRewards: function getMyRewards() {
             const _this = this;
 
-            ajaxsAward.findMyRewards(1) // 只查询一页
+            ajaxsAward.findMyRewards(1, this) // 只查询一页
             .then(
                 res => {
                     _this.awardList = res.map(val => {
@@ -411,7 +411,7 @@ export default {
     	getRewardHeads: function getRewardHeads() {
             const _this = this;
 
-            ajaxsAward.findRewardHeads()
+            ajaxsAward.findRewardHeads(this)
             .then(
                 res => {
                     if (res && res.total) {

@@ -207,7 +207,7 @@ export default {
                 )
             }
 
-            ajaxs.getQRcode(this.$route.query.projectId)
+            ajaxs.getQRcode(this.$route.query.projectId, this)
             .then(
                 res => {
                     _this.quickMark = res.quickMark; // 存储下来，因为之后分享的时候会用到

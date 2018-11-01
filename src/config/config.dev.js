@@ -1,4 +1,4 @@
-// 本地开发环境配置
+// 测试环境配置
 module.exports = {
     location: {
         href: 'http://scas.api2.hotgz.com/home/cas/index.html',
@@ -9,6 +9,6 @@ module.exports = {
     },
 
     url: {
-        origin: '/api', // 请求源
+        origin: 'http://scas.api2.hotgz.com', // 请求源
     },
 };

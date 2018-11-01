@@ -10,7 +10,17 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    /**
+     * 设置代理端口，解决跨域问题
+     */
+    proxyTable: {
+      '/api': {
+        target: 'http://scas.api2.hotgz.com/',
+        pathRewrite: {'^/api' : ''},
+        changeOrigin: true,
+        secure: false
+      }
+    },
 
     // Various Dev Server settings
     host: '0.0.0.0', // can be overwritten by process.env.HOST

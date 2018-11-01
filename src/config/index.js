@@ -1,17 +1,20 @@
 import common from './config.default.js';
 import local from './config.local.js';
+import dev from './config.dev.js';
 import prod from './config.prod.js';
 
 let main = () => {
     let config = common; // 共同配置
     let plugin = {};
 
-    if ( // 测试环境
-        window.location.hostname === 'localhost' ||
-        window.location.host === 'store.demo.ichebaoyang.com' || 
-        process.env.NODE_ENV === 'development'
-    ) {
+    if (window.location.hostname === 'localhost') {
+        // 本地环境
         plugin = local;
+
+    } else if (window.location.host === 'scas.api2.hotgz.com') {
+        // 测试环境
+        plugin = dev;
+
     } else {
         plugin = prod;
     }

@@ -246,7 +246,7 @@ export default {
                 _this.initSliderDrag(); // 初始化滑块拖动
             }
             
-            ajaxs.isLogin()
+            ajaxs.isLogin(this)
             .then(
                 res => {
                     _this.machineToken = res.data.token; // 这个 token 获取人机验证码 图片验证码会用到
@@ -300,7 +300,7 @@ export default {
 		 */
 		getMachinePicture: function getMachinePicture() {
             const _this = this;
-            ajaxs.getMachinePicture((this.clientWidth - 60), 155 , this.machineToken)
+            ajaxs.getMachinePicture((this.clientWidth - 60), 155 , this.machineToken, this)
             .then(
                 res => {
                     
@@ -366,7 +366,7 @@ export default {
              * 获取手机验证码
              */
             let getVerificationCode = () => {
-                ajaxs.getVerificationCode(_this.phoneNumber, _this.SMSToken)
+                ajaxs.getVerificationCode(_this.phoneNumber, _this.SMSToken, _this)
                 .then(
                     res1 => {
                         if (res1.code === 1000) { // 获取
@@ -409,7 +409,7 @@ export default {
              * 校验滑动图片距离是否正确
              */
             let checkoutDistance = () => {
-                ajaxs.checkoutDistance(_this.checkoutToken, Math.floor(_this.jigsawMovepx))
+                ajaxs.checkoutDistance(_this.checkoutToken, Math.floor(_this.jigsawMovepx), _this)
                 .then(
                     res => {
                         
@@ -503,7 +503,7 @@ export default {
 				return alert('请同意《养车频道推广员注册协议》');
             }
 
-            ajaxs.registerByWx(this.loginToken, this.phoneNumber, this.SMSNumber, this.wx_code, this.selectRegisterCompany, this.parentId)
+            ajaxs.registerByWx(this.loginToken, this.phoneNumber, this.SMSNumber, this.selectRegisterCompany, this.parentId, this)
             .then(
                 res => {
                     if (res.code === 1000) {

@@ -22,7 +22,7 @@
     </div>
 
     <!-- 正在导入 -->
-    <div class="add-excel-process flex-center" v-if="pageStatus === 'process'">
+    <div class="add-excel-process flex-center" v-if="pageStatus === 'process' || pageStatus === 'failure'">
         <div class="excel-template-container flex-column-center">
 
             <div class="progress-bar">
@@ -34,6 +34,46 @@
 
             <div class="progress-backtrack-container"><div class="progress-backtrack">返回</div></div>
             
+        </div>
+    </div>
+
+    <!-- 导入成功 -->
+    <div class="add-excel-success flex-center" v-if="pageStatus === 'success'">
+        <div class="excel-template-container flex-column-center">
+            <div class="success-icon">
+                <svg width="40" height="40" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-Excel导入成功" transform="translate(-337.000000, -298.000000)"><g id="Group" transform="translate(337.000000, 298.000000)"><circle id="Oval-14" fill="#46A3FF" cx="40" cy="40" r="40"></circle><polygon id="Path-10" fill="#FFFFFF" points="22 40 36 54 62 28 60 26 36 47 24 38"></polygon></g></g></g></svg>
+            </div>
+            <div class="success-row1">批量添加成功</div>
+            <div class="success-row2">本次成功添加<span>6</span>个客户</div>
+
+            <div class="success-submit flex-center">
+                <div class="success-submit-container flex-start">
+                    <div class="success-backtrack">返回</div>
+                    <div class="success-affirm">继续添加</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 导入失败 模态框 -->
+    <div class="add-excel-failure flex-center" v-if="pageStatus === 'failure'">
+        <div class="excel-modal-shade"></div>
+
+        <div class="excel-modal-container">
+
+            <div class="excel-modal-title flex-center">
+                <div class="flex-start-center">
+                    <svg width="24" height="24" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-Excel导入失败" transform="translate(-286.000000, -571.000000)" fill="#E50012" fill-rule="nonzero"><g id="Alert" transform="translate(0.000000, 131.000000)"><g id="Group" transform="translate(95.000000, 380.000000)"><g id="Group-2" transform="translate(191.000000, 60.000000)"><path d="M24,21.1715729 L28.5857864,16.5857864 C29.366835,15.8047379 30.633165,15.8047379 31.4142136,16.5857864 C32.1952621,17.366835 32.1952621,18.633165 31.4142136,19.4142136 L26.8284271,24 L31.4142136,28.5857864 C32.1952621,29.366835 32.1952621,30.633165 31.4142136,31.4142136 C30.633165,32.1952621 29.366835,32.1952621 28.5857864,31.4142136 L24,26.8284271 L19.4142136,31.4142136 C18.633165,32.1952621 17.366835,32.1952621 16.5857864,31.4142136 C15.8047379,30.633165 15.8047379,29.366835 16.5857864,28.5857864 L21.1715729,24 L16.5857864,19.4142136 C15.8047379,18.633165 15.8047379,17.366835 16.5857864,16.5857864 C17.366835,15.8047379 18.633165,15.8047379 19.4142136,16.5857864 L24,21.1715729 Z M24,48 C10.745166,48 0,37.254834 0,24 C0,10.745166 10.745166,0 24,0 C37.254834,0 48,10.745166 48,24 C48,37.254834 37.254834,48 24,48 Z M24,46 C36.1502645,46 46,36.1502645 46,24 C46,11.8497355 36.1502645,2 24,2 C11.8497355,2 2,11.8497355 2,24 C2,36.1502645 11.8497355,46 24,46 Z" id="Oval"></path></g></g></g></g></g></svg>
+                    <div class="modal-title">导入失败</div>
+                </div>
+            </div>
+
+
+            <div class="excel-modal-row1 flex-center"><span>第29行</span>数据车牌号格式有误</div>
+            <div class="excel-modal-row2 flex-center">请修改后重新选择文件导入</div>
+
+            <div class="excel-modal-submit flex-center">我知道了</div>
         </div>
     </div>
 </div>
@@ -58,7 +98,7 @@ export default {
              * @param {string} success 导入成功
              * @param {string} failure 导入失败
              */
-            pageStatus: 'process',
+            pageStatus: 'failure',
 
             uploadPercentage: 70, // 上传百分比
         }
@@ -77,6 +117,11 @@ export default {
 @black2: #606266;
 @black3: #909399;
 @black4: #C0C4CC;
+
+// 导入失败 模态框
+@add-excel-failure-z-index: 2;
+@add-excel-shade-z-index: 3;
+@add-excel-container-z-index: 4;
 
 .add-excel {
     position: relative;
@@ -184,6 +229,108 @@ export default {
             text-align: center;
             border: 1px solid #FFA100;
         }
+    }
+}
+
+// 导入成功 页面
+.add-excel-success {
+    width: 100%;
+    height: 100%;
+
+    .success-icon {
+        padding-bottom: 10px;
+    }
+    
+    .success-row1 {
+        color: #2F8AFF;
+        padding-bottom: 10px;
+    }
+    
+    .success-row2 {
+        padding-bottom: 70px;
+
+        span {
+            color: #E50012;
+        }
+    }
+
+    .success-submit {
+        padding-bottom: 120px;
+
+        .success-backtrack {
+            margin-right: 15px;
+            width: 120px;
+            height: 45px;
+            border-radius: 45px;
+            line-height: 45px;
+            font-size: 16px;
+            color: #FFA100;
+            text-align: center;
+            border: 1px solid #FFA100;
+        }
+
+        .success-affirm {
+            width: 160px;
+            height: 45px;
+            border-radius: 45px;
+            line-height: 45px;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+            background-color: #E50012;
+        }
+    }
+}
+
+// 导入失败 模态框
+.add-excel-failure {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @add-excel-failure-z-index;
+
+    .excel-modal-shade {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: @add-excel-shade-z-index;
+        background:rgba(0, 0, 0, 0.46);
+    }
+
+    .excel-modal-container {
+        position: relative;
+        width: 280px;
+        border-radius: 10px;
+        background-color: #fff;
+        z-index: @add-excel-container-z-index;
+    }
+
+    .excel-modal-title {
+        padding-top: 30px;
+        padding-bottom: 20px;
+
+        .modal-title {
+            padding-left: 5px;
+            font-weight: bold;
+        }
+    }
+
+    .excel-modal-row1 span {
+        color: #E50012;
+    }
+
+    .excel-modal-row2 {
+        padding-bottom: 25px;
+    }
+
+    .excel-modal-submit {
+        border-top: 1px solid #ddd;
+        height: 45px;
+        color: #2F8AFF;
     }
 }
 

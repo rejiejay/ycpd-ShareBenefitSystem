@@ -26,7 +26,7 @@
         </div>
         <div class="edit-main-line"><span></span></div>
 
-        <div class="edit-main-item flex-start">
+        <div class="edit-main-item flex-start" v-if="'这期暂' === '不显示'">
             <span>证件类型</span>
             <div class="edit-main-select flex-rest">
                 <select>
@@ -40,9 +40,9 @@
                 </svg>
             </div>
         </div>
-        <div class="edit-main-line"><span></span></div>
+        <div class="edit-main-line" v-if="'这期暂' === '不显示'"><span></span></div>
 
-        <div class="edit-main-item flex-start">
+        <div class="edit-main-item flex-start" v-if="'这期暂' === '不显示'">
             <span>身份证号</span>
             <!-- 第一期不做 <div class="edit-main-input">
                 <input type="text" placeholder="请输入身份证号码" />
@@ -51,9 +51,9 @@
                 {{cardNo}}
             </div>
         </div>
-        <div class="edit-main-line"><span></span></div>
+        <div class="edit-main-line" v-if="'这期暂' === '不显示'"><span></span></div>
 
-        <div class="edit-main-item flex-start">
+        <div class="edit-main-item flex-start" v-if="'这期暂' === '不显示'">
             <span>客户生日</span>
             <!-- 第一期不做 <div class="edit-main-birthday flex-rest" @click="$refs.picker.open()"> -->
             <div class="edit-main-birthday flex-rest">

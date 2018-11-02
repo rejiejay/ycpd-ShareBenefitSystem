@@ -5,7 +5,7 @@
     <!-- 入账状态 -->
     <div class="user-award-account flex-start-center">
         <div class="award-account-content flex-start-center">
-            <div class="award-account-item flex-center">
+            <div class="award-account-item">
                 <div>
                     <div class="account-item-top">￥{{total}}</div>
                     <div class="account-item-bottom">
@@ -21,9 +21,9 @@
                     </div>
                 </div>
             </div>
-            <div class="award-account-item flex-center"  @click="isAwardTipShow = true">
+            <div class="award-account-item account-item-right"  @click="isAwardTipShow = true">
                 <div>
-                    <div class="account-item-top">￥{{uncome}}</div>
+                    <div class="account-item-top" style="color: #FFA100;">￥{{uncome}}</div>
                     <div class="account-item-bottom">
                         <span>待入账</span>
                         <svg width="14" height="14" t="1539241890953" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1965" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -43,29 +43,49 @@
 
             <!-- 标题 -->
             <div class="user-award-title flex-start-center">
-                <div class="award-title-main flex-rest">我的奖励</div>
-                <div class="award-title-lable flex-start-center">累计:<span>¥{{total}}</span></div>
+                <div class="award-title-item" :class="{'award-item-selected' : sortMethod === 'time'}" @click="sortMethod = 'time'">
+                    <div class="flex-start-center">
+                        <span>时间</span>
+                        <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
+                        <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
+                    </div>
+                </div>
+                <div class="award-title-item flex-center" :class="{'award-item-selected' : sortMethod === 'type'}" @click="sortMethod = 'type'">
+                    <div class="flex-start-center">
+                        <span>类型</span>
+                        <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
+                        <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
+                    </div>
+                </div>
+                <div class="award-title-item" :class="{'award-item-selected' : sortMethod === 'status'}" @click="sortMethod = 'status'">
+                    <div class="flex-start-center">
+                    <div class="flex-rest"></div>
+                        <span>入账状态</span>
+                        <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
+                        <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
+                    </div>
+                </div>
             </div>
 
-            <!-- 列表标题 -->
-            <div class="user-award-item flex-start-center" v-if="awardList.length !== 0">
-                <div class="award-item-name">微信昵称</div>
-                <div class="award-item-oil" style="color: #606266;">加油金额</div>
-                <div class="award-item-divide" style="color: #606266;">我的分成</div>
-                <div class="award-item-time">时间</div>
-            </div>
-            <div class="user-award-line"><div class="award-line-content"></div></div>
 
             <!-- 列表项 -->
             <div class="user-award-list"
                 v-for="(item, key) in awardList" 
                 :key="key"
             >
-                <div class="user-award-item flex-start-center">
-                    <div class="award-item-name">{{item.name}}</div>
-                    <div class="award-item-oil">¥{{item.sum}}</div>
-                    <div class="award-item-divide">¥{{item.sharing}}</div>
-                    <div class="award-item-time">{{item.time}}</div>
+                <div class="user-award-item">
+                    <div class="award-item-row item-row-1 flex-start-center">
+                        <div class="award-item-left flex-start-center flex-rest">
+                            <div class="item-left-1">这是昵称<!-- 优先显示昵称 如果没有昵称显示车牌 --></div>
+                            <div class="item-left-2">【优惠加油】¥200</div>
+                        </div>
+                        <div class="award-item-right">+2.00</div>
+                    </div>
+
+                    <div class="award-item-row item-row-2 flex-start-center">
+                        <div class="award-item-left flex-rest">2018-09-10 18:08:22</div>
+                        <div class="award-item-right" :class="{'is-enter-account': true}">{{true ? '已入账' : '待入账'}}</div>
+                    </div>
                 </div>
                 <div class="user-award-line" v-if="key !== (awardList.length - 1)"><div class="award-line-content"></div></div>
             </div>
@@ -101,15 +121,32 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            isAwardTipShow: false, // 待入账模态框
+            /**
+             * 待入账模态框
+             */
+            isAwardTipShow: false,
 
+            /**
+             * 统计
+             */
             total: 0, // 总金额
             income: 0, // 已入账
             uncome: 0, // 未入账
 
+            /**
+             * 分页
+             */
             pageNo: 1, // 当前页面
             isLoding: true, // 是否正在加载..
             isNull: false, // 用于判断当前页面是否可以下拉
+
+            /**
+             * 排序
+             * @param {string} time 按照时间排序
+             * @param {string} type 按照类型排序
+             * @param {string} status 入账状态
+             */
+            sortMethod: 'time',
 
             awardList: [ // 我的奖励
                 // {
@@ -234,6 +271,7 @@ export default {
 // 入账状态
 .user-award-account {
     .award-account-content {
+        padding: 0px 15px;
         background: #fff;
         width: 100%;
     }
@@ -242,13 +280,11 @@ export default {
     .award-account-item {
         width: 33.33%;
         padding: 5px 0px;
-        text-align: center;
 
         .account-item-top {
             font-size: 16px;
             padding-bottom: 7.5px;
             color: #E50012;
-
         }
 
         .account-item-bottom {
@@ -261,6 +297,11 @@ export default {
                 right: -16px;
             }
         }
+    }
+
+    .account-item-right {
+        padding-right: 15px;
+        text-align: right;
     }
 }
 
@@ -279,47 +320,73 @@ export default {
         padding: 0px 15px;
         border-bottom: 1px solid #ddd;
         
-        .award-title-main {
-            font-weight: bold;
-            color: @black1;
+        .award-title-item {
+            width: 33.33%;
+            text-align: center;
+
+            svg {
+                padding-left: 5px;
+            }
+
+            .svg-active {
+                display: none;
+            }
         }
 
-        .award-title-lable {
-            color: @black3;
-            font-size: 12px;
+        .title-item-rigth {
+            text-align: right;
+        }
+        
+        .award-item-selected {
+            color: #E50012;
 
-            span {
-                padding-left: 10px;
-                font-size: 14px;
-                color: #E50012;
+            .svg-active {
+                display: block;
+            }
+
+            .svg-disable {
+                display: none;
             }
         }
     }
 
     // 列表
     .user-award-item {
-        padding: 0px 15px;
-        height: 40px;
+        padding: 15px;
         color: @black2;
 
-        > div {
-            width: 25%;
+        .item-row-1 {
+            .item-left-1 { // 这是昵称
+                font-weight: bold;
+            }
+
+            .item-left-2 { // 【优惠加油】¥200
+                color: @black3;
+            }
+
+            .award-item-right {
+                font-size: 18px;
+                color: #E50012;
+            }
         }
 
-        .award-item-name {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+        .item-row-2 {
+            padding-top: 5px;
+            font-size: 12px;
 
-        .award-item-oil,
-        .award-item-divide {
-            color: #E50012;
-            text-align: center;
-        }
+            .award-item-left {
+                color: @black3;
+            }
 
-        .award-item-time {
-            text-align: right;
+            // 待入账
+            .award-item-right {
+                color: #FFA100;
+            }
+
+            // 已入账
+            .is-enter-account {
+                color: #AAAAAA;
+            }
         }
     }
 

@@ -1,14 +1,30 @@
 // 测试环境配置
 module.exports = {
+    wx: {
+        appid: 'wxa21f56d22d9482b1', // appid
+    },
+
     location: {
-        href: 'http://scas.api2.hotgz.com/home/cas/index.html',
-        share_href: 'http://scas.api2.hotgz.com/home/cas/index.html#/activity/sharer',
-        redirect_href: 'http://scas.api2.hotgz.com/home/cas/index.html#/redirect', // 重定向页面， 因为需要获取 openId， 但是 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        wx_href: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa21f56d22d9482b1&redirect_uri=http%3A%2F%2Fscas.api2.hotgz.com%2Fhome%2Fcas%2Findex.html%23%2Flogin&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect', // 微信跳转登录页
-        ycpd_href: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa21f56d22d9482b1&redirect_uri=http%3a%2f%2fstore.demo.ichebaoyang.com%2fwx20%2findex.html&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect', // 跳转到养车频道页面
+        href: 'http://scas.api2.hotgz.com/home/cas/index.html', // 本地 地址
+        ycpd: 'http://store.demo.ichebaoyang.com/wx20/index.html', // 养车频道 地址
     },
 
     url: {
         origin: '/mock', // 请求源
     },
+
+    /**
+     * 跳转到微信 url 地址复用的方法
+     * @param {string} redirect_uri 需要加密的URL
+     */
+    jumpwx: function jumpwx(redirect_uri) {
+        return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.wx.appid}&redirect_uri=${window.encodeURIComponent(redirect_uri)}&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect`
+    },
+
+    /**
+     * 跳转到养车频道公众号的方法
+     */
+    jumpwxycpd: function jumpwxycpd() {
+        return this.jumpwx(this.location.ycpd);
+    }
 };

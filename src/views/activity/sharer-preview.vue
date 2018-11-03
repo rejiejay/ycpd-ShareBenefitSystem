@@ -227,7 +227,7 @@ export default {
             let agentName = this.userInfoStore.agentName;
             let title = `“${this.shareName}”送你一个加油大礼包`; // 分享标题
             let desc = '覆盖全市高品质加油站最高直降1.2元/L'; // 分享描述
-            let link = `${config.location.share_href}?shareName=${this.shareName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            let link = `${config.location.href}#/activity/sharer?shareName=${this.shareName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
             document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
 

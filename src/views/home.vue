@@ -200,6 +200,8 @@
 import Vue from "vue";
 // 请求类
 import ajaxsgetAllActivity from "@/api/common/getAllActivity";
+// 配置类
+import config from "@/config/index.js";
 // 组件类
 import Tabbar from "@/components/Tabbar";
 import html5WxBMapLocation from "@/components/html5WxBMapLocation";
@@ -278,12 +280,8 @@ export default {
          * 跳转到 优惠加油
          */ 
         jumpToGasStation: function jumpToGasStation() {
-            /**
-             * 跳转到养车频道去，这个页面跳转容易出问题
-             * 明天记得同步代码
-             */
+            window.location.href = config.jumpwx(`${config.location.ycpd}#/redirect/gasstation`);
         },
-
 
         /**
          * 跳转到 领取停车券

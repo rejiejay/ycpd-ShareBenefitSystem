@@ -24,7 +24,7 @@ export default {
          * 因为需要获取 openId
          * 所以需要重新跳转
          */
-        window.location.href = config.location.ycpd_href;
+        window.location.href = config.jumpwxycpd();
     },
 
     destroyed: function destroyed() {

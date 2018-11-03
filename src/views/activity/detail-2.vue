@@ -2,6 +2,18 @@
 <template>
 <div class="activity-detail">
     <div class="activity-detail-content">
+        <!-- 顶部导航栏 -->
+        <div class="activity-top-navigation flex-start-center">
+            <div class="top-navigation-item flex-center">
+                <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 0}">活动规则</div>
+            </div>
+            <div class="top-navigation-item flex-center">
+                <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 1}">参与方式</div>
+            </div>
+            <div class="top-navigation-item flex-center">
+                <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 2}">我的奖励</div>
+            </div>
+        </div>
 
         <!-- 活动规则 -->
         <div class="activity-rules">
@@ -119,6 +131,8 @@ export default {
                 activity002content001: activity002content001,
                 activity002content002: activity002content002,
             },
+
+            navigation_index: 0, // 顶部导航的下标
         } 
     },
     
@@ -141,10 +155,36 @@ export default {
     },
 
 	mounted: function mounted() {
-        // this.initClipboard(); // 初始化剪切板
+		window.addEventListener('scroll', this.scrollNavigation); // 添加滚动事件，检测滚动的距离
     },
 
+    destroyed: function () {
+		window.removeEventListener('scroll', this.scrollNavigation); // 添加滚动事件，检测滚动的距离
+    },
+
+
 	methods: {
+        /**
+         * 添加滚动事件，检测滚动的距离
+         */
+		scrollNavigation: function scrollNavigation(event) {
+            let myScrollTop = document.documentElement.scrollTop || document.body.scrollTop; // 滚动的距离
+            
+            let navigation_index = 0;
+
+            // 表示滚动到第一个下标的位置
+            if (myScrollTop > (351 - 50)) {
+                navigation_index++;
+            }
+
+            // 表示滚动到第二个下标的位置
+            if (myScrollTop > (841 - 50)) {
+                navigation_index++;
+            }
+
+            this.navigation_index = navigation_index;
+        },
+        
         /**
          * 复制验证码
          */
@@ -191,9 +231,13 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC; 
 
+
+// 顶部导航栏
+@activity-top-navigation-z-index: 3;
+
 @activity-bottom-bg-z-index: 1; // 底部背景
 @activity-detail-content-z-index: 2; // 内容区域 为了盖住底部背景
-@activity-immediately-attend-z-index: 3;
+@activity-immediately-attend-z-index: 4;
 
 
 .activity-detail {
@@ -207,6 +251,36 @@ export default {
     background: linear-gradient(#2F8AFF, #55BAFF); /* 标准的语法 */
 }
 
+// 顶部导航栏
+.activity-top-navigation {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    z-index: @activity-top-navigation-z-index;
+
+    .top-navigation-item {
+        width: 33.33%;
+    }
+
+    .navigation-item-describe {
+        position: relative;
+        top: 7.5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 7.5px;
+        border-bottom: 1.5px solid #fff;
+    }
+
+    .item-describe-active {
+        color: #E50012;
+        border-bottom: 1.5px solid #E50012;
+    }
+}
+
+
 // 内容
 .activity-detail-content {
     position: relative;
@@ -216,7 +290,7 @@ export default {
 
 // 活动规则
 .activity-rules {
-    padding: 15px 15px 0px 15px;
+    padding: 65px 15px 0px 15px;
     color: @black1;
 
     // 框架

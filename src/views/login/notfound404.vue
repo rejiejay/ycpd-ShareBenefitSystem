@@ -38,7 +38,7 @@ export default {
                 page404: page404,
             },
 
-            backtrackUrl: config.location.ycpd_href,
+            backtrackUrl: config.jumpwxycpd(),
         }
     },
 

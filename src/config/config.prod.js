@@ -1,14 +1,30 @@
 // 生产环境配置
 module.exports = {
+    wx: {
+        appid: 'wxa4138072e380eeff', // appid
+    },
+
     location: {
         href: 'http://cas.sz2.ichebaoyang.com/home/cas/index.html',
-        share_href: 'http://cas.sz2.ichebaoyang.com/home/cas/index.html#/activity/sharer',
-        redirect_href: 'http://cas.sz2.ichebaoyang.com/home/cas/index.html#/redirect', // 重定向页面， 因为需要获取 openId， 但是 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        wx_href: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa4138072e380eeff&redirect_uri=http%3A%2F%2Fcas.sz2.ichebaoyang.com%2Fhome%2Fcas%2Findex.html%23%2Flogin&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect', // 微信跳转登录页
-        ycpd_href: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa4138072e380eeff&redirect_uri=http%3a%2f%2fpicc.hotgz.com%2fwx20%2findex.html&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect', // 跳转到养车频道页面
+        ycpd: 'http://picc.hotgz.com/wx20/index.html', // 养车频道 地址
     },
 
     url: {
         origin: 'http://cas.sz2.ichebaoyang.com', // 请求源
     },
+
+    /**
+     * 跳转到微信 url 地址复用的方法
+     * @param {string} redirect_uri 需要加密的URL
+     */
+    jumpwx: function jumpwx(redirect_uri) {
+        return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.wx.appid}&redirect_uri=${window.encodeURIComponent(redirect_uri)}&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect`
+    },
+
+    /**
+     * 跳转到养车频道公众号的方法
+     */
+    jumpwxycpd: function jumpwxycpd() {
+        return this.jumpwx(this.location.ycpd);
+    }
 };

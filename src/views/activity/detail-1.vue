@@ -1,6 +1,18 @@
 <!-- 活动详情 -->
 <template>
 <div class="activity-detail">
+    <!-- 顶部导航栏 -->
+    <div class="activity-top-navigation flex-start-center">
+        <div class="top-navigation-item flex-center">
+            <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 0}">活动规则</div>
+        </div>
+        <div class="top-navigation-item flex-center">
+            <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 1}">参与方式</div>
+        </div>
+        <div class="top-navigation-item flex-center">
+            <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 2}">我的奖励</div>
+        </div>
+    </div>
     
     <!-- 活动规则 -->
     <div class="activity-privilege-rules">
@@ -276,6 +288,8 @@ export default {
                 activity001content001: activity001content001,
             },
 
+            navigation_index: 0, // 顶部导航的下标
+
             proportion: 1, // 分成
             time: '2018-10-6 至 2018-12-9', // 活动时间
 
@@ -323,6 +337,13 @@ export default {
         this.getQRcode(); // 获取 - 二维码
         this.getMyRewards(); // 获取 - 我的奖励
         this.getRewardHeads(); // 获取 - 已入账、未入账
+
+		window.addEventListener('scroll', this.scrollNavigation); // 添加滚动事件，检测滚动的距离
+
+    },
+
+    destroyed: function () {
+		window.removeEventListener('scroll', this.scrollNavigation); // 添加滚动事件，检测滚动的距离
     },
 
 	methods: {
@@ -351,6 +372,27 @@ export default {
                 }
             );
         },
+
+        /**
+         * 添加滚动事件，检测滚动的距离
+         */
+		scrollNavigation: function scrollNavigation(event) {
+            let myScrollTop = document.documentElement.scrollTop || document.body.scrollTop; // 滚动的距离
+            
+            let navigation_index = 0;
+
+            // 表示滚动到第一个下标的位置
+            if (myScrollTop > (488 - 50)) {
+                navigation_index++;
+            }
+
+            // 表示滚动到第二个下标的位置
+            if (myScrollTop > (653 - 50)) {
+                navigation_index++;
+            }
+
+            this.navigation_index = navigation_index;
+		},
 
         /**
          * 获取 - 二维码
@@ -431,7 +473,7 @@ export default {
             let agentName = this.userInfoStore.agentName;
             let title = `“${this.shareName}”送你一个加油大礼包`; // 分享标题
             let desc = '覆盖全市高品质加油站最高直降1.2元/L'; // 分享描述
-            let link = `${config.location.share_href}?shareName=${this.shareName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            let link = `${config.location.href}#/activity/sharer?shareName=${this.shareName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
             document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
 
@@ -531,15 +573,18 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
+// 顶部导航栏
+@activity-top-navigation-z-index: 2;
+
 // 立即邀请，享加油分成
-@invitation-modal-z-index: 2;
-@invitation-shade-z-index: 3;
-@invitation-main-z-index: 4;
+@invitation-modal-z-index: 3;
+@invitation-shade-z-index: 4;
+@invitation-main-z-index: 5;
 
 // 二维码
-@QRcode-modal-z-index: 2;
-@QRcode-shade-z-index: 3;
-@QRcode-main-z-index: 4;
+@QRcode-modal-z-index: 3;
+@QRcode-shade-z-index: 4;
+@QRcode-main-z-index: 5;
 
 .activity-detail {
     position: relative;
@@ -552,9 +597,38 @@ export default {
     background: linear-gradient(#F32E2E, #FF6F46); /* 标准的语法 */
 }
 
+// 顶部导航栏
+.activity-top-navigation {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    z-index: @activity-top-navigation-z-index;
+
+    .top-navigation-item {
+        width: 33.33%;
+    }
+
+    .navigation-item-describe {
+        position: relative;
+        top: 7.5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 7.5px;
+        border-bottom: 1.5px solid #fff;
+    }
+
+    .item-describe-active {
+        color: #E50012;
+        border-bottom: 1.5px solid #E50012;
+    }
+}
+
 // 活动规则
 .activity-privilege-rules {
-    padding: 15px 15px 0px 15px;
+    padding: 65px 15px 0px 15px;
 
     .privilege-rules-content {
         background: #fff;

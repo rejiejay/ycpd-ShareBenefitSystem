@@ -226,6 +226,26 @@ const routes = [
         component: () => import('@/views/login/notfound404'),
         meta: { title: '服务正在升级' },
     },
+
+    /**
+     * 团队管理
+     */
+    {
+        path: '/team/list',
+        name: 'team-list',
+        component: () => import('@/views/team/list'),
+        meta: { title: '团队管理列表' },
+    }, {
+        path: '/team/income',
+        name: 'team-income',
+        component: () => import('@/views/team/income'),
+        meta: { title: '团队收入明细' },
+    }, {
+        path: '/team/income',
+        name: 'team-income',
+        component: () => import('@/views/team/income'),
+        meta: { title: '成员详情' },
+    }, 
 ];
 
 let router = new Router({

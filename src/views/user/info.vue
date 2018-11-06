@@ -23,6 +23,16 @@
             </div>
             <div class="user-info-line"></div>
 
+            <!-- 昵称 -->
+            <div class="user-info-item flex-start-center">
+                <div class="info-item-label flex-rest">昵称</div>
+                <div class="info-item-main flex-start-center">
+                    <div class="item-main-phone">{{userInfoStore.nickName}}</div>
+                    <div class="item-main-blue" @click="jumpToRouter('/user/nickName/modify')">修改</div>
+                </div>
+            </div>
+            <div class="user-info-line"></div>
+
             <!-- 手机号 -->
             <div class="user-info-item flex-start-center">
                 <div class="info-item-label flex-rest">手机号</div>
@@ -37,11 +47,11 @@
             <div class="user-info-item flex-start-center">
                 <div class="info-item-label flex-rest">实名认证</div>
                 <div class="info-item-main info-item-authentication">
-                    <div class="item-main-name">{{agentName}}<!-- (已认证) --></div>
+                    <div class="item-main-name">{{agentName ? agentName : '(未认证)'}}<!-- (已认证) --></div>
                     <!-- 第二期内容 <div class="item-main-id">441623199403235252</div> -->
                 </div>
             </div>
-            <div class="user-info-line"></div>
+            <!-- <div class="user-info-line"></div> -->
 
             <!-- 绑定银行卡 -->
             <!-- <div class="user-info-item flex-start-center">
@@ -148,6 +158,20 @@ export default {
             }, error => {
                 alert(error);
             });
+        },
+
+        /**
+         * 跳转到路由
+         * @param {object} query 携带的参数 非必填
+         */
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
         },
     }
 }

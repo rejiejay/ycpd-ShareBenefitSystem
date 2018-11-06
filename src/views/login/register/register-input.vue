@@ -1,4 +1,4 @@
-<!-- 注册页 -->
+<!-- 养车频道推广员注册 -->
 <template>
 <div class="register">
     <!-- banner -->

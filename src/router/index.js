@@ -103,6 +103,11 @@ const routes = [
         name: 'user-modifyMobile',
         component: () => import('@/views/user/modify-mobile'),
         meta: { title: '修改手机号' },
+    },  {
+        path: '/user/nickName/modify',
+        name: 'user-nickName',
+        component: () => import('@/views/user/modify-nickName'),
+        meta: { title: '修改昵称' },
     }, 
 
     /**

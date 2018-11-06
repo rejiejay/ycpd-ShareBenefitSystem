@@ -35,4 +35,16 @@ export default {
     //     }
     // });
     findRewardHeads: self => apibasics.get(`${config.url.origin}/ycpd/cas/findRewardHeads?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`, '我的奖励', self),
+
+    /**
+     * 奖励
+     * @param {number} agentInfoId 代理id
+     * @param {number} sortord 排序方式 0按时间倒序; 1按时间正序; 默认0
+     * @param {type} sortord 项目类型: 1优惠加油;2建行无感支付;3团队提成;默认0
+     */
+    findMyRewardByConditions: (agentInfoId, sortord, type, self) => apibasics.post(`${config.url.origin}/ycpd/cas/client/findMyRewardByConditions?token=${window.localStorage.getItem('ycpd_token')}`, {
+        agentInfoId: agentInfoId,
+        sortord: sortord,
+        type: type,
+    }, '奖励', self),
 }

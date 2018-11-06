@@ -1,63 +1,80 @@
 <!-- 养车频道推广员注册 -->
 <template>
 <div class="register">
-    <!-- banner -->
-    <div class="register-banner">
-        <img alt="banner" :src="picture.register" />
-    </div>
 
-    <div class="register-company">
-        <div class="register-company-content flex-start-center">
-            <div class="register-company-lable">所在公司:</div>
-            <div class="register-company-select flex-rest"  @click="jumpToRouter('/register/company')">
-                {{selectRegisterCompany ? selectRegisterCompany : "请选择公司"}}
-            </div>
-            <div class="register-company-icon">
-                <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                    <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
-                </svg>
-            </div>
-        </div>
-    </div>
-
-    <!-- 手机号码验证码 -->
-    <div class="register-input">
-        <div class="register-content">
-
-            <div class="register-input-item flex-start-center">
-                <div class="input-item-lable">手机号码:</div>
-                <div class="input-item-main flex-rest">
-                    <input v-model="phoneNumber" placeholder="请填写手机号码" />
+    <div class="register-container flex-column-center">
+        <div class="register-title">养车省钱，分享赚钱</div>
+        <div class="register-title-lable">立即加入</div>
+        
+        <div class="register-input-main" :style="`width: ${clientWidth - 60}px;`">
+            <!-- 所在公司 -->
+            <div class="input-main-title">所在公司</div>
+            <div class="input-main-border">
+                <div class="main-border-content">
+                    <div class="border-content-padding flex-start-center">
+                        <div class="register-company-select flex-rest"  @click="jumpToRouter('/register/company')">
+                            {{selectRegisterCompany ? selectRegisterCompany : "请选择公司"}}
+                        </div>
+                        <div class="register-company-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                                <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="register-input-line"></div>
             
-            <div class="register-input-item flex-start-center">
-                <div class="input-item-lable">短信验证:</div>
-                <div class="input-item-main flex-start-center flex-rest">
-                    <input v-model="SMSNumber" placeholder="输入4位手机验证码"  @click="verifySMSHandle" />
-                </div>
-                <div class="input-item-verify">
-                    <div class="item-verify-content"
-                        :class="{'item-verify-disable' : isSMSGeting}"
-                        @click="verifySMSHandle"
-                    >{{isSMSGeting ? (reGetCount + '秒后获取') : '获取验证码'}}</div>
+            <!-- 手机号码 -->
+            <div class="input-main-title">手机号码</div>
+            <div class="input-main-border">
+                <div class="main-border-content">
+                    <div class="border-content-padding">
+                        <input v-model="phoneNumber" placeholder="请填写手机号码" />
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- 协议 -->
-    <div class="register-agreement">
-        <div class="register-agreement-content flex-start-center" @click="jumpToRouter('/register/agreement')">
-            <div class="register-agreement-main flex-rest">《养车频道推广员注册协议》</div>
-            <div class="register-agreement-label flex-start-center" :class="[isRegisterAgreement ? 'agreement-radio-selected' : '']">
-                <svg width="16" height="16" t="1535773287663" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2604" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <path d="M511.452 957.752c-246.502 0-447.037-200.535-447.037-447.027 0-246.497 200.535-447.037 447.037-447.037S958.49 264.228 958.49 510.725c0 246.492-200.535 447.027-447.038 447.027z m0-842.788c-218.224 0-395.766 177.542-395.766 395.766s177.542 395.75 395.766 395.75 395.766-177.525 395.766-395.75-177.541-395.766-395.766-395.766z" p-id="2605"></path>
-                    <path v-if="isRegisterAgreement" d="M438.477 684.841a25.605 25.605 0 0 1-18.125-7.516l-148.46-148.47a25.626 25.626 0 0 1 0-36.25 25.626 25.626 0 0 1 36.25 0l130.335 130.33 272.44-272.42a25.626 25.626 0 0 1 36.25 0 25.626 25.626 0 0 1 0 36.25L456.602 677.32a25.641 25.641 0 0 1-18.125 7.521z" p-id="2606"></path>
-                </svg>
-                <span>我已阅读并同意</span>
+            <!-- 验证码 -->
+            <div class="input-main-title">验证码</div>
+            <div class="input-main-border">
+                <div class="main-border-content">
+                    <div class="border-content-padding flex-start-center">
+                        <div class="input-item-main flex-start-center flex-rest">
+                            <input v-model="SMSNumber" placeholder="输入4位手机验证码"  @click="verifySMSHandle" />
+                        </div>
+                        <div class="input-item-verify">
+                            <div class="item-verify-content"
+                                :class="{'item-verify-disable' : isSMSGeting}"
+                                @click="verifySMSHandle"
+                            >{{isSMSGeting ? (reGetCount + '秒后获取') : '获取验证码'}}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- 协议 -->
+            <div class="register-agreement">
+                <div class="register-agreement-content flex-start-center" @click="jumpToRouter('/invite/agreement')">
+                    <div class="agreement-radio-content flex-center" 
+                        :class="[isRegisterAgreement ? 'agreement-radio-selected' : 'register-agreement-radio']"
+                    >
+                        <svg width="16" height="16" t="1535773287663" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2604" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path d="M511.452 957.752c-246.502 0-447.037-200.535-447.037-447.027 0-246.497 200.535-447.037 447.037-447.037S958.49 264.228 958.49 510.725c0 246.492-200.535 447.027-447.038 447.027z m0-842.788c-218.224 0-395.766 177.542-395.766 395.766s177.542 395.75 395.766 395.75 395.766-177.525 395.766-395.75-177.541-395.766-395.766-395.766z" p-id="2605"></path>
+                            <path v-if="isRegisterAgreement" d="M438.477 684.841a25.605 25.605 0 0 1-18.125-7.516l-148.46-148.47a25.626 25.626 0 0 1 0-36.25 25.626 25.626 0 0 1 36.25 0l130.335 130.33 272.44-272.42a25.626 25.626 0 0 1 36.25 0 25.626 25.626 0 0 1 0 36.25L456.602 677.32a25.641 25.641 0 0 1-18.125 7.521z" p-id="2606"></path>
+                        </svg>
+                    </div>
+
+                    <div class="register-agreement-text">
+                        我已阅读并同意<span @click="isAgreementShow = true">《养车频道用户服务协议》</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 注册 -->
+            <div class="register-submit" @click="submitRegister">
+                <div class="register-submit-content">立即加入</div>
+            </div>
+
         </div>
     </div>
 
@@ -101,11 +118,10 @@
         </div>
     </div>
 
-    <!-- 登录 -->
-    <div class="register-submit" @click="submitRegister">
-        <div class="register-submit-content">注册</div>
+    <!-- SVG——背景图 -->
+    <div class="register-input-bg" :style="`width: ${clientWidth}px; height: ${clientHeight}px;`">
+        <img :src="pictures.inviteBg" alt="inviteBg" :style="`width: ${clientWidth}px; height: ${clientHeight}px;`" />
     </div>
-   
 </div>
 </template>
 
@@ -118,7 +134,7 @@ import ajaxs from "@/api/login/register";
 import loadPageVar from "@/utils/loadPageVar";
 import Consequencer from "@/utils/Consequencer";
 // 静态资源类
-import register from "@/static/register.png";
+import inviteBg from "@/static/inviteBg.png";
 
 export default {
     name: 'register-input',
@@ -128,8 +144,8 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            picture: {
-                register: register
+            pictures: {
+                inviteBg: inviteBg
             },
 
             /**
@@ -591,6 +607,10 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
+// 框架部分
+@register-container-z-index: 3;
+@register-input-bg-z-index: 2;
+
 // 人机验证模态框
 @machine-verify-modal-z-index: 2;
 @machine-verify-shade-z-index: 2;
@@ -601,7 +621,155 @@ export default {
     font-size: 14px;
     width: 100%;
     min-height: 100%;
-    background-color: #F1F1F1;
+    background-color: #FF5720;
+    background: -webkit-linear-gradient(#FF5720, #FF6F46); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#FF5720, #FF6F46); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#FF5720, #FF6F46); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#FF5720, #FF6F46); /* 标准的语法 */
+
+    input {
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: @black1;
+        background-color: transparent;
+    }
+
+    input::-webkit-input-placeholder,
+    input::-moz-placeholder,   /* Mozilla Firefox 19+ */
+    input:-moz-placeholder,  /* Mozilla Firefox 4 to 18 */
+    input:-ms-input-placeholder { /* Internet Explorer 10-11 */ 
+        color: @black1;
+    }
+}
+
+// 内容区域
+.register-container {
+    position: relative;
+    padding-bottom: 35px;
+    z-index: @register-container-z-index;
+
+    .register-title {
+        padding-top: 35px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #FFEA00;
+    }
+
+    .register-title-lable {
+        padding-top: 15px;
+        padding-bottom: 25px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+    }
+    
+    // 内容区域
+    .register-input-main {
+        border-radius: 10px;
+        padding: 15px;
+        background: #fff;
+
+        // 标题
+        .input-main-title {
+            padding-top: 10px;
+            color: @black3;
+        }
+
+        // 输入 圈圈
+        .input-main-border {
+            padding-top: 7.5px;
+            padding-bottom: 5px;
+
+            .main-border-content {
+                height: 45px;
+                line-height: 45px;
+                width: 100%;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+            }
+
+            .border-content-padding {
+                padding-left: 15px;
+                height: 45px;
+            }
+        }
+
+        // 注册
+        .register-submit {
+            padding: 15px 0px 15px 0px;
+
+            .register-submit-content {
+                line-height: 45px;
+                border-radius: 5px;
+                text-align: center;
+                color: #fff;
+                background: #FA3838;
+            }
+        }
+
+        // 选择公司
+        .register-company-icon {
+            padding-right: 15px;
+        }
+
+        // 获取验证码
+        .input-item-verify {
+            height: 30px;
+            padding-right: 15px;
+
+            .item-verify-content {
+                height: 30px;
+                line-height: 30px;
+                width: 100px;
+                text-align: center;
+                border-radius: 4px;
+                color: #FF8D18;
+                border: 1px solid #FF8D18;
+                background: #FFF5EA;
+            }
+
+            .item-verify-disable {
+                color: @black2;
+                border: 1px solid #CCCCCC;
+                background: #F5F5F5;
+            }
+        }
+
+        // 协议
+        .register-agreement {
+            .register-agreement-content {
+                height: 35px;
+
+                // 单选框
+                .agreement-radio-content {
+                    position: relative;
+                    top: 1px;
+                    width: 15px;
+                }
+            }
+
+            // 单选框
+            .register-agreement-radio path {
+                fill: #FFA100;
+            }
+            
+            // 单选框选中
+            .agreement-radio-selected path {
+                fill: #E50012;
+            }
+
+            // 协议文本
+            .register-agreement-text {
+                font-size: 12px;
+                color: @black3;
+
+                span {
+                    color: #FFA100;
+                }
+            }
+        }
+    }
 }
 
 .register-banner {
@@ -613,133 +781,6 @@ export default {
         display: block;
         width: 100%;
         height: 100%;
-    }
-}
-
-// 选择公司
-.register-company {
-    padding-top: 5px;
-    line-height: 45px;
-    color: @black1;
-
-    // 框架部分
-    .register-company-content {
-        padding: 0px 15px;
-        height: 45px;
-        background: #fff;
-    }
-
-    .register-company-lable {
-        color: @black1;
-        width: 70px;
-    }
-}
-
-// 协议
-.register-agreement {
-    padding-top: 5px;
-
-    // 框架部分
-    .register-agreement-content {
-        padding: 0px 15px;
-        height: 45px;
-        background: #fff;
-
-        // 单选框
-        .agreement-radio-content {
-            position: relative;
-            top: 1px;
-            width: 15px;
-        }
-    }
-
-    // 协议文字
-    .register-agreement-main {
-        color: #469AFF;
-    }
-
-    .register-agreement-label {
-        svg {
-            position: relative;
-            top: 0.5px;
-        }
-
-        path {
-            fill: #469AFF;
-        }
-
-        span {
-            color: @black2;
-            padding-left: 3.5px;
-        }
-    }
-}
-
-// 手机号码验证码
-.register-input {
-    padding-top: 5px;
-    font-size: 14px;
-
-    // 框架
-    .register-content {
-        background-color: #fff;
-        padding-left: 15px;
-
-        .register-input-item {
-            height: 45px;
-
-            .input-item-lable {
-                color: @black1;
-                width: 70px;
-            }
-        }
-
-        input {
-            width: 95%;
-            padding: 0px 2.5%;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            color: @black1;
-            background-color: transparent;
-        }
-
-        input::-webkit-input-placeholder,
-        input::-moz-placeholder,   /* Mozilla Firefox 19+ */
-        input:-moz-placeholder,  /* Mozilla Firefox 4 to 18 */
-        input:-ms-input-placeholder { /* Internet Explorer 10-11 */ 
-            color: @black1;
-        }
-    }
-
-    // 获取验证码
-    .input-item-verify {
-        height: 30px;
-        padding-right: 15px;
-
-        .item-verify-content {
-            height: 30px;
-            line-height: 30px;
-            width: 100px;
-            text-align: center;
-            border-radius: 4px;
-            color: #FF8D18;
-            border: 1px solid #FF8D18;
-            background: #FFF5EA;
-        }
-
-        .item-verify-disable {
-            color: @black2;
-            border: 1px solid #CCCCCC;
-            background: #F5F5F5;
-        }
-    }
-
-    // 横线
-    .register-input-line {
-        background-color: #ddd;
-        height: 1px;
-        width: 100%;
     }
 }
 
@@ -937,58 +978,12 @@ export default {
     display: flex;
 }
 
-// 注册按钮
-.register-submit {
-    padding: 15px;
-    
-    .register-submit-content {
-        height: 45px;
-        line-height: 45px;
-        font-size: 16px;
-        border-radius: 3px;
-        text-align: center;
-        color: #fff;
-        background-color: #E50012;
-    }
-}
-
-// 用户协议按钮
-.agreement-botton {
+// SVG——背景图
+.register-input-bg {
     position: fixed;
     left: 0px;
-    bottom: 0px;
-    width: 100%;
-
-    .agreement-botton-content {
-        padding: 10px 15px;
-        text-align: center;
-        line-height: 45px;
-        font-size: 16px;
-        background: #fff;
-        border-top: 1px solid #ddd;
-    }
-
-    .agreement-botton-back {
-        padding-right: 7.5px;
-
-        div {
-            border-radius: 4px;
-            background: #fff;
-            color: @black1;
-            border: 1px solid #ddd;
-        }
-    }
-
-    .agreement-botton-approved {
-        padding-left: 7.5px;
-
-        div {
-            border-radius: 4px;
-            background: #E50012;
-            color: #fff;
-        }
-    }
+    top: 0px;
+    z-index: @register-input-bg-z-index;
 }
-
  
 </style>

@@ -1,10 +1,8 @@
 <!-- 注册页 -->
 <template>
-    <div class="register">
-        <keep-alive>
-            <router-view/>
-        </keep-alive>
-    </div>
+    <keep-alive>
+        <router-view/>
+    </keep-alive>
 </template>
 
 <script>
@@ -23,12 +21,4 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
-.register {
-    position: relative;
-    font-size: 14px;
-    width: 100%;
-    min-height: 100%;
-    background-color: #F1F1F1;
-}
- 
 </style>

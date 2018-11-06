@@ -1,62 +1,62 @@
-<!-- 团队管理——邀请——注册——输入 -->
+<!-- 养车频道推广员注册 -->
 <template>
-<div class="invite-input">
+<div class="register">
+    <!-- banner -->
+    <div class="register-banner">
+        <img alt="banner" :src="picture.register" />
+    </div>
 
-    <div class="invite-input-content flex-column-center">
-        <div class="invite-input-title"><span>张家辉</span>邀请你加入“xxxxx”团队</div>
-        <div class="input-title-lable">养车省钱，分享赚钱</div>
+    <div class="register-company">
+        <div class="register-company-content flex-start-center">
+            <div class="register-company-lable">所在公司:</div>
+            <div class="register-company-select flex-rest"  @click="jumpToRouter('/register/company')">
+                {{selectRegisterCompany ? selectRegisterCompany : "请选择公司"}}
+            </div>
+            <div class="register-company-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                    <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                </svg>
+            </div>
+        </div>
+    </div>
 
-        <div class="invite-input-main" :style="`width: ${clientWidth - 60}px;`">
+    <!-- 手机号码验证码 -->
+    <div class="register-input">
+        <div class="register-content">
+
+            <div class="register-input-item flex-start-center">
+                <div class="input-item-lable">手机号码:</div>
+                <div class="input-item-main flex-rest">
+                    <input v-model="phoneNumber" placeholder="请填写手机号码" />
+                </div>
+            </div>
+            <div class="register-input-line"></div>
             
-            <!-- 手机号码 -->
-            <div class="input-main-title">手机号码</div>
-            <div class="input-main-border">
-                <div class="main-border-content">
-                    <div class="border-content-padding">
-                        <input v-model="phoneNumber" placeholder="请填写手机号码" />
-                    </div>
+            <div class="register-input-item flex-start-center">
+                <div class="input-item-lable">短信验证:</div>
+                <div class="input-item-main flex-start-center flex-rest">
+                    <input v-model="SMSNumber" placeholder="输入4位手机验证码"  @click="verifySMSHandle" />
+                </div>
+                <div class="input-item-verify">
+                    <div class="item-verify-content"
+                        :class="{'item-verify-disable' : isSMSGeting}"
+                        @click="verifySMSHandle"
+                    >{{isSMSGeting ? (reGetCount + '秒后获取') : '获取验证码'}}</div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- 验证码 -->
-            <div class="input-main-title">验证码</div>
-            <div class="input-main-border">
-                <div class="main-border-content">
-                    <div class="border-content-padding flex-start-center">
-                        <div class="input-item-main flex-start-center flex-rest">
-                            <input v-model="SMSNumber" placeholder="输入4位手机验证码"  @click="verifySMSHandle" />
-                        </div>
-                        <div class="input-item-verify">
-                            <div class="item-verify-content"
-                                :class="{'item-verify-disable' : isSMSGeting}"
-                                @click="verifySMSHandle"
-                            >{{isSMSGeting ? (reGetCount + '秒后获取') : '获取验证码'}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 协议 -->
-            <div class="register-agreement">
-                <div class="register-agreement-content flex-start-center" @click="jumpToRouter('/invite/agreement')">
-                    <div class="agreement-radio-content flex-center" 
-                        :class="[isRegisterAgreement ? 'agreement-radio-selected' : 'register-agreement-radio']"
-                    >
-                        <svg width="16" height="16" t="1535773287663" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2604" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <path d="M511.452 957.752c-246.502 0-447.037-200.535-447.037-447.027 0-246.497 200.535-447.037 447.037-447.037S958.49 264.228 958.49 510.725c0 246.492-200.535 447.027-447.038 447.027z m0-842.788c-218.224 0-395.766 177.542-395.766 395.766s177.542 395.75 395.766 395.75 395.766-177.525 395.766-395.75-177.541-395.766-395.766-395.766z" p-id="2605"></path>
-                            <path v-if="isRegisterAgreement" d="M438.477 684.841a25.605 25.605 0 0 1-18.125-7.516l-148.46-148.47a25.626 25.626 0 0 1 0-36.25 25.626 25.626 0 0 1 36.25 0l130.335 130.33 272.44-272.42a25.626 25.626 0 0 1 36.25 0 25.626 25.626 0 0 1 0 36.25L456.602 677.32a25.641 25.641 0 0 1-18.125 7.521z" p-id="2606"></path>
-                        </svg>
-                    </div>
-
-                    <div class="register-agreement-text">
-                        我已阅读并同意<span @click="isAgreementShow = true">《养车频道用户服务协议》</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 注册 -->
-            <div class="register-submit" @click="submitRegister">
-                <div class="register-submit-content">立即加入</div>
+    <!-- 协议 -->
+    <div class="register-agreement">
+        <div class="register-agreement-content flex-start-center" @click="jumpToRouter('/register/agreement')">
+            <div class="register-agreement-main flex-rest">《养车频道推广员注册协议》</div>
+            <div class="register-agreement-label flex-start-center" :class="[isRegisterAgreement ? 'agreement-radio-selected' : '']">
+                <svg width="16" height="16" t="1535773287663" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2604" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path d="M511.452 957.752c-246.502 0-447.037-200.535-447.037-447.027 0-246.497 200.535-447.037 447.037-447.037S958.49 264.228 958.49 510.725c0 246.492-200.535 447.027-447.038 447.027z m0-842.788c-218.224 0-395.766 177.542-395.766 395.766s177.542 395.75 395.766 395.75 395.766-177.525 395.766-395.75-177.541-395.766-395.766-395.766z" p-id="2605"></path>
+                    <path v-if="isRegisterAgreement" d="M438.477 684.841a25.605 25.605 0 0 1-18.125-7.516l-148.46-148.47a25.626 25.626 0 0 1 0-36.25 25.626 25.626 0 0 1 36.25 0l130.335 130.33 272.44-272.42a25.626 25.626 0 0 1 36.25 0 25.626 25.626 0 0 1 0 36.25L456.602 677.32a25.641 25.641 0 0 1-18.125 7.521z" p-id="2606"></path>
+                </svg>
+                <span>我已阅读并同意</span>
             </div>
         </div>
     </div>
@@ -101,41 +101,54 @@
         </div>
     </div>
 
-    <!-- SVG——背景图 -->
-    <div class="invite-input-bg" :style="`width: ${clientWidth}px; height: ${clientHeight}px;`">
-        <img :src="pictures.inviteBg" alt="inviteBg" :style="`width: ${clientWidth}px; height: ${clientHeight}px;`" />
+    <!-- 登录 -->
+    <div class="register-submit" @click="submitRegister">
+        <div class="register-submit-content">注册</div>
     </div>
+   
 </div>
 </template>
 
 <script>
-
+// 框架类
 import { MessageBox, Toast } from 'mint-ui';
-
-import inviteBg from "@/static/inviteBg.png";
+// 请求类
+import ajaxs from "@/api/login/register";
+// 组件类
 import loadPageVar from "@/utils/loadPageVar";
 import Consequencer from "@/utils/Consequencer";
-import ajaxs from "@/api/login/invite";
+// 静态资源类
+import register from "@/static/register.png";
 
 export default {
-    name: 'invite-input',
+    name: 'register-input',
 
     data () {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
-            
-            pictures: { // 页面使用的图片
-                inviteBg: inviteBg,
+
+            picture: {
+                register: register
             },
 
+            /**
+             * 注册时候, 用于判断一级代理还是二级代理
+             * 通过url传值获得
+             * 目前二级代理的情况下是可以拿到此参数
+             */
+            parentId: null,
+
             wx_code: '081ykH7t0bhN2d1417at00RJ7t0ykH7X', // 获取微信网页信息的 code
+
+            // 公司
+            company: '',
 
 			// 手机号码
             phoneNumber: '',
 
 			/**
-             * 短信验证码
+             * 人机验证码
              */
 			SMSNumber: '', // 短信验证码
 			isSMSGeting: false, // 是否 正在获取短信验证码
@@ -147,14 +160,6 @@ export default {
             machineNumber: '', // 人机验证码
             isMachineModalShow: false, // 是否显示人机验证码模态框
             machineNumberErrorMsg: '', // 人机验证码错误信息
-            
-            /**
-             * token
-             */
-            machineToken: '', // 获取人机验证码使用的 token
-            checkoutToken: '', // 获取 验证图片滑动距离 使用的 token
-            SMSToken: '', // 获取 短信验证码 使用的 token
-            loginToken: '', // 账号登录 使用的 token
 
             /**
              * 滑动拼图状态
@@ -169,6 +174,10 @@ export default {
             jigsawHeighty: 0, // 滑动拼图 滑块图 距离图片顶部的距离
             jigsawMovepx: 0, // 滑动验证码移动的距离
 			
+            /**
+             * 协议
+             */
+            isAgreement: false, // 是否同意协议
         }
     }, 
 
@@ -189,30 +198,21 @@ export default {
          * 从 store 获取数据 是否阅读并且同意
          */
         isRegisterAgreement: function isRegisterAgreement() {
-            return this.$store.getters["MulFunStorage/getInviteAgreement"]; // 获取 是否阅读并且同意
+            return this.$store.getters["MulFunStorage/getRegisterAgreement"]; // 获取 是否阅读并且同意
+        },
+    
+        /**
+         * 从 store 获取数据 注册页选中公司
+         */
+        selectRegisterCompany: function selectRegisterCompany() {
+            return this.$store.getters["MulFunStorage/getSelectRegisterCompany"]; // 获取 是否阅读并且同意
         },
     },
 
-    watch: {
-        /**
-         * 未发送请求短信验证的时候，不允许输入短信验证码
-         */
-        SMSNumber: function SMSNumber(newSMSNumber, oldSMSNumber) {
-			// 校验手机号码
-			if (this.verifyPhoneNumber().result !== 1) {
-                this.SMSNumber = '';
-                return Toast({ message: this.verifyPhoneNumber().message, duration: 1000 });
-            }
-            
-			// 校验短信验证码
-            if (this.loginToken === '') {
-                this.SMSNumber = '';
-                return Toast({ message: '请获取手机短信验证码', duration: 1000 });
-            }
-        }
-    },
-
     mounted: function () {
+        // 初始化 parentId
+        this.parentId = this.$route.params.parentId ? this.$route.params.parentId : null;
+
         // 判断是否存在微信 code
         if (loadPageVar('code')) {
             this.wx_code = loadPageVar('code');
@@ -245,7 +245,7 @@ export default {
                 _this.getMachinePicture(); // 获取人机验证码图片
                 _this.initSliderDrag(); // 初始化滑块拖动
             }
-            
+
             ajaxs.isLogin(this)
             .then(
                 res => {
@@ -295,6 +295,13 @@ export default {
             )
         },
 
+        /**
+         * 是否阅读并且同意 切换
+         */
+        RegisterAgreementSwitcher: function RegisterAgreementSwitcher() {
+            this.$store.commit('MulFunStorage/RegisterAgreementSwitcher'); // 初始化登录信息
+        },
+
 		/**
 		 * 获取人机验证码图片
 		 */
@@ -335,7 +342,7 @@ export default {
 		},
 
 		/**
-		 * 获取验证码
+		 * 获取手机验证码 （实际上是打开 人机验证码模态框）
 		 */
 		verifySMSHandle: function verifySMSHandle() {
           
@@ -569,16 +576,9 @@ export default {
 
         /**
          * 跳转到路由
-         * @param {object} query 携带的参数 非必填
          */
-        jumpToRouter: function jumpToRouter(url, query) {
-            let routerConfig = {
-                path: url,
-            }
-
-            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
-
-            this.$router.push(routerConfig);
+        jumpToRouter: function jumpToRouter(url) {
+            this.$router.push({path: url});
         },
     },
 }
@@ -591,108 +591,124 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
-// 框架部分
-@invite-input-content-z-index: 3;
-@invite-input-bg-z-index: 2;
-
 // 人机验证模态框
 @machine-verify-modal-z-index: 2;
 @machine-verify-shade-z-index: 2;
 @machine-verify-content-z-index: 3;
 
-.invite-input {
+.register {
     position: relative;
     font-size: 14px;
     width: 100%;
     min-height: 100%;
-    background: -webkit-linear-gradient(#FF5720, #FF6F46); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(#FF5720, #FF6F46); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(#FF5720, #FF6F46); /* Firefox 3.6 - 15 */
-    background: linear-gradient(#FF5720, #FF6F46); /* 标准的语法 */
+    background-color: #F1F1F1;
+}
 
-    // 内容区域
-    .invite-input-content {
-        position: relative;
-        padding-bottom: 35px;
-        z-index: @invite-input-content-z-index;
-    }
+.register-banner {
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
 
-    input {
-        border: none;
-        outline: none;
-        font-size: 14px;
-        color: @black1;
-        background-color: transparent;
-    }
-
-    input::-webkit-input-placeholder,
-    input::-moz-placeholder,   /* Mozilla Firefox 19+ */
-    input:-moz-placeholder,  /* Mozilla Firefox 4 to 18 */
-    input:-ms-input-placeholder { /* Internet Explorer 10-11 */ 
-        color: @black1;
+    img {
+        display: block;
+        width: 100%;
+        height: 100%;
     }
 }
 
-// 顶部标题区域
-.invite-input-content {
+// 选择公司
+.register-company {
+    padding-top: 5px;
+    line-height: 45px;
+    color: @black1;
 
-    .invite-input-title {
-        padding: 35px 15px 15px 15px;
-        font-size: 20px;
-        color: #fff;
+    // 框架部分
+    .register-company-content {
+        padding: 0px 15px;
+        height: 45px;
+        background: #fff;
+    }
+
+    .register-company-lable {
+        color: @black1;
+        width: 70px;
+    }
+}
+
+// 协议
+.register-agreement {
+    padding-top: 5px;
+
+    // 框架部分
+    .register-agreement-content {
+        padding: 0px 15px;
+        height: 45px;
+        background: #fff;
+
+        // 单选框
+        .agreement-radio-content {
+            position: relative;
+            top: 1px;
+            width: 15px;
+        }
+    }
+
+    // 协议文字
+    .register-agreement-main {
+        color: #469AFF;
+    }
+
+    .register-agreement-label {
+        svg {
+            position: relative;
+            top: 0.5px;
+        }
+
+        path {
+            fill: #469AFF;
+        }
+
         span {
-            color: #FFEA00;
+            color: @black2;
+            padding-left: 3.5px;
         }
-    }
-
-    .input-title-lable {
-        padding-bottom: 35px;
-        font-size: 16px;
-        color: #fff;
     }
 }
 
-// 内容区域
-.invite-input-main {
-    border-radius: 10px;
-    padding: 15px;
-    background: #fff;
+// 手机号码验证码
+.register-input {
+    padding-top: 5px;
+    font-size: 14px;
 
-    // 标题
-    .input-main-title {
-        padding-top: 10px;
-        color: @black3;
-    }
+    // 框架
+    .register-content {
+        background-color: #fff;
+        padding-left: 15px;
 
-    // 输入 圈圈
-    .input-main-border {
-        padding-top: 7.5px;
-        padding-bottom: 5px;
-
-        .main-border-content {
+        .register-input-item {
             height: 45px;
-            line-height: 45px;
-            width: 100%;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+
+            .input-item-lable {
+                color: @black1;
+                width: 70px;
+            }
         }
 
-        .border-content-padding {
-            padding-left: 15px;
-            height: 45px;
+        input {
+            width: 95%;
+            padding: 0px 2.5%;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: @black1;
+            background-color: transparent;
         }
-    }
 
-    // 注册
-    .register-submit {
-        padding: 15px 0px 15px 0px;
-
-        .register-submit-content {
-            line-height: 45px;
-            border-radius: 5px;
-            text-align: center;
-            color: #fff;
-            background: #FA3838;
+        input::-webkit-input-placeholder,
+        input::-moz-placeholder,   /* Mozilla Firefox 19+ */
+        input:-moz-placeholder,  /* Mozilla Firefox 4 to 18 */
+        input:-ms-input-placeholder { /* Internet Explorer 10-11 */ 
+            color: @black1;
         }
     }
 
@@ -718,42 +734,14 @@ export default {
             background: #F5F5F5;
         }
     }
-}
 
-// 协议
-.register-agreement {
-    .register-agreement-content {
-        height: 35px;
-
-        // 单选框
-        .agreement-radio-content {
-            position: relative;
-            top: 1px;
-            width: 15px;
-        }
-    }
-
-    // 单选框
-    .register-agreement-radio path {
-        fill: #FFA100;
-    }
-    
-    // 单选框选中
-    .agreement-radio-selected path {
-        fill: #E50012;
-    }
-
-    // 协议文本
-    .register-agreement-text {
-        font-size: 12px;
-        color: @black3;
-
-        span {
-            color: #FFA100;
-        }
+    // 横线
+    .register-input-line {
+        background-color: #ddd;
+        height: 1px;
+        width: 100%;
     }
 }
-
 
 // 人机验证模态框
 .machine-verify-modal {
@@ -949,12 +937,58 @@ export default {
     display: flex;
 }
 
-// SVG——背景图
-.invite-input-bg {
+// 注册按钮
+.register-submit {
+    padding: 15px;
+    
+    .register-submit-content {
+        height: 45px;
+        line-height: 45px;
+        font-size: 16px;
+        border-radius: 3px;
+        text-align: center;
+        color: #fff;
+        background-color: #E50012;
+    }
+}
+
+// 用户协议按钮
+.agreement-botton {
     position: fixed;
     left: 0px;
-    top: 0px;
-    z-index: @invite-input-bg-z-index;
+    bottom: 0px;
+    width: 100%;
+
+    .agreement-botton-content {
+        padding: 10px 15px;
+        text-align: center;
+        line-height: 45px;
+        font-size: 16px;
+        background: #fff;
+        border-top: 1px solid #ddd;
+    }
+
+    .agreement-botton-back {
+        padding-right: 7.5px;
+
+        div {
+            border-radius: 4px;
+            background: #fff;
+            color: @black1;
+            border: 1px solid #ddd;
+        }
+    }
+
+    .agreement-botton-approved {
+        padding-left: 7.5px;
+
+        div {
+            border-radius: 4px;
+            background: #E50012;
+            color: #fff;
+        }
+    }
 }
+
  
 </style>

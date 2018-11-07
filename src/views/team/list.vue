@@ -1,6 +1,7 @@
 <!-- 团队管理列表 -->
 <template>
 <div class="team-list">
+    
     <!-- banner栏目 -->
     <div class="team-list-banner flex-start-center">
         <div class="team-banner-block team-banner-left flex-rest flex-center">
@@ -82,6 +83,10 @@
         </div>
     </div>
 
+    <!-- 邀请按钮 -->
+    <div class="team-invite flex-center">
+        <div class="team-invite-container">邀请好友加入团队</div>
+    </div>
 </div>
 </template>
 
@@ -120,6 +125,9 @@ export default {
 @black2: #606266;
 @black3: #909399;
 @black4: #C0C4CC;
+
+// 邀请按钮
+@team-invite: 2;
 
 .team-list {
     position: relative;
@@ -200,6 +208,8 @@ export default {
 
 // 列表
 .team-list-main {
+    padding-bottom: 75px;
+
     .team-list-item {
         padding: 15px 15px 0px 15px;
     }
@@ -241,6 +251,29 @@ export default {
                 color: #E50012;
             }
         }
+    }
+}
+
+// 邀请按钮
+.team-invite {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 60px;
+    z-index: @team-invite;
+
+    .team-invite-container {
+        width: 240px;
+        line-height: 40px;
+        border-right: 40px;
+        border-radius: 40px;
+        text-align: center;
+        color: #fff;
+        background: -webkit-linear-gradient(135deg, rgba(255 ,95, 50, 1) 0%, rgba(229, 0, 18, 1) 100%); /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(135deg, rgba(255 ,95, 50, 1) 0%, rgba(229, 0, 18, 1) 100%); /* Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(135deg, rgba(255 ,95, 50, 1) 0%, rgba(229, 0, 18, 1) 100%); /* Firefox 3.6 - 15 */
+        background: linear-gradient(135deg, rgba(255 ,95, 50, 1) 0%, rgba(229, 0, 18, 1) 100%); /* 标准的语法 */
     }
 }
 

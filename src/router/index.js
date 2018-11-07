@@ -241,9 +241,9 @@ const routes = [
         component: () => import('@/views/team/list'),
         meta: { title: '团队管理' },
     }, {
-        path: '/team/income',
-        name: 'team-income',
-        component: () => import('@/views/team/income'),
+        path: '/team/member',
+        name: 'team-member',
+        component: () => import('@/views/team/member'),
         meta: { title: '团队管理' },
     }, {
         path: '/team/income',

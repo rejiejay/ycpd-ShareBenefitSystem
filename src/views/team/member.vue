@@ -1,64 +1,77 @@
 <!-- 成员详情 -->
 <template>
 <div class="team-member">
-    
-    <!-- 排序栏 -->
-    <div class="team-member-sort">
-        <div class="team-sort-container flex-start-center">
-            <div class="team-title-item" :class="{'team-item-selected' : sortChecked === 'time'}" @click="sortChecked = 'time';">
-                <div class="flex-start-center">
-                    <span>添加时间</span>
-                    <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
-                    <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
-                </div>
-            </div>
-            <div class="team-title-item flex-center" :class="{'team-item-selected' : sortChecked === 'effect'}" @click="sortChecked = 'effect';">
-                <div class="flex-start-center">
-                    <span>业绩</span>
-                    <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
-                    <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
-                </div>
-            </div>
-            <div class="team-title-item" :class="{'team-item-selected' : sortChecked === 'name'}" @click="sortChecked = 'name'">
-                <div class="flex-start-center">
-                <div class="flex-rest"></div>
-                    <span>姓名</span>
-                    <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
-                    <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 汇总 -->
-    <div class="team-member-total">
-        <div class="member-total-container flex-start-center">
-            <div class="flex-rest">汇总</div>
-            <div class="price">¥2800.00</div>
-        </div>
-    </div>
-    
-    <!-- 列表 -->
+
+    <!-- 手机号姓名 -->
     <div class="team-member-list">
-        <div class="team-member-item">
-            <div class="member-item-container flex-start-center">
-                <div class="member-item-left flex-rest">
-                    <div class="item-left-title flex-start">
-                        <div class="left-title-name">**辉</div>
-                        <div>130****5678</div>
-                    </div>
-
-                    <div class="item-left-describe flex-start">
-                        <div class="left-describe-name">叶良辰</div>
-                        <div>【优惠加油】¥400</div>
-                    </div>
-
-                    <div class="item-left-time">2018-11-7 11:40:01</div>
-
+        <div class="team-member-container">
+            <div class="team-member-item flex-start-center">
+                <div class="flex-rest">手机号</div>
+                <div class="item-phone-time" style="padding-right: 15px;">
+                    <div class="phone">189****3415</div>
+                    <div class="time">2018-10-10注册</div>
                 </div>
-                <div class="member-item-right">+0.6</div>
             </div>
-            <div class="member-item-line"></div>
+            <div class="team-member-line"></div>
+            <div class="team-member-item flex-start-center">
+                <div class="flex-rest">姓名</div>
+                
+                <div style="padding-right: 15px;">**辉 <span style="color: #909399;">(已认证)</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 成员与分成 -->
+    <div class="team-member-main">
+        <div class="member-main-container">
+            <div class="member-main-item flex-start-center">
+                <div class="item-member-share">成员分成 <span>70%</span></div>
+                <div class="item-member-share">团队分成 <span>30%</span></div>
+                <div class="item-operate flex-rest">修改</div>
+            </div>
+
+            <div class="team-member-line"></div>
+
+            <div class="member-main-item flex-start-center">
+                <div class="item-member-share">成员分成 <span>70%</span></div>
+                <div class="item-member-share">团队分成 <span>30%</span></div>
+                <div class="item-details flex-start-center flex-rest">
+                    <div class="flex-rest"></div>
+                    <div>详情</div>
+                    <svg width="10" height="10" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="团队管理" transform="translate(-625.000000, -217.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="奖励总计" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(625.000000, 89.000000)"><path d="M5.29289322,1.70710678 C4.90236893,1.31658249 4.90236893,0.683417511 5.29289322,0.292893219 C5.68341751,-0.0976310729 6.31658249,-0.0976310729 6.70710678,0.292893219 L14.7071068,8.29289322 C15.0976311,8.68341751 15.0976311,9.31658249 14.7071068,9.70710678 L6.70710678,17.7071068 C6.31658249,18.0976311 5.68341751,18.0976311 5.29289322,17.7071068 C4.90236893,17.3165825 4.90236893,16.6834175 5.29289322,16.2928932 L12.5857864,9 L5.29289322,1.70710678 Z" id="Path-2"></path></g></g></g></g></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置分成比例 -->
+    <div class="set-proportion-modal flex-center" v-if="isProportionModalShow">
+        <div class="proportion-modal-shade"></div>
+        <div class="proportion-modal-main" :style="`width: ${clientWidth - 60}px;`">
+            <div class="proportion-modal-container">
+
+                <div class="proportion-main-member flex-start-center">
+                    <div class="proportion-main-left">成员分成比例：</div>
+                    <div class="proportion-main-right">
+                        <input type="text" />
+                        <span>%</span>
+                    </div>
+                </div>
+
+                <div class="proportion-main-team flex-start-center">
+                    <div class="proportion-main-left">团队分成比例：</div>
+                    <div class="proportion-main-right">30%</div>
+                </div>
+
+                <div class="proportion-main-line"></div>
+
+                <div class="proportion-main-tip flex-center">仅对修改后产生的收益有效，修改前的收益不变</div>
+                
+                <div class="proportion-main-operate flex-start">
+                    <div class="main-operate-cancel">返回</div>
+                    <div class="main-operate-affirm flex-rest">确认</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -76,13 +89,7 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            /**
-             * 排序
-             * @param {string} time 时间
-             * @param {string} effect 绩效
-             * @param {string} name 姓名
-             */
-            sortChecked: 'time', // 排序栏 选中
+            isProportionModalShow: false,
         }
     },
 
@@ -100,116 +107,183 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
+// 设置分成比例 模态框
+@set-proportion-modal: 1;
+@set-proportion-shade: 1;
+@set-proportion-main: 2;
+
 .team-member {
     position: relative;
     font-size: 14px;
     width: 100%;
     height: 100%;
+    color: @black2;
     background-color: #f5f5f5;
 }
 
-// 排序栏
-.team-member-sort {
-    height: 40px;
-    background: #fff;
-
-    .team-sort-container {
-        padding: 0px 15px;
-        height: 40px;
-    }
-
-    .team-title-item {
-        width: 33.33%;
-        text-align: center;
-
-        svg {
-            padding-left: 5px;
-        }
-
-        .svg-active {
-            display: none;
-        }
-    }
-
-    .title-item-rigth {
-        text-align: right;
-    }
-
-    .team-item-selected {
-        color: #E50012;
-
-        .svg-active {
-            display: block;
-        }
-
-        .svg-disable {
-            display: none;
-        }
-    }
-}
-
-// 汇总
-.team-member-total {
+// 手机号姓名
+.team-member-list {
     padding-top: 5px;
 
-    .member-total-container {
-        padding: 0px 15px;
-        height: 45px;
-        border-bottom: 1px solid #ddd;
-        color: @black2;
+    .team-member-container {
+        padding-left: 15px;
         background: #fff;
+
+        .team-member-item {
+            min-height: 45px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
     }
 
-    .price {
-        font-size: 16px;
-        color: #E50012;
+    .item-phone-time {
+        .phone {
+            padding-bottom: 5px;
+            color: @black1;
+        }
+
+        .time {
+            color: @black3;
+            font-size: 12px;
+        }
+    }
+
+    .team-member-line {
+        height: 1px;
+        width: 100%;
+        background: #ddd;
     }
 }
 
-// 列表
-.team-member-list {
-    background: #fff;
-    padding-left: 15px;
+// 成员与分成
+.team-member-main {
+    color: @black2;
+    padding-top: 5px;
 
-    .team-member-item {
-        .member-item-container {
+    .member-main-container {
+        padding-left: 15px;
+        background: #fff;
+    }    
+
+    .member-main-item {
+        height: 45px;
+
+        .item-member-share {
+            width: 120px;
+            span {
+                padding-left: 15px;
+                color: #E50012;
+            }
+        }        
+
+        .item-operate {
             padding-right: 15px;
-            padding-top: 15px;
-            padding-bottom: 15px;
-            min-height: 45px;
+            text-align: right;
+            color: #469AFF;
+        }
 
-            .member-item-left {
-                color: @black2;
+        .item-details {
+            padding-right: 15px;
+            color: @black2;
+            svg {
+                padding-left: 2.5px;
+            }
+        }
+    }
 
-                .item-left-title {
-                    padding-bottom: 5px;
+    .team-member-line {
+        height: 1px;
+        width: 100%;
+        background: #ddd;
+    }
+}
 
-                    .left-title-name {
-                        color: @black1;
-                        font-weight: bold;
-                        padding-right: 15px;
-                    }
-                }
+// 设置分成比例
+.set-proportion-modal {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @set-proportion-modal;
 
-                .item-left-describe {
-                    padding-bottom: 5px;
+    .proportion-modal-shade {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.46);
+        z-index: @set-proportion-shade;
+    }
 
-                    .left-describe-name {
-                        padding-right: 15px;
-                    }
-                }
+    .proportion-modal-main {
+        position: relative;
+        background: #fff;
+        border-radius: 10px;
+        z-index: @set-proportion-main;
+
+        .proportion-modal-container {
+            padding: 30px;
+        }
+
+        .proportion-main-left {
+            padding-right: 10px;
+        }
+
+        .proportion-main-member {
+            padding-bottom: 10px;
+
+            input {
+                width: 65px;
+                height: 35px;
+                line-height: 35px;
+                font-size: 18px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                text-align: center;
+                outline: none;
             }
 
-            .member-item-right {
+            span {
+                padding-left: 5px;
                 font-size: 18px;
-                color: #E50012;
             }
         }
 
-        .member-item-line {
-            height: 1px;
-            width: 100%;
-            background: #ddd;
+        .proportion-main-team {
+            padding-bottom: 15px;
+        }
+
+        // 点点的虚线
+        .proportion-main-line {
+            border-top: 1px dotted #ddd;
+        }
+
+        .proportion-main-tip {
+            padding-top: 10px;
+            padding-bottom: 30px;
+            font-size: 12px;
+        }
+
+        .proportion-main-operate {
+            div {
+                text-align: center;
+                height: 40px;
+                line-height: 40px;
+                border-radius: 5px;
+            }
+
+            .main-operate-cancel {
+                border: 1px solid #ddd;
+                width: 100px;
+                margin-right: 15px;
+            }
+
+            .main-operate-affirm {
+                color: #fff;
+                background: #E50012;
+            }
         }
     }
 }

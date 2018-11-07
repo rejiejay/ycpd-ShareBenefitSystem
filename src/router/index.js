@@ -239,17 +239,17 @@ const routes = [
         path: '/team/list',
         name: 'team-list',
         component: () => import('@/views/team/list'),
-        meta: { title: '团队管理列表' },
+        meta: { title: '团队管理' },
     }, {
         path: '/team/income',
         name: 'team-income',
         component: () => import('@/views/team/income'),
-        meta: { title: '团队收入明细' },
+        meta: { title: '团队管理' },
     }, {
         path: '/team/income',
         name: 'team-income',
         component: () => import('@/views/team/income'),
-        meta: { title: '成员详情' },
+        meta: { title: '成员管理' },
     }, 
 ];
 

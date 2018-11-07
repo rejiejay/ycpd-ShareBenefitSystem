@@ -39,21 +39,21 @@
     <!-- 排序栏 -->
     <div class="user-award-sort">
         <div class="award-sort-container flex-start-center">
-            <div class="award-title-item" :class="{'award-item-selected' : sortChecked === 'time'}" @click="sortChecked = 'time'">
+            <div class="award-title-item" :class="{'award-item-selected' : sortChecked === 'time'}" @click="isSortModalShow = true; isActivityModalShow = false; isTimequantumModalShow = false;">
                 <div class="flex-start-center">
                     <span>排序</span>
                     <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
                     <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
                 </div>
             </div>
-            <div class="award-title-item flex-center" :class="{'award-item-selected' : sortChecked === 'type'}" @click="sortChecked = 'type'">
+            <div class="award-title-item flex-center" :class="{'award-item-selected' : sortChecked === 'type'}" @click="isSortModalShow = false; isActivityModalShow = true; isTimequantumModalShow = false;">
                 <div class="flex-start-center">
                     <span>活动类型</span>
                     <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
                     <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
                 </div>
             </div>
-            <div class="award-title-item" :class="{'award-item-selected' : sortChecked === 'status'}" @click="sortChecked = 'status'">
+            <div class="award-title-item" :class="{'award-item-selected' : sortChecked === 'status'}" @click="isSortModalShow = false; isActivityModalShow = false; isTimequantumModalShow = true;">
                 <div class="flex-start-center">
                 <div class="flex-rest"></div>
                     <span>入账状态</span>
@@ -65,7 +65,7 @@
     </div>
 
     <!-- 排序栏 下拉 —— 遮罩框 每个框都显示 -->
-    <div class="sort-modal-shade" v-if="isSortModalShow || isActivityModalShow || isTimequantumModalShow"></div>
+    <div class="sort-modal-shade" v-if="isSortModalShow || isActivityModalShow || isTimequantumModalShow" @click="isSortModalShow = false; isActivityModalShow = false; isTimequantumModalShow = false;"></div>
 
     <!-- 排序栏 下拉 —— 时间金额排序 -->
     <div class="award-sort-modal award-sort-time" v-if="isSortModalShow">
@@ -111,9 +111,9 @@
     <div class="award-sort-modal award-time-quantum" v-if="isTimequantumModalShow">
         <div class="time-quantum-container flex-center">
             <div class="time-quantum flex-start-center">
-                <div class="time-quantum-section">2018-03-20</div>
+                <div class="time-quantum-section" :class="{'time-quantum-selected': startTime}" @click="$refs.startTimepicker.open()">{{startTime ? startTime : '开始时间'}}</div>
                 <div class="time-quantum-interval">至</div>
-                <div class="time-quantum-section">2018-03-20</div>
+                <div class="time-quantum-section" :class="{'time-quantum-selected': endTime}" @click="$refs.endTimepicker.open()">{{endTime ? endTime : '结束时间'}}</div>
             </div>
         </div>
     </div>
@@ -122,6 +122,10 @@
     <div class="user-award-main">
         
         <div class="user-award-content">
+            <div class="user-award-total flex-start-center">
+                <div class="award-total-left flex-rest">奖励总计</div>
+                <div class="award-total-right">￥{{total}}</div>
+            </div>
 
             <!-- 列表项 -->
             <div class="user-award-list"
@@ -161,12 +165,44 @@
             <div class="tip-main-cancel" @click="isAwardTipShow = false">我知道了</div>
         </div>
     </div>
+
+    <!-- 时间段 排序下拉 开始时间 -->
+    <mt-datetime-picker
+        ref="startTimepicker"
+        type="date"
+        @confirm="handleStartTime"
+        :endDate="new Date()"
+        year-format="{value} 年"
+        month-format="{value} 月"
+        date-format="{value} 日"
+        v-model="startTimepicker"
+    ></mt-datetime-picker>
+
+    <!-- 时间段 排序下拉 结束时间 -->
+    <mt-datetime-picker
+        ref="endTimepicker"
+        type="date"
+        @confirm="handleEndTime"
+        :endDate="new Date()"
+        year-format="{value} 年"
+        month-format="{value} 月"
+        date-format="{value} 日"
+        v-model="endTimepicker"
+    ></mt-datetime-picker>
 </div>
 </template>
 
 <script>
 
+// 框架类
+import Vue from 'vue';
+import { DatetimePicker } from 'mint-ui';
+// 请求类
 import ajaxsAward from "@/api/common/award";
+// 自定义组件类
+import TimeConver from "@/utils/TimeConver";
+// 初始化类
+Vue.component('mt-datetime-picker', DatetimePicker);
 
 export default {
     name: 'user-award',
@@ -202,10 +238,15 @@ export default {
              * @param {string} status 入账状态
              */
             sortChecked: 'time', // 排序栏 选中
-
             isSortModalShow: false, // 是否显示 排序类型下拉
+            sortord: 0, // 排序方式 0按时间倒序; 1按时间正序; 默认0
             isActivityModalShow: false, // 是否显示 活动类型 排序下拉
-            isTimequantumModalShow: true, // 是否显示 时间段 排序下拉
+            type: 0, // 项目类型: 1优惠加油; 2建行无感支付; 3团队提成; 默认0
+            isTimequantumModalShow: false, // 是否显示 时间段 排序下拉
+            startTime: '', // 开始时间 (时间段 排序下拉)
+            startTimepicker: new Date(), // 开始时间 mint-ui 组件
+            endTime: '', // 结束时间 (时间段 排序下拉)
+            endTimepicker: new Date(), // 结束时间 mint-ui 组件
 
             awardList: [ // 我的奖励
                 // {
@@ -241,27 +282,38 @@ export default {
              * 晚点再做分页
              */
             this.isLoding = true;
-            ajaxsAward.findMyRewards(this.pageNo, this)
-            .then(
-                res => {
-                    if (res.length === 0) {
-                        _this.isNull = true;
-                    } else {
-                        _this.awardList = JSON.parse(JSON.stringify(_this.awardList)).concat(res.map(val => {
-                            return {
-                                name: val.userName, // 昵称
-                                sum: val.costMoney, // 加油金额
-                                sharing: val.obtainMoney, // 我的分成
-                                time: val.recordDate, // 时间
-                            }
-                        }));
-                    }
+            // ajaxsAward.findMyRewards(this.pageNo, this)
+            // .then(
+            //     res => {
+            //         if (res.length === 0) {
+            //             _this.isNull = true;
+            //         } else {
+            //             _this.awardList = JSON.parse(JSON.stringify(_this.awardList)).concat(res.map(val => {
+            //                 return {
+            //                     name: val.userName, // 昵称
+            //                     sum: val.costMoney, // 加油金额
+            //                     sharing: val.obtainMoney, // 我的分成
+            //                     time: val.recordDate, // 时间
+            //                 }
+            //             }));
+            //         }
 
-                    _this.isLoding = false;
-                }, error => {
-                    alert(error);
-                }
-            );
+            //         _this.isLoding = false;
+            //     }, error => {
+            //         alert(error);
+            //     }
+            // );
+            
+            // ajaxsAward.findMyRewardByConditions(this, this.pageNo)
+            // .then(
+            //     res => {
+            //         console.log(res)
+
+            //         _this.isLoding = false;
+            //     }, error => {
+            //         alert(error);
+            //     }
+            // );
         },
 
         /**
@@ -282,7 +334,21 @@ export default {
                 // 开始请求 并且 该请求 设置为 新增stores列表
 				this.getMyRewards();
 			}
-		},
+        },
+        
+        /**
+         * 时间段 排序下拉 开始时间 处理函数
+         */
+        handleStartTime: function handleStartTime() {
+            this.startTime = TimeConver.dateToFormat(this.startTimepicker);
+        },
+        
+        /**
+         * 时间段 排序下拉 结束时间 处理函数
+         */
+        handleEndTime: function handleEndTime() {
+            this.endTime = TimeConver.dateToFormat(this.endTimepicker);
+        },
 
         /**
          * 获取 - 已入账、未入账
@@ -440,9 +506,6 @@ export default {
     .sort-modal-list {
         padding-left: 15px;
 
-        .sort-modal-item {
-        }
-
         .modal-item-describe {
             line-height: 45px;
         }
@@ -471,6 +534,11 @@ export default {
         text-align: center;
         border-bottom: 1px solid #ddd;
     }
+
+    .time-quantum-selected {
+        color: #E50012;
+        border-bottom: 1px solid #E50012;
+    }
 }
 
 // 奖励列表页
@@ -480,6 +548,17 @@ export default {
 
     .user-award-content {
         background: #fff;
+    }
+
+    .user-award-total {
+        padding: 0px 15px;
+        line-height: 45px;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+
+        .award-total-right {
+            color: #E50012;
+        }
     }
 
     // 列表

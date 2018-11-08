@@ -45,7 +45,7 @@ export default {
      * @param {string} pageNo 页码,默认1
      * @param {string} pageSize 每页记录数,默认15
      */
-    findMyRewardByConditions: (self, pageNo, sortord, type, startTime, endTime, pageSize) => apibasics.post(`${config.url.origin}/ycpd/cas/client/findMyRewardByConditions?token=${window.localStorage.getItem('ycpd_token')}`, {
+    findMyRewardByConditions: (self, pageNo, sortord, type, startTime, endTime, pageSize) => apibasics.post(`${config.url.origin}/ycpd/cas/findMyRewardByConditions?token=${window.localStorage.getItem('ycpd_token')}`, {
         agentInfoId: window.localStorage.getItem('ycpd_agentInfoId'),
         sortord: sortord ? sortord : 0,
         type: type ? type : 0,

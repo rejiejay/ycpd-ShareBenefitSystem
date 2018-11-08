@@ -86,22 +86,22 @@
     <div class="award-sort-modal award-sort-activity" v-if="isActivityModalShow">
         <div class="sort-modal-list">
             
-            <div class="sort-modal-item">
+            <div class="sort-modal-item" @click="selectActivity(0)">
                 <div class="modal-item-describe">全部</div>
                 <div class="modal-item-line"></div>
             </div>
             
-            <div class="sort-modal-item">
+            <div class="sort-modal-item" @click="selectActivity(1)">
                 <div class="modal-item-describe">优惠加油分成</div>
                 <div class="modal-item-line"></div>
             </div>
             
-            <div class="sort-modal-item">
+            <div class="sort-modal-item" @click="selectActivity(1)">
                 <div class="modal-item-describe">建行无感支付佣金</div>
                 <div class="modal-item-line"></div>
             </div>
             
-            <div class="sort-modal-item">
+            <div class="sort-modal-item" @click="selectActivity(1)">
                 <div class="modal-item-describe">团队提成</div>
             </div>
         </div>
@@ -135,14 +135,14 @@
                 <div class="user-award-item">
                     <div class="award-item-row item-row-1 flex-start-center">
                         <div class="award-item-left flex-start-center flex-rest">
-                            <div class="item-left-1">这是昵称<!-- 优先显示昵称 如果没有昵称显示车牌 --></div>
-                            <div class="item-left-2">【优惠加油】¥200</div>
+                            <div class="item-left-1">{{item.userName}}<!-- 优先显示昵称 如果没有昵称显示车牌 --></div>
+                            <div class="item-left-2">【{{item.projectName}}】 ￥{{item.costMoney}}</div>
                         </div>
-                        <div class="award-item-right">+2.00</div>
+                        <div class="award-item-right">+{{item.obtainMoney}}</div>
                     </div>
 
                     <div class="award-item-row item-row-2 flex-start-center">
-                        <div class="award-item-left flex-rest">2018-09-10 18:08:22</div>
+                        <div class="award-item-left flex-rest">{{item.recordDate}}</div>
                         <div class="award-item-right" :class="{'is-enter-account': true}">{{true ? '已入账' : '待入账'}}</div>
                     </div>
                 </div>
@@ -228,8 +228,8 @@ export default {
              * 分页
              */
             pageNo: 1, // 当前页面
+            totalPageNum: 1, // 总页数
             isLoding: true, // 是否正在加载..
-            isNull: false, // 用于判断当前页面是否可以下拉
 
             /**
              * 排序
@@ -250,10 +250,11 @@ export default {
 
             awardList: [ // 我的奖励
                 // {
-                //     name: '昵称', // 昵称
-                //     sum: '300.00', // 加油金额
-                //     sharing: '3.00', // 我的分成
-                //     time: '2018-10-7', // 时间
+                //     costMoney: costMoney,
+                //     obtainMoney: obtainMoney,
+                //     projectName: projectName,
+                //     recordDate: recordDate,
+                //     userName: userName,
                 // },
             ],
         } 
@@ -261,7 +262,6 @@ export default {
 
 	mounted: function mounted() {
         this.getMyRewards(); // 获取 - 我的奖励
-        this.getRewardHeads(); // 获取 - 已入账、未入账
 
 		window.addEventListener('scroll', this.scrollBottom); // 添加滚动事件，检测滚动到页面底部
     },
@@ -274,46 +274,78 @@ export default {
         /**
          * 我的奖励
          */
-        getMyRewards: function getMyRewards() {
+        getMyRewards: function getMyRewards(isAdd, startTime, endTime) {
             const _this = this;
-
-            /**
-             * 暂时只查一页
-             * 晚点再做分页
-             */
-            this.isLoding = true;
-            // ajaxsAward.findMyRewards(this.pageNo, this)
-            // .then(
-            //     res => {
-            //         if (res.length === 0) {
-            //             _this.isNull = true;
-            //         } else {
-            //             _this.awardList = JSON.parse(JSON.stringify(_this.awardList)).concat(res.map(val => {
-            //                 return {
-            //                     name: val.userName, // 昵称
-            //                     sum: val.costMoney, // 加油金额
-            //                     sharing: val.obtainMoney, // 我的分成
-            //                     time: val.recordDate, // 时间
-            //                 }
-            //             }));
-            //         }
-
-            //         _this.isLoding = false;
-            //     }, error => {
-            //         alert(error);
-            //     }
-            // );
             
-            // ajaxsAward.findMyRewardByConditions(this, this.pageNo)
-            // .then(
-            //     res => {
-            //         console.log(res)
+            /**
+             * 服务器的数据转换，
+             * （为什么要转换？因为不信任服务器，防止因为改变而发生的报错）
+             */
+            let dateToList = data => data.map(val => ({
+                costMoney: val.costMoney,
+                obtainMoney: val.obtainMoney,
+                projectName: val.projectName,
+                recordDate: val.recordDate,
+                userName: val.userName,
+            }));
+            
+            this.isLoding = true;
+            ajaxsAward.findMyRewardByConditions(this, this.pageNo, this.sortord, this.type, startTime, endTime)
+            .then(
+                res => {
+                    _this.isLoding = false; // 这个是下拉加载，防止 重复加载的作用的
 
-            //         _this.isLoding = false;
-            //     }, error => {
-            //         alert(error);
-            //     }
-            // );
+                    _this.totalPageNum = res.totalPageNum; // 总页数
+                    _this.total = res.totalMoney; // 总金额
+
+                    // 如果数据不存在, 阻止继续执行
+                    if (res.rewardList && res.rewardList.length > 0) {
+                    } else {
+                        _this.awardList = [];
+                        return false;
+                    }
+
+                    // 判断是否新增
+                    if (isAdd) {
+                        _this.awardList = JSON.parse(JSON.stringify(_this.awardList)).concat(dateToList(res.rewardList));
+                    } else {
+                        _this.awardList = dateToList(res.rewardList);
+                    }
+                }, error => {
+                    alert(error);
+                }
+            );
+        },
+
+        /**
+         * 选择排序方式
+         * 0按时间倒序;(最新到最晚) 1按时间正序;
+         */
+        selectSort: function selectSort() {
+            // 暂时不用做，因为还差金额排序
+        },
+
+        /**
+         * 选择活动类型
+         * 1优惠加油; 2建行无感支付; 3团队提成;
+         */
+        selectActivity: function selectActivity(type) {
+            // 下拉加载相关
+            this.pageNo = 1;
+            this.isLoding = false;
+
+            // 排序相关
+            this.sortord = 0;
+            this.type = type;
+            this.sortChecked = 'type';
+
+            // 关闭所有模态框
+            this.isSortModalShow = false;
+            this.isActivityModalShow = false;
+            this.isTimequantumModalShow = false;
+
+            // 开始请求
+            this.getMyRewards();
         },
 
         /**
@@ -324,15 +356,13 @@ export default {
 			let screenHeight = window.screen.height; // 屏幕的高度
 			let clientHeight = document.getElementById('user-award').clientHeight; // 页面的总高度
 			let myScrollTop = document.documentElement.scrollTop || document.body.scrollTop; // 滚动的距离
-
 			if (
 				screenHeight + myScrollTop >= clientHeight - 50 && // (屏幕高度 + 滚动的距离) 必须 (大于整个页面的总高度 - 50像素的预留空间)
 				this.isLoding === false && // 并且页面不是请求状态
-				this.isNull === false // 是否有空值
+				this.pageNo < this.totalPageNum // 并且 目前的页码 必须小于 总页码
 			) {
                 this.pageNo = this.pageNo + 1; // 请求的页码 加一
-                // 开始请求 并且 该请求 设置为 新增stores列表
-				this.getMyRewards();
+				this.getMyRewards(true); // 开始请求 并且 该请求 设置为 新增列表
 			}
         },
         
@@ -340,35 +370,86 @@ export default {
          * 时间段 排序下拉 开始时间 处理函数
          */
         handleStartTime: function handleStartTime() {
-            this.startTime = TimeConver.dateToFormat(this.startTimepicker);
+            // 判断是否存在 结束时间 
+            if (this.endTime) {
+                // 判断 开始时间 是否小于 结束时间
+                if (this.startTimepicker.getTime() < this.endTimepicker.getTime()) {
+                    // 时间格式是正确的 
+                    this.startTime = TimeConver.dateToFormat(this.startTimepicker);
+                    // 并且则开始请求
+                    this.timeQuantumHandle();
+                } else {
+                    alert('开始时间必须小于结束时间');
+                }
+            } else {
+                this.startTime = TimeConver.dateToFormat(this.startTimepicker);
+            }
         },
         
         /**
          * 时间段 排序下拉 结束时间 处理函数
          */
         handleEndTime: function handleEndTime() {
-            this.endTime = TimeConver.dateToFormat(this.endTimepicker);
+            // 判断是否存在 开始时间
+            if (this.startTime) {
+                // 判断 结束时间 是否小于 开始时间
+                if (this.endTimepicker.getTime() > this.startTimepicker.getTime()) {
+                    // 时间格式是正确的 
+                    this.endTime = TimeConver.dateToFormat(this.endTimepicker);
+                    // 并且则开始请求
+                    this.timeQuantumHandle();
+                } else {
+                    alert('结束时间必须大于开始时间');
+                }
+
+            } else {
+                // 不存在就算了
+                this.endTime = TimeConver.dateToFormat(this.endTimepicker);
+            }
+
         },
 
         /**
-         * 获取 - 已入账、未入账
+         * 时间段 请求
          */
-    	getRewardHeads: function getRewardHeads() {
-            const _this = this;
+        timeQuantumHandle: function timeQuantumHandle() {
+            // 下拉加载相关
+            this.pageNo = 1;
+            this.isLoding = false;
 
-            ajaxsAward.findRewardHeads(this)
-            .then(
-                res => {
-                    if (res && res.income && res.uncome) {
-                        _this.total = res.total === '-' ? '0.00' : res.total; // 总金额
-                        _this.income = res.income === '-' ? '0.00' : res.income; // 已入账
-                        _this.uncome = res.uncome === '-' ? '0.00' : res.uncome; // 未入账
-                    }
-                }, error => {
-                    alert(error);
-                }
-            )
+            // 排序相关
+            this.sortord = 0;
+            this.type = 0;
+            this.sortChecked = 'status';
+
+            // 关闭所有模态框
+            this.isSortModalShow = false;
+            this.isActivityModalShow = false;
+            this.isTimequantumModalShow = false;
+
+            // 开始请求
+            this.getMyRewards(false, TimeConver.dateToYYYYmmDDhhMMss(this.startTimepicker), TimeConver.dateToYYYYmmDDhhMMss(this.startTimepicker));
         },
+
+        /**
+         * 获取 - 已入账、未入账 （已废弃）
+         */
+    	// getRewardHeads: function getRewardHeads() {
+        //     const _this = this;
+
+        //     ajaxsAward.findRewardHeads(this)
+        //     .then(
+        //         res => {
+        //             if (res && res.income && res.uncome) {
+        //                 _this.total = res.total === '-' ? '0.00' : res.total; // 总金额
+        //                 _this.income = res.income === '-' ? '0.00' : res.income; // 已入账
+        //                 _this.uncome = res.uncome === '-' ? '0.00' : res.uncome; // 未入账
+        //             }
+        //         }, error => {
+        //             alert(error);
+        //         }
+        //     )
+        // },
     }
 }
 

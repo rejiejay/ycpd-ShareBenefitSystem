@@ -145,7 +145,7 @@
     <!-- 底部Excel导入提交按钮 -->
     <div class="excel-submit">
         <div class="excel-submit-container flex-start">
-            <div class="excel-submit-left">
+            <div class="excel-submit-left" @click="jumpToRouter('/customer/addexcel', {pageStatus: 'before'})">
                 <div class="submit-left-container">Excel导入</div>
             </div>
             <div class="excel-submit-rigth flex-rest">立即添加</div>
@@ -155,6 +155,8 @@
 </template>
 
 <script>
+// 请求类
+import ajaxs from "@/api/customer/add-lot-excel.js";
 // 组件类
 import Consequencer from "@/utils/Consequencer";
 
@@ -224,9 +226,41 @@ export default {
         },
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        // 查看批量操作记录
+        this.getOperateRecords();
+    },
 
 	methods: {
+        /**
+         * 查看批量操作记录
+         * status 批量插入的状态：1：正在插入， 2：插入完成， 3:已经查看
+         */
+        getOperateRecords: function getOperateRecords() {
+            ajaxs.getOperateRecords(this)
+            .then(
+                res => {
+                    // 判断是否有正在插入的订单
+                    if (res && res.status !== 3) {
+                        // 如果有，则跳转到 正在上传的页面
+                        let keyvalpageStatus = {
+                            '1': 'process', // 正在导入
+                            '2': 'success', // 导入成功
+                        }
+                        
+                        this.$router.replace({
+                            path: `'/customer/addexcel'`, 
+                            query: {
+                                // status 批量插入的状态：1：正在插入， 2：插入完成， 3:已经查看
+                                pageStatus: keyvalpageStatus[res.status],
+                            }
+                        });
+                    }
+                }, error => {
+                }
+            );
+        },
+
         /**
          * 校验车牌号码
          */
@@ -307,6 +341,20 @@ export default {
                 customerName: '', // 客户姓名
                 phoneNumber: '', // 客户手机号
             })
+        },
+
+        /**
+         * 跳转到路由
+         * @param {object} query 携带的参数 非必填
+         */
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
         },
     }
 }

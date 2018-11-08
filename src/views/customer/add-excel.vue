@@ -3,7 +3,7 @@
 <div class="add-excel">
 
     <!-- 开始导入 -->
-    <div class="add-excel-before flex-center" v-if="pageStatus === 'before'">
+    <div class="add-excel-before flex-center" :style="`display: ${pageStatus === 'before' ? 'flex' : 'none'};`">
         <div class="excel-template-container flex-column-center">
             <!-- excel导入模板下载 -->
             <div class="excel-import-template">
@@ -12,7 +12,8 @@
 
             <!-- 数据导入 -->
             <div class="data-import-template">
-                <div class="data-import-container">数据导入</div>
+                <input type="file" name="file" ref="uploadFile" id="uploadFile" style="display: none;" />
+                <div class="data-import-container" @click="$refs.uploadFile.click()">数据导入</div>
             </div>
 
             <!-- 提示部分 -->
@@ -98,15 +99,40 @@ export default {
              * @param {string} success 导入成功
              * @param {string} failure 导入失败
              */
-            pageStatus: 'failure',
+            pageStatus: 'before',
 
             uploadPercentage: 70, // 上传百分比
         }
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.$route.query.pageStatus ? this.pageStatus = this.$route.query.pageStatus : null;
+
+        this.initUploadFile();
+    },
 
 	methods: {
+        /**
+         * 初始化 上传文件
+         */
+        initUploadFile: function initUploadFile() {
+            const _this = this;
+
+            this.$refs.uploadFile.onchange = event => {
+                let formData = new FormData();
+                formData.append("file", event.target.files[0].files);
+                // $.ajax({
+                //     url: "http://uploadUrl",
+                //     type: "POST",
+                //     data: formData,
+                //     processData: false,
+                //     contentType: false,
+                //     success: function(response){
+                //             // 根据返回结果指定界面操作
+                //     }
+                // });
+            };
+        },
     }
 }
 
@@ -124,6 +150,7 @@ export default {
 @add-excel-container-z-index: 4;
 
 .add-excel {
+    
     position: relative;
     font-size: 14px;
     width: 100%;

@@ -6,16 +6,16 @@
     <div class="team-list-banner flex-start-center">
         <div class="team-banner-block team-banner-left flex-rest flex-center">
             <div class="banner-block-container flex-column-center">
-                <div class="people">15</div>
+                <div class="people">{{teamMembers}}</div>
                 <div>团队成员(人)</div>
             </div>
         </div>
         <div class="team-banner-line"></div>
         <div class="team-banner-block team-banner-right flex-rest flex-center">
             <div class="banner-block-container flex-column-center">
-                <div class="money">¥2800.00</div>
-                <div class="flax-start-center">
-                    <diiv>团队提成收入</diiv>
+                <div class="money">¥{{teamIncome}}</div>
+                <div class="flex-start-center">
+                    <div>团队提成收入</div>
                     <svg width="10" height="10" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="团队管理" transform="translate(-625.000000, -217.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="奖励总计" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(625.000000, 89.000000)"><path d="M5.29289322,1.70710678 C4.90236893,1.31658249 4.90236893,0.683417511 5.29289322,0.292893219 C5.68341751,-0.0976310729 6.31658249,-0.0976310729 6.70710678,0.292893219 L14.7071068,8.29289322 C15.0976311,8.68341751 15.0976311,9.31658249 14.7071068,9.70710678 L6.70710678,17.7071068 C6.31658249,18.0976311 5.68341751,18.0976311 5.29289322,17.7071068 C4.90236893,17.3165825 4.90236893,16.6834175 5.29289322,16.2928932 L12.5857864,9 L5.29289322,1.70710678 Z" id="Path-2"></path></g></g></g></g></svg>
                 </div>
             </div>
@@ -91,6 +91,8 @@
 </template>
 
 <script>
+// 请求类
+import ajaxs from "@/api/team/list.js";
 // 组件类
 import Consequencer from "@/utils/Consequencer";
 
@@ -109,12 +111,45 @@ export default {
              * @param {string} name 姓名
              */
             sortChecked: 'time', // 排序栏 选中
+
+            teamMembers: '正在加载...', // 团队成员
+            teamIncome: '正在加载...', //团队提成收入
         }
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.getSubagentCount(); // 获取团队成员
+        this.getTeamIncome(); // 获取团队收入提成数总额
+    },
 
 	methods: {
+        /**
+         * 获取 - 团队成员
+         */
+        getSubagentCount: function getSubagentCount() {
+            const _this = this;
+
+            ajaxs.getSubagentCount(this)
+            .then(
+                res => {
+                    _this.teamMembers = res;
+                }, error => alert(error)
+            );
+        },
+
+        /**
+         * 获取 - 团队收入提成数总额
+         */
+        getTeamIncome: function getTeamIncome() {
+            const _this = this;
+
+            ajaxs.getTeamIncome(this)
+            .then(
+                res => {
+                    _this.teamIncome = res;
+                }, error => alert(error)
+            );
+        },
     }
 }
 

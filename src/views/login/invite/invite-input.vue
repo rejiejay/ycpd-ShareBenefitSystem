@@ -129,7 +129,8 @@ export default {
                 inviteBg: inviteBg,
             },
 
-            wx_code: '081ykH7t0bhN2d1417at00RJ7t0ykH7X', // 获取微信网页信息的 code
+            // 判断二维码 parentId是二级代理， 如果是二级代理就隐藏掉所属公司，
+            parentId: '',
 
 			// 手机号码
             phoneNumber: '',
@@ -215,18 +216,21 @@ export default {
     mounted: function () {
         // 判断是否存在微信 code
         if (loadPageVar('code')) {
-            this.wx_code = loadPageVar('code');
-            window.localStorage.setItem('wx_code', this.wx_code);
+            window.localStorage.setItem('wx_code', loadPageVar('code'));
 
         } else {
             
             // 判断是否本地开发环境
             if (window.location.hostname === 'localhost') {
-                this.wx_code = '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
                 window.localStorage.setItem('wx_code', '081ykH7t0bhN2d1417at00RJ7t0ykH7X');
             } else {
                 console.error('微信code为空');
             }
+        }
+
+        // 判断二维码parentId是二级代理，如果是二级代理就隐藏掉所属公司，
+        if (this.$route.query.parentId) {
+            this.parentId = this.$route.query.parentId;
         }
 
         this.isLogin(); // 判断是否登录

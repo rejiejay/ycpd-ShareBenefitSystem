@@ -7,9 +7,9 @@
         <div class="register-title-lable">立即加入</div>
         
         <div class="register-input-main" :style="`width: ${clientWidth - 60}px;`">
-            <!-- 所在公司 -->
-            <div class="input-main-title">所在公司</div>
-            <div class="input-main-border">
+            <!-- 所在公司  parentId 如果是二级代理就隐藏掉所属公司-->
+            <div class="input-main-title" v-if="!parentId">所在公司</div>
+            <div class="input-main-border" v-if="!parentId">
                 <div class="main-border-content">
                     <div class="border-content-padding flex-start-center">
                         <div class="register-company-select flex-rest"  @click="jumpToRouter('/register/company')">
@@ -151,7 +151,8 @@ export default {
             /**
              * 注册时候, 用于判断一级代理还是二级代理
              * 通过url传值获得
-             * 目前二级代理的情况下是可以拿到此参数
+             * 目前二级代理的情况下是可以拿到 parentId
+             * 如果是二级代理就隐藏掉所属公司
              */
             parentId: null,
 
@@ -227,7 +228,7 @@ export default {
 
     mounted: function () {
         // 初始化 parentId
-        this.parentId = this.$route.params.parentId ? this.$route.params.parentId : null;
+        this.parentId = this.$route.query.parentId ? this.$route.query.parentId : null;
 
         // 判断是否存在微信 code
         if (loadPageVar('code')) {

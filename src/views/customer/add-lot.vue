@@ -29,6 +29,7 @@
             </div>
         </div>
         <div class="tag-carno-line"><div class="carno-line-content"></div></div>
+        <div class="addlot-error-msg" v-if="customerItem.carNoError">{{customerItem.carNoError}}</div>
 
         <!-- 客户姓名 -->
         <div class="tag-carno-list flex-start-center">
@@ -46,6 +47,7 @@
                 <input placeholder="请输入手机号(选填)" v-model="customerItem.phoneNumber"/>
             </div>
         </div>
+        <div class="addlot-error-msg" v-if="customerItem.phoneNumberError">{{customerItem.phoneNumberError}}</div>
     </div>
 
     <!-- 车牌省份 键盘 -->
@@ -148,7 +150,7 @@
             <div class="excel-submit-left" @click="jumpToRouter('/customer/addexcel', {pageStatus: 'before'})">
                 <div class="submit-left-container">Excel导入</div>
             </div>
-            <div class="excel-submit-rigth flex-rest">立即添加</div>
+            <div class="excel-submit-rigth flex-rest" @click="submit">立即添加</div>
         </div>
     </div>
 </div>
@@ -185,9 +187,11 @@ export default {
                 {
                     carNoProvince: '粤', // 车牌省份
                     plateNo: '', // 车牌号码
+                    carNoError: '', // 车牌号 报错信息
                     isNewEnergy: false, // 是否新能源汽车牌
                     customerName: '', // 客户姓名
                     phoneNumber: '', // 客户手机号
+                    phoneNumberError: '', // 手机号 报错信息
                 },
             ],
 
@@ -249,39 +253,42 @@ export default {
                         }
                         
                         this.$router.replace({
-                            path: `'/customer/addexcel'`, 
+                            path: `/customer/addexcel`, 
                             query: {
-                                // status 批量插入的状态：1：正在插入， 2：插入完成， 3:已经查看
+                                // status 批量插入的状态： 1：正在插入，  2：插入完成，  3:已经查看
                                 pageStatus: keyvalpageStatus[res.status],
                             }
                         });
                     }
-                }, error => {
-                }
+                }, error => alert(error)
             );
         },
 
         /**
          * 校验车牌号码
+         * @param {object} customerItem 客户列表的一个项
          */
-        verifyPlateNo: function verifyPlateNo() {
+        verifyPlateNo: function verifyPlateNo(customerItem) {
+            // 判断 是否通过传值进来 如果 不是 则 使用 存储的下标进行判断
+            let myCustomerItem = customerItem ? customerItem : this.customerList[this.customerselected_index];
+
             // 判断车牌号码是否为空
-            if (this.customerList[this.customerselected_index].plateNo === '') {
+            if (myCustomerItem.plateNo === '') {
                 // 如果为空
                 return Consequencer.error('车牌号码不能为空!');
             }
 
             // 判断是否新能源
-            if (this.customerList[this.customerselected_index].isNewEnergy) {
+            if (myCustomerItem.isNewEnergy) {
                 // 新能源
-                if (this.customerList[this.customerselected_index].plateNo.length === 7) {
+                if (myCustomerItem.plateNo.length === 7) {
                     return Consequencer.success();
                 } else {
                     return Consequencer.error('车牌号码格式有误!');
                 }
             } else {
                 // 普通汽车 (非新能源)
-                if (this.customerList[this.customerselected_index].plateNo.length === 6) {
+                if (myCustomerItem.plateNo.length === 6) {
                     return Consequencer.success();
                 } else {
                     return Consequencer.error('车牌号码格式有误!');
@@ -337,10 +344,134 @@ export default {
             this.customerList.push({
                 carNoProvince: '粤', // 车牌省份
                 plateNo: '', // 车牌号码
+                carNoError: '', // 车牌号 报错信息
                 isNewEnergy: false, // 是否新能源汽车牌
                 customerName: '', // 客户姓名
                 phoneNumber: '', // 客户手机号
+                phoneNumberError: '', // 手机号 报错信息
             })
+        },
+
+        /**
+         * 确认添加
+         */
+        submit: function submit() {
+            const _this = this;
+            // 有误 用于判断是否可以提交
+            let errormsg = '';
+            // 要提交的数据
+            let submitArray = [];
+
+            /**
+             * 校验手机号码的方法
+             */
+            let verifyPhoneNumber = phoneNumber => {
+                if (/^(?=\d{11}$)^1(?:3\d|4[57]|5[^4\D]|66|7[^249\D]|8\d|9[89])\d{8}$/.test(this.phoneNumber) === false) { // 正则匹配表达式: https://github.com/VincentSit/ChinaMobilePhoneNumberRegex
+                    return Consequencer.error('请输入正确的手机号码格式');
+                }
+                
+                return Consequencer.success();
+            }
+
+            // 循环客户列表
+            this.customerList = this.customerList.map(val => {
+                // 首先判断有没有填写 车牌号， 否则一切都是白搭
+                // 车牌号为空的情况下， 以下的都不需要执行
+                if (val.plateNo === '') {
+                    // 因为用户有可能将数据删掉的情况, 所以错误信息顺带清空
+                    val.carNoError = '';
+                    val.phoneNumberError = '';
+                    return val;
+                }
+
+                // 校验车牌号码
+                let myVerifyPlateNo = _this.verifyPlateNo(val);
+                if (myVerifyPlateNo.result === 1) {
+                    // 车牌校验成功 
+                    val.carNoError = '';
+
+                    // 手机号也是需要校验一下
+                    // 先判断是否为空
+                    if (val.phoneNumber === '') {
+
+                        // 为空的情况下就不管了, 
+                        val.phoneNumberError = '';
+                        
+                        // 把数据推进去就行了（非必填）
+                        submitArray.push({
+                            carNo: `${val.carNoProvince}${val.plateNo}`,
+                            username: val.customerName,
+                            telphone: '',
+                        });
+                    } else {
+
+                        // 手机号不为空, 就必须校验一下
+                        let myVerifyPhoneNumber = verifyPhoneNumber(val.phoneNumber);
+                        if (myVerifyPhoneNumber.result === 1) {
+                            
+                            // 手机号格式正确， 
+                            val.phoneNumberError = '';
+
+                            // 把数据推进去
+                            submitArray.push({
+                                carNo: `${val.carNoProvince}${val.plateNo}`,
+                                username: val.customerName,
+                                telphone: val.phoneNumber,
+                            });
+                        } else {
+
+                            // 手机号格式不正确 (而且是在手机号已经填写的情况下)
+                            val.phoneNumberError = myVerifyPhoneNumber.message;
+                            errormsg = myVerifyPhoneNumber.message; // 设置错误信息, 阻止提交
+                        }
+                    }
+                } else {
+                    // 车牌号码 有误
+                    val.carNoError = myVerifyPlateNo.message;
+                    errormsg = myVerifyPlateNo.message; // 设置错误信息, 阻止提交
+                }
+
+                return val;
+            });
+
+            // 判断是否有错误信息
+            // 有错误信息是不能提交的
+            if (errormsg) {
+                return alert(errormsg);
+            }
+
+            // 没有错误信息, 但是要提交的数据为空
+            if (submitArray.length === 0) {
+                return alert('提交数据不能为空');
+            }
+
+            // 打印一下提交的数据吧， 这个真的是打印一下又无害
+            console.log(submitArray);
+            ajaxs.batchDynamicAdd(submitArray, this)
+            .then(
+                res => {
+                    /**
+                     * 1000	操作成功
+                     * 1001	参数不能为空
+                     * 1002	参数错误
+                     * 1005	批量添加客户流程还未走完
+                     */
+                    let keyValMsg = {
+                        '1001': '参数不能为空',
+                        '1002': '参数错误',
+                        '1005': '批量添加客户流程还未走完',
+                    }
+                    if (res.code === 1000) {
+                        _this.jumpToRouter('/customer/addexcel', {pageStatus: 'process'});
+                    } else {
+                        if (keyValMsg[res.code]) {
+                            alert(`${keyValMsg[res.code]}${res.msg}`);
+                        } else {
+                            alert(res.msg);
+                        }
+                    }
+                }, error => alert(error)
+            );
         },
 
         /**
@@ -405,6 +536,16 @@ export default {
                 outline: none;
             }
         }
+    }
+
+    // 错误提示信息
+    .addlot-error-msg {
+        padding-left: 15px;
+        padding-top: 7.5px;
+        padding-bottom: 10px;
+        font-size: 12px;
+        color: #fff;
+        background: #E50012;
     }
 
     // 横线

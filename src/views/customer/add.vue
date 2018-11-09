@@ -30,7 +30,7 @@
                     <div class="input-item-main flex-rest flex-start-center">
                         
                         <!-- 车牌省份 -->
-                        <div class="item-select-province flex-start-center" @click="isProvincesKeyboardShow = true">
+                        <div class="item-select-province flex-start-center" @click="isProvincesKeyboardShow = true; scrollToShowKeyboard();">
                             <span>{{carNoProvince}}</span>
                             <svg width="18" height="18" t="1530499422424" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1464" xmlns:xlink="http://www.w3.org/1999/xlink" >
                                 <path fill="#909399" d="M325.399273 235.124364L600.157091 488.727273 325.399273 742.353455a34.909091 34.909091 0 1 0 47.36 51.316363l302.545454-279.272727a34.909091 34.909091 0 0 0 0-51.316364l-302.545454-279.272727a34.909091 34.909091 0 1 0-47.36 51.316364" p-id="1465"></path>
@@ -38,7 +38,7 @@
                         </div>
                         
                         <!-- 车牌号码 -->
-                        <div class="input-item-lable flex-rest" @click="isPlateNoKeyboardShow = true">
+                        <div class="input-item-lable flex-rest" @click="isPlateNoKeyboardShow = true; scrollToShowKeyboard();">
                             <div class="item-lable-placeholder" v-if="plateNo === ''">请输入车牌号</div>
                             <div class="item-lable-plateNo" v-else>{{plateNo}}</div>
                         </div>
@@ -636,6 +636,13 @@ export default {
                 }
             )
         },
+
+        /**
+         * 弹出模态框的时候 需要调用一下滚动位置，因为有些手机的屏幕不行
+         */
+        scrollToShowKeyboard: function scrollToShowKeyboard() {
+            window.scrollTo(0, 150);
+        }
     }
 }
 
@@ -701,6 +708,7 @@ export default {
 // 车牌号整体框架
 .tag-car-no {
     padding-top: 10px;
+    padding-bottom: 290px;
 
     // 选择的照片
     .carno-photo-selected {
@@ -782,6 +790,7 @@ export default {
 // 车架号整体框架
 .tag-vin-no {
     padding-top: 10px;
+    padding-bottom: 290px;
 
     // 选择的照片
     .carvin-photo-selected {

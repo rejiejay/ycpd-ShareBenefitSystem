@@ -45,12 +45,12 @@
                 <svg width="40" height="40" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-Excel导入成功" transform="translate(-337.000000, -298.000000)"><g id="Group" transform="translate(337.000000, 298.000000)"><circle id="Oval-14" fill="#46A3FF" cx="40" cy="40" r="40"></circle><polygon id="Path-10" fill="#FFFFFF" points="22 40 36 54 62 28 60 26 36 47 24 38"></polygon></g></g></g></svg>
             </div>
             <div class="success-row1">批量添加成功</div>
-            <div class="success-row2">本次成功添加<span>6</span>个客户</div>
+            <div class="success-row2">本次成功添加<span>{{totalNum}}</span>个客户</div>
 
             <div class="success-submit flex-center">
                 <div class="success-submit-container flex-start">
-                    <div class="success-backtrack">返回</div>
-                    <div class="success-affirm">继续添加</div>
+                    <div class="success-backtrack" @click="setReaded">返回</div>
+                    <div class="success-affirm" @click="setReaded">继续添加</div>
                 </div>
             </div>
 
@@ -81,6 +81,8 @@
 </template>
 
 <script>
+// 请求类
+import ajaxs from "@/api/customer/add-lot-excel.js";
 // 组件类
 import Consequencer from "@/utils/Consequencer";
 
@@ -102,6 +104,10 @@ export default {
             pageStatus: 'before',
 
             uploadPercentage: 70, // 上传百分比
+
+            totalNum: 0, // 批量插入的成功数
+
+            isPollingUp: false, // 是否轮询完成
         }
     },
 
@@ -109,6 +115,16 @@ export default {
         this.$route.query.pageStatus ? this.pageStatus = this.$route.query.pageStatus : null;
 
         this.initUploadFile();
+
+        // 如果是正在导入
+        if (this.$route.query.pageStatus === 'process') {
+            this.pollingCheckStatus(); // 轮询查看 批量操作状态
+        }
+    },
+
+    destroyed: function () {
+        // 不管什么情况下， 只要页面销毁了， 轮询就结束了
+        this.isPollingUp = true;
     },
 
 	methods: {
@@ -132,6 +148,86 @@ export default {
                 //     }
                 // });
             };
+        },
+
+        /**
+         * 轮询查看 批量操作状态
+         * 批量插入的状态：1：正在插入，2：插入完成， 3:已经查看
+         */
+        pollingCheckStatus: function pollingCheckStatus() {
+            const _this = this;
+
+            /**
+             * 
+             */
+            let initUploadPercentage = data => {
+                _this.uploadPercentage = Math.floor(data.successNum / data.totalNum);
+
+                // 5秒钟轮询一次
+                setTimeout(() => {
+                    _this.pollingCheckStatus();
+                }, 5000);
+            }
+
+            // 只要轮询结束了，就不继续执行了
+            if (this.isPollingUp) {
+                return false
+            }
+
+            ajaxs.getOperateRecords(this)
+            .then(
+                res => {
+                    _this.totalNum = res.totalNum;
+
+                    if (res.status === 1) {
+                        initUploadPercentage(res);
+
+                    } else if (res.status === 2) {
+
+                        // 插入完成
+                        _this.isPollingUp = true;
+                        return _this.pageStatus = 'success';
+                    } else if (res.status === 3) {
+
+                        // 已经查看了，也调一下这个吧，虽然这种情况一下比较少
+                        _this.isPollingUp = true;
+                        return _this.pageStatus = 'success';
+                    }
+                    
+                }, error => {
+                    _this.isPollingUp = true;
+                    alert(error)
+                }
+            );
+        },
+
+        /**
+         * 修改批量操作记录为已读
+         */
+        setReaded: function pollingCheckStatus() {
+            const _this = this;
+
+            ajaxs.setReaded(this)
+            .then(
+                res => {
+                    _this.jumpToRouter('/customer/addlot');
+                }, error => alert(error)
+            );
+
+        },
+
+        /**
+         * 跳转到路由
+         * @param {object} query 携带的参数 非必填
+         */
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
         },
     }
 }

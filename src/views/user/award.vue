@@ -71,12 +71,12 @@
     <div class="award-sort-modal award-sort-time" v-if="isSortModalShow">
         <div class="sort-modal-list">
             
-            <div class="sort-modal-item">
+            <div class="sort-modal-item" @click="selectSort(0)">
                 <div class="modal-item-describe">按时间排序</div>
                 <div class="modal-item-line"></div>
             </div>
             
-            <div class="sort-modal-item">
+            <div class="sort-modal-item" @click="selectSort(1)">
                 <div class="modal-item-describe">按照金额排序</div>
             </div>
         </div>
@@ -319,10 +319,25 @@ export default {
 
         /**
          * 选择排序方式
-         * 0按时间倒序;(最新到最晚) 1按时间正序;
+         * 排序方式 0按时间倒序; 1按照金额; 默认0
          */
-        selectSort: function selectSort() {
-            // 暂时不用做，因为还差金额排序
+        selectSort: function selectSort(sortType) {
+            // 下拉加载相关
+            this.pageNo = 1;
+            this.isLoding = false;
+
+            // 排序相关
+            this.sortord = sortType;
+            this.type = 0;
+            this.sortChecked = 'time';
+
+            // 关闭所有模态框
+            this.isSortModalShow = false;
+            this.isActivityModalShow = false;
+            this.isTimequantumModalShow = false;
+
+            // 开始请求
+            this.getMyRewards();
         },
 
         /**

@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="team-banner-line"></div>
-        <div class="team-banner-block team-banner-right flex-rest flex-center">
+        <div class="team-banner-block team-banner-right flex-rest flex-center" @click="jumpToRouter('/team/income')">
             <div class="banner-block-container flex-column-center">
                 <div class="money">¥{{teamIncome}}</div>
                 <div class="flex-start-center">
@@ -499,6 +499,20 @@ export default {
                     console.error(error);
                 }
             )
+        },
+
+        /**
+         * 跳转到路由
+         * @param {object} query 携带的参数 非必填
+         */
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
         },
     }
 }

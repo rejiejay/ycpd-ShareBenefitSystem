@@ -6,7 +6,7 @@
     <div class="add-excel-before flex-center" :style="`display: ${pageStatus === 'before' ? 'flex' : 'none'};`">
         <div class="excel-template-container flex-column-center">
             <!-- excel导入模板下载 -->
-            <div class="excel-import-template">
+            <div class="excel-import-template" @click="downloadExcel">
                 <div class="excel-import-container">Excel导入模板下载</div>
             </div>
 
@@ -85,6 +85,8 @@
 import ajaxs from "@/api/customer/add-lot-excel.js";
 // 组件类
 import Consequencer from "@/utils/Consequencer";
+// 配置文件类
+import config from "@/config/index";
 
 export default {
     name: 'add-excel',
@@ -136,17 +138,15 @@ export default {
 
             this.$refs.uploadFile.onchange = event => {
                 let formData = new FormData();
-                formData.append("file", event.target.files[0].files);
-                // $.ajax({
-                //     url: "http://uploadUrl",
-                //     type: "POST",
-                //     data: formData,
-                //     processData: false,
-                //     contentType: false,
-                //     success: function(response){
-                //             // 根据返回结果指定界面操作
-                //     }
-                // });
+                formData.append("file", event.target.files[0]);
+
+                ajaxs.batchExcelAdd(formData)
+                .then(
+                    res => {
+                        _this.pageStatus = 'process';
+                        _this.pollingCheckStatus(); // 轮询查看 批量操作状态
+                    }, error => alert(error)
+                );
             };
         },
 
@@ -214,6 +214,13 @@ export default {
                 }, error => alert(error)
             );
 
+        },
+
+        /**
+         * 下载 excel 模板
+         */
+        downloadExcel: function downloadExcel() {
+            window.location.href = ajaxs.downloadTemplate;
         },
 
         /**

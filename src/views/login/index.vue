@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="login-agreement-text">
-                    我已阅读并同意<span @click="isAgreementShow = true">《养车频道用户服务协议》</span>
+                    我已阅读并同意<span @click="isAgreementShow = true">《金车管家用户服务协议》</span>
                 </div>
             </div>
         </div>
@@ -499,7 +499,7 @@ export default {
             
             // 是否同意协议
             if (this.isAgreement === false) {
-				return alert('请先同意养车频道用户协议');
+				return alert('请先同意金车管家用户协议');
             } 
 
             ajaxs.goLogin(this.loginToken, this.phoneNumber, this.SMSNumber, this)

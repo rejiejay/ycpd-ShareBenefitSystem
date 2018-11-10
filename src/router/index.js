@@ -32,12 +32,12 @@ const routes = [
                 alias: ['/'],
                 name: 'register-input',
                 component: () => import('@/views/login/register/register-input'),
-                meta: { title: '养车频道推广员注册' },
+                meta: { title: '金车管家推广员注册' },
             }, {
                 path: 'agreement',
                 name: 'register-agreement',
                 component: () => import('@/views/login/register/register-agreement'),
-                meta: { title: '养车频道推广员注册' },
+                meta: { title: '金车管家推广员注册' },
             }, {
                 path: 'company',
                 name: 'register-company',

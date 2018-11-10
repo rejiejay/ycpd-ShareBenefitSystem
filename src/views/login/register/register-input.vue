@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="register-agreement-text">
-                        我已阅读并同意<span @click="isAgreementShow = true">《养车频道用户服务协议》</span>
+                        我已阅读并同意<span @click="isAgreementShow = true">《金车管家用户服务协议》</span>
                     </div>
                 </div>
             </div>
@@ -524,7 +524,7 @@ export default {
 
             // 是否同意协议
             if (this.isRegisterAgreement === false) {
-				return alert('请同意《养车频道推广员注册协议》');
+				return alert('请同意《金车管家推广员注册协议》');
             }
 
             ajaxs.registerByWx(this.loginToken, this.phoneNumber, this.SMSNumber, this.selectRegisterCompany, this.parentId, this)

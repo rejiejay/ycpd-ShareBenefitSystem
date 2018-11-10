@@ -189,6 +189,8 @@
         </div>
     </div>
 
+    <div style="height: 75px;"></div>
+
     <!-- 底部 Tabbar -->
     <Tabbar selectTabbar='home'/>
 </div>
@@ -280,7 +282,7 @@ export default {
          * 跳转到 优惠加油
          */ 
         jumpToGasStation: function jumpToGasStation() {
-            window.location.href = config.jumpwx(`${config.location.ycpd}#/redirect/gasstation`);
+            window.location.href = config.jumpwx(`${config.location.ycpd}#/redirect/gasstation`, config.wxappid.ycpd);
         },
 
         /**

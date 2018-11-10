@@ -120,7 +120,7 @@
 
     <!-- 奖励列表页 -->
     <div class="user-award-main">
-        
+
         <div class="user-award-content">
             <div class="user-award-total flex-start-center">
                 <div class="award-total-left flex-rest">奖励总计</div>
@@ -312,6 +312,7 @@ export default {
                         _this.awardList = dateToList(res.rewardList);
                     }
                 }, error => {
+                    _this.isLoding = false; // 这个是下拉加载，防止 重复加载的作用的
                     alert(error);
                 }
             );

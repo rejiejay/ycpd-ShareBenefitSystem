@@ -67,12 +67,7 @@ const routes = [
         name: 'invite-succeed',
         component: () => import('@/views/login/invite/succeed'),
         meta: { title: '加入车挖挖' },
-    }, {
-        path: '/redirect',
-        name: 'redirect',
-        component: () => import('@/views/login/redirect'),
-        meta: { title: '车挖挖' },
-    }, 
+    },
 
     /**
      * 个人中心
@@ -223,14 +218,24 @@ const routes = [
     }, 
 
     /**
-     * 找不到页面
+     * 重定向页面
      */
     {
         path: '/404',
         name: 'notfound404',
-        component: () => import('@/views/login/notfound404'),
+        component: () => import('@/views/redirect/notfound404'),
         meta: { title: '服务正在升级' },
-    },
+    }, {
+        path: '/redirect',
+        name: 'redirect',
+        component: () => import('@/views/redirect/redirect'),
+        meta: { title: '车挖挖' },
+    },  {
+        path: '/redirect/register',
+        name: 'redirect-register',
+        component: () => import('@/views/redirect/register'),
+        meta: { title: '车挖挖' },
+    }, 
 
     /**
      * 团队管理

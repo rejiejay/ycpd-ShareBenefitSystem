@@ -1,7 +1,8 @@
 // 测试环境配置
 module.exports = {
-    wx: {
-        appid: 'wxa21f56d22d9482b1', // appid
+    wxappid: {
+        my: 'wxa21f56d22d9482b1',  // 本项目的 appid （HConnect技术中心公众号）
+        ycpd: 'wxa21f56d22d9482b1', // 养车频道（HConnect技术中心公众号）
     },
 
     location: {
@@ -12,19 +13,4 @@ module.exports = {
     url: {
         origin: 'http://scas.api2.hotgz.com', // 请求源
     },
-
-    /**
-     * 跳转到微信 url 地址复用的方法
-     * @param {string} redirect_uri 需要加密的URL
-     */
-    jumpwx: function jumpwx(redirect_uri) {
-        return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.wx.appid}&redirect_uri=${window.encodeURIComponent(redirect_uri)}&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect`
-    },
-
-    /**
-     * 跳转到养车频道公众号的方法
-     */
-    jumpwxycpd: function jumpwxycpd() {
-        return this.jumpwx(this.location.ycpd);
-    }
 };

@@ -229,7 +229,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- 二维码分享 -->
     <div class="activity-share-QRcode flex-center" v-if="isShareModalShow">
         <div class="share-QRcode-shade" @click="isShareModalShow = false"></div>

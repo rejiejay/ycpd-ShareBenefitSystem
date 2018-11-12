@@ -267,7 +267,7 @@ export default {
             if (this.userInfoStore.parentId) {
 
                 // 如果存在parentId，则判断是不是 === 1
-                if (this.userInfoStore.parentId === 1) {
+                if (parseInt(this.userInfoStore.parentId) === 1) {
                     // 肯定是一级代理
                     return true;
                 } else {

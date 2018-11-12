@@ -37,7 +37,7 @@
             <div class="price">¥2800.00</div>
         </div>
     </div>
-    
+
     <!-- 列表 -->
     <div class="team-income-list">
         <div class="team-income-item"

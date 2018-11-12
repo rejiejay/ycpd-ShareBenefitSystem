@@ -54,6 +54,7 @@
         <div class="team-list-item"
             v-for="(item, key) in teamList" 
             :key="key"
+            @click="jumpToRouter('/team/member', item.data)"
         >
             <div class="team-item-container">
 
@@ -325,6 +326,7 @@ export default {
                 let memberDivided = val.proportion ? (val.proportion * 100) : 50;
 
                 return {
+                    data: val,
                     agentInfoId: val.agentInfoId,
                     joinTime: joinTime,
                     memberDivided: memberDivided, // 成员分成

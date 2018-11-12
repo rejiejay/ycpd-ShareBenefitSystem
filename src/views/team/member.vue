@@ -8,15 +8,16 @@
             <div class="team-member-item flex-start-center">
                 <div class="flex-rest">手机号</div>
                 <div class="item-phone-time" style="padding-right: 15px;">
-                    <div class="phone">189****3415</div>
-                    <div class="time">2018-10-10注册</div>
+                    <div class="phone">{{telephone}}</div>
+                    <div class="time">{{joinTime}}注册</div>
                 </div>
             </div>
             <div class="team-member-line"></div>
             <div class="team-member-item flex-start-center">
                 <div class="flex-rest">姓名</div>
                 
-                <div style="padding-right: 15px;">**辉 <span style="color: #909399;">(已认证)</span></div>
+                <div style="padding-right: 15px;" v-if="agentName">{{agentName}} <span style="color: #909399;">(已认证)</span></div>
+                <div style="padding-right: 15px;" v-else>未认证</div>
             </div>
         </div>
     </div>
@@ -25,16 +26,16 @@
     <div class="team-member-main">
         <div class="member-main-container">
             <div class="member-main-item flex-start-center">
-                <div class="item-member-share">成员分成 <span>70%</span></div>
-                <div class="item-member-share">团队分成 <span>30%</span></div>
-                <div class="item-operate flex-rest">修改</div>
+                <div class="item-member-share">成员分成 <span>{{memberDivided}}%</span></div>
+                <div class="item-member-share">团队分成 <span>{{100 - memberDivided}}%</span></div>
+                <div class="item-operate flex-rest" @click="isProportionModalShow = true;">修改</div>
             </div>
 
             <div class="team-member-line"></div>
 
             <div class="member-main-item flex-start-center">
-                <div class="item-member-share">成员分成 <span>70%</span></div>
-                <div class="item-member-share">团队分成 <span>30%</span></div>
+                <div class="item-member-share">成员分成 <span>{{sincome}}</span></div>
+                <div class="item-member-share">团队分成 <span>{{pincome}}</span></div>
                 <div class="item-details flex-start-center flex-rest">
                     <div class="flex-rest"></div>
                     <div>详情</div>
@@ -46,21 +47,21 @@
 
     <!-- 设置分成比例 -->
     <div class="set-proportion-modal flex-center" v-if="isProportionModalShow">
-        <div class="proportion-modal-shade"></div>
+        <div class="proportion-modal-shade" @click="isProportionModalShow = false;"></div>
         <div class="proportion-modal-main" :style="`width: ${clientWidth - 60}px;`">
             <div class="proportion-modal-container">
 
                 <div class="proportion-main-member flex-start-center">
                     <div class="proportion-main-left">成员分成比例：</div>
                     <div class="proportion-main-right">
-                        <input type="text" />
+                        <input type="text" v-model="memberDividedModifier" />
                         <span>%</span>
                     </div>
                 </div>
 
                 <div class="proportion-main-team flex-start-center">
                     <div class="proportion-main-left">团队分成比例：</div>
-                    <div class="proportion-main-right">30%</div>
+                    <div class="proportion-main-right">{{100 - memberDividedModifier}}%</div>
                 </div>
 
                 <div class="proportion-main-line"></div>
@@ -68,8 +69,8 @@
                 <div class="proportion-main-tip flex-center">仅对修改后产生的收益有效，修改前的收益不变</div>
                 
                 <div class="proportion-main-operate flex-start">
-                    <div class="main-operate-cancel">返回</div>
-                    <div class="main-operate-affirm flex-rest">确认</div>
+                    <div class="main-operate-cancel" @click="isProportionModalShow = false;">返回</div>
+                    <div class="main-operate-affirm flex-rest" @click="modifyMemberDivided">确认</div>
                 </div>
             </div>
         </div>
@@ -78,6 +79,8 @@
 </template>
 
 <script>
+// 请求类
+import ajaxs from "@/api/team/member.js";
 // 组件类
 import Consequencer from "@/utils/Consequencer";
 
@@ -89,13 +92,94 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            isProportionModalShow: false,
+            isProportionModalShow: false, // 设置分成的模态框
+
+            telephone: '', // 手机电话
+            joinTime: '', // 注册日期
+
+            agentName: '', // 真实姓名
+
+            /**
+             * 成员分成 百分比
+             */
+            memberDivided: 50,
+
+            memberDividedModifier: 0, // 设置 成员分成 百分比
+            
+            sincome: '', // 成员收入
+            pincome: '', // 团队收入
         }
     },
 
-	mounted: function mounted() { },
+    watch: {
+        // 团队分成比例
+        memberDividedModifier: function (newMemberDividedModifier, oldMemberDividedModifier) {
+            // 判断 newMemberDividedModifier 是否在1~100的范围内
+            if (newMemberDividedModifier <= 100 && newMemberDividedModifier >= 0 ) {
+                this.memberDividedModifier = parseInt(newMemberDividedModifier);
+            } else {
+                alert('请输入正确团队分成比例，范围区间1~100.');
+                this.memberDividedModifier = 0;
+            }
+        },
+    },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            let ycpd_userInfo = window.localStorage.getItem('ycpd_userInfo');
+
+            return ycpd_userInfo ? JSON.parse(ycpd_userInfo) : this.$store.getters["userInfo/getAgentInfo"]; // 因为数据刷新页面会失效, 所以优先使用 window.localStorage
+        },
+    },
+
+	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据
+    },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    initPageData: function initPageData() {
+            let query = this.$route.query;
+
+            this.telephone = query.telephone; // 手机
+            /**
+             * 注册 时间转换
+             * 2018-11-9 15:52:39 => 2018-11-9
+             */
+            if (query.joinTime) {
+                this.joinTime = query.joinTime.split(' ')[0];
+            }
+
+            this.agentName = query.agentName; // 手机
+
+            /**
+             * 成员分成 百分比
+             */
+            this.memberDivided = query.proportion ? (query.proportion * 100) : 50;
+
+            this.sincome = query.sincome; // 成员收入
+            this.pincome = query.pincome; // 团队收入
+        },
+
+        /**
+         * 修改分成比例
+         */
+        modifyMemberDivided: function modifyMemberDivided() {
+            const _this = this;
+
+            ajaxs.modifyRatio(this, this.$route.query.agentInfoId, (parseInt(this.memberDividedModifier) / 100))
+            .then(
+                res => {
+                    _this.memberDivided = _this.memberDividedModifier; // 将设置成功的比例赋值进去
+                    _this.isProportionModalShow = false; // 隐藏 设置分成的模态框
+                }, error => alert(error)
+            );
+        },
     }
 }
 

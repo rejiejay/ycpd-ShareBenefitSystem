@@ -96,12 +96,12 @@
                 <div class="modal-item-line"></div>
             </div>
             
-            <div class="sort-modal-item" @click="selectActivity(1)">
+            <div class="sort-modal-item" @click="selectActivity(2)">
                 <div class="modal-item-describe">建行无感支付佣金</div>
                 <div class="modal-item-line"></div>
             </div>
             
-            <div class="sort-modal-item" @click="selectActivity(1)">
+            <div class="sort-modal-item" @click="selectActivity(3)">
                 <div class="modal-item-describe">团队提成</div>
             </div>
         </div>
@@ -135,7 +135,7 @@
                 <div class="user-award-item">
                     <div class="award-item-row item-row-1 flex-start-center">
                         <div class="award-item-left flex-start-center flex-rest">
-                            <div class="item-left-1">{{item.userName}}<!-- 优先显示昵称 如果没有昵称显示车牌 --></div>
+                            <div class="item-left-1">{{item.userName}}<!-- (优先显示昵称 如果没有昵称显示车牌)这个后台已经帮我处理了 --></div>
                             <div class="item-left-2">【{{item.projectName}}】 ￥{{item.costMoney}}</div>
                         </div>
                         <div class="award-item-right">+{{item.obtainMoney}}</div>

@@ -10,7 +10,8 @@
             </div>
         </div>
         <div class="team-banner-line"></div>
-        <div class="team-banner-block team-banner-right flex-rest flex-center" @click="jumpToRouter('/team/income')">
+        
+        <div class="team-banner-block team-banner-right flex-rest flex-center" @click="jumpToRouter('/team/income', {IsTeam: true})"><!-- 表示从团队进来 -->
             <div class="banner-block-container flex-column-center">
                 <div class="money">¥{{teamIncome}}</div>
                 <div class="flex-start-center">

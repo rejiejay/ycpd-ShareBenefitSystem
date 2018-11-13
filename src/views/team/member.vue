@@ -28,7 +28,7 @@
             <div class="member-main-item flex-start-center">
                 <div class="item-member-share">成员分成 <span>{{memberDivided}}%</span></div>
                 <div class="item-member-share">团队分成 <span>{{100 - memberDivided}}%</span></div>
-                <div class="item-operate flex-rest" @click="isProportionModalShow = true;">修改</div>
+                <div class="item-operate flex-rest" @click="isProportionModalShow = true; memberDividedModifier = memberDivided;">修改</div>
             </div>
 
             <div class="team-member-line"></div>
@@ -38,7 +38,7 @@
                 <div class="item-member-share">团队分成 <span>{{pincome}}</span></div>
                 <div class="item-details flex-start-center flex-rest">
                     <div class="flex-rest"></div>
-                    <div>详情</div>
+                    <div @click="jumpToRouter('/team/income', {subagentId: subagentId})"><!-- subagentId 是 子代理Id 就是管理员的 agentInfoId --> 详情</div>
                     <svg width="10" height="10" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="团队管理" transform="translate(-625.000000, -217.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="奖励总计" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(625.000000, 89.000000)"><path d="M5.29289322,1.70710678 C4.90236893,1.31658249 4.90236893,0.683417511 5.29289322,0.292893219 C5.68341751,-0.0976310729 6.31658249,-0.0976310729 6.70710678,0.292893219 L14.7071068,8.29289322 C15.0976311,8.68341751 15.0976311,9.31658249 14.7071068,9.70710678 L6.70710678,17.7071068 C6.31658249,18.0976311 5.68341751,18.0976311 5.29289322,17.7071068 C4.90236893,17.3165825 4.90236893,16.6834175 5.29289322,16.2928932 L12.5857864,9 L5.29289322,1.70710678 Z" id="Path-2"></path></g></g></g></g></svg>
                 </div>
             </div>
@@ -91,6 +91,14 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            /**
+             * 这个是 getMyRewards 获取奖励要用到的 subagentId
+             * 也就是 子代理Id 
+             * 管理员的 agentInfoId
+             * 接口是这样的，记着就好
+             */
+            subagentId: window.localStorage.getItem('ycpd_agentInfoId'),
 
             isProportionModalShow: false, // 设置分成的模态框
 
@@ -179,6 +187,20 @@ export default {
                     _this.isProportionModalShow = false; // 隐藏 设置分成的模态框
                 }, error => alert(error)
             );
+        },
+
+        /**
+         * 跳转到路由
+         * @param {object} query 携带的参数 非必填
+         */
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
         },
     }
 }

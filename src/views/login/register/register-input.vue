@@ -150,13 +150,16 @@ export default {
 
             /**
              * 注册时候, 用于判断一级代理还是二级代理
-             * 通过url传值获得
+             * 通过url传值获得（扫描二维码也是同理）
              * 目前二级代理的情况下是可以拿到 parentId
              * 如果是二级代理就隐藏掉所属公司
              */
             parentId: null,
 
-            wx_code: '081ykH7t0bhN2d1417at00RJ7t0ykH7X', // 获取微信网页信息的 code
+            /**
+             * 获取微信网页信息的 code
+             */
+            wx_code: '', 
 
             // 公司
             company: '',
@@ -170,7 +173,7 @@ export default {
 			SMSNumber: '', // 短信验证码
 			isSMSGeting: false, // 是否 正在获取短信验证码
             reGetCount: 60, // 再次获取 倒计时60秒
-            
+
 			/**
              * 人机验证码
              */

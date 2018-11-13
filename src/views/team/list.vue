@@ -323,8 +323,9 @@ export default {
 
                 /**
                  * 成员分成
+                 * 成员默认是 80% 的分成， 团队是 20% 的分成
                  */
-                let memberDivided = val.proportion ? (val.proportion * 100) : 50;
+                let memberDivided = val.proportion ? (val.proportion * 100) : 80;
 
                 return {
                     data: val,

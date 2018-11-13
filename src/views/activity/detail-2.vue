@@ -182,7 +182,13 @@ export default {
             ajaxs.getActivityDetail(this.$route.query.projectId, this)
             .then(
                 res => {
-                    _this.divid = res.proportion * res.baseCount;
+                    /**
+                     * 分成比例
+                     * 分成比例的计算是 先判断是不是 null 
+                     * 如果是null 就显示10元， 因为这就是一级的代理
+                     * 如果不是 null 是二级代理，根据 分成比例计算就行
+                     */
+                    _this.divid = res.proportion ? `${(res.proportion * res.baseCount)}` : '10';
                 }, error => {
                     alert(error);
                 }

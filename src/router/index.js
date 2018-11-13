@@ -66,7 +66,7 @@ const routes = [
         path: '/invite/succeed',
         name: 'invite-succeed',
         component: () => import('@/views/login/invite-succeed'),
-        meta: { title: '加入金车管家' },
+        meta: { title: '注册成功' },
     },
 
     /**

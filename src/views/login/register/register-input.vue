@@ -54,7 +54,7 @@
 
             <!-- 协议 -->
             <div class="register-agreement">
-                <div class="register-agreement-content flex-start-center" @click="jumpToRouter('/invite/agreement')">
+                <div class="register-agreement-content flex-start-center" @click="jumpToRouter('/register/agreement')">
                     <div class="agreement-radio-content flex-center" 
                         :class="[isRegisterAgreement ? 'agreement-radio-selected' : 'register-agreement-radio']"
                     >
@@ -64,9 +64,7 @@
                         </svg>
                     </div>
 
-                    <div class="register-agreement-text">
-                        我已阅读并同意<span @click="isAgreementShow = true">《金车管家用户服务协议》</span>
-                    </div>
+                    <div class="register-agreement-text">我已阅读并同意<span>《金车管家用户服务协议》</span></div>
                 </div>
             </div>
 
@@ -504,11 +502,6 @@ export default {
 		 */
 		submitRegister: function submitRegister() {
             const _this = this;
-
-			// 校验是否选择公司
-            if (this.selectRegisterCompany === '') {
-				return alert('请选择公司');
-            }
           
 			// 校验手机号码
 			if (this.verifyPhoneNumber().result !== 1) {
@@ -602,9 +595,16 @@ export default {
 
         /**
          * 跳转到路由
+         * @param {object} query 携带的参数 非必填
          */
-        jumpToRouter: function jumpToRouter(url) {
-            this.$router.push({path: url});
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
         },
     },
 }
@@ -622,9 +622,9 @@ export default {
 @register-input-bg-z-index: 2;
 
 // 人机验证模态框
-@machine-verify-modal-z-index: 2;
-@machine-verify-shade-z-index: 2;
-@machine-verify-content-z-index: 3;
+@machine-verify-modal-z-index: 4;
+@machine-verify-shade-z-index: 4;
+@machine-verify-content-z-index: 5;
 
 .register {
     position: relative;

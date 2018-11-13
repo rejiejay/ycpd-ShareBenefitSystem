@@ -112,9 +112,10 @@ export default {
 
                         /**
                          * 渲染标签信息
+                         * 后台设置的lable 标签 + 分成比例的计算
                          */
                         if (res[0].label) {
-                            _this.activityList[0].award = res[0].label;
+                            _this.activityList[0].award = `${res[0].label} ${res[0].proportion ? `${(parseInt(res[0].proportion) * 100)}%` : ''}`;
                         }
                         // if (res[0].category === 1) {
                         //     // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）
@@ -150,9 +151,10 @@ export default {
 
                         /**
                          * 渲染标签信息
+                         * 后台设置的lable 标签 + 分成比例的计算
                          */
                         if (res[1].label) {
-                            _this.activityList[1].award = res[1].label;
+                            _this.activityList[1].award = `${res[1].label} ${(res[1].proportion && res[1].baseCount) ? `${(parseInt(res[1].proportion) * parseInt(res[1].baseCount))}` : ''}`;
                         }
                         // if (res[1].category === 1) {
                         //     // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）

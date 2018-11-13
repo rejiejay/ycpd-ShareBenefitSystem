@@ -540,8 +540,14 @@ export default {
                         window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
                         window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
                         _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo);
-                        _this.$router.replace({ path: '/' });
 
+                        // 判断有没有关注微信公众号 如果关注了直接跳转到首页
+                        if (res.focus === '1') {
+                            _this.$router.replace({ path: '/' });
+                        } else {
+                            // 其他情况 -> 未关注 跳转到 关注公众号的页面
+                            _this.$router.replace({ path: '/invite/succeed' });
+                        }
                     } else if (res.code === 1001) {
                         Toast({
                             message: '非法请求',

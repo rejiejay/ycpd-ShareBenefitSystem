@@ -8,6 +8,7 @@ module.exports = {
     common: {
         picture: {
             wx_sharer: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/wx-sharer.png', // 微信分享图片
+            WeChat_public_qrcode: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/wechat-public-qrcode.png', // 金车管家 微信公众 二维码
         },
     },
 

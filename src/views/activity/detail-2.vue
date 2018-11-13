@@ -26,10 +26,10 @@
                 <div class="activity-rules-main">
                     <div class="rules-main-title">活动要求</div>
                     <div class="rules-main-row">活动期间，推荐好友绑定归属地为深圳的建行卡开通无感功能。</div>
-                    <div class="rules-main-row" style="color: #E50012;">好友可获得建行指定停车场2次：“低于10元(含)仅需1元”或“高于10元立减10元”优惠</div>
+                    <div class="rules-main-row" style="color: #E50012;">好友可获得建行指定停车场2次：“低于{{divid}}元(含)仅需1元”或“高于{{divid}}元立减{{divid}}元”优惠</div>
 
                     <div class="rules-main-title">活动奖励</div>
-                    <div class="rules-main-row">每推荐成功1人，即可获得10元佣金。</div>
+                    <div class="rules-main-row">每推荐成功1人，即可获得{{divid}}元佣金。</div>
                     <div class="rules-main-row">奖励名额有限，先到先得，送完即时通知。</div>
 
                     <div class="rules-main-title">活动时间</div>
@@ -110,9 +110,8 @@
 
 // 框架类
 import { Toast } from 'mint-ui';
-// import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
 // 请求类
-import ajaxsAward from "@/api/common/award";
+import ajaxs from "@/api/activity/detail";
 // 资源类
 import activity002content001 from "@/static/activity002content001.png";
 import activity002content002 from "@/static/activity002content002.png";
@@ -133,6 +132,13 @@ export default {
             },
 
             navigation_index: 0, // 顶部导航的下标
+
+            /**
+             * 分成佣金
+             * 一级代理是 10元
+             * 二级代理 是根据 分成比例  乘以基础佣金
+             */
+            divid: 10,
         } 
     },
     
@@ -155,6 +161,8 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据
+
 		window.addEventListener('scroll', this.scrollNavigation); // 添加滚动事件，检测滚动的距离
     },
 
@@ -164,6 +172,23 @@ export default {
 
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+        initPageData: function initPageData() {
+            const _this = this;
+
+            // 获取 - 活动详情 根据id
+            ajaxs.getActivityDetail(this.$route.query.projectId, this)
+            .then(
+                res => {
+                    _this.divid = res.proportion * res.baseCount;
+                }, error => {
+                    alert(error);
+                }
+            );
+        },
+
         /**
          * 添加滚动事件，检测滚动的距离
          */

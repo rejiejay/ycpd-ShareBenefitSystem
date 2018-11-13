@@ -262,13 +262,14 @@
 
 // 框架类
 import { Toast } from 'mint-ui';
+// 配置文件累
+import config from "@/config/index";
 // 请求类
 import initJSSDK from "@/components/initJSSDK";
 import ajaxs from "@/api/activity/detail";
 import ajaxsAward from "@/api/common/award";
 import getBase64ByImageName from "@/api/common/getBase64ByImageName";
 // 组件类
-import config from "@/config/index";
 import shareGuidance from "@/components/shareGuidance";
 import PortraitPhoto from "@/components/PortraitPhoto";
 // 静态资源类
@@ -366,7 +367,7 @@ export default {
             .then(
                 res => {
                     _this.proportion = res.proportion;
-                    _this.time = `${res.startTime} 至 ${res.endTime}`
+                    _this.time = `${res.startTime.split(' ')[0]} 至 ${res.endTime.split(' ')[0]}`
                 }, error => {
                     alert(error);
                 }
@@ -437,7 +438,7 @@ export default {
                         return {
                             name: val.userName, // 昵称
                             sum: val.costMoney, // 加油金额
-                            sharing: val.obtainMoney.toFixed(2), // 我的分成
+                            sharing: val.obtainMoney, // 我的分成
                             time: val.recordDate, // 时间
                         }
                     });

@@ -12,7 +12,7 @@ const routes = [
         alias: ['/', '/home'],
         name: 'home',
         component: () => import('@/views/home'),
-        meta: { title: '车挖挖' },
+        meta: { title: '金车管家' },
     }, 
 
     /**
@@ -22,7 +22,7 @@ const routes = [
         path: '/login',
         name: 'login',
         component: () => import('@/views/login/index'),
-        meta: { title: '车挖挖' },
+        meta: { title: '金车管家' },
     }, {
         path: '/register',
         component: () => import('@/views/login/register/index'),
@@ -54,19 +54,19 @@ const routes = [
                 alias: ['/'],
                 name: 'invite-input',
                 component: () => import('@/views/login/invite/invite-input'),
-                meta: { title: '加入车挖挖' },
+                meta: { title: '加入金车管家' },
             }, {
                 path: 'agreement',
                 name: 'invite-agreement',
                 component: () => import('@/views/login/invite/invite-agreement'),
-                meta: { title: '加入车挖挖' },
+                meta: { title: '加入金车管家' },
             },
         ],
     }, {
         path: '/invite/succeed',
         name: 'invite-succeed',
-        component: () => import('@/views/login/invite/succeed'),
-        meta: { title: '加入车挖挖' },
+        component: () => import('@/views/login/invite-succeed'),
+        meta: { title: '加入金车管家' },
     },
 
     /**
@@ -229,12 +229,12 @@ const routes = [
         path: '/redirect',
         name: 'redirect',
         component: () => import('@/views/redirect/redirect'),
-        meta: { title: '车挖挖' },
+        meta: { title: '金车管家' },
     },  {
         path: '/redirect/register',
         name: 'redirect-register',
         component: () => import('@/views/redirect/register'),
-        meta: { title: '车挖挖' },
+        meta: { title: '金车管家' },
     }, 
 
     /**
@@ -254,6 +254,14 @@ const routes = [
         path: '/team/member',
         name: 'team-member',
         component: () => import('@/views/team/member'),
+        meta: { title: '成员管理' },
+    },
+    
+    
+    {
+        path: '/test',
+        name: 'test',
+        component: () => import('@/views/test'),
         meta: { title: '成员管理' },
     }, 
 ];

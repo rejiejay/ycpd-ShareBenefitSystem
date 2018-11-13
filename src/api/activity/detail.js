@@ -12,7 +12,7 @@ export default {
     //     "msg": "success",
     //     "data": 12
     // });
-    getActivityDetail: (projectId, self) => apibasics.get(`${config.url.origin}/ycpd/cas/project/getProject?projectId=${projectId}&token=${window.localStorage.getItem('ycpd_token')}`, '活动详情', self),
+    getActivityDetail: (projectId, self) => apibasics.get(`${config.url.origin}/ycpd/cas/project/getProject?projectId=${projectId}&token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`, '活动详情', self),
 
     /**
      * 获取 - 代理的活动专属二维码名称

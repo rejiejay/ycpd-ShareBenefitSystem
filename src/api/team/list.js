@@ -18,7 +18,7 @@ export default {
      * @param {string} flag 排序条件，默认为1 1：加入时间，2：业绩，3：姓名
      * @param {string} pageSize 页码 10
      */
-    getTeamDetail: (self, pageSize, flag) => apibasics.get(`${config.url.origin}/ycpd/cas/getTeamDetail?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}&flag=${flag ? flag : 1}&pageSize=${pageSize ? pageSize : 1}`, '团队管理页面列表', self),
+    getTeamDetail: (self, pageSize, flag) => apibasics.resget(`${config.url.origin}/ycpd/cas/getTeamDetail?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}&flag=${flag ? flag : 1}&pageSize=${pageSize ? pageSize : 1}`, '团队管理页面列表', self),
 
     /**
      * 获取 - 团队二维码

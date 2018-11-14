@@ -4,14 +4,16 @@
     <div class="carNo-input-des">车&nbsp;牌&nbsp;号:</div>
 
     <div class="carNo-input-main flex-rest"><!-- rest 将选择 挤到最右边 -->
-        <div class="carNo-input-container carNo-small-car flex-center">
+        <div class="carNo-input-container flex-center"
+            :class="`carNo-${carTypeList[carType_index].key}-car`"
+        >
             <div class="carNo-container-border flex-start-center"><!-- 框框圆圈部分 -->
 
                 <!-- 车牌省份 -->
                 <div class="carNo-main-province flex-start-center" @click="isProvincesKeyboardShow = true;">
                     <span>{{carNoProvince}}</span>
                     <svg width="18" height="18" t="1542074144888" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1837" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <path fill="#fff" d="M746.133905 372.497672a20.406035 20.406035 0 0 0-14.34361 5.864815L528.761003 577.653575c-9.104388 8.936471-23.895436 8.913946-32.971155-0.050171L294.101845 378.405491c-8.047739-7.948422-21.013199-7.866511-28.959573 0.180203-7.947398 8.045691-7.866511 21.011151 0.17918 28.958549l201.688003 199.197914c12.115635 11.966148 28.164014 18.569184 45.19225 18.595805h0.102389c16.990353 0 33.019278-6.551842 45.147199-18.456557l203.028269-199.293135c8.071288-7.921801 8.192106-20.887261 0.269282-28.957525a20.418321 20.418321 0 0 0-14.614939-6.133073z" p-id="1838"></path>
+                        <path d="M746.133905 372.497672a20.406035 20.406035 0 0 0-14.34361 5.864815L528.761003 577.653575c-9.104388 8.936471-23.895436 8.913946-32.971155-0.050171L294.101845 378.405491c-8.047739-7.948422-21.013199-7.866511-28.959573 0.180203-7.947398 8.045691-7.866511 21.011151 0.17918 28.958549l201.688003 199.197914c12.115635 11.966148 28.164014 18.569184 45.19225 18.595805h0.102389c16.990353 0 33.019278-6.551842 45.147199-18.456557l203.028269-199.293135c8.071288-7.921801 8.192106-20.887261 0.269282-28.957525a20.418321 20.418321 0 0 0-14.614939-6.133073z" p-id="1838"></path>
                     </svg>
                 </div>
 
@@ -20,6 +22,7 @@
                     :class="{'carNo-plate-isNull': plateNo === ''}"
                     @click="isPlatesKeyboardShow = true;"
                 >{{plateNo === '' ? "点击输入" : plateNo}}</div>
+                <div class="carNo-main-addtion" v-if="renderPlateNoAddition">{{renderPlateNoAddition}}</div>
             </div>
         </div>
     </div>
@@ -163,12 +166,12 @@ export default {
             isProvincesKeyboardShow: false, // 车牌省份 模态框（键盘）
             provincesList: [ ["京", "沪", "浙", "苏", "粤", "鲁", "晋", "冀"],  ["豫", "川", "渝", "辽", "吉", "黑", "皖", "鄂"],  ["津", "贵", "云", "桂", "琼", "青", "新", "藏"],  ["蒙", "宁", "甘", "陕", "闽", "赣", "湘"] ], // 车牌省 键盘值
             plateNo: 'B1', // 车牌号码
-            isPlatesKeyboardShow: true, // 车牌号 模态框（键盘）
+            isPlatesKeyboardShow: false, // 车牌号 模态框（键盘）
 
             /**
              * 车型
              */
-            carType_index: 0, // 选中的车型下标
+            carType_index: 5, // 选中的车型下标
             carTypeSheetVisible: false,
             carTypeList: [
                 // 小型车 小轿车 普通的车
@@ -218,6 +221,30 @@ export default {
     },
 
     computed: {
+        /**
+         * 渲染车牌附加信息
+         * 例如 (小车 大车 新能源 教练 警察 香港 澳门)
+         */
+        renderPlateNoAddition: function renderPlateNoAddition() {
+            if (this.carType_index === 3) {
+                return '学'
+            }
+
+            if (this.carType_index === 4) {
+                return '警'
+            }
+
+            if (this.carType_index === 5) {
+                return '港'
+            }
+
+            if (this.carType_index === 6) {
+                return '澳'
+            }
+
+            return false
+        },
+
         /**
          * 车牌省份 键盘的宽度
          */
@@ -379,13 +406,8 @@ export default {
                 height: 34px;
                 width: 164px;
                 border-radius: 4px;
-                border: 1px solid #fff;
+                // border: 1px solid #fff;
             }
-        }
-
-        // 小轿车 （小型车）
-        .carNo-small-car {
-            background-color: #5594FF;
         }
 
         // 车牌省份
@@ -413,11 +435,182 @@ export default {
             letter-spacing: 2.5px;
         }
 
+        // 车牌附加信息 例如 (小车 大车 新能源 教练 警察 香港 澳门)
+        .carNo-main-addtion {
+            padding-right: 7.5px;
+        }
+
         // 为空的时候 显示的颜色不一样 车牌主要内容部分
         .carNo-plate-isNull {
             font-size: 14px;
             letter-spacing: 0;
             color: rgba(255, 255, 255, 0.46);
+        }
+
+        // 小型车 小轿车 普通的车
+        .carNo-normalCar-car {
+            background-color: #5594FF;
+
+            .carNo-container-border {
+                border: 1px solid #fff;
+            }
+
+            .carNo-main-province { // 车牌省份
+                color: #fff;
+
+                svg {
+                    fill: #fff;
+                }
+            }
+        
+            .carNo-main-plate { // 车牌主要内容部分
+                color: #fff;
+            }
+
+            .carNo-plate-isNull { // 为空的时候 显示的颜色不一样 车牌主要内容部分
+                color: rgba(255, 255, 255, 0.46);
+            }
+        }
+
+        // 大车
+        .carNo-autotruck-car {
+            background-color: #FFDA00;
+
+            .carNo-container-border {
+                border: 1px solid #000;
+            }
+
+            .carNo-main-province { // 车牌省份
+                color: #000;
+
+                svg {
+                    fill: #000;
+                }
+            }
+        
+            .carNo-main-plate { // 车牌主要内容部分
+                color: #000;
+            }
+
+            .carNo-plate-isNull { // 为空的时候 显示的颜色不一样 车牌主要内容部分
+                color: rgba(0, 0, 0, 0.64);
+            }
+        }
+
+        // 新能源
+        .carNo-newEnergy-car {
+            background-color: #00D145;
+
+            .carNo-container-border {
+                border: 1px solid #fff;
+            }
+
+            .carNo-main-province { // 车牌省份
+                color: #fff;
+
+                svg {
+                    fill: #fff;
+                }
+            }
+        
+            .carNo-main-plate { // 车牌主要内容部分
+                color: #fff;
+            }
+
+            .carNo-plate-isNull { // 为空的时候 显示的颜色不一样 车牌主要内容部分
+                color: rgba(255, 255, 255, 0.64);
+            }
+        }
+
+        // 教练
+        .carNo-coachCar-car {
+            background-color: #FFDA00;
+
+            .carNo-container-border {
+                border: 1px solid #000;
+            }
+
+            .carNo-main-province { // 车牌省份
+                color: #000;
+
+                svg {
+                    fill: #000;
+                }
+            }
+        
+            .carNo-main-plate { // 车牌主要内容部分
+                color: #000;
+            }
+
+            .carNo-plate-isNull { // 为空的时候 显示的颜色不一样 车牌主要内容部分
+                color: rgba(0, 0, 0, 0.64);
+            }
+
+            // 车牌附加信息 例如 (小车 大车 新能源 教练 警察 香港 澳门)
+            .carNo-main-addtion {
+                color: #000;
+            }
+        }
+
+        // 警
+        .carNo-policeCar-car {
+            background-color: #fff;
+
+            .carNo-container-border {
+                border: 1px solid #000;
+            }
+
+            .carNo-main-province { // 车牌省份
+                color: #000;
+
+                svg {
+                    fill: #000;
+                }
+            }
+        
+            .carNo-main-plate { // 车牌主要内容部分
+                color: #000;
+            }
+
+            .carNo-plate-isNull { // 为空的时候 显示的颜色不一样 车牌主要内容部分
+                color: rgba(0, 0, 0, 0.64);
+            }
+
+            // 车牌附加信息 例如 (小车 大车 新能源 教练 警察 香港 澳门)
+            .carNo-main-addtion {
+                color: #F61616;
+            }
+        }
+
+        // 港 澳
+        .carNo-HongKong-car,
+        .carNo-Macao-car {
+            background-color: #000;
+
+            .carNo-container-border {
+                border: 1px solid #fff;
+            }
+
+            .carNo-main-province { // 车牌省份
+                color: #fff;
+
+                svg {
+                    fill: #fff;
+                }
+            }
+        
+            .carNo-main-plate { // 车牌主要内容部分
+                color: #fff;
+            }
+
+            .carNo-plate-isNull { // 为空的时候 显示的颜色不一样 车牌主要内容部分
+                color: rgba(255, 255, 255, 0.64);
+            }
+
+            // 车牌附加信息 例如 (小车 大车 新能源 教练 警察 香港 澳门)
+            .carNo-main-addtion {
+                color: #fff;
+            }
         }
     }
 

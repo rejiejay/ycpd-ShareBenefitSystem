@@ -162,6 +162,9 @@
 </template>
 
 <script>
+
+// 框架类
+import { Toast } from 'mint-ui';
 // 请求类
 import ajaxs from "@/api/team/list.js";
 import initJSSDK from "@/components/initJSSDK";
@@ -344,19 +347,23 @@ export default {
             ajaxs.getTeamDetail(this, this.pageNo, this.flag)
             .then(
                 res => {
-                    _this.isLoding = false; // 这个是下拉加载，防止 重复加载的作用的
+                    if (res.code === 1000) {
+                        _this.isLoding = false; // 这个是下拉加载，防止 重复加载的作用的
 
-                    // 如果数据不存在, 阻止继续执行
-                    if (!res || res.length === 0) {
-                        _this.teamList = [];
-                        return false;
-                    }
+                        // 如果数据不存在, 阻止继续执行
+                        if (!res.data || res.data.length === 0) {
+                            _this.teamList = [];
+                            return false;
+                        }
 
-                    // 判断是否新增
-                    if (isAdd) {
-                        _this.teamList = JSON.parse(JSON.stringify(_this.teamList)).concat(dateToList(res));
-                    } else {
-                        _this.teamList = dateToList(res);
+                        // 判断是否新增
+                        if (isAdd) {
+                            _this.teamList = JSON.parse(JSON.stringify(_this.teamList)).concat(dateToList(res.data));
+                        } else {
+                            _this.teamList = dateToList(res.data);
+                        }
+                    } else if (res.code === 1003) {
+                        Toast({ message: '查询团队成员为0', duration: 2000 });
                     }
                 }, error => {
                     _this.isLoding = false; // 这个是下拉加载，防止 重复加载的作用的

@@ -1,7 +1,7 @@
 <!-- 车牌输入 -->
 <template>
 <div class="carNo-input flex-start-center">
-    <div class="carNo-input-des">车&nbsp;牌&nbsp;号:</div>
+    <div class="carNo-input-des" @click="outPutHandle">车&nbsp;牌&nbsp;号:</div>
 
     <div class="carNo-input-main flex-rest"><!-- rest 将选择 挤到最右边 -->
         <div class="carNo-input-container flex-center"
@@ -46,7 +46,7 @@
 
         <!-- 遮罩 -->
         <div class="carno-province-shade flex-rest" @click="isProvincesKeyboardShow = false"></div>
-        
+
         <!-- 主要内容 -->
         <div class="carno-province-main">
             <div class="carno-province-content">
@@ -149,11 +149,6 @@ Vue.component('mt-actionsheet', Actionsheet);
 export default {
     name: 'ycpd-sbsys-tabbar',
 
-    props: [
-        // getCarNo 是获取车牌的方法（函数）， 调用一次就返回一个， Consequencer对象 （我的自定义组件）
-        'getCarNo', 
-    ],
-
 	data: function data() { 
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
@@ -171,50 +166,57 @@ export default {
             /**
              * 车型
              */
-            carType_index: 5, // 选中的车型下标
+            carType_index: 0, // 选中的车型下标
             carTypeSheetVisible: false,
             carTypeList: [
                 // 小型车 小轿车 普通的车
                 {
                     key: 'normalCar',
                     name: '小车',
-                    method: () => this.carType_index = 0,
+                    value: '',
+                    method: () => this.selectCarType(0),
                 }, 
                 // 大车
                 {
                     key: 'autotruck',
                     name: '大车',
-                    method: () => this.carType_index = 1,
+                    value: '',
+                    method: () => this.selectCarType(1),
                 },  
                 // 新能源车型
                 {
                     key: 'newEnergy',
                     name: '新能源',
-                    method: () => this.carType_index = 2,
+                    value: '',
+                    method: () => this.selectCarType(2),
                 }, 
                 // 教练
                 {
                     key: 'coachCar',
                     name: '教练',
-                    method: () => this.carType_index = 3,
+                    value: '学',
+                    method: () => this.selectCarType(3),
                 }, 
                 // 警察
                 {
                     key: 'policeCar',
                     name: '警察',
-                    method: () => this.carType_index = 4,
+                    value: '警',
+                    method: () => this.selectCarType(4),
                 }, 
                 // 香港车
                 {
                     key: 'HongKong',
                     name: '香港',
-                    method: () => this.carType_index = 5,
+                    value: '港',
+                    method: () => this.selectCarType(5),
                 }, 
                 // 澳门
                 {
                     key: 'Macao',
                     name: '澳门',
-                    method: () => this.carType_index = 6,
+                    value: '澳',
+                    method: () => this.selectCarType(6),
                 }, 
             ],
         } 
@@ -288,6 +290,23 @@ export default {
             this.carNoProvince = item; // 设置车牌省份
             this.isProvincesKeyboardShow = false; // 隐藏 车牌省份
             this.isPlatesKeyboardShow = true; // 显示 车牌键盘
+        },
+
+        /**
+         * 选择车型
+         * @param {number} index 车型的下标
+         */
+        selectCarType: function selectCarType(index) {
+            /**
+             * 当切换新能源的时候， 需要判断 车牌号的长度
+             * 因为 新能源是 plateNo 的长度是 7
+             */
+            if (index !== 2 && this.plateNo.length === 7) {
+                // 当长度为7的时候，裁剪调一位
+                this.plateNo = this.plateNo.slice(0, this.plateNo.length - 1);
+            }
+
+            this.carType_index = index;
         },
 
         /**
@@ -367,6 +386,19 @@ export default {
             }
 
             this.plateNo = this.plateNo.slice(0, this.plateNo.length - 1);
+        },
+
+        /**
+         * 向父组件发送数据 (子组件向父传参)
+         * 每次当车牌省份 以及 车牌号 车型 发生改变 就 进行参数传递
+         */
+        outPutHandle: function outPutHandle() {
+            this.$emit('outPutHandle', {
+                carNo: `${this.carNoProvince}${this.plateNo}${this.this.carTypeList[this.carType_index].value}`,
+                carNoProvince: this.carNoProvince,
+                plateNo: this.plateNo,
+                carType: this.carTypeList[this.carType_index].value,
+            });
         },
     }
 }

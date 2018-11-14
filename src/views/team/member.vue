@@ -95,10 +95,9 @@ export default {
             /**
              * 这个是 getMyRewards 获取奖励要用到的 subagentId
              * 也就是 子代理Id 
-             * 管理员的 agentInfoId
              * 接口是这样的，记着就好
              */
-            subagentId: window.localStorage.getItem('ycpd_agentInfoId'),
+            subagentId: null,
 
             isProportionModalShow: false, // 设置分成的模态框
 
@@ -153,6 +152,14 @@ export default {
          */
 	    initPageData: function initPageData() {
             let query = this.$route.query;
+
+            /**
+             * 这个是 getMyRewards 获取奖励要用到的 subagentId
+             * 也就是 子代理Id 
+             * 子代理的 id 是从列表获取到的
+             * 接口是这样的，记着就好
+             */
+            this.subagentId = query.agentInfoId;
 
             this.telephone = query.telephone; // 手机
             /**

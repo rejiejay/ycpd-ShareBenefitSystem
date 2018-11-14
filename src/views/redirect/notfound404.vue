@@ -13,9 +13,9 @@
                 <li>我们的服务器被外星人劫持了</li>
             </ul>
         </div>
-        <div class="notfound-btn-container">
+        <!-- <div class="notfound-btn-container">
             <a class="notfound-btn" :href="backtrackUrl">返回养车频道</a>
-        </div>
+        </div> -->
     </div>
 </div>
 </template>

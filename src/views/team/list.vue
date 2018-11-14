@@ -448,7 +448,7 @@ export default {
 
             let title = `“${shareName}”邀请你加入金车管家`; // 分享标题
             let desc = '邀请好友加入团队，享丰厚提成奖励'; // 分享描述
-            let link = `${config.location.href}#/redirect/register?parentId=${this.userInfoStore.agentInfoId}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            let link = `${config.location.href}#/redirect/register?parentId=${this.userInfoStore.agentInfoId}&shareName=${shareName}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
 
             document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;

@@ -3,7 +3,8 @@
 <div class="register">
 
     <div class="register-container flex-column-center">
-        <div class="register-title">养车省钱，分享赚钱</div>
+        <div class="register-title" v-if="shareName"><span>{{shareName}}</span>邀请你加入“金车管家”</div>
+        <div class="register-title" v-else><span>养车省钱，分享赚钱</span></div>
         <div class="register-title-lable">立即加入</div>
         
         <div class="register-input-main" :style="`width: ${clientWidth - 60}px;`">
@@ -155,6 +156,12 @@ export default {
             parentId: null,
 
             /**
+             * 如果是二级代理的时候
+             * 是有分享的昵称的
+             */
+            shareName: null,
+
+            /**
              * 获取微信网页信息的 code
              */
             wx_code: '', 
@@ -230,6 +237,9 @@ export default {
     mounted: function () {
         // 初始化 parentId
         this.parentId = this.$route.query.parentId ? this.$route.query.parentId : null;
+
+        // 初始化 shareName
+        this.shareName = this.$route.query.shareName ? this.$route.query.shareName : null;
 
         // 判断是否存在微信 code
         if (loadPageVar('code')) {
@@ -663,7 +673,11 @@ export default {
         padding-top: 35px;
         font-size: 20px;
         font-weight: bold;
-        color: #FFEA00;
+        color: #fff;
+
+        span {
+            color: #FFEA00;
+        }
     }
 
     .register-title-lable {

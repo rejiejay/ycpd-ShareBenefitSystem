@@ -39,7 +39,7 @@ export default {
     /**
      * 奖励
      * @param {number} sortord 排序方式 0按时间倒序; 1按照金额; 默认0
-     * @param {type} type 项目类型: 1优惠加油;2建行无感支付;3团队提成;默认0
+     * @param {type} type 项目类型: 1优惠加油; 2建行无感支付; 3团队提成; 默认0
      * @param {string} startTime 开始时间(yyyy-MM-dd HH:mm:ss)
      * @param {string} endTime 结束时间(yyyy-MM-dd HH:mm:ss)
      * @param {string} pageNo 页码,默认1

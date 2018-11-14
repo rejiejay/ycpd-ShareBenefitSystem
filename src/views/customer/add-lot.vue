@@ -153,6 +153,9 @@
             <div class="excel-submit-rigth flex-rest" @click="submit">立即添加</div>
         </div>
     </div>
+
+    <!-- 因为弹出键盘的时候会看不见下部分的东西，所以要设置一个高度挤下去 -->
+    <div style="height: 120px"></div>
 </div>
 </template>
 

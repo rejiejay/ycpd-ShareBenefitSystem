@@ -71,7 +71,7 @@
             </div>
 
 
-            <div class="excel-modal-row1 flex-center"><span>第29行</span>数据车牌号格式有误</div>
+            <div class="excel-modal-row1 flex-center"><span>第{{errorRow}}行</span>数据车牌号格式有误</div>
             <div class="excel-modal-row2 flex-center">请修改后重新选择文件导入</div>
 
             <div class="excel-modal-submit flex-center">我知道了</div>
@@ -104,6 +104,8 @@ export default {
              * @param {string} failure 导入失败
              */
             pageStatus: 'before',
+
+            errorRow: 0, // 多少行数据车牌号格式有误
 
             uploadPercentage: 70, // 上传百分比
 
@@ -143,8 +145,31 @@ export default {
                 ajaxs.batchExcelAdd(formData)
                 .then(
                     res => {
-                        _this.pageStatus = 'process';
-                        _this.pollingCheckStatus(); // 轮询查看 批量操作状态
+                        // 操作成功
+                        if (res.code === 1000) {
+                            _this.pageStatus = 'process';
+                            _this.pollingCheckStatus(); // 轮询查看 批量操作状态
+
+                        } else if (res.code === 1001) {
+                            alert('参数不能为空');
+
+                        } else if (res.code === 1002) {
+                            alert('参数错误');
+
+                        } else if (res.code === 1003) {
+                            alert('批量添加客户流程还未走完');
+
+                        } else if (res.code === 1004) {
+                            alert('读取Excel文件异常');
+
+                        } else if (res.code === 1004) {
+                            alert('读取Excel文件异常');
+                            
+                        } else if (res.code === 1009) {
+                            _this.pageStatus = 'failure';
+                            _this.errorRow = res.data;
+                            
+                        }
                     }, error => alert(error)
                 );
             };

@@ -27,4 +27,10 @@ export default {
         username: username,
         telphone: telphone,
     }, '通过发动机号，车架号添加客户', self),
+    
+    /**
+     * 校验 - 是否可以添加客户
+     */
+    checkMaxAddNum: self => apibasics.resget(`${config.url.origin}/ycpd/cas/client/addCheckMaxNum?token=${window.localStorage.getItem('ycpd_token')}`, '校验是否可以添加客户', self), 
+
 }

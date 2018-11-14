@@ -45,9 +45,10 @@ export default {
      * @param {string} pageNo 页码,默认1
      * @param {string} IsTeam 0代理收入 1团队收入
      * @param {string} subagentId 子代理Id 93e0eb927fbd41e4b6ed988a376a1e01
+     * @param {string} orderbyName 按照姓名 ABCD 排序 传1时，升序  默认0，不排序 
      * @param {string} pageSize 每页记录数,默认15
      */
-    findMyRewardByConditions: (self, pageNo, sortord, type, startTime, endTime, IsTeam, subagentId, pageSize) => apibasics.post(`${config.url.origin}/ycpd/cas/findMyRewardByConditions?token=${window.localStorage.getItem('ycpd_token')}`, {
+    findMyRewardByConditions: (self, pageNo, sortord, type, startTime, endTime, IsTeam, subagentId, orderbyName, pageSize) => apibasics.post(`${config.url.origin}/ycpd/cas/findMyRewardByConditions?token=${window.localStorage.getItem('ycpd_token')}`, {
         agentInfoId: window.localStorage.getItem('ycpd_agentInfoId'),
         sortord: sortord ? sortord : 0,
         type: type ? type : 0,
@@ -56,6 +57,7 @@ export default {
         pageNo: pageNo,
         IsTeam: IsTeam,
         subagentId: subagentId,
+        orderbyName: orderbyName,
         pageSize: pageSize ? pageSize : 15,
     }, '奖励', self),
 }

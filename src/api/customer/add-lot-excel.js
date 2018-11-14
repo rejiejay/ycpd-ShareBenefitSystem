@@ -44,12 +44,7 @@ export default {
             data: formData,
             success(res) {
                 Indicator.close(); // 关闭加载框
-                if (res.code === 1000) {
-                    resolve();
-                } else {
-                    console.error(res);
-                    reject(`${reason}数据有误! 原因: ${res.msg}`);
-                }
+                resolve(res);
             },
             error: (xhr, textStatus) => {
                 Indicator.close(); // 关闭加载框

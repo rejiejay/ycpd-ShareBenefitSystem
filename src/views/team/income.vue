@@ -19,7 +19,7 @@
                     <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
                 </div>
             </div>
-            <div class="team-title-item" :class="{'team-item-selected' : sortChecked === 'name'}" @click="sortChecked = 'name'">
+            <div class="team-title-item" :class="{'team-item-selected' : sortChecked === 'name'}" @click="selectSortByTeam">
                 <div class="flex-start-center">
                 <div class="flex-rest"></div>
                     <span>团队成员</span>
@@ -71,12 +71,12 @@
             <div class="income-item-container flex-start-center">
                 <div class="income-item-left flex-rest">
                     <div class="item-left-title flex-start">
-                        <div class="left-title-name">**辉</div>
-                        <div>130****5678</div>
+                        <div class="left-title-name">{{item.subAgentName}}</div>
+                        <div>{{item.telephone}}</div>
                     </div>
 
                     <div class="item-left-describe flex-start">
-                        <div class="left-describe-name">{{item.userName}}<!-- (优先显示昵称 如果没有昵称显示车牌)这个后台已经帮我处理了 --></div>
+                        <div class="left-describe-name">{{item.userName ? item.userName : item.carNo}}<!-- (优先显示昵称 如果没有昵称显示车牌)这个后台已经帮我处理了 --></div>
                         <div>【{{item.projectName}}】 ￥{{item.costMoney}}</div>
                     </div>
 
@@ -124,6 +124,7 @@ export default {
             isActivityModalShow: false, // 活动类型 排序下拉 
 
             totalMoney: 0, // 总金额
+            orderbyName: 0, // 按照名称排序 
 
             /**
              * 分页
@@ -175,18 +176,25 @@ export default {
              */
             let dateToList = data => data.map(val => {
                 return {
-                    costMoney: val.costMoney,
-                    obtainMoney: val.obtainMoney,
-                    projectName: val.projectName,
-                    recordDate: val.recordDate,
+                    subAgentName: val.subAgentName,
+                    telephone: val.telephone,
+
                     userName: val.userName,
+                    carNo: val.carNo,
+                    
+                    projectName: val.projectName,
+                    costMoney: val.costMoney,
+
+                    obtainMoney: val.obtainMoney,
+                    
+                    recordDate: val.recordDate,
                 }
             });
             
             this.isLoding = true; // 这个是下拉加载，防止 重复加载的作用的
             let startTime = null; // 因为不需要用到这个
             let endTime = null; // 因为不需要用到这个
-            ajaxsAward.findMyRewardByConditions(this, this.pageNo, this.sortord, this.type, startTime, endTime, this.IsTeam, this.subagentId)
+            ajaxsAward.findMyRewardByConditions(this, this.pageNo, this.sortord, this.type, startTime, endTime, this.IsTeam, this.subagentId, this.orderbyName)
             .then(
                 res => {
                     _this.isLoding = false; // 这个是下拉加载，防止 重复加载的作用的
@@ -244,6 +252,25 @@ export default {
             // 排序相关
             this.sortChecked = 'time';
             this.type = 0;
+            this.orderbyName = 0;
+
+            // 开始请求
+            this.getMyRewards();
+        },
+
+        /**
+         * 选择 团队成员 排序
+         * 排序方式 传1时，升序  默认0，不排序
+         */
+        selectSortByTeam: function selectSortByTeam() {
+            // 下拉加载相关
+            this.pageNo = 1;
+            this.isLoding = false;
+
+            // 排序相关
+            this.sortChecked = 'name';
+            this.type = 0;
+            this.orderbyName = 1;
 
             // 开始请求
             this.getMyRewards();

@@ -16,7 +16,10 @@
                 </div>
 
                 <!-- 车牌号 -->
-                <div class="carNo-main-plate flex-rest" :class="{'carNo-plate-isNull': plateNo === ''}">{{plateNo === '' ? "点击输入" : plateNo}}</div>
+                <div class="carNo-main-plate flex-rest" 
+                    :class="{'carNo-plate-isNull': plateNo === ''}"
+                    @click="isPlatesKeyboardShow = true;"
+                >{{plateNo === '' ? "点击输入" : plateNo}}</div>
             </div>
         </div>
     </div>
@@ -68,11 +71,63 @@
         
         <!-- 主要内容 -->
         <div class="carno-plate-main">
-            <!-- 数字 0~9 因为最小的屏幕宽度是 320 那就以这个标准来算 -->
-            <div class="carno-plate-number">
-
+            <!-- 数字 0~9 因为最小的屏幕宽度是 320 ，但是我们使用 30 宽度来计算 -->
+            <div class="carno-plate-number flex-start">
+                <div class="plate-number-item" 
+                    v-for="(item, key) in [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]" 
+                    :key="key"
+                    :style="`padding: 0px ${carNoBlockInterval}px`"
+                    @click="plateNumberHandle(item)"
+                >
+                    <!-- 当 plateNo 为 第一位的时候， 第一行是不可输入的状态 -->
+                    <div class="number-item-container" :class="{'number-item-disable': plateNo.length === 0}">{{item}}</div>
+                </div>
             </div>
 
+            <!-- 键盘第一行 因为最小的屏幕宽度是 320 ，但是我们使用 30 宽度来计算 -->
+            <div class="carno-plate-letter plate-letter1 flex-start">
+                <div class="plate-letter-item" 
+                    :class="{'carno-letter-disable': (plateNo.length !== 0 && (item === 'I' || item === 'O'))}" 
+                    v-for="(item, key) in ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']" 
+                    :key="key"
+                    :style="`padding: 0px ${carNoBlockInterval}px`"
+                    @click="plateLetterHandle(item)"
+                >
+                    <div class="letter-item-container">{{item}}</div>
+                </div>
+            </div>
+
+            <div class="flex-center">
+                <div class="carno-plate-letter plate-letter2 flex-start">
+                    <div class="plate-letter-item" 
+                        v-for="(item, key) in ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']" 
+                        :key="key"
+                        :style="`padding: 0px ${carNoBlockInterval}px`"
+                        @click="plateLetterHandle(item)"
+                    >
+                        <div class="letter-item-container">{{item}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plate-letter3 flex-start">
+                <div class="plate-letter3-left flex-rest"></div>
+                <div class="carno-plate-letter flex-start">
+                    <div class="plate-letter-item" 
+                        v-for="(item, key) in ['Z', 'X', 'C', 'V', 'B', 'N', 'M']" 
+                        :key="key"
+                        :style="`padding: 0px ${carNoBlockInterval}px`"
+                        @click="plateLetterHandle(item)"
+                    >
+                        <div class="letter-item-container">{{item}}</div>
+                    </div>
+                </div>
+                <div class="plate-letter3-del" :style="`padding: 0px ${carNoBlockInterval}px`" @click="delPlateNo">
+                    <div class="letter-del-container flex-center">
+                        <svg width="24" height="24" viewBox="0 0 46 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="个人中心" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="车辆信息完善-地区" transform="translate(-671.000000, -1247.000000)" fill="#030303"><g id="车牌-数字字母" transform="translate(0.000000, 889.000000)"><g id="Third-Row" transform="translate(118.000000, 339.000000)"><g id="Delete" transform="translate(526.000000, 0.000000)"><g id="Group" transform="translate(27.000000, 19.000000)"><path d="M0.87229799,25.118689 C-0.297821649,23.9485694 -0.295970172,22.0495791 0.872298005,20.881311 L14.3334384,7.4201705 C15.1177769,6.63583199 16.6514494,6 17.745226,6 L38.7578041,6 C42.6214809,6 45.7536098,9.13769531 45.7536098,13.0035965 L45.7536098,32.9964035 C45.7536098,36.864383 42.6279826,40 38.7578041,40 L17.7452259,40 C16.6452862,40 15.1182152,39.3646064 14.3334383,38.5798295 L0.87229799,25.118689 Z M30.0389349,22.9553805 L35.6994285,17.2948869 C36.2823846,16.7119308 36.2815756,15.7629923 35.6957891,15.1772059 C35.1059187,14.5873355 34.1618846,14.5897901 33.5781081,15.1735666 L27.9176145,20.8340602 L22.257121,15.1735666 C21.6741648,14.5906104 20.7252264,14.5914195 20.13944,15.1772059 C19.5495695,15.7670763 19.5520241,16.7111104 20.1358006,17.2948869 L25.7962942,22.9553805 L20.1358006,28.6158741 C19.5528445,29.1988302 19.5536535,30.1477687 20.13944,30.7335551 C20.7293104,31.3234255 21.6733445,31.3209709 22.257121,30.7371944 L27.9176145,25.0767008 L33.5781081,30.7371944 C34.1610643,31.3201506 35.1100027,31.3193415 35.6957891,30.7335551 C36.2856596,30.1436847 36.283205,29.1996506 35.6994285,28.6158741 L30.0389349,22.9553805 Z M4.17304801,24.419439 C3.38911348,23.6355045 3.39153914,22.3620698 4.17304797,21.580561 L16.0400997,9.71350932 C16.43416,9.319449 17.2048877,9 17.7569086,9 L38.7480877,9 C40.9602754,9 42.7536078,10.7941202 42.7536078,12.9968388 L42.7536078,33.0031609 C42.7536078,35.2105541 40.9665226,36.9999998 38.7480878,36.9999998 L17.756909,37 C17.202802,37 16.4348955,36.6812861 16.0401001,36.2864907 L4.17304801,24.419439 Z" id="Back"></path></g></g></g></g></g></g></svg>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -83,6 +138,8 @@
 // 框架类
 import Vue from 'vue';
 import { Actionsheet } from 'mint-ui';
+// 组件类
+import Consequencer from "@/utils/Consequencer";
 // 初始化类
 Vue.component('mt-actionsheet', Actionsheet);
 
@@ -90,7 +147,8 @@ export default {
     name: 'ycpd-sbsys-tabbar',
 
     props: [
-        'selectTabbar', 
+        // getCarNo 是获取车牌的方法（函数）， 调用一次就返回一个， Consequencer对象 （我的自定义组件）
+        'getCarNo', 
     ],
 
 	data: function data() { 
@@ -104,8 +162,8 @@ export default {
             carNoProvince: '粤', // 车牌省份
             isProvincesKeyboardShow: false, // 车牌省份 模态框（键盘）
             provincesList: [ ["京", "沪", "浙", "苏", "粤", "鲁", "晋", "冀"],  ["豫", "川", "渝", "辽", "吉", "黑", "皖", "鄂"],  ["津", "贵", "云", "桂", "琼", "青", "新", "藏"],  ["蒙", "宁", "甘", "陕", "闽", "赣", "湘"] ], // 车牌省 键盘值
-            plateNo: 'B12345', // 车牌号码
-            isPlatesKeyboardShow: false, // 车牌号 模态框（键盘）
+            plateNo: 'B1', // 车牌号码
+            isPlatesKeyboardShow: true, // 车牌号 模态框（键盘）
 
             /**
              * 车型
@@ -170,16 +228,19 @@ export default {
         },
 
         /**
-         * 车牌号 键盘的宽度
+         * 车牌号 键盘的左右间隙
          */
-        carNoBlockWidth: function carNoBlockWidth() {
+        carNoBlockInterval: function carNoBlockInterval() {
             /**
-             * 如果屏幕小于 320 的情况下
+             * 如果屏幕小于 300 的情况下
              * 这已经是我兼容的极限
+             * 一共有10个按钮 这个时候的间隙 为0
              */ 
-            if (this.clientWidth < 320) {
+            if (this.clientWidth < 300) {
+                return  0;
+            } else {
+                return (this.clientWidth - 300) / 20
             }
-
         },
 
         /**
@@ -198,12 +259,87 @@ export default {
          */
         selectProvince: function selectProvince(item) {
             this.carNoProvince = item; // 设置车牌省份
-            this.isProvincesKeyboardShow = false; // 隐藏遮罩层
+            this.isProvincesKeyboardShow = false; // 隐藏 车牌省份
+            this.isPlatesKeyboardShow = true; // 显示 车牌键盘
+        },
 
-            // // 自动弹出输入车牌号
-            // if (this.verifyPlateNo().result !== 1) {
-            //     this.isPlateNoKeyboardShow = true; // 隐藏遮罩层
-            // }
+        /**
+         * 输入数字
+         */
+        plateNumberHandle: function plateNumberHandle(item) {
+            /**
+             * 先判断是不是新能源
+             * 新能源是 plateNo 的长度是 7
+             */
+            if (this.carType_index === 2) {
+                // 判断长度有没有超越 最大长度 7
+                if (this.plateNo.length >= 7) {
+                    // 是新能源的情况下，并且 长度大于 等于 7 ，这个时候就不可继续新增数字了
+                    return false;
+                }
+            } else {
+                // 判断长度有没有超越 最大长度 6
+                if (this.plateNo.length >= 6) {
+                    // 普通车牌的情况下，并且 长度大于 等于 6 ，这个时候就不可继续新增数字了
+                    return false;
+                }
+            }
+
+            /**
+             * 先判断 车牌号的长度是否 为空
+             * 如果为空是不可以输入的
+             */
+            if (this.plateNo.length !== 0) {
+                this.plateNo += item;
+            }
+        },
+
+        /**
+         * 输入字母
+         */
+        plateLetterHandle: function plateLetterHandle(item) {
+            /**
+             * 先判断是不是第一位
+             * 不是第一位的情况下是不可输入 I 和 O 的
+             */
+            if (this.plateNo.length !== 0 && (item === 'I' || item === 'O')) {
+                return false;
+            }
+
+            /**
+             * 判断是不是新能源
+             * 新能源是 plateNo 的长度是 7
+             */
+            if (this.carType_index === 2) {
+                // 判断长度有没有超越 最大长度 7
+                if (this.plateNo.length >= 7) {
+                    // 是新能源的情况下，并且 长度大于 等于 7 ，这个时候就不可继续新增数字了
+                    return false;
+                }
+            } else {
+                // 判断长度有没有超越 最大长度 6
+                if (this.plateNo.length >= 6) {
+                    // 普通车牌的情况下，并且 长度大于 等于 6 ，这个时候就不可继续新增数字了
+                    return false;
+                }
+            }
+
+            this.plateNo += item;
+        },
+
+        /**
+         * 输入字母
+         */
+        delPlateNo: function delPlateNo() {
+            /**
+             * 先判断是不是第一位
+             * 第一位是不可以删除的
+             */
+            if (this.plateNo.length === 0) {
+                return false;
+            }
+
+            this.plateNo = this.plateNo.slice(0, this.plateNo.length - 1);
         },
     }
 }
@@ -236,12 +372,12 @@ export default {
 
         .carNo-input-container {
             height: 40px;
-            width: 160px;
+            width: 170px;
             border-radius: 4px;
 
             .carNo-container-border {
                 height: 34px;
-                width: 154px;
+                width: 164px;
                 border-radius: 4px;
                 border: 1px solid #fff;
             }
@@ -274,7 +410,7 @@ export default {
             padding-right: 5px;
             color: #fff;
             font-size: 16px;
-            letter-spacing: 5px;
+            letter-spacing: 2.5px;
         }
 
         // 为空的时候 显示的颜色不一样 车牌主要内容部分
@@ -359,8 +495,75 @@ export default {
 
     // 车牌号 键盘内容部分
     .carno-plate-main {
+        padding: 10px 0px;
+        width: 100%;
         position: relative;
         background-color: #d8dadc;
+    }
+
+    // 12345679 部分
+    .carno-plate-number {
+        padding-bottom: 10px;
+
+        .number-item-container {
+            font-size: 16px;
+            width: 30px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 5px;
+            color: @black1;
+            background: #fff;
+            box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.35);
+        }
+
+        .number-item-disable {
+            color: #c1c1c1;
+        }
+    }
+
+    // 键盘 字母 行
+    .carno-plate-letter .letter-item-container {
+        font-size: 16px;
+        width: 30px;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 5px;
+        color: @black1;
+        background: #fff;
+        box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.35);
+    }
+
+    //  键盘 字母 行 失效的样式
+    .carno-letter-disable {
+
+        .letter-item-container {
+            color: #c1c1c1;
+        }
+    }
+
+    //  键盘 字母 第一行 第二行
+    .plate-letter1,
+    .plate-letter2 {
+        padding-bottom: 10px;
+    }
+
+    //  键盘 字母 第三行
+    .plate-letter3 {
+
+        // 删除按钮
+        .plate-letter3-del {
+
+            .letter-del-container {
+                font-size: 16px;
+                width: 50px;
+                height: 40px;
+                text-align: center;
+                border-radius: 5px;
+                color: @black1;
+                background: #aab2bb;
+                box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.35);
+            }
+        }
     }
 }
 

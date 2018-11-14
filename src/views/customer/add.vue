@@ -85,10 +85,10 @@
         </div>
 
         <!-- 底部提示 -->
-        <div class="tag-car-tig flex-start-center" @click="isBatchImportModalShow = true">
-            <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-30.000000, -840.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="批量" transform="translate(30.000000, 840.000000)">
+        <div class="tag-car-tig flex-center" @click="jumpToRouter('/customer/addlot')">
+            <!-- <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-30.000000, -840.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="批量" transform="translate(30.000000, 840.000000)">
                 <path d="M12,24 C5.372583,24 0,18.627417 0,12 C0,5.372583 5.372583,0 12,0 C18.627417,0 24,5.372583 24,12 C24,18.627417 18.627417,24 12,24 Z M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M13,14 C13,14.5522847 12.5522847,15 12,15 C11.4477153,15 11,14.5522847 11,14 C11,12.8657776 11.5351865,11.9917798 12.4447019,11.2002143 C12.6743482,11.0003495 13.2918781,10.5284046 13.3429572,10.4820781 C13.7592515,10.1045183 14,9.57280307 14,9 C14,7.8954305 13.1045695,7 12,7 C10.8954305,7 10,7.8954305 10,9 C10,9.55228475 9.55228475,10 9,10 C8.44771525,10 8,9.55228475 8,9 C8,6.790861 9.790861,5 12,5 C14.209139,5 16,6.790861 16,9 C16,10.1430874 15.516591,11.2107407 14.6865687,11.9635329 C14.5568336,12.0811966 13.917373,12.5699021 13.7577039,12.7088646 C13.2420363,13.1576582 13,13.5529208 13,14 Z M12,19 C11.1715729,19 10.5,18.3284271 10.5,17.5 C10.5,16.6715729 11.1715729,16 12,16 C12.8284271,16 13.5,16.6715729 13.5,17.5 C13.5,18.3284271 12.8284271,19 12,19 Z" id="icon_info"></path></g></g></g>
-            </svg>
+            </svg> -->
             <span>批量导入客户</span>
         </div>
     </div>
@@ -153,10 +153,10 @@
         </div>
 
         <!-- 底部提示 -->
-        <div class="tag-car-tig flex-start-center" @click="isBatchImportModalShow = true">
-            <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-30.000000, -840.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="批量" transform="translate(30.000000, 840.000000)">
+        <div class="tag-car-tig flex-center" @click="jumpToRouter('/customer/addlot')">
+            <!-- <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-30.000000, -840.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="批量" transform="translate(30.000000, 840.000000)">
                 <path d="M12,24 C5.372583,24 0,18.627417 0,12 C0,5.372583 5.372583,0 12,0 C18.627417,0 24,5.372583 24,12 C24,18.627417 18.627417,24 12,24 Z M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M13,14 C13,14.5522847 12.5522847,15 12,15 C11.4477153,15 11,14.5522847 11,14 C11,12.8657776 11.5351865,11.9917798 12.4447019,11.2002143 C12.6743482,11.0003495 13.2918781,10.5284046 13.3429572,10.4820781 C13.7592515,10.1045183 14,9.57280307 14,9 C14,7.8954305 13.1045695,7 12,7 C10.8954305,7 10,7.8954305 10,9 C10,9.55228475 9.55228475,10 9,10 C8.44771525,10 8,9.55228475 8,9 C8,6.790861 9.790861,5 12,5 C14.209139,5 16,6.790861 16,9 C16,10.1430874 15.516591,11.2107407 14.6865687,11.9635329 C14.5568336,12.0811966 13.917373,12.5699021 13.7577039,12.7088646 C13.2420363,13.1576582 13,13.5529208 13,14 Z M12,19 C11.1715729,19 10.5,18.3284271 10.5,17.5 C10.5,16.6715729 11.1715729,16 12,16 C12.8284271,16 13.5,16.6715729 13.5,17.5 C13.5,18.3284271 12.8284271,19 12,19 Z" id="icon_info"></path></g></g></g>
-            </svg>
+            </svg> -->
             <span>批量导入客户</span>
         </div>
     </div>
@@ -393,10 +393,27 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.checkMaxAddNum(); // 校验是否可以继续添加客户
         this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口
     },
 
 	methods: {
+        /**
+         * 校验是否可以继续添加客户
+         */
+        checkMaxAddNum: function checkMaxAddNum() {
+            const _this = this;
+
+            ajaxs.checkMaxAddNum(this)
+            .then(
+                res => {
+                    if (res.code === 1008) {
+                        alert('不好意思，您当前的客户数量名额已达到上限，不能再添加客户');
+                        _this.$router.back(-1);
+                    }
+                }, error => alert(error)
+            )
+        },
 
         /**
          * 复制验证码
@@ -642,7 +659,21 @@ export default {
          */
         scrollToShowKeyboard: function scrollToShowKeyboard() {
             window.scrollTo(0, 150);
-        }
+        },
+
+        /**
+         * 跳转到路由
+         * @param {object} query 携带的参数 非必填
+         */
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
+        },
     }
 }
 
@@ -777,8 +808,8 @@ export default {
 
     // 提示
     .tag-car-tig {
+        padding-top: 10px;
         font-size: 12px;
-        padding-left: 15px;
 
         span {
             color: @black3;

@@ -181,14 +181,14 @@ export default {
                  * 昵称不存在 显示车牌号
                  * 车牌号不存在显示 手机号后四位
                  */
-                let userName = '';
-                if (val.userName) {
-                    userName = val.userName;
+                let clientName = '';
+                if (val.clientName) {
+                    clientName = val.clientName;
                 } else {
                     if (val.carNo) {
-                        userName = val.carNo
+                        clientName = val.carNo
                     } else {
-                        userName = `**${val.telephone.slice((val.telephone.length - 4), val.telephone.length)}`;
+                        clientName = `**${val.clientPhone.slice((val.clientPhone.length - 4), val.clientPhone.length)}`;
                     }
                 }
 
@@ -196,7 +196,7 @@ export default {
                     subAgentName: val.subAgentName,
                     subPhone: val.subPhone,
 
-                    userName: userName,
+                    userName: clientName,
                     carNo: val.carNo,
                     
                     projectName: val.projectName,

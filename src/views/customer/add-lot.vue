@@ -135,7 +135,7 @@
     </div>
 
     <!-- 增加客户按钮 -->
-    <div class="add-btn">
+    <div class="add-btn" v-if="isContinueAddCustomerList">
         <div class="add-btn-container flex-center" @click="addCustomerList">
             <div class="add-btn-describe flex-start-center">
                 <svg width="12" height="12" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-批量" transform="translate(-303.000000, -1031.000000)"><rect fill="#F1F1F1" x="0" y="0" width="750" height="1334"></rect><g id="增加" transform="translate(0.000000, 999.000000)"><rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="750" height="88"></rect><g id="Group" transform="translate(303.000000, 32.000000)" fill="#666666"><path d="M13,11 L23,11 C23.5522847,11 24,11.4477153 24,12 C24,12.5522847 23.5522847,13 23,13 L13,13 L13,23 C13,23.5522847 12.5522847,24 12,24 C11.4477153,24 11,23.5522847 11,23 L11,13 L1,13 C0.44771525,13 6.76353751e-17,12.5522847 0,12 C-6.76353751e-17,11.4477153 0.44771525,11 1,11 L11,11 L11,1 C11,0.44771525 11.4477153,1.01453063e-16 12,0 C12.5522847,-1.01453063e-16 13,0.44771525 13,1 L13,11 Z" id="Combined-Shape"></path></g></g></g></g></svg>
@@ -155,7 +155,7 @@
     </div>
 
     <!-- 因为弹出键盘的时候会看不见下部分的东西，所以要设置一个高度挤下去 -->
-    <div style="height: 120px"></div>
+    <div style="height: 240px"></div>
 </div>
 </template>
 
@@ -200,6 +200,12 @@ export default {
 
             customerselected_index: 0, // 客户列表选中下标
             lastIsNewEnergy: false, // 上次选中的是否是新能源，用于判断车牌号是否可以从 6位 切换到 5位数
+
+            /**
+             * 是否可以继续添加
+             * 因为超过20条就不可以继续添加了
+             */
+            isContinueAddCustomerList: true, 
         }
     },
 
@@ -218,6 +224,16 @@ export default {
          */
         customerList: {
             handler(newCustomerList, oldCustomerList) {
+                /**
+                 * 是否可以继续添加
+                 * 因为超过20条就不可以继续添加了
+                 */
+                if (newCustomerList.length > 20) {
+                    this.isContinueAddCustomerList = false;
+                } else {
+                    this.isContinueAddCustomerList = true;
+                }
+
                 /**
                  * 新能源车牌 切换到 普通车牌的时候
                  * 如果车牌号为 6位 则切换到 5位数
@@ -344,15 +360,19 @@ export default {
          * 点击 增加客户
          */
         addCustomerList: function addCustomerList() {
-            this.customerList.push({
-                carNoProvince: '粤', // 车牌省份
-                plateNo: '', // 车牌号码
-                carNoError: '', // 车牌号 报错信息
-                isNewEnergy: false, // 是否新能源汽车牌
-                customerName: '', // 客户姓名
-                phoneNumber: '', // 客户手机号
-                phoneNumberError: '', // 手机号 报错信息
-            })
+            if (this.customerList.length < 20) {
+                this.customerList.push({
+                    carNoProvince: '粤', // 车牌省份
+                    plateNo: '', // 车牌号码
+                    carNoError: '', // 车牌号 报错信息
+                    isNewEnergy: false, // 是否新能源汽车牌
+                    customerName: '', // 客户姓名
+                    phoneNumber: '', // 客户手机号
+                    phoneNumberError: '', // 手机号 报错信息
+                });
+            } else {
+                alert('不可以添加20条数据以上!');
+            }
         },
 
         /**
@@ -453,6 +473,8 @@ export default {
             ajaxs.batchDynamicAdd(submitArray, this)
             .then(
                 res => {
+                    console.log('/ycpd/cas/client/batchDynamicAdd', res);
+
                     /**
                      * 1000	操作成功
                      * 1001	参数不能为空

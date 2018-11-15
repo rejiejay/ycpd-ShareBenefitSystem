@@ -141,8 +141,6 @@
 // 框架类
 import Vue from 'vue';
 import { Actionsheet } from 'mint-ui';
-// 组件类
-import Consequencer from "@/utils/Consequencer";
 // 初始化类
 Vue.component('mt-actionsheet', Actionsheet);
 
@@ -160,7 +158,7 @@ export default {
             carNoProvince: '粤', // 车牌省份
             isProvincesKeyboardShow: false, // 车牌省份 模态框（键盘）
             provincesList: [ ["京", "沪", "浙", "苏", "粤", "鲁", "晋", "冀"],  ["豫", "川", "渝", "辽", "吉", "黑", "皖", "鄂"],  ["津", "贵", "云", "桂", "琼", "青", "新", "藏"],  ["蒙", "宁", "甘", "陕", "闽", "赣", "湘"] ], // 车牌省 键盘值
-            plateNo: 'B1', // 车牌号码
+            plateNo: '', // 车牌号码
             isPlatesKeyboardShow: false, // 车牌号 模态框（键盘）
 
             /**
@@ -280,6 +278,29 @@ export default {
         },
     },
 
+    watch: {
+        /**
+         * 车牌省份 每次改变 都必须向父组件输出一次 数据
+         */ 
+        carNoProvince: function carNoProvince() {
+            this.outPutHandle();
+        },
+
+        /**
+         * 车牌号码 每次改变 都必须向父组件输出一次 数据
+         */ 
+        plateNo: function plateNo() {
+            this.outPutHandle();
+        },
+
+        /**
+         * 车型 每次改变 都必须向父组件输出一次 数据
+         */ 
+        carType_index: function carType_index() {
+            this.outPutHandle();
+        },
+    },
+
 	mounted: function mounted() { },
 
 	methods: {
@@ -393,8 +414,36 @@ export default {
          * 每次当车牌省份 以及 车牌号 车型 发生改变 就 进行参数传递
          */
         outPutHandle: function outPutHandle() {
+            /**
+             * 子组件 在此先校验一遍 就免去了父组件的校验
+             */
+
+            let verify = false;
+            let message = '';
+            if (this.plateNo === '') {
+                message = '车牌号为空';
+            }
+
+            // 先判断是不是新能源
+            if (this.carType_index === 2) {
+                if (this.plateNo.length  === 7) {
+                    verify = true;
+                } else {
+                    message = '车牌号不正确';
+                }
+            } else {
+                // 非新能源车 的情况下
+                if (this.plateNo.length  === 6) {
+                    verify = true;
+                } else {
+                    message = '车牌号不正确';
+                }
+            }
+
             this.$emit('outPutHandle', {
-                carNo: `${this.carNoProvince}${this.plateNo}${this.this.carTypeList[this.carType_index].value}`,
+                verify: verify,
+                message: message,
+                carNo: `${this.carNoProvince}${this.plateNo}${this.carTypeList[this.carType_index].value}`,
                 carNoProvince: this.carNoProvince,
                 plateNo: this.plateNo,
                 carType: this.carTypeList[this.carType_index].value,

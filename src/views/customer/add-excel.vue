@@ -186,7 +186,7 @@ export default {
              * 
              */
             let initUploadPercentage = data => {
-                _this.uploadPercentage = Math.floor(data.successNum / data.totalNum);
+                _this.uploadPercentage = Math.floor(data.successNum / data.totalNum) * 100;
 
                 // 5秒钟轮询一次
                 setTimeout(() => {

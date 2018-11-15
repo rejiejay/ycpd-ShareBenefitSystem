@@ -421,41 +421,49 @@ export default {
                     // 车牌校验成功 
                     val.carNoError = '';
 
-                    // 手机号也是需要校验一下
-                    // 先判断是否为空
-                    if (val.phoneNumber === '') {
+                    // 把数据推进去
+                    submitArray.push({
+                        carNo: val.carNoComponents.carNo,
+                        username: val.customerName,
+                        telphone: val.phoneNumber,
+                    });
 
-                        // 为空的情况下就不管了, 
-                        val.phoneNumberError = '';
+                    // 产品 说手机号不需要进行校验， 注释了吧
+                    // // 手机号也是需要校验一下
+                    // // 先判断是否为空
+                    // if (val.phoneNumber === '') {
+
+                    //     // 为空的情况下就不管了, 
+                    //     val.phoneNumberError = '';
                         
-                        // 把数据推进去就行了（非必填）
-                        submitArray.push({
-                            carNo: val.carNoComponents.carNo,
-                            username: val.customerName,
-                            telphone: '',
-                        });
-                    } else {
+                    //     // 把数据推进去就行了（非必填）
+                    //     submitArray.push({
+                    //         carNo: val.carNoComponents.carNo,
+                    //         username: val.customerName,
+                    //         telphone: '',
+                    //     });
+                    // } else {
 
-                        // 手机号不为空, 就必须校验一下
-                        let myVerifyPhoneNumber = verifyPhoneNumber(val.phoneNumber);
-                        if (myVerifyPhoneNumber.result === 1) {
+                    //     // 手机号不为空, 就必须校验一下
+                    //     let myVerifyPhoneNumber = verifyPhoneNumber(val.phoneNumber);
+                    //     if (myVerifyPhoneNumber.result === 1) {
                             
-                            // 手机号格式正确， 
-                            val.phoneNumberError = '';
+                    //         // 手机号格式正确， 
+                    //         val.phoneNumberError = '';
 
-                            // 把数据推进去
-                            submitArray.push({
-                                carNo: val.carNoComponents.carNo,
-                                username: val.customerName,
-                                telphone: val.phoneNumber,
-                            });
-                        } else {
+                    //         // 把数据推进去
+                    //         submitArray.push({
+                    //             carNo: val.carNoComponents.carNo,
+                    //             username: val.customerName,
+                    //             telphone: val.phoneNumber,
+                    //         });
+                    //     } else {
 
-                            // 手机号格式不正确 (而且是在手机号已经填写的情况下)
-                            val.phoneNumberError = myVerifyPhoneNumber.message;
-                            errormsg = myVerifyPhoneNumber.message; // 设置错误信息, 阻止提交
-                        }
-                    }
+                    //         // 手机号格式不正确 (而且是在手机号已经填写的情况下)
+                    //         val.phoneNumberError = myVerifyPhoneNumber.message;
+                    //         errormsg = myVerifyPhoneNumber.message; // 设置错误信息, 阻止提交
+                    //     }
+                    // }
                 } else {
                     // 车牌号码 有误
                     val.carNoError = myVerifyPlateNo.message;

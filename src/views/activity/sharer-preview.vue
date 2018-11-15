@@ -96,7 +96,7 @@
                     <div class="user-banner-photo">
                         <PortraitPhoto propsRadius="60" />
                     </div>
-                    <div class="main-title-name">{{userInfoStore.agentName}}</div>
+                    <div class="main-title-name">{{userInfoStore.nickName ? userInfoStore.nickName : userInfoStore.telephone}}</div>
 
                 </div>
                 <div class="QRcode-main-content flex-center">
@@ -574,11 +574,23 @@ export default {
             padding-bottom: 25px;
         }
 
+        .main-title-name {
+            padding-left: 15px;
+            font-size: 18px;
+        }
+
+        .user-banner-photo {
+            padding-right: 0px;
+            border: 1px solid #ddd;
+        }
+
         .QRcode-main-content {
             text-align: center;
             padding-bottom: 25px;
 
             img {
+                padding: 5px;
+                border: 1px solid #ddd;
                 display: block;
                 height: 200px;
                 width: 200px;

@@ -26,7 +26,7 @@
                 </div>
                 <div class="detail-rules-row flex-start">
                     <div class="rules-row-no">2.</div>
-                    <div class="rules-row-describe flex-rest">好友使用“优惠加油”功能，您将获得加油金额 {{proportion * 100}} %的分成；</div>
+                    <div class="rules-row-describe flex-rest">好友使用“优惠加油”功能，您将获得加油金额 {{(proportion * 100).toFixed(1)}} %的分成；</div>
                 </div>
                 <div class="detail-rules-row flex-start">
                     <div class="rules-row-no">3.</div>
@@ -39,7 +39,7 @@
     <!-- 加油站面板页面 -->
     <div class="activity-detail-panel">
         <div class="detail-panel-content">
-            <div class="detail-panel-title">覆盖全市高品质加油站最高<span style="font-weight: bold; color: #E50012;">直降1.2元/ L</span></div>
+            <div class="detail-panel-title">覆盖全市加油站最高<span style="font-weight: bold; color: #E50012;">直降1.2元/ L</span></div>
 
             <div class="detail-panel-item flex-start">
                 
@@ -356,7 +356,9 @@ export default {
             let userInfoStore = this.userInfoStore;
 
             // 初始化shareName
-            if (userInfoStore.agentName) { // 判断有没有昵称
+            if (userInfoStore.nickName) { // 判断有没有昵称
+                this.shareName = userInfoStore.nickName;
+            } else if (userInfoStore.agentName) { // 判断有没有真实姓名
                 this.shareName = userInfoStore.agentName;
             } else { // 否则使用手机后四位
                 this.shareName = `**${userInfoStore.telephone.slice((userInfoStore.telephone.length - 4), userInfoStore.telephone.length)}`
@@ -472,8 +474,8 @@ export default {
 	    initShareTimeline: function initShareTimeline() {
             const _this = this;
             let agentName = this.userInfoStore.agentName;
-            let title = `“${this.shareName}”送你一个加油大礼包`; // 分享标题
-            let desc = '覆盖全市高品质加油站最高直降1.2元/L'; // 分享描述
+            let title = `“${this.shareName}”送你一个加油神器`; // 分享标题
+            let desc = '覆盖全市加油站最高直降1.2元/L'; // 分享描述
             let link = `${config.location.href}#/activity/sharer?shareName=${this.shareName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
             document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
@@ -481,6 +483,7 @@ export default {
             initJSSDK(['updateAppMessageShareData', 'updateTimelineShareData', 'onMenuShareTimeline', 'onMenuShareAppMessage'])
             .then(
                 () => {
+                    console.log('成功初始化jssdk!');
                     /**
                      * 初始化“分享给朋友”及“分享到QQ”按钮的分享
                      */
@@ -511,7 +514,7 @@ export default {
                         title: title,
                         link: link,
                         imgUrl: imgUrl, // 分享图标
-                        success: function () {
+                        success: function (res) {
                             console.log('成功“分享到朋友圈”', res);
                         },
                     }); 
@@ -526,7 +529,7 @@ export default {
                         imgUrl: imgUrl, // 分享图标
                         type: 'link', // 分享类型,music、video或link，不填默认为link
                         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                        success: function () {
+                        success: function (res) {
                             console.log('成功“分享给朋友”', res);
                         }
                     });

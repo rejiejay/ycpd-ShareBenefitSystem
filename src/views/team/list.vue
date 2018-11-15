@@ -437,17 +437,20 @@ export default {
          */
 	    initShareTimeline: function initShareTimeline() {
             const _this = this;
+            let userInfoStore = this.userInfoStore;
             
             // 初始化shareName
             let shareName = ''
-            if (this.userInfoStore.agentName) { // 判断有没有昵称
-                shareName = this.userInfoStore.agentName;
+            if (userInfoStore.nickName) { // 判断有没有昵称
+                shareName = userInfoStore.nickName;
+            } else if (userInfoStore.agentName) { // 判断有没有昵称
+                shareName = userInfoStore.agentName;
             } else { // 否则使用手机后四位
-                shareName = `**${this.userInfoStore.telephone.slice((this.userInfoStore.telephone.length - 4), this.userInfoStore.telephone.length)}`
+                shareName = `**${userInfoStore.telephone.slice((userInfoStore.telephone.length - 4), userInfoStore.telephone.length)}`
             }
 
             let title = `“${shareName}”邀请你加入金车管家`; // 分享标题
-            let desc = '邀请好友加入团队，享丰厚提成奖励'; // 分享描述
+            let desc = '加油钜惠，保养特价，还能做任务赚佣金'; // 分享描述
             let link = `${config.location.href}#/redirect/register?parentId=${this.userInfoStore.agentInfoId}&shareName=${shareName}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
 
@@ -487,7 +490,7 @@ export default {
                         title: title,
                         link: link,
                         imgUrl: imgUrl, // 分享图标
-                        success: function () {
+                        success: function (res) {
                             console.log('成功“分享到朋友圈”', res);
                         },
                     }); 
@@ -502,7 +505,7 @@ export default {
                         imgUrl: imgUrl, // 分享图标
                         type: 'link', // 分享类型,music、video或link，不填默认为link
                         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                        success: function () {
+                        success: function (res) {
                             console.log('成功“分享给朋友”', res);
                         }
                     });

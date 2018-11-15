@@ -58,6 +58,6 @@ export default {
         IsTeam: IsTeam,
         subagentId: subagentId,
         orderbyName: orderbyName,
-        pageSize: pageSize ? pageSize : 15,
+        pageSize: pageSize ? pageSize : 10,
     }, '奖励', self),
 }

@@ -209,7 +209,7 @@ const routes = [
         path: '/activity/sharer',
         name: 'activity-sharer',
         component: () => import('@/views/activity/sharer'),
-        meta: { title: '邀请好友享加油分成' },
+        meta: { title: '' },
     },  {
         path: '/activity/sharer/preview',
         name: 'activity-sharer-preview',

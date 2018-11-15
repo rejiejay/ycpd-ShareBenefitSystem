@@ -26,11 +26,19 @@ export default {
          * 这个东西是一定能够拿的到的，因为是我自己传过来的
          */
         let parentId = this.$route.query.parentId;
+        
+        /**
+         * 苹果端 不可以 使用 shareName 这个字段
+         * 也许是 整个url 长度 太过于
+         * 也许是 不能中文 ，反正是 shareName 有问题
+         */
+        let name = this.$route.query.name;
+        
         /**
          * 因为需要获取 openId
          * 所以需要重新跳转
          */
-        window.location.href = config.jumpwx(`${config.location.href}#/register/index?parentId=${parentId}`, config.wxappid.my);
+        window.location.href = config.jumpwx(`${config.location.href}#/register/index?parentId=${parentId}&name=${name}`, config.wxappid.my);
     },
 
     destroyed: function destroyed() {

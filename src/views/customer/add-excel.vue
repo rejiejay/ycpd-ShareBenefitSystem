@@ -107,7 +107,7 @@ export default {
 
             errorRow: 0, // 多少行数据车牌号格式有误
 
-            uploadPercentage: 70, // 上传百分比
+            uploadPercentage: 0, // 上传百分比
 
             totalNum: 0, // 批量插入的成功数
 
@@ -202,23 +202,29 @@ export default {
             ajaxs.getOperateRecords(this)
             .then(
                 res => {
-                    _this.totalNum = res.totalNum;
+                    if (res) {
+                        _this.totalNum = res.totalNum;
 
-                    if (res.status === 1) {
-                        initUploadPercentage(res);
+                        if (res.status === 1) {
+                            initUploadPercentage(res);
 
-                    } else if (res.status === 2) {
+                        } else if (res.status === 2) {
 
-                        // 插入完成
-                        _this.isPollingUp = true;
-                        return _this.pageStatus = 'success';
-                    } else if (res.status === 3) {
+                            // 插入完成
+                            _this.isPollingUp = true;
+                            return _this.pageStatus = 'success';
+                        } else if (res.status === 3) {
 
-                        // 已经查看了，也调一下这个吧，虽然这种情况一下比较少
+                            // 已经查看了，也调一下这个吧，虽然这种情况一下比较少
+                            _this.isPollingUp = true;
+                            return _this.pageStatus = 'success';
+                        }
+                    } else {
+                        // 第一次批量操作的时候为 null
+                        // 这个状态 是第一次 和 状态码 为 3 的时候是差不多的
                         _this.isPollingUp = true;
                         return _this.pageStatus = 'success';
                     }
-                    
                 }, error => {
                     _this.isPollingUp = true;
                     alert(error)

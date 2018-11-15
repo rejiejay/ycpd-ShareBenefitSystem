@@ -281,13 +281,32 @@ export default {
              * 服务器的数据转换，
              * （为什么要转换？因为不信任服务器，防止因为改变而发生的报错）
              */
-            let dateToList = data => data.map(val => ({
-                costMoney: val.costMoney,
-                obtainMoney: val.obtainMoney,
-                projectName: val.projectName,
-                recordDate: val.recordDate,
-                userName: val.userName,
-            }));
+            let dateToList = data => data.map(val => {
+                /**
+                 * 用户姓名的规则
+                 * 优先显示昵称
+                 * 昵称不存在 显示车牌号
+                 * 车牌号不存在显示 手机号后四位
+                 */
+                let userName = '';
+                if (val.userName) {
+                    userName = val.userName;
+                } else {
+                    if (val.carNo) {
+                        userName = val.carNo
+                    } else {
+                        userName = `**${val.telephone.slice((val.telephone.length - 4), val.telephone.length)}`;
+                    }
+                }
+
+                return {
+                    costMoney: val.costMoney,
+                    obtainMoney: val.obtainMoney,
+                    projectName: val.projectName,
+                    recordDate: val.recordDate,
+                    userName: userName,
+                }
+            });
             
             this.isLoding = true;
             ajaxsAward.findMyRewardByConditions(this, this.pageNo, this.sortord, this.type, startTime, endTime)

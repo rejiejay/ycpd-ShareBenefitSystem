@@ -72,7 +72,7 @@
                 <div class="income-item-left flex-rest">
                     <div class="item-left-title flex-start">
                         <div class="left-title-name">{{item.subAgentName}}</div>
-                        <div>{{item.telephone}}</div>
+                        <div>{{item.subPhone}}</div>
                     </div>
 
                     <div class="item-left-describe flex-start">
@@ -175,11 +175,28 @@ export default {
              * （为什么要转换？因为不信任服务器，防止因为改变而发生的报错）
              */
             let dateToList = data => data.map(val => {
+                /**
+                 * 用户姓名的规则
+                 * 优先显示昵称
+                 * 昵称不存在 显示车牌号
+                 * 车牌号不存在显示 手机号后四位
+                 */
+                let userName = '';
+                if (val.userName) {
+                    userName = val.userName;
+                } else {
+                    if (val.carNo) {
+                        userName = val.carNo
+                    } else {
+                        userName = `**${val.telephone.slice((val.telephone.length - 4), val.telephone.length)}`;
+                    }
+                }
+
                 return {
                     subAgentName: val.subAgentName,
-                    telephone: val.telephone,
+                    subPhone: val.subPhone,
 
-                    userName: val.userName,
+                    userName: userName,
                     carNo: val.carNo,
                     
                     projectName: val.projectName,

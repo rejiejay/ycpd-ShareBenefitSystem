@@ -464,13 +464,17 @@ export default {
                         '1002': '参数错误',
                         '1005': '批量添加客户流程还未走完',
                     }
-                    if (res.code === 1000) {
+                    if (res.code == 1000) {
                         _this.jumpToRouter('/customer/addexcel', {pageStatus: 'process'});
                     } else {
                         if (keyValMsg[res.code]) {
                             alert(`${keyValMsg[res.code]}${res.msg}`);
                         } else {
                             alert(res.msg);
+                        }
+
+                        if (res.code == 1005) {
+                            _this.jumpToRouter('/customer/addexcel', {pageStatus: 'success'});
                         }
                     }
                 }, error => alert(error)

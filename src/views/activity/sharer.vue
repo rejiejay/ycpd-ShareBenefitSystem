@@ -68,7 +68,7 @@ export default {
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
-            this.shareName = this.$route.query.shareName;
+            this.shareName = this.$route.query.name;
 
             // 初始化标题
             window.document.title = `${this.shareName}送你一个加油神器`;

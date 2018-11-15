@@ -238,8 +238,12 @@ export default {
         // 初始化 parentId
         this.parentId = this.$route.query.parentId ? this.$route.query.parentId : null;
 
-        // 初始化 shareName
-        this.shareName = this.$route.query.shareName ? this.$route.query.shareName : null;
+        /**
+         * 苹果端 不可以 使用 shareName 这个字段
+         * 也许是 整个url 长度 太过于
+         * 也许是 不能中文 ，反正是 shareName 有问题
+         */
+        this.shareName = this.$route.query.name ? this.$route.query.name : null;
 
         // 判断是否存在微信 code
         if (loadPageVar('code')) {

@@ -229,7 +229,12 @@ export default {
             let agentName = this.userInfoStore.agentName;
             let title = `“${this.shareName}”送你一个加油神器`; // 分享标题
             let desc = '覆盖全市加油站最高直降1.2元/L'; // 分享描述
-            let link = `${config.location.href}#/activity/sharer?shareName=${this.shareName}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            /**
+             * 苹果端 不可以 使用 shareName 这个字段
+             * 也许是 整个url 长度 太过于
+             * 也许是 不能中文 ，反正是 shareName 有问题
+             */
+            let link = `${config.location.href}#/activity/sharer?name=${encodeURIComponent(this.shareName)}&quickMark=${this.quickMark}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
             document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
 
@@ -237,54 +242,69 @@ export default {
             .then(
                 () => {
                     console.log('成功初始化jssdk!');
-                    /**
-                     * 初始化“分享给朋友”及“分享到QQ”按钮的分享
-                     */
-                    wx.updateAppMessageShareData({ 
-                        title: title,
-                        desc: desc,
-                        link: link,
-                        imgUrl: imgUrl, // 分享图标
-                    }, function(res) { 
-                        console.log('成功“分享给朋友”及“分享到QQ”', res);
-                    }); 
                     
                     /**
-                     * 初始化“分享到朋友圈”及“分享到QQ空间”
+                     * 判断当前客户端版本是否支持指定JS接口
                      */
-                    wx.updateTimelineShareData({ 
-                        title: title,
-                        link: link,
-                        imgUrl: imgUrl, // 分享图标
-                    }, function(res) { 
-                        console.log('成功“分享到朋友圈”及“分享到QQ空间”', res);
-                    }); 
-                    
-                    /**
-                     * 初始化“分享到朋友圈”
-                     */
-                    wx.onMenuShareTimeline({
-                        title: title,
-                        link: link,
-                        imgUrl: imgUrl, // 分享图标
-                        success: function () {
-                            console.log('成功“分享到朋友圈”', res);
-                        },
-                    }); 
+                    wx.checkJsApi({
+                        jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                        success: function(res) {
+                            console.log('判断当前客户端版本是否支持指定JS接口', res);
+                            // 以键值对的形式返回，可用的api值true，不可用为false
+                            // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                            if (res.checkResult.updateAppMessageShareData === true && res.checkResult.updateTimelineShareData === true) {
+                                /**
+                                 * 初始化“分享给朋友”及“分享到QQ”按钮的分享
+                                 */
+                                wx.updateAppMessageShareData({ 
+                                    title: title,
+                                    desc: desc,
+                                    link: link,
+                                    imgUrl: imgUrl, // 分享图标
+                                }, function(res) { 
+                                    console.log('成功“分享给朋友”及“分享到QQ”', res);
+                                }); 
+                                
+                                /**
+                                 * 初始化“分享到朋友圈”及“分享到QQ空间”
+                                 */
+                                wx.updateTimelineShareData({ 
+                                    title: title,
+                                    link: link,
+                                    imgUrl: imgUrl, // 分享图标
+                                }, function(res) { 
+                                    console.log('成功“分享到朋友圈”及“分享到QQ空间”', res);
+                                }); 
 
-                    /**
-                     * 初始化“分享给朋友”及“分享到QQ”按钮的分享
-                     */
-                    wx.onMenuShareAppMessage({
-                        title: title,
-                        desc: desc,
-                        link: link,
-                        imgUrl: imgUrl, // 分享图标
-                        type: 'link', // 分享类型,music、video或link，不填默认为link
-                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                        success: function () {
-                            console.log('成功“分享给朋友”', res);
-                        }
+                            } else {
+                                /**
+                                 * 初始化“分享到朋友圈”
+                                 */
+                                wx.onMenuShareTimeline({
+                                    title: title,
+                                    link: link,
+                                    imgUrl: imgUrl, // 分享图标
+                                    success: function (res) {
+                                        console.log('成功“分享到朋友圈”', res);
+                                    },
+                                }); 
+
+                                /**
+                                 * 初始化“分享给朋友”及“分享到QQ”按钮的分享
+                                 */
+                                wx.onMenuShareAppMessage({
+                                    title: title,
+                                    desc: desc,
+                                    link: link,
+                                    imgUrl: imgUrl, // 分享图标
+                                    type: 'link', // 分享类型,music、video或link，不填默认为link
+                                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                                    success: function (res) {
+                                        console.log('成功“分享给朋友”', res);
+                                    }
+                                });
+                            }
+                        },
                     });
                 }, error => {
                     console.error(error);

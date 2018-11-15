@@ -6,26 +6,7 @@
         <!-- 车牌号 -->
         <div class="carno-input-list">
             <div class="input-list-content">
-                <div class="input-item flex-start">
-                    <div class="input-item-title">车牌号码:</div>
-
-                    <div class="input-item-main flex-rest flex-start-center">
-
-                        <!-- 车牌省份 -->
-                        <div class="item-select-province flex-start-center" @click="isProvincesKeyboardShow = true; customerselected_index = key;">
-                            <span>{{customerItem.carNoProvince}}</span>
-                            <svg width="18" height="18" t="1530499422424" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1464" xmlns:xlink="http://www.w3.org/1999/xlink" >
-                                <path fill="#909399" d="M325.399273 235.124364L600.157091 488.727273 325.399273 742.353455a34.909091 34.909091 0 1 0 47.36 51.316363l302.545454-279.272727a34.909091 34.909091 0 0 0 0-51.316364l-302.545454-279.272727a34.909091 34.909091 0 1 0-47.36 51.316364" p-id="1465"></path>
-                            </svg>
-                        </div>
-
-                        <!-- 车牌号码 -->
-                        <div class="input-item-lable flex-rest" @click="isPlateNoKeyboardShow = true; customerselected_index = key; lastIsNewEnergy = customerList[key].isNewEnergy;">
-                            <div class="item-lable-placeholder" v-if="customerItem.plateNo === ''">请输入车牌号</div>
-                            <div class="item-lable-plateNo" v-else>{{customerItem.plateNo}}</div>
-                        </div>
-                    </div>
-                </div>
+                <carNoInput @outPutHandle="data => carNoHandle(data, key)" />
             </div>
         </div>
         <div class="tag-carno-line"><div class="carno-line-content"></div></div>
@@ -164,9 +145,12 @@
 import ajaxs from "@/api/customer/add-lot-excel.js";
 // 组件类
 import Consequencer from "@/utils/Consequencer";
+import carNoInput from "@/components/carNoInput";
 
 export default {
     name: 'add-lot',
+
+    components: { carNoInput },
 
 	data: function data() { 
         return {
@@ -188,6 +172,14 @@ export default {
              */
             customerList: [
                 {
+                    carNoComponents: { // 车牌组件来的数据
+                        verify: false,
+                        message: '',
+                        carNo: '粤',
+                        carNoProvince: '粤',
+                        plateNo: '',
+                        carType: '',
+                    },
                     carNoProvince: '粤', // 车牌省份
                     plateNo: '', // 车牌号码
                     carNoError: '', // 车牌号 报错信息
@@ -362,6 +354,14 @@ export default {
         addCustomerList: function addCustomerList() {
             if (this.customerList.length < 20) {
                 this.customerList.push({
+                    carNoComponents: { // 车牌组件来的数据
+                        verify: false,
+                        message: '',
+                        carNo: '粤',
+                        carNoProvince: '粤',
+                        plateNo: '',
+                        carType: '',
+                    },
                     carNoProvince: '粤', // 车牌省份
                     plateNo: '', // 车牌号码
                     carNoError: '', // 车牌号 报错信息
@@ -373,6 +373,13 @@ export default {
             } else {
                 alert('不可以添加20条数据以上!');
             }
+        },
+
+        /**
+         * 从车牌输入的组件获取车牌号
+         */
+        carNoHandle: function carNoHandle(data, key) {
+            this.customerList[key].carNoComponents = data;
         },
 
         /**
@@ -400,7 +407,7 @@ export default {
             this.customerList = this.customerList.map(val => {
                 // 首先判断有没有填写 车牌号， 否则一切都是白搭
                 // 车牌号为空的情况下， 以下的都不需要执行
-                if (val.plateNo === '') {
+                if (val.carNoComponents.plateNo === '') {
                     // 因为用户有可能将数据删掉的情况, 所以错误信息顺带清空
                     val.carNoError = '';
                     val.phoneNumberError = '';
@@ -408,8 +415,9 @@ export default {
                 }
 
                 // 校验车牌号码
-                let myVerifyPlateNo = _this.verifyPlateNo(val);
-                if (myVerifyPlateNo.result === 1) {
+                // let myVerifyPlateNo = _this.verifyPlateNo(val);
+                // if (myVerifyPlateNo.result === 1) {
+                if (val.carNoComponents.verify) {
                     // 车牌校验成功 
                     val.carNoError = '';
 
@@ -422,7 +430,7 @@ export default {
                         
                         // 把数据推进去就行了（非必填）
                         submitArray.push({
-                            carNo: `${val.carNoProvince}${val.plateNo}`,
+                            carNo: val.carNoComponents.carNo,
                             username: val.customerName,
                             telphone: '',
                         });
@@ -437,7 +445,7 @@ export default {
 
                             // 把数据推进去
                             submitArray.push({
-                                carNo: `${val.carNoProvince}${val.plateNo}`,
+                                carNo: val.carNoComponents.carNo,
                                 username: val.customerName,
                                 telphone: val.phoneNumber,
                             });

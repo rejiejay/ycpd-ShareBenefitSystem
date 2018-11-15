@@ -5,7 +5,7 @@
     <!-- 车牌号 -->
     <div class="carno-input-list">
         <div class="input-list-content">
-            <carNoInput @outPutHandle="getCarNo" />
+            <carNoInput @outPutHandle="carNoHandle" />
         </div>
     </div>
 
@@ -35,7 +35,7 @@ export default {
 	mounted: function mounted() {},
 
 	methods: {
-        getCarNo: function getCarNo(data) {
+        carNoHandle: function carNoHandle(data) {
             console.log(data)
         },
     }

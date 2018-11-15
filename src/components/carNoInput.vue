@@ -790,21 +790,39 @@ export default {
             box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.35);
         }
 
+        .number-item-container:active {
+            color: #F56C6C;
+            background: rgba(0, 0, 0, 0.12);
+        }
+
         .number-item-disable {
             color: #c1c1c1;
+        }
+
+        .number-item-disable:active {
+            color: #c1c1c1;
+            background: #fff;
         }
     }
 
     // 键盘 字母 行
-    .carno-plate-letter .letter-item-container {
-        font-size: 16px;
-        width: 30px;
-        line-height: 40px;
-        text-align: center;
-        border-radius: 5px;
-        color: @black1;
-        background: #fff;
-        box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.35);
+    .carno-plate-letter {
+
+        .letter-item-container {
+            font-size: 16px;
+            width: 30px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 5px;
+            color: @black1;
+            background: #fff;
+            box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.35);
+        }
+
+        .letter-item-container:active {
+            color: #F56C6C;
+            background: rgba(0, 0, 0, 0.12);
+        }
     }
 
     //  键盘 字母 行 失效的样式
@@ -812,6 +830,11 @@ export default {
 
         .letter-item-container {
             color: #c1c1c1;
+        }
+        
+        .letter-item-container:active {
+            color: #c1c1c1;
+            background: #fff;
         }
     }
 
@@ -836,6 +859,10 @@ export default {
                 color: @black1;
                 background: #aab2bb;
                 box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.35);
+            }
+
+            .letter-del-container:active {
+                background: #fff;
             }
         }
     }

@@ -24,38 +24,7 @@
         <!-- 车牌号 -->
         <div class="carno-input-list">
             <div class="input-list-content">
-                <div class="input-item flex-start">
-                    <div class="input-item-title">车牌号码:</div>
-
-                    <div class="input-item-main flex-rest flex-start-center">
-                        
-                        <!-- 车牌省份 -->
-                        <div class="item-select-province flex-start-center" @click="isProvincesKeyboardShow = true; scrollToShowKeyboard();">
-                            <span>{{carNoProvince}}</span>
-                            <svg width="18" height="18" t="1530499422424" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1464" xmlns:xlink="http://www.w3.org/1999/xlink" >
-                                <path fill="#909399" d="M325.399273 235.124364L600.157091 488.727273 325.399273 742.353455a34.909091 34.909091 0 1 0 47.36 51.316363l302.545454-279.272727a34.909091 34.909091 0 0 0 0-51.316364l-302.545454-279.272727a34.909091 34.909091 0 1 0-47.36 51.316364" p-id="1465"></path>
-                            </svg>
-                        </div>
-                        
-                        <!-- 车牌号码 -->
-                        <div class="input-item-lable flex-rest" @click="isPlateNoKeyboardShow = true; scrollToShowKeyboard();">
-                            <div class="item-lable-placeholder" v-if="plateNo === ''">请输入车牌号</div>
-                            <div class="item-lable-plateNo" v-else>{{plateNo}}</div>
-                        </div>
-                        
-                        <!-- 拍照识别 -->
-                        <div class="input-item-photo flex-start-center" v-if="'这期' === '暂不显示'" @click="isPhotographShow = true; photographStatus = 'carNo';">
-                            <svg v-if="carNoPhotoSelected === ''" width="14" height="14" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-564.000000, -456.000000)" fill="#469AFF" fill-rule="nonzero"><g id="客户信息" transform="translate(0.000000, 426.000000)"><g id="Group" transform="translate(214.000000, 30.000000)">
-                                <path d="M353,8 C352.447715,8 352,8.44771525 352,9 L352,23 C352,23.5522847 352.447715,24 353,24 L375,24 C375.552285,24 376,23.5522847 376,23 L376,9 C376,8.44771525 375.552285,8 375,8 L368.558482,8 L367.558482,5 L360.441518,5 L359.441518,8 L353,8 Z M353,6 L358,6 L358.544152,4.36754447 C358.81638,3.55086019 359.580658,3 360.441518,3 L367.558482,3 C368.419342,3 369.18362,3.55086019 369.455848,4.36754447 L370,6 L375,6 C376.656854,6 378,7.34314575 378,9 L378,23 C378,24.6568542 376.656854,26 375,26 L353,26 C351.343146,26 350,24.6568542 350,23 L350,9 C350,7.34314575 351.343146,6 353,6 Z M364,20 C366.209139,20 368,18.209139 368,16 C368,13.790861 366.209139,12 364,12 C361.790861,12 360,13.790861 360,16 C360,18.209139 361.790861,20 364,20 Z M364,22 C360.686292,22 358,19.3137085 358,16 C358,12.6862915 360.686292,10 364,10 C367.313708,10 370,12.6862915 370,16 C370,19.3137085 367.313708,22 364,22 Z M372.5,13 C371.671573,13 371,12.3284271 371,11.5 C371,10.6715729 371.671573,10 372.5,10 C373.328427,10 374,10.6715729 374,11.5 C374,12.3284271 373.328427,13 372.5,13 Z" id="photo"></path></g></g></g></g>
-                            </svg>
-                            <span v-if="carNoPhotoSelected === ''">拍照识别</span>
-                            <svg v-if="carNoPhotoSelected !== ''" width="14" height="14" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-564.000000, -456.000000)" fill="#469AFF" fill-rule="nonzero"><g id="客户信息" transform="translate(0.000000, 426.000000)"><g id="Group" transform="translate(214.000000, 30.000000)">
-                                <path fill="#00CC44" d="M353,8 C352.447715,8 352,8.44771525 352,9 L352,23 C352,23.5522847 352.447715,24 353,24 L375,24 C375.552285,24 376,23.5522847 376,23 L376,9 C376,8.44771525 375.552285,8 375,8 L368.558482,8 L367.558482,5 L360.441518,5 L359.441518,8 L353,8 Z M353,6 L358,6 L358.544152,4.36754447 C358.81638,3.55086019 359.580658,3 360.441518,3 L367.558482,3 C368.419342,3 369.18362,3.55086019 369.455848,4.36754447 L370,6 L375,6 C376.656854,6 378,7.34314575 378,9 L378,23 C378,24.6568542 376.656854,26 375,26 L353,26 C351.343146,26 350,24.6568542 350,23 L350,9 C350,7.34314575 351.343146,6 353,6 Z M364,20 C366.209139,20 368,18.209139 368,16 C368,13.790861 366.209139,12 364,12 C361.790861,12 360,13.790861 360,16 C360,18.209139 361.790861,20 364,20 Z M364,22 C360.686292,22 358,19.3137085 358,16 C358,12.6862915 360.686292,10 364,10 C367.313708,10 370,12.6862915 370,16 C370,19.3137085 367.313708,22 364,22 Z M372.5,13 C371.671573,13 371,12.3284271 371,11.5 C371,10.6715729 371.671573,10 372.5,10 C373.328427,10 374,10.6715729 374,11.5 C374,12.3284271 373.328427,13 372.5,13 Z" id="photo"></path></g></g></g></g>
-                            </svg>
-                            <span v-if="carNoPhotoSelected !== ''" style="color: #00CC44;">重拍</span>
-                        </div>
-                    </div>
-                </div>
+                <carNoInput @outPutHandle="carNoHandle" />
             </div>
         </div>
 
@@ -304,17 +273,19 @@
 <script>
 // 框架类
 import { Toast } from 'mint-ui';
-// import ClipboardJS from "clipboard"; // https://github.com/zenorocha/clipboard.js
 // 请求类
 import ajaxs from "@/api/customer/add";
 // 组件类
 import initJSSDK from "@/components/initJSSDK";
 import Consequencer from "@/utils/Consequencer";
+import carNoInput from "@/components/carNoInput";
 // 静态资源类
 import register from "@/static/register.png";
 
 export default {
     name: 'customer-add',
+
+    components: { carNoInput },
 
 	data: function data() { 
         return {
@@ -335,6 +306,14 @@ export default {
             /**
              * 车牌
              */
+            carNoComponents: { // 车牌组件来的数据
+                verify: false,
+                message: '',
+                carNo: '粤',
+                carNoProvince: '粤',
+                plateNo: '',
+                carType: '',
+            },
             carNoProvince: '粤', // 车牌省份
             isProvincesKeyboardShow: false, // 是否显示 车牌省份
             provincesList: [ ["京", "沪", "浙", "苏", "粤", "鲁", "晋", "冀"],  ["豫", "川", "渝", "辽", "吉", "黑", "皖", "鄂"],  ["津", "贵", "云", "桂", "琼", "青", "新", "藏"],  ["蒙", "宁", "甘", "陕", "闽", "赣", "湘"] ], // 车牌省显示
@@ -445,6 +424,13 @@ export default {
         },
 
         /**
+         * 从车牌输入的组件获取车牌号
+         */
+        carNoHandle: function carNoHandle(data) {
+            this.carNoComponents = data;
+        },
+
+        /**
          * 初始化拍照或从手机相册中选图接口
          */
         wxJSSDKchooseImage: function wxJSSDKchooseImage() {
@@ -481,27 +467,10 @@ export default {
          * 校验车牌号码
          */
         verifyPlateNo: function verifyPlateNo() {
-            // 判断车牌号码是否为空
-            if (this.plateNo === '') {
-                // 如果为空
-                return Consequencer.error('车牌号码不能为空!');
-            }
-
-            // 判断是否新能源
-            if (this.isNewEnergy) {
-                // 新能源
-                if (this.plateNo.length === 7) {
-                    return Consequencer.success();
-                } else {
-                    return Consequencer.error('车牌号码格式有误!');
-                }
+            if (this.carNoComponents.verify === true) {
+                return Consequencer.success();
             } else {
-                // 普通汽车 (非新能源)
-                if (this.plateNo.length === 6) {
-                    return Consequencer.success();
-                } else {
-                    return Consequencer.error('车牌号码格式有误!');
-                }
+                return Consequencer.error(this.carNoComponents.message);
             }
         },
 
@@ -597,9 +566,7 @@ export default {
             //     return alert(verifyPhoneNumber.message);
             // }
 
-            let carNo = this.carNoProvince + this.plateNo; // 车牌号 等于 车牌省份 + 车牌号码
-            
-            ajaxs.addCustomerByCarNo(carNo, this.customerName, this.phoneNumber)
+            ajaxs.addCustomerByCarNo(this.carNoComponents.carNo, this.customerName, this.phoneNumber)
             .then(
                 res => { // 添加成功
                     // 跳转到客户列表页

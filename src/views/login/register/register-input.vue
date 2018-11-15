@@ -5,7 +5,8 @@
     <div class="register-container flex-column-center">
         <div class="register-title" v-if="shareName"><span>{{shareName}}</span>邀请你加入“金车管家”</div>
         <div class="register-title" v-else><span>养车省钱，分享赚钱</span></div>
-        <div class="register-title-lable">立即加入</div>
+        <div class="register-title-lable" v-if="shareName">养车省钱，分享赚钱</div>
+        <div class="register-title-lable" v-else>立即加入</div>
         
         <div class="register-input-main" :style="`width: ${clientWidth - 60}px;`">
             <!-- 所在公司  parentId 如果是二级代理就隐藏掉所属公司-->

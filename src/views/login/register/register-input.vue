@@ -550,7 +550,7 @@ export default {
                         _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo);
 
                         // 判断有没有关注微信公众号 如果关注了直接跳转到首页
-                        if (res.focus === '1') {
+                        if (res.data.focus === '1') {
                             _this.$router.replace({ path: '/' });
                         } else {
                             // 其他情况 -> 未关注 跳转到 关注公众号的页面

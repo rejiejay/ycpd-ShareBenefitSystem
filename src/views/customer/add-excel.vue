@@ -33,7 +33,7 @@
             </div>
             <div class="progress-describe">{{uploadPercentage}}% 正在批量添加数据...</div>
 
-            <div class="progress-backtrack-container"><div class="progress-backtrack">返回</div></div>
+            <div class="progress-backtrack-container" @click="replaceToRouter('/customer/add')"><div class="progress-backtrack">返回</div></div>
             
         </div>
     </div>
@@ -74,7 +74,7 @@
             <div class="excel-modal-row1 flex-center"><span>第{{errorRow}}行</span>数据车牌号格式有误</div>
             <div class="excel-modal-row2 flex-center">请修改后重新选择文件导入</div>
 
-            <div class="excel-modal-submit flex-center">我知道了</div>
+            <div class="excel-modal-submit flex-center" @click="pageStatus = 'before'">我知道了</div>
         </div>
     </div>
 </div>
@@ -87,6 +87,8 @@ import ajaxs from "@/api/customer/add-lot-excel.js";
 import Consequencer from "@/utils/Consequencer";
 // 配置文件类
 import config from "@/config/index";
+// 配置文件类
+import checkMaxAddNum from "@/api/common/checkMaxAddNum";
 
 export default {
     name: 'add-excel',
@@ -118,12 +120,11 @@ export default {
 	mounted: function mounted() {
         this.$route.query.pageStatus ? this.pageStatus = this.$route.query.pageStatus : null;
 
+        // 不管什么状态 这个都必须 初始化
         this.initUploadFile();
 
-        // 如果是正在导入
-        if (this.$route.query.pageStatus === 'process') {
-            this.pollingCheckStatus(); // 轮询查看 批量操作状态
-        }
+        // 查看批量操作记录 状态
+        this.getOperateRecords();
     },
 
     destroyed: function () {
@@ -132,6 +133,44 @@ export default {
     },
 
 	methods: {
+        /**
+         * 查看批量操作记录
+         * status 批量插入的状态：1：正在插入， 2：插入完成， 3:已经查看
+         */
+        getOperateRecords: function getOperateRecords() {
+            const _this = this;
+
+            ajaxs.getOperateRecords(this)
+            .then(
+                res => {
+                    // 判断是否有正在插入的订单
+                    // 因为 第一次批量操作的时候为 null
+                    // 所以 一定要判断 res 是不是存在
+                    // res 为 null 的状态 和 状态码 为 3（已经查看） 的时候是差不多的
+                    if (res && res.status !== 3) {
+                        _this.totalNum = res.totalNum;
+
+                        // 如果有，则跳转到 正在上传的页面
+                        let keyvalpageStatus = {
+                            '1': 'process', // 正在导入
+                            '2': 'success', // 导入成功
+                        }
+
+                        // 如果是正在导入
+                        // 或者查询的状态是正在导入的状态
+                        if (_this.$route.query.pageStatus === 'process' || res.status === 1) {
+                            _this.pollingCheckStatus(); // 轮询查看 批量操作状态
+                            _this.pageStatus = 'process';
+                        }
+                        
+                        if (res.status === 2) {
+                            _this.pageStatus = 'success';
+                        }
+                    }
+                }, error => alert(error)
+            );
+        },
+
         /**
          * 初始化 上传文件
          */
@@ -177,21 +216,16 @@ export default {
 
         /**
          * 轮询查看 批量操作状态
-         * 批量插入的状态：1：正在插入，2：插入完成， 3:已经查看
+         * 批量插入的状态： 1：正在插入， 2：插入完成，  3:已经查看
          */
         pollingCheckStatus: function pollingCheckStatus() {
             const _this = this;
 
             /**
-             * 
+             * 初始化 添加的百分比
              */
             let initUploadPercentage = data => {
-                _this.uploadPercentage = Math.floor(data.successNum / data.totalNum) * 100;
-
-                // 5秒钟轮询一次
-                setTimeout(() => {
-                    _this.pollingCheckStatus();
-                }, 5000);
+                _this.uploadPercentage = Math.floor((data.successNum / data.totalNum) * 100);
             }
 
             // 只要轮询结束了，就不继续执行了
@@ -199,15 +233,33 @@ export default {
                 return false
             }
 
+            // status 批量插入的状态： 1：正在插入，  2：插入完成，  3:已经查看
             ajaxs.getOperateRecords(this)
             .then(
                 res => {
+                    console.log(res);
+
+                    // 因为 第一次批量操作的时候为 null
+                    // 所以 一定要判断 res 是不是存在
+                    // res 为 null 的状态 和 状态码 为 3（已经查看） 的时候是差不多的
                     if (res) {
                         _this.totalNum = res.totalNum;
 
-                        if (res.status === 1) {
+                        /**
+                         * 初始化 添加的百分比
+                         * 不管是 哪种状态 (正在插入 插入完成 已经查到) 都可以初始化 添加的百分比
+                         * 只要数据存在就行
+                         */
+                        if (res.successNum && res.totalNum) {
                             initUploadPercentage(res);
+                        }
 
+                        // 只有正在添加的状态才进行轮询
+                        if (res.status === 1) {
+                            // 5秒钟轮询一次
+                            setTimeout( () => {
+                                _this.pollingCheckStatus();
+                            }, 5000);
                         } else if (res.status === 2) {
 
                             // 插入完成
@@ -215,15 +267,16 @@ export default {
                             return _this.pageStatus = 'success';
                         } else if (res.status === 3) {
 
-                            // 已经查看了，也调一下这个吧，虽然这种情况一下比较少
+                            // 已经查看了，不做任何操作
                             _this.isPollingUp = true;
-                            return _this.pageStatus = 'success';
+                            // return _this.pageStatus = 'success';
                         }
                     } else {
                         // 第一次批量操作的时候为 null
                         // 这个状态 是第一次 和 状态码 为 3 的时候是差不多的
+                        // 已经查看了，不做任何操作
                         _this.isPollingUp = true;
-                        return _this.pageStatus = 'success';
+                        // return _this.pageStatus = 'success';
                     }
                 }, error => {
                     _this.isPollingUp = true;
@@ -235,13 +288,14 @@ export default {
         /**
          * 修改批量操作记录为已读
          */
-        setReaded: function pollingCheckStatus() {
+        setReaded: function setReaded() {
             const _this = this;
 
             ajaxs.setReaded(this)
             .then(
                 res => {
                     _this.jumpToRouter('/customer/addlot');
+                    _this.checkMaxAddNum(); // 查看是否已经达到请求的上限
                 }, error => alert(error)
             );
 
@@ -255,6 +309,24 @@ export default {
         },
 
         /**
+         * 校验是否可以继续添加客户
+         */
+        checkMaxAddNum: function checkMaxAddNum() {
+            const _this = this;
+
+            checkMaxAddNum(this)
+            .then(
+                res => {
+                    if (res.code === 1008) {
+                        alert('当前的客户数量名额已达到上限，不能再添加客户');
+                        _this.replaceToRouter('/');
+                    }
+                }, error => alert(error)
+            )
+        },
+
+
+        /**
          * 跳转到路由
          * @param {object} query 携带的参数 非必填
          */
@@ -266,6 +338,20 @@ export default {
             query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
 
             this.$router.push(routerConfig);
+        },
+
+        /**
+         * 重定向到路由
+         * @param {object} query 携带的参数 非必填
+         */
+        replaceToRouter: function replaceToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.replace(routerConfig);
         },
     }
 }

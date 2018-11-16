@@ -275,6 +275,7 @@
 import { Toast } from 'mint-ui';
 // 请求类
 import ajaxs from "@/api/customer/add";
+import checkMaxAddNum from "@/api/common/checkMaxAddNum";
 // 组件类
 import initJSSDK from "@/components/initJSSDK";
 import Consequencer from "@/utils/Consequencer";
@@ -383,7 +384,7 @@ export default {
         checkMaxAddNum: function checkMaxAddNum() {
             const _this = this;
 
-            ajaxs.checkMaxAddNum(this)
+            checkMaxAddNum(this)
             .then(
                 res => {
                     if (res.code === 1008) {
@@ -470,7 +471,7 @@ export default {
             if (this.carNoComponents.verify === true) {
                 return Consequencer.success();
             } else {
-                return Consequencer.error(this.carNoComponents.message);
+                return Consequencer.error('车牌号有误.');
             }
         },
 
@@ -568,7 +569,8 @@ export default {
 
             ajaxs.addCustomerByCarNo(this.carNoComponents.carNo, this.customerName, this.phoneNumber)
             .then(
-                res => { // 添加成功
+                res => {
+                    // 添加成功
                     // 跳转到客户列表页
                     _this.$router.replace({path: `/customer`});
                 }, error => {

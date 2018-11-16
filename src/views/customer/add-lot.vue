@@ -243,6 +243,8 @@ export default {
 
 	mounted: function mounted() {
         // 查看批量操作记录
+        // 为什么要查看这个，因为有一个逻辑是这样的
+        // 进来 批量添加需要判断是否有 excel 添加 如果 有 excel 必须调整
         this.getOperateRecords();
     },
 
@@ -256,6 +258,9 @@ export default {
             .then(
                 res => {
                     // 判断是否有正在插入的订单
+                    // 因为 第一次批量操作的时候为 null
+                    // 所以 一定要判断 res 是不是存在
+                    // res 为 null 的状态 和 状态码 为 3（已经查看） 的时候是差不多的
                     if (res && res.status !== 3) {
                         // 如果有，则跳转到 正在上传的页面
                         let keyvalpageStatus = {

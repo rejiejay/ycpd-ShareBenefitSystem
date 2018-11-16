@@ -1,6 +1,6 @@
 <!-- 收入明细 -->
 <template>
-<div class="team-income">
+<div class="team-income" id="team-income">
     
     <!-- 排序栏 -->
     <div class="team-income-sort">
@@ -110,7 +110,7 @@ export default {
             
             // IsTeam 表示是否从 team/list 进来
             // 0 表示代理收入 1 表示团队收入 默认是 0
-            IsTeam: 0,
+            isTeam: 0,
 
             /**
              * 排序
@@ -148,7 +148,7 @@ export default {
 	mounted: function mounted() {
         // IsTeam 表示是否从 team/list 进来
         // 0 表示代理收入 1 表示团队收入 默认是 0
-        this.IsTeam = this.$route.query.IsTeam ? 1 : 0;
+        this.isTeam = this.$route.query.isTeam ? 1 : 0;
 
         // 从 team/member 进来 
         // subagentId 是 子代理Id 管理员的 agentInfoId
@@ -211,7 +211,7 @@ export default {
             this.isLoding = true; // 这个是下拉加载，防止 重复加载的作用的
             let startTime = null; // 因为不需要用到这个
             let endTime = null; // 因为不需要用到这个
-            ajaxsAward.findMyRewardByConditions(this, this.pageNo, this.sortord, this.type, startTime, endTime, this.IsTeam, this.subagentId, this.orderbyName)
+            ajaxsAward.findMyRewardByConditions(this, this.pageNo, this.sortord, this.type, startTime, endTime, this.isTeam, this.subagentId, this.orderbyName)
             .then(
                 res => {
                     _this.isLoding = false; // 这个是下拉加载，防止 重复加载的作用的
@@ -245,7 +245,7 @@ export default {
 		scrollBottom: function scrollBottom(event) {
 
 			let screenHeight = window.screen.height; // 屏幕的高度
-			let clientHeight = document.getElementById('user-award').clientHeight; // 页面的总高度
+			let clientHeight = document.getElementById('team-income').clientHeight; // 页面的总高度
 			let myScrollTop = document.documentElement.scrollTop || document.body.scrollTop; // 滚动的距离
 			if (
 				screenHeight + myScrollTop >= clientHeight - 50 && // (屏幕高度 + 滚动的距离) 必须 (大于整个页面的总高度 - 50像素的预留空间)
@@ -336,7 +336,7 @@ export default {
     position: relative;
     font-size: 14px;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     background-color: #f5f5f5;
 }
 

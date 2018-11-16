@@ -124,8 +124,9 @@ export default {
             // 判断 newMemberDividedModifier 是否在1~100的范围内
             if (newMemberDividedModifier <= 100 && newMemberDividedModifier >= 0 ) {
                 this.memberDividedModifier = parseInt(newMemberDividedModifier);
+            } else if (newMemberDividedModifier > 100) {
+                this.memberDividedModifier = 100;
             } else {
-                alert('请输入正确团队分成比例，范围区间1~100.');
                 this.memberDividedModifier = 0;
             }
         },

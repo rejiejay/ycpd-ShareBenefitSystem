@@ -22,7 +22,7 @@
                     :class="{'carNo-plate-isNull': plateNo === ''}"
                     @click="isPlatesKeyboardShow = true;"
                 >{{plateNo === '' ? "点击输入" : plateNo}}</div>
-                <div class="carNo-main-addtion" v-if="renderPlateNoAddition">{{renderPlateNoAddition}}</div>
+                <div class="carNo-main-addtion" v-if="carTypeList[carType_index].value">{{carTypeList[carType_index].value}}</div>
             </div>
         </div>
     </div>
@@ -222,30 +222,6 @@ export default {
 
     computed: {
         /**
-         * 渲染车牌附加信息
-         * 例如 (小车 大车 新能源 教练 警察 香港 澳门)
-         */
-        renderPlateNoAddition: function renderPlateNoAddition() {
-            if (this.carType_index === 3) {
-                return '学'
-            }
-
-            if (this.carType_index === 4) {
-                return '警'
-            }
-
-            if (this.carType_index === 5) {
-                return '港'
-            }
-
-            if (this.carType_index === 6) {
-                return '澳'
-            }
-
-            return false
-        },
-
-        /**
          * 车牌省份 键盘的宽度
          */
         carNoProvinceBlockWidth: function carNoProvinceBlockWidth() {
@@ -322,9 +298,21 @@ export default {
              * 当切换新能源的时候， 需要判断 车牌号的长度
              * 因为 新能源是 plateNo 的长度是 7
              */
-            if (index !== 2 && this.plateNo.length === 7) {
-                // 当长度为7的时候，裁剪调一位
-                this.plateNo = this.plateNo.slice(0, this.plateNo.length - 1);
+            if (index === 0 || index === 1) {
+                // 切换到 0,1 的车 长度 是6
+                if (this.plateNo.length === 7) {
+                    // 如果长度为 7 表示从新能源切换过来的 需要裁剪掉一位
+                    this.plateNo = this.plateNo.slice(0, this.plateNo.length - 1);
+                }
+            } else if (index === 3 || index === 4 || index === 5 || index === 6) {
+                // 切换到 3,4,5,6 的长度 是 5
+                if (this.plateNo.length === 7) {
+                    // 如果长度为 7 表示从新能源切换过来的 需要裁剪掉两位位
+                    this.plateNo = this.plateNo.slice(0, this.plateNo.length - 2);
+                } else if (this.plateNo.length === 6) {
+                    // 如果长度为 7 表示从新能源切换过来的 需要裁剪掉一位
+                    this.plateNo = this.plateNo.slice(0, this.plateNo.length - 1);
+                }
             }
 
             this.carType_index = index;
@@ -342,6 +330,12 @@ export default {
                 // 判断长度有没有超越 最大长度 7
                 if (this.plateNo.length >= 7) {
                     // 是新能源的情况下，并且 长度大于 等于 7 ，这个时候就不可继续新增数字了
+                    return false;
+                }
+            } else if (this.carType_index === 3 || this.carType_index === 4 || this.carType_index === 5 || this.carType_index === 6) {
+                // 判断长度有没有超越 最大长度 5
+                if (this.plateNo.length >= 5) {
+                    // 教练 警察 香港 澳门 车牌的情况下，并且 长度大于 等于 6 ，这个时候就不可继续新增数字了
                     return false;
                 }
             } else {
@@ -374,7 +368,7 @@ export default {
             }
 
             /**
-             * 判断是不是新能源
+             * 先判断是不是新能源
              * 新能源是 plateNo 的长度是 7
              */
             if (this.carType_index === 2) {
@@ -383,7 +377,13 @@ export default {
                     // 是新能源的情况下，并且 长度大于 等于 7 ，这个时候就不可继续新增数字了
                     return false;
                 }
-            } else {
+            } else if (this.carType_index === 3 || this.carType_index === 4 || this.carType_index === 5 || this.carType_index === 6) {
+                // 判断长度有没有超越 最大长度 5
+                if (this.plateNo.length >= 5) {
+                    // 教练 警察 香港 澳门 车牌的情况下，并且 长度大于 等于 6 ，这个时候就不可继续新增数字了
+                    return false;
+                }
+            }else {
                 // 判断长度有没有超越 最大长度 6
                 if (this.plateNo.length >= 6) {
                     // 普通车牌的情况下，并且 长度大于 等于 6 ，这个时候就不可继续新增数字了
@@ -395,7 +395,7 @@ export default {
         },
 
         /**
-         * 输入字母
+         * 删除
          */
         delPlateNo: function delPlateNo() {
             /**
@@ -431,8 +431,15 @@ export default {
                 } else {
                     message = '车牌号不正确';
                 }
-            } else {
+            } else if (this.carType_index === 3 || this.carType_index === 4 || this.carType_index === 5 || this.carType_index === 6) {
                 // 非新能源车 的情况下
+                if (this.plateNo.length  === 5) {
+                    verify = true;
+                } else {
+                    message = '车牌号不正确';
+                }
+            } else {
+                // 普通源车 的情况下
                 if (this.plateNo.length  === 6) {
                     verify = true;
                 } else {

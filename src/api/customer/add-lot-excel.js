@@ -19,7 +19,7 @@ export default {
     /**
      * 修改批量操作记录为已读
      */
-    setReaded: self => apibasics.get(`${config.url.origin}/ycpd/cas/batchClientImport/readed?token=${window.localStorage.getItem('ycpd_token')}`, '已读', self),
+    setReaded: self => apibasics.resget(`${config.url.origin}/ycpd/cas/batchClientImport/readed?token=${window.localStorage.getItem('ycpd_token')}`, '已读', self),
 
     /**
      * 下载 excel 模板

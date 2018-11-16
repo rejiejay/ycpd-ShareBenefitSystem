@@ -337,7 +337,9 @@ export default {
 
         this.getQRcode(); // 获取 - 二维码
         this.getMyRewards(); // 获取 - 我的奖励
-        this.getRewardHeads(); // 获取 - 已入账、未入账
+
+        // 这个不需要了，
+        // this.getRewardHeads(); // 获取 - 已入账、未入账
 
 		window.addEventListener('scroll', this.scrollNavigation); // 添加滚动事件，检测滚动的距离
 
@@ -433,15 +435,35 @@ export default {
         getMyRewards: function getMyRewards() {
             const _this = this;
 
-            ajaxsAward.findMyRewards(1, this) // 只查询一页
+            ajaxsAward.findMyRewardByConditions(this, 1) // 只查询一页
             .then(
                 res => {
-                    _this.awardList = res.map(val => {
+                    _this.awardTotal = res.totalMoney; // 总金额
+
+
+                    _this.awardList = res.rewardList.map(val => {
+                        /**
+                         * 用户姓名的规则
+                         * 优先显示昵称
+                         * 昵称不存在 显示车牌号
+                         * 车牌号不存在显示 手机号后四位
+                         */
+                        let clientName = '';
+                        if (val.clientName) {
+                            clientName = val.clientName;
+                        } else {
+                            if (val.carNo) {
+                                clientName = val.carNo
+                            } else {
+                                clientName = `**${val.clientPhone.slice((val.clientPhone.length - 4), val.clientPhone.length)}`;
+                            }
+                        }
+
                         return {
-                            name: val.userName, // 昵称
+                            name: clientName, // 昵称
                             sum: val.costMoney, // 加油金额
                             sharing: val.obtainMoney, // 我的分成
-                            time: val.recordDate, // 时间
+                            time: val.recordDate.split(' ')[0], // 时间
                         }
                     });
                 }, error => {

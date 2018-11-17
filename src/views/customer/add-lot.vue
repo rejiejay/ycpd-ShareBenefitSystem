@@ -144,6 +144,7 @@
 // 请求类
 import ajaxs from "@/api/customer/add-lot-excel.js";
 // 组件类
+import { Indicator } from 'mint-ui';
 import Consequencer from "@/utils/Consequencer";
 import carNoInput from "@/components/carNoInput";
 
@@ -508,7 +509,13 @@ export default {
                         '1005': '批量添加客户流程还未走完',
                     }
                     if (res.code == 1000) {
-                        _this.jumpToRouter('/customer/addexcel', {pageStatus: 'process'});
+                        Indicator.open('正在添加...'); // 弹出加载框
+
+                        // 因为后台返回的数据会
+                        setTimeout(() => {
+                            Indicator.close(); // 关闭加载框
+                            _this.jumpToRouter('/customer/addexcel', {pageStatus: 'process'});
+                        });
                     } else {
                         if (keyValMsg[res.code]) {
                             alert(`${keyValMsg[res.code]}${res.msg}`);

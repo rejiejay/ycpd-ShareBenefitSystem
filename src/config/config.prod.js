@@ -6,11 +6,11 @@ module.exports = {
     },
 
     location: {
-        href: 'http://cas.sz2.ichebaoyang.com/home/cas/index.html', // （金车管家公众号）
+        href: 'http://vipsteward.sz2.ichebaoyang.com/home/cas/index.html', // （金车管家公众号）
         ycpd: 'http://picc.hotgz.com/wx20/index.html', // 养车频道 地址
     },
 
     url: {
-        origin: 'http://cas.sz2.ichebaoyang.com', // 请求源 （金车管家公众号）
+        origin: 'http://vipsteward.sz2.ichebaoyang.com', // 请求源 （金车管家公众号）
     },
 };

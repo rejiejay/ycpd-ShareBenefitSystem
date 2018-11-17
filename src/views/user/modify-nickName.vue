@@ -65,6 +65,10 @@ export default {
         updateNickname: function updateNickname() {
             const _this = this;
 
+            if (this.nickName === '') {
+                return alert('姓名不能为空!');
+            }
+
             ajaxs.updateNickname(this.nickName, this)
             .then(
                 res => {

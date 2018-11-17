@@ -150,11 +150,7 @@ export default {
                  * 目的是防止出现路由后退
                  */
                 let jumpTohref = `${config.location.href}#/login`;
-                if (window.open) {
-                    window.open(jumpTohref);
-                } else {
-                    window.location.href = jumpTohref;
-                }
+                window.location.href = jumpTohref;
             }, error => {
                 alert(error);
             });

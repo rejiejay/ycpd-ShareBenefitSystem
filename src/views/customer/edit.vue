@@ -174,6 +174,10 @@ export default {
         submitEdit: function submitEdit() {
             const _this = this;
 
+            if (this.remark.length >= 100) {
+                return alert('添加失败，因为客户备注信息过长!');
+            }
+
             ajaxs.editCustomer(this.username, this.telphone, this.telphone2, this.customerBirthday, this.remark, this)
             .then(
                 res => {

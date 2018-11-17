@@ -5,9 +5,9 @@
     <agreement />
     
     <div class="agreement-botton">
-        <div class="agreement-botton-content flex-start-center">
+        <div class="agreement-botton-content flex-start-center" :class="{'agreement-botton-disable' : ifAgreedCount !== ''}">
             <div class="agreement-botton-back" @click="jumpToBack(false)" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>返回</div></div>
-            <div class="agreement-botton-approved" @click="jumpToBack(true)" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>同意</div></div>
+            <div class="agreement-botton-approved" @click="jumpToBack(true)" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>同意<span>{{ifAgreedCount}}</span></div></div>
         </div>
     </div>
 </div>
@@ -27,17 +27,53 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+            
+            /**
+             * 同意 5秒倒计时 
+             */
+            ifAgreedCount: '',
         }
     }, 
 
-    mounted: function () { },
+    mounted: function () {
+        this.countdownStart();  
+    },
 
     methods: {
+
+        /**
+         * 开始同意倒计时
+         */
+        countdownStart: function countdownStart() {
+            const _this = this;
+
+            this.ifAgreedCount = 5;
+            
+            // 定时器倒计时 5 秒
+            for(var i = 0; i < 5; i++ ) {
+                (function (i) { // 匿名函数自执行创建闭包
+                    setTimeout(function() {
+                        _this.ifAgreedCount--;
+                        if (i === 4) {
+                            _this.ifAgreedCount = '';
+                        }
+                    }, i * 1000);
+                })(i);
+            }
+        },
+
+
         /**
          * 返回注册页面
          * @param {boolean} isAgreement 是否同意协议
          */
         jumpToBack(isAgreement) {
+            // 判断是否可以点击
+            // 只有 倒计时 为 '' 的时候才是可以点击的
+            if (this.ifAgreedCount !== '') {
+                return false;
+            }
+
             if (isAgreement) {
                 this.$store.commit('MulFunStorage/initRegisterAgreement', isAgreement); //初始化 是否阅读并且同意
             }
@@ -121,6 +157,16 @@ export default {
             border-radius: 4px;
             background: #E50012;
             color: #fff;
+        }
+    }
+
+    .agreement-botton-disable {
+
+        .agreement-botton-back div,
+        .agreement-botton-approved div {
+            background: #ddd;
+            color: @black1;
+            border: 1px solid #ddd;
         }
     }
 }

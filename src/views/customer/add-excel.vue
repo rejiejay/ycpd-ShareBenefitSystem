@@ -294,8 +294,12 @@ export default {
             ajaxs.setReaded(this)
             .then(
                 res => {
-                    _this.jumpToRouter('/customer/addlot');
-                    _this.checkMaxAddNum(); // 查看是否已经达到请求的上限
+                    _this.checkMaxAddNum() // 查看是否已经达到请求的上限
+                    .then(() => {
+                        _this.jumpToRouter('/customer/addlot');
+                    }, error => {
+                        _this.replaceToRouter('/');
+                    });
                 }, error => alert(error)
             );
 
@@ -313,16 +317,20 @@ export default {
          */
         checkMaxAddNum: function checkMaxAddNum() {
             const _this = this;
+            return new Promise((resolve, reject) => {
+                checkMaxAddNum(this)
+                .then(
+                    res => {
+                        if (res.code === 1008) {
+                            alert('当前的客户数量名额已达到上限，不能再添加客户');
+                            reject();
+                        } else {
+                            resolve();
+                        }
+                    }, error => alert(error)
+                );
+            });
 
-            checkMaxAddNum(this)
-            .then(
-                res => {
-                    if (res.code === 1008) {
-                        alert('当前的客户数量名额已达到上限，不能再添加客户');
-                        _this.replaceToRouter('/');
-                    }
-                }, error => alert(error)
-            )
         },
 
 

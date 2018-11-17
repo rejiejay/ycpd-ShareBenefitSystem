@@ -481,7 +481,7 @@ export default {
             let userInfoStore = this.userInfoStore;
 
             // 初始化用户信息
-            this.agentName = userInfoStore.agentName;
+            this.agentName = userInfoStore.nickName ? userInfoStore.nickName : userInfoStore.agentName;
 
             // 初始化客户信息
             this.username = pageCustomerStore.username;

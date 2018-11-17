@@ -387,12 +387,14 @@ export default {
             let navigation_index = 0;
 
             // 表示滚动到第一个下标的位置
-            if (myScrollTop > (488 - 50)) {
+            // if (myScrollTop > (488 - 50)) {
+            if (myScrollTop > (430 - 50)) {
                 navigation_index++;
             }
 
             // 表示滚动到第二个下标的位置
-            if (myScrollTop > (653 - 50)) {
+            // if (myScrollTop > (653 - 50)) {
+            if (myScrollTop > (610 - 50)) {
                 navigation_index++;
             }
 

@@ -132,6 +132,7 @@ import { MessageBox, Toast } from 'mint-ui';
 import ajaxs from "@/api/login/register";
 // 组件类
 import loadPageVar from "@/utils/loadPageVar";
+import isMobiler from "@/utils/isMobiler";
 import Consequencer from "@/utils/Consequencer";
 // 静态资源类
 import inviteBg from "@/static/inviteBg.png";
@@ -477,7 +478,12 @@ export default {
              */
             let handleMouseMove = function handleMouseMove(event) {
                 // 位移量
-                var mouseOffset = event.changedTouches[0].clientX - originX;
+                if (isMobiler) { // 解决兼容问题
+                    var mouseOffset = event.changedTouches[0].clientX - originX;
+                } else {
+                    // 兼容PC端
+                    var mouseOffset = event.x - originX;
+                }
 
                 /**
                  * 判断是否在移动的范围内
@@ -497,19 +503,36 @@ export default {
 
                 checkoutDistance(); // 校验滑动图片距离是否正确
 
-                window.removeEventListener('touchmove', handleMouseMove);
-                window.removeEventListener('touchend', handleMouseEnd);
+                if (isMobiler) { // 解决兼容问题
+                    window.removeEventListener('touchmove', handleMouseMove);
+                    window.removeEventListener('touchend', handleMouseEnd);
+                } else {
+                    window.removeEventListener('mousemove', handleMouseMove);
+                    window.removeEventListener('mouseup', handleMouseEnd);
+                }
             }
 
             // 添加触摸事件
-            dragHandle.addEventListener('touchstart', function (event) {
-                _this.jigsawStatus = 'activate'; // 将 滑动拼图状态 设置为 激活状态
+            if (isMobiler) { // 解决兼容问题
+                dragHandle.addEventListener('touchstart', function (event) {
+                    _this.jigsawStatus = 'activate'; // 将 滑动拼图状态 设置为 激活状态
 
-                originX = event.changedTouches[0].clientX; // 设置 X轴 原始坐标
-  
-                window.addEventListener('touchmove', handleMouseMove);
-                window.addEventListener('touchend', handleMouseEnd);
-            });
+                    originX = event.changedTouches[0].clientX; // 设置 X轴 原始坐标
+    
+                    window.addEventListener('touchmove', handleMouseMove);
+                    window.addEventListener('touchend', handleMouseEnd);
+                });
+            } else {
+                // 兼容PC端
+                dragHandle.addEventListener('mousedown', function (event) {
+                    _this.jigsawStatus = 'activate'; // 将 滑动拼图状态 设置为 激活状态
+
+                    originX = event.x; // 设置 X轴 原始坐标
+    
+                    window.addEventListener('mousemove', handleMouseMove);
+                    window.addEventListener('mouseup', handleMouseEnd);
+                });
+            }
         },
 
 		/**

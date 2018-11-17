@@ -307,7 +307,7 @@ export default {
         /**
          * 我的奖励
          */
-        getMyRewards: function getMyRewards(isAdd, startTime, endTime) {
+        getMyRewards: function getMyRewards(isAdd) {
             const _this = this;
             
             /**
@@ -340,6 +340,14 @@ export default {
                     userName: clientName,
                 }
             });
+
+            // 初始化 startTime 与 endTime
+            let startTime = null;
+            let endTime = null;
+            if (this.startTime && this.endTime) {
+                startTime = TimeConver.dateToYYYYmmDDhhMMss(this.startTimepicker);
+                endTime = `${TimeConver.dateToFormat(this.endTimepicker)} 23:59:59`;
+            }
             
             this.isLoding = true;
             ajaxsAward.findMyRewardByConditions(this, this.pageNo, this.sortord, this.type, startTime, endTime)
@@ -383,6 +391,8 @@ export default {
             this.sortord = sortType;
             this.type = 0;
             this.sortChecked = 'time';
+            this.startTime = '';
+            this.endTime = '';
 
             // 关闭所有模态框
             this.isSortModalShow = false;
@@ -406,6 +416,8 @@ export default {
             this.sortord = 0;
             this.type = type;
             this.sortChecked = 'type';
+            this.startTime = '';
+            this.endTime = '';
 
             // 关闭所有模态框
             this.isSortModalShow = false;
@@ -441,7 +453,7 @@ export default {
             // 判断是否存在 结束时间 
             if (this.endTime) {
                 // 判断 开始时间 是否小于 结束时间
-                if (this.startTimepicker.getTime() < this.endTimepicker.getTime()) {
+                if (this.startTimepicker.getTime() <= this.endTimepicker.getTime()) {
                     // 时间格式是正确的 
                     this.startTime = TimeConver.dateToFormat(this.startTimepicker);
                     // 并且则开始请求
@@ -461,7 +473,7 @@ export default {
             // 判断是否存在 开始时间
             if (this.startTime) {
                 // 判断 结束时间 是否小于 开始时间
-                if (this.endTimepicker.getTime() > this.startTimepicker.getTime()) {
+                if (this.endTimepicker.getTime() >= this.startTimepicker.getTime()) {
                     // 时间格式是正确的 
                     this.endTime = TimeConver.dateToFormat(this.endTimepicker);
                     // 并且则开始请求
@@ -496,7 +508,7 @@ export default {
             this.isTimequantumModalShow = false;
 
             // 开始请求
-            this.getMyRewards(false, TimeConver.dateToYYYYmmDDhhMMss(this.startTimepicker), `${TimeConver.dateToFormat(this.endTimepicker)} 59:59:59`);
+            this.getMyRewards(false);
         },
 
         /**

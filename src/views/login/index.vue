@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="login-agreement-text">
-                    我已阅读并同意<span @click="isAgreementShow = true">《金车管家用户服务协议》</span>
+                    我已阅读并同意<span @click="isAgreementShow = true; countdownStart;">《金车管家用户服务协议》</span>
                 </div>
             </div>
         </div>
@@ -104,9 +104,9 @@
         <agreement />
         
         <div class="agreement-botton">
-            <div class="agreement-botton-content flex-start-center">
-                <div class="agreement-botton-back" @click="isAgreementShow = false" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>返回</div></div>
-                <div class="agreement-botton-approved" @click="isAgreementShow = false; isAgreement = true;" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>同意</div></div>
+            <div class="agreement-botton-content flex-start-center" :class="{'agreement-botton-disable' : ifAgreedCount !== ''}">
+                <div class="agreement-botton-back" @click="agreementHandle(false)" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>返回</div></div>
+                <div class="agreement-botton-approved" @click="agreementHandle(true)" :style="`width: ${Math.floor((clientWidth - 30) / 2)}px;`"><div>同意 <span>{{ifAgreedCount}}</span></div></div>
             </div>
         </div>
     </div>
@@ -121,6 +121,7 @@ import { MessageBox, Toast } from 'mint-ui';
 import ajaxs from "@/api/login/index";
 // 组件类
 import agreement from "@/components/agreement";
+import isMobiler from "@/utils/isMobiler";
 import loadPageVar from "@/utils/loadPageVar";
 import Consequencer from "@/utils/Consequencer";
 
@@ -145,7 +146,7 @@ export default {
 			SMSNumber: '', // 短信验证码
 			isSMSGeting: false, // 是否 正在获取短信验证码
             reGetCount: 60, // 再次获取 倒计时60秒
-            
+
 			/**
              * 人机验证码
              */
@@ -178,7 +179,11 @@ export default {
              * 协议
              */
             isAgreement: false, // 是否同意协议
-            isAgreementShow: false, // 是否显示协议            
+            isAgreementShow: false, // 是否显示协议      
+            /**
+             * 同意 5秒倒计时 
+             */
+            ifAgreedCount: '',      
         }
     },
 
@@ -216,7 +221,6 @@ export default {
     },
 
     mounted: function () {
-
         // 判断是否存在微信 code
         if (loadPageVar('code')) {
             this.wx_code = loadPageVar('code');
@@ -441,7 +445,12 @@ export default {
              */
             let handleMouseMove = function handleMouseMove(event) {
                 // 位移量
-                var mouseOffset = event.changedTouches[0].clientX - originX;
+                if (isMobiler) { // 解决兼容问题
+                    var mouseOffset = event.changedTouches[0].clientX - originX;
+                } else {
+                    // 兼容PC端
+                    var mouseOffset = event.x - originX;
+                }
 
                 /**
                  * 判断是否在移动的范围内
@@ -461,19 +470,71 @@ export default {
 
                 checkoutDistance(); // 校验滑动图片距离是否正确
 
-                window.removeEventListener('touchmove', handleMouseMove);
-                window.removeEventListener('touchend', handleMouseEnd);
+                if (isMobiler) { // 解决兼容问题
+                    window.removeEventListener('touchmove', handleMouseMove);
+                    window.removeEventListener('touchend', handleMouseEnd);
+                } else {
+                    window.removeEventListener('mousemove', handleMouseMove);
+                    window.removeEventListener('mouseup', handleMouseEnd);
+                }
             }
 
             // 添加触摸事件
-            dragHandle.addEventListener('touchstart', function (event) {
-                _this.jigsawStatus = 'activate'; // 将 滑动拼图状态 设置为 激活状态
+            if (isMobiler) { // 解决兼容问题
+                dragHandle.addEventListener('touchstart', function (event) {
+                    _this.jigsawStatus = 'activate'; // 将 滑动拼图状态 设置为 激活状态
 
-                originX = event.changedTouches[0].clientX; // 设置 X轴 原始坐标
-  
-                window.addEventListener('touchmove', handleMouseMove);
-                window.addEventListener('touchend', handleMouseEnd);
-            });
+                    originX = event.changedTouches[0].clientX; // 设置 X轴 原始坐标
+    
+                    window.addEventListener('touchmove', handleMouseMove);
+                    window.addEventListener('touchend', handleMouseEnd);
+                });
+            } else {
+                // 兼容PC端
+                dragHandle.addEventListener('mousedown', function (event) {
+                    _this.jigsawStatus = 'activate'; // 将 滑动拼图状态 设置为 激活状态
+
+                    originX = event.x; // 设置 X轴 原始坐标
+    
+                    window.addEventListener('mousemove', handleMouseMove);
+                    window.addEventListener('mouseup', handleMouseEnd);
+                });
+            }
+        },
+
+        /**
+         * 用户协议点击 处理函数
+         * @param {Boolean} isAgreement 是否同意协议
+         */
+        agreementHandle: function agreementHandle(isAgreement) {
+            // 判断是否可以点击
+            // 只有 倒计时 为 '' 的时候才是可以点击的
+            if (this.ifAgreedCount === '') {
+                // 不管是否同意 都隐藏掉 用户协议的界面
+                this.isAgreementShow = false;
+                this.isAgreement = isAgreement;
+            }
+        },
+
+        /**
+         * 开始同意倒计时
+         */
+        countdownStart: function countdownStart() {
+            const _this = this;
+
+            this.ifAgreedCount = 5;
+            
+            // 定时器倒计时 5 秒
+            for(var i = 0; i < 5; i++ ) {
+                (function (i) { // 匿名函数自执行创建闭包
+                    setTimeout(function() {
+                        _this.ifAgreedCount--;
+                        if (i === 4) {
+                            _this.ifAgreedCount = '';
+                        }
+                    }, i * 1000);
+                })(i);
+            }
         },
 
 		/**
@@ -962,6 +1023,16 @@ export default {
             border-radius: 4px;
             background: #E50012;
             color: #fff;
+        }
+    }
+
+    .agreement-botton-disable {
+
+        .agreement-botton-back div,
+        .agreement-botton-approved div {
+            background: #ddd;
+            color: @black1;
+            border: 1px solid #ddd;
         }
     }
 }

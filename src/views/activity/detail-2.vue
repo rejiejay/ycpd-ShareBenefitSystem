@@ -153,6 +153,28 @@ export default {
         },
 
         /**
+         * 用于判断是否是一级代理
+         * parentId === 1 或者为空 就是一级代理
+         * 如果 不等于 1 或者为空 或者就二级代理
+         */
+        isPXV: function isPXV() {
+            // 判断存在不存在 parentId
+            if (this.userInfoStore.parentId) {
+
+                // 如果存在parentId，则判断是不是 === 1
+                if (parseInt(this.userInfoStore.parentId) === 1) {
+                    // 肯定是一级代理
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                // 如果不存在 parentId， 则有可能是一级代理
+                return true;
+            }
+        },
+
+        /**
          * 从 store 获取数据 用户信息
          */
         nowFormat: function nowFormat() {
@@ -189,6 +211,7 @@ export default {
                      * 如果不是 null 是二级代理，根据 分成比例计算就行
                      */
                     _this.divid = res.proportion ? `${(res.proportion * res.baseCount)}` : '10';
+                    // _this.divid = _this.isPXV ? '10' : `${(res.proportion * res.baseCount)}`;
                 }, error => {
                     alert(error);
                 }

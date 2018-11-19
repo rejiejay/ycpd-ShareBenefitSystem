@@ -104,6 +104,7 @@ Vue.component(DatetimePicker.name, DatetimePicker);
 
 import TimeConver from "@/utils/TimeConver";
 import ajaxs from "@/api/customer/edit";
+import getClientDetailById from "@/api/common/getClientDetailById";
 
 export default {
     name: 'customer-edit',
@@ -147,10 +148,28 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.getPageData();
         this.initPageData(); // 初始化页面数据
     },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+	    getPageData: function getPageData() {
+            const _this = this;
+
+            getClientDetailById(this) // 根据客户id 获取 客户信息
+            .then(
+                res => {
+                    _this.$store.commit('customer/initCustomerDetails', res);
+                    _this.initPageData(); // 初始化页面数据
+                }, error => {
+                    alert(error);
+                }
+            );
+        },
+
         /**
          * 初始化页面数据
          */
@@ -165,7 +184,7 @@ export default {
             if (pageStore.birthday) {
                 this.customerBirthday = new Date(TimeConver.YYYYmmDDhhMMssToTimestamp(pageStore.birthday));
             }
-            this.remark = pageStore.remark;
+            this.remark = pageStore.remark ? pageStore.remark : '';
         },
 
         /**

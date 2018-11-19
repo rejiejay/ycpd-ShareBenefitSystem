@@ -7,16 +7,16 @@ const state = {
         "createdDate": "2018-10-07 07:17:33", // 创建时间
         "createdUser": 1, // 创建用户
         "lastUpdatedDate": "2018-10-07 07:17:33", // 上次更新时间
-        "lastUpdatedUser": null, // 上次更新此条数据的用户
+        "lastUpdatedUser": '', // 上次更新此条数据的用户
         "clientId": "2c920286664d4feb01664d636c430016", // 用户的唯一标识
         "agentInfoId": "abcdefg", // 代理信息ID,
         "username": "周大福", // 用户姓名
         "telphone": "13136360865", // 手机号码
-        "telphone2": null,
+        "telphone2": '',
         "cardType": 0, // 证件类型 0 表示身份证 
         "cardNo": '441623199403235252', // 证件 
         "birthday": '2018-10-07 07:02:39', // 用户生日
-        "remark": null, // 备注信息
+        "remark": '', // 备注信息
         "carNo": "粤BG52A6", // 车牌号
         "vinNo": "LE4HG4JB9BL025092", // 车架号
         "engineNo": "80063366", // 发动机号

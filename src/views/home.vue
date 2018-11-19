@@ -103,7 +103,7 @@
 
                 <!-- 服务礼品商城 描述 -->
                 <div class="tow-item-describe">
-                    <div class="invite-describe-main" style="color: #F6B800;">免费领取停车券</div>
+                    <div class="invite-describe-main" style="color: #F6B800;">免费领停车券</div>
                     <div class="invite-describe-lable">绑建行卡送20元停车券</div>
                 </div>
             </div>

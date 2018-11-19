@@ -178,7 +178,7 @@ export default {
             /**
              * 协议
              */
-            isAgreement: false, // 是否同意协议
+            isAgreement: true, // 是否同意协议
             isAgreementShow: false, // 是否显示协议      
             /**
              * 同意 5秒倒计时 

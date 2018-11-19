@@ -77,6 +77,39 @@ export default {
             ],
         } 
     },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            let ycpd_userInfo = window.localStorage.getItem('ycpd_userInfo');
+
+            return ycpd_userInfo ? JSON.parse(ycpd_userInfo) : this.$store.getters["userInfo/getAgentInfo"]; // 因为数据刷新页面会失效, 所以优先使用 window.localStorage
+        },
+
+        /**
+         * 用于判断是否是一级代理
+         * parentId === 1 或者为空 就是一级代理
+         * 如果 不等于 1 或者为空 或者就二级代理
+         */
+        isPXV: function isPXV() {
+            // 判断存在不存在 parentId
+            if (this.userInfoStore.parentId) {
+
+                // 如果存在parentId，则判断是不是 === 1
+                if (parseInt(this.userInfoStore.parentId) === 1) {
+                    // 肯定是一级代理
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                // 如果不存在 parentId， 则有可能是一级代理
+                return true;
+            }
+        },
+    },
 
 	mounted: function mounted() {
         this.getActivity(); // 获取 - 所有活动列表
@@ -157,6 +190,12 @@ export default {
                          * 如果不是 null 是二级代理，根据 分成比例计算就行
                          */
                         if (res[1].label) {
+                            // 一级代理是 10 块钱
+                            // if (this.isPXV) {
+                            //     _this.activityList[1].award = `${res[1].label} 10元`;
+                            // } else {
+                            //     _this.activityList[1].award = `${res[1].label} ${(res[1].proportion * res[1].baseCount)}元`;
+                            // }
                             _this.activityList[1].award = `${res[1].label} ${res[1].proportion ? `${(res[1].proportion * res[1].baseCount)}元` : '10元'}`;
                         }
                         // if (res[1].category === 1) {

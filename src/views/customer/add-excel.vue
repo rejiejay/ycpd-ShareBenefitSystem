@@ -33,7 +33,7 @@
             </div>
             <div class="progress-describe">{{uploadPercentage}}% 正在批量添加数据...</div>
 
-            <div class="progress-backtrack-container" @click="replaceToRouter('/customer/add')"><div class="progress-backtrack">返回</div></div>
+            <div class="progress-backtrack-container"><div class="progress-backtrack" @click="replaceToRouter('/customer/add')">返回</div></div>
             
         </div>
     </div>
@@ -49,8 +49,8 @@
 
             <div class="success-submit flex-center">
                 <div class="success-submit-container flex-start">
-                    <div class="success-backtrack" @click="setReaded">返回</div>
-                    <div class="success-affirm" @click="setReaded">继续添加</div>
+                    <div class="success-backtrack" @click="setReaded(false)">返回</div>
+                    <div class="success-affirm" @click="setReaded(true)">继续添加</div>
                 </div>
             </div>
 
@@ -190,20 +190,17 @@ export default {
                             _this.pollingCheckStatus(); // 轮询查看 批量操作状态
 
                         } else if (res.code === 1001) {
-                            alert('参数不能为空');
+                            alert(`参数不能为空, ${res.msg}`);
 
                         } else if (res.code === 1002) {
-                            alert('参数错误');
+                            alert(`参数错误, ${res.msg}`);
 
                         } else if (res.code === 1003) {
-                            alert('批量添加客户流程还未走完');
+                            alert(`批量添加客户流程还未走完, ${res.msg}`);
 
                         } else if (res.code === 1004) {
-                            alert('读取Excel文件异常');
+                            alert(`读取Excel文件异常, ${res.msg}`);
 
-                        } else if (res.code === 1004) {
-                            alert('读取Excel文件异常');
-                            
                         } else if (res.code === 1009) {
                             _this.pageStatus = 'failure';
                             _this.errorRow = res.data;
@@ -287,8 +284,9 @@ export default {
 
         /**
          * 修改批量操作记录为已读
+         * @param {boolean} isContinue 是否继续添加
          */
-        setReaded: function setReaded() {
+        setReaded: function setReaded(isContinue) {
             const _this = this;
 
             ajaxs.setReaded(this)
@@ -296,13 +294,24 @@ export default {
                 res => {
                     _this.checkMaxAddNum() // 查看是否已经达到请求的上限
                     .then(() => {
-                        _this.jumpToRouter('/customer/addlot');
-                    }, error => {
+
+                        // 当前的客户数量名额已达到上限，不能再添加客户
+                        if (isContinue) {
+                            alert('当前的客户数量名额已达到上限，不能再添加客户');
+                        }
+
                         _this.replaceToRouter('/');
+                    }, error => {
+
+                        // 可以继续添加的情况
+                        if (isContinue) {
+                            _this.jumpToRouter('/customer/addlot');
+                        } else {
+                            _this.jumpToRouter('/customer/add');
+                        }
                     });
                 }, error => alert(error)
             );
-
         },
 
         /**
@@ -322,10 +331,9 @@ export default {
                 .then(
                     res => {
                         if (res.code === 1008) {
-                            alert('当前的客户数量名额已达到上限，不能再添加客户');
-                            reject();
-                        } else {
                             resolve();
+                        } else {
+                            reject();
                         }
                     }, error => alert(error)
                 );

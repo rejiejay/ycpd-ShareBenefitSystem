@@ -515,7 +515,7 @@ export default {
                         setTimeout(() => {
                             Indicator.close(); // 关闭加载框
                             _this.jumpToRouter('/customer/addexcel', {pageStatus: 'process'});
-                        });
+                        }, 5000);
                     } else {
                         if (keyValMsg[res.code]) {
                             alert(`${keyValMsg[res.code]}${res.msg}`);

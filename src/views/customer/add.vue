@@ -389,7 +389,7 @@ export default {
                 res => {
                     if (res.code === 1008) {
                         alert('不好意思，您当前的客户数量名额已达到上限，不能再添加客户');
-                        _this.$router.back(-1);
+                        _this.jumpToRouter('/');
                     }
                 }, error => alert(error)
             )

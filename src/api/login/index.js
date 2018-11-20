@@ -1,6 +1,5 @@
 import config from "@/config/index";
 import apibasics from "@/components/apibasics";
-import { Indicator } from 'mint-ui';
 
 export default {
     /**

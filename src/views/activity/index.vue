@@ -148,7 +148,7 @@ export default {
                          * 后台设置的lable 标签 + 分成比例的计算
                          */
                         if (res[0].label) {
-                            _this.activityList[0].award = `${res[0].label} ${res[0].proportion ? `${(res[0].proportion * 100).toFixed(1)}%` : ''}`;
+                            _this.activityList[0].award = `${res[0].label} ${res[0].proportion ? `${Math.round(res[0].proportion * 10000) / 100}%` : ''}`;
                         }
                         // if (res[0].category === 1) {
                         //     // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）
@@ -191,12 +191,12 @@ export default {
                          */
                         if (res[1].label) {
                             // 一级代理是 10 块钱
-                            // if (this.isPXV) {
-                            //     _this.activityList[1].award = `${res[1].label} 10元`;
-                            // } else {
-                            //     _this.activityList[1].award = `${res[1].label} ${(res[1].proportion * res[1].baseCount)}元`;
-                            // }
-                            _this.activityList[1].award = `${res[1].label} ${res[1].proportion ? `${(res[1].proportion * res[1].baseCount)}元` : '10元'}`;
+                            if (this.isPXV) {
+                                _this.activityList[1].award = `${res[1].label} 10元`;
+                            } else {
+                                _this.activityList[1].award = `${res[1].label} ${(res[1].proportion * res[1].baseCount)}元`;
+                            }
+                            // _this.activityList[1].award = `${res[1].label} ${res[1].proportion ? `${(res[1].proportion * res[1].baseCount)}元` : '10元'}`;
                         }
                         // if (res[1].category === 1) {
                         //     // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）

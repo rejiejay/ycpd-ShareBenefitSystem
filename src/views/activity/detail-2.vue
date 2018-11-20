@@ -26,7 +26,7 @@
                 <div class="activity-rules-main">
                     <div class="rules-main-title">活动要求</div>
                     <div class="rules-main-row">活动期间，推荐好友绑定归属地为深圳的建行卡开通无感功能。</div>
-                    <div class="rules-main-row" style="color: #E50012;">好友可获得建行指定停车场2次：“低于{{divid}}元(含)仅需1元”或“高于{{divid}}元立减{{divid}}元”优惠</div>
+                    <div class="rules-main-row" style="color: #E50012;">好友可获得建行指定停车场2次：“低于10元(含)仅需1元”或“高于10元立减10元”优惠</div>
 
                     <div class="rules-main-title">活动奖励</div>
                     <div class="rules-main-row">每推荐成功1人，即可获得{{divid}}元佣金。</div>
@@ -210,8 +210,8 @@ export default {
                      * 如果是null 就显示10元， 因为这就是一级的代理
                      * 如果不是 null 是二级代理，根据 分成比例计算就行
                      */
-                    _this.divid = res.proportion ? `${(res.proportion * res.baseCount)}` : '10';
-                    // _this.divid = _this.isPXV ? '10' : `${(res.proportion * res.baseCount)}`;
+                    // _this.divid = res.proportion ? `${(res.proportion * res.baseCount)}` : '10';
+                    _this.divid = _this.isPXV ? '10' : `${(res.proportion * res.baseCount)}`;
                 }, error => {
                     alert(error);
                 }

@@ -55,7 +55,7 @@
         <div class="team-list-item"
             v-for="(item, key) in teamList" 
             :key="key"
-            @click="jumpToRouter('/team/member', item.data)"
+            @click="jumpToTeamMember(item.data)"
         >
             <div class="team-item-container">
 
@@ -299,7 +299,7 @@ export default {
             ajaxs.getTeamIncome(this)
             .then(
                 res => {
-                    _this.teamIncome = res;
+                    _this.teamIncome = res ? res : 0;
                 }, error => alert(error)
             );
         },
@@ -328,7 +328,7 @@ export default {
                  * 成员分成
                  * 成员默认是 80% 的分成， 团队是 20% 的分成
                  */
-                let memberDivided = val.proportion ? (val.proportion * 100) : 80;
+                let memberDivided = val.proportion ? (Math.round(val.proportion * 10000) / 100) : 80;
 
                 return {
                     data: val,
@@ -336,9 +336,9 @@ export default {
                     joinTime: joinTime,
                     memberDivided: memberDivided, // 成员分成
                     nickName: val.nickName,
-                    pincome: val.pincome,
+                    pincome: val.pincome ? val.pincome : 0,
                     proportion: val.proportion,
-                    sincome: val.sincome,
+                    sincome: val.sincome ? val.sincome : 0,
                     telephone: val.telephone,
                 }
             });
@@ -549,6 +549,17 @@ export default {
             query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
 
             this.$router.push(routerConfig);
+        },
+
+        /**
+         * 跳转到成员列表
+         */
+        jumpToTeamMember: function jumpToTeamMember(item) {
+            // 存储要本地缓存，
+            // 因为要涉及到数据的更新，但是路由不好更新
+            // 所以换成本地缓存的形式
+            window.localStorage.setItem('ycpd_team_member', JSON.stringify(item));
+            this.jumpToRouter('/team/member', item);
         },
     }
 }

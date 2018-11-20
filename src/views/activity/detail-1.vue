@@ -26,7 +26,7 @@
                 </div>
                 <div class="detail-rules-row flex-start">
                     <div class="rules-row-no">2.</div>
-                    <div class="rules-row-describe flex-rest">好友使用“优惠加油”功能，您将获得加油金额 {{(proportion * 100).toFixed(1)}} %的分成；</div>
+                    <div class="rules-row-describe flex-rest">好友使用“优惠加油”功能，您将获得加油金额 {{Math.round(proportion * 10000) / 100}} %的分成；</div>
                 </div>
                 <div class="detail-rules-row flex-start">
                     <div class="rules-row-no">3.</div>

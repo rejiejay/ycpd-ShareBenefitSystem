@@ -152,7 +152,8 @@ export default {
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
-            let query = this.$route.query;
+            // let query = this.$route.query;
+            let query = JSON.parse(window.localStorage.getItem('ycpd_team_member'));
 
             /**
              * 这个是 getMyRewards 获取奖励要用到的 subagentId
@@ -176,10 +177,10 @@ export default {
             /**
              * 成员分成 百分比
              */
-            this.memberDivided = query.proportion ? (query.proportion * 100) : 50;
+            this.memberDivided = query.proportion ? (Math.round(query.proportion * 10000) / 100) : 80;
 
-            this.sincome = query.sincome; // 成员收入
-            this.pincome = query.pincome; // 团队收入
+            this.sincome = query.sincome ? query.sincome : 0; // 成员收入
+            this.pincome = query.pincome ? query.pincome : 0; // 团队收入
         },
 
         /**
@@ -187,12 +188,24 @@ export default {
          */
         modifyMemberDivided: function modifyMemberDivided() {
             const _this = this;
+            let query = this.$route.query;
 
             ajaxs.modifyRatio(this, this.$route.query.agentInfoId, (parseInt(this.memberDividedModifier) / 100))
             .then(
                 res => {
                     _this.memberDivided = _this.memberDividedModifier; // 将设置成功的比例赋值进去
                     _this.isProportionModalShow = false; // 隐藏 设置分成的模态框
+                    
+                    /**
+                     * 更新数据
+                     * 本来数据是通过路由传值的
+                     * 但是路由更新重定向跳转不好使
+                     * 所以使用本地缓存机制
+                     */
+                    let item = JSON.parse(window.localStorage.getItem('ycpd_team_member'));
+                    item.proportion = parseInt(_this.memberDividedModifier) / 100;
+                    window.localStorage.setItem('ycpd_team_member', JSON.stringify(item));
+
                 }, error => alert(error)
             );
         },
@@ -209,6 +222,20 @@ export default {
             query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
 
             this.$router.push(routerConfig);
+        },
+
+        /**
+         * 重定向到路由
+         * @param {object} query 携带的参数 非必填
+         */
+        replaceToRouter: function replaceToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.replace(routerConfig);
         },
     }
 }

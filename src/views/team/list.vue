@@ -829,7 +829,6 @@ export default {
 
     // 主要区域
     .share-QRcode-main {
-        position: absolute;
         border-radius: 5px;
         z-index: @QRcode-main-z-index;
         background: #fff;

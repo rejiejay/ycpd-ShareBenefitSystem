@@ -143,7 +143,7 @@
                             <div class="main-title-name">跟进人: {{agentName}}</div>
                         </div>
 
-                        <div class="list-main-item flex-start">
+                        <div class="list-main-item flex-start" v-if="record.result">
                             <div class="main-title-lable">跟进结果:</div>
                             <div class="main-title-describe">{{record.result}}</div>
                         </div>
@@ -153,7 +153,7 @@
                             <div class="main-title-describe">{{record.content}}</div>
                         </div>
 
-                        <div class="list-main-item flex-start">
+                        <div class="list-main-item flex-start" v-if="record.nextTime">
                             <div class="main-title-lable">下次跟进时间:</div>
                             <div class="main-title-describe">{{record.nextTime}}</div>
                         </div>

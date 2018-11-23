@@ -6,8 +6,8 @@
     <div class="home-banner">
         <div class="home-banner-content">
             <mt-swipe :auto="4000">
-                <mt-swipe-item><img @click="jumpToRouter('/activity/detail/1', {projectId: projectId_1})" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
-                <mt-swipe-item><img @click="jumpToRouter('/activity/detail/2', {projectId: projectId_2})" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
+                <mt-swipe-item><img @click="jumpToaCtivity(1)" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
+                <mt-swipe-item><img @click="jumpToaCtivity(2)" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
             </mt-swipe>
             
         </div>
@@ -42,7 +42,7 @@
 
     <!-- 两行的列表 - 邀请有奖 维保记录查询 -->
     <div class="home-invite-tow flex-start-center">
-        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="jumpToRouter('/activity/detail/1', {projectId: projectId_1})">
+        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="jumpToaCtivity(1)">
             <div class="tow-item-content flex-start-center">
                 <!-- 服务礼品商城 icon按钮 -->
                 <div class="tow-item-icon">
@@ -218,11 +218,10 @@
 
 // 框架类
 import Vue from "vue";
-// 请求类
-import ajaxsgetAllActivity from "@/api/common/getAllActivity";
 // 配置类
 import config from "@/config/index.js";
 // 组件类
+import jumpToaCtivityPage from "@/components/jumpToaCtivityPage";
 import Tabbar from "@/components/Tabbar";
 import html5WxBMapLocation from "@/components/html5WxBMapLocation";
 import { Toast, Swipe, SwipeItem } from 'mint-ui';
@@ -290,32 +289,15 @@ export default {
         },
     },
 
-	mounted: function mounted() {
-        this.getActivity(); // 获取 - 所有活动列表
-    },
+	mounted: function mounted() { },
 
 	methods: {
         /**
-         * 获取 - 所有活动列表
+         * 跳转到活动
+         * @param {number} activityNo 跳转到活动的下标
          */
-        getActivity: function getActivity() {
-            const _this = this;
-
-            ajaxsgetAllActivity(this)
-            .then(
-                res => {
-                    if (res && res[0] && res[0].projectId) {
-                        _this.projectId_1 = res[0].projectId;
-                    }
-
-                    if (res && res[1] && res[1].projectId) {
-                        _this.projectId_2 = res[1].projectId;
-                    }
-
-                }, error => {
-                    alert(error);
-                }
-            );
+        jumpToaCtivity: function jumpToaCtivity(activityNo) {
+            jumpToaCtivityPage(activityNo, this);
         },
 
         /**

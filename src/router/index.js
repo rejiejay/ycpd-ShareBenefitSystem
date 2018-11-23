@@ -145,6 +145,11 @@ const routes = [
         component: () => import('@/views/customer/details'),
         meta: { title: '客户详情' },
     }, {
+        path: '/customer/charts/:id',
+        name: 'customer-charts',
+        component: () => import('@/views/customer/charts'),
+        meta: { title: '数据看板' },
+    }, {
         path: '/customer/violations/:id',
         name: 'customer-violations',
         component: () => import('@/views/customer/violations'),

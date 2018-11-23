@@ -5,8 +5,10 @@
     <!-- 车牌号 -->
     <div class="carno-input-list">
         <div class="input-list-content">
-            <carNoInput @outPutHandle="carNoHandle" />
+            <carNoInput ref="carNoComponent" @outPutHandle="carNoHandle" />
         </div>
+
+        <div @click="Initializesthelicenseplatenumber">初始化车牌号</div>
     </div>
 
 </div>
@@ -16,6 +18,7 @@
 
 // 组件类
 import carNoInput from "@/components/carNoInput";
+import VeLine from 'v-charts/lib/line.common';
 
 export default {
     name: 'test',
@@ -26,17 +29,23 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
-            
+
             carNoProvince: '粤', // 车牌省份
             plateNo: '', // 车牌号码
         } 
     },
 
-	mounted: function mounted() {},
+	mounted: function mounted() {
+        // this.$refs.carNoComponent.initPlateNoHandle('粤12345澳');
+    },
 
 	methods: {
         carNoHandle: function carNoHandle(data) {
             console.log(data)
+        },
+
+        Initializesthelicenseplatenumber: function Initializesthelicenseplatenumber(data) {
+            this.$refs.carNoComponent.initPlateNoHandle('粤车牌车牌号');
         },
     }
 }

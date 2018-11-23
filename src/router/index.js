@@ -257,12 +257,19 @@ const routes = [
         meta: { title: '成员管理' },
     },
     
-    
+    /**
+     * 测试
+     */
     {
-        path: '/test',
+        path: '/test/carno',
         name: 'test',
-        component: () => import('@/views/test'),
-        meta: { title: '成员管理' },
+        component: () => import('@/views/test/carno'),
+        meta: { title: '测试页面' },
+    }, {
+        path: '/test/charts',
+        name: 'VeRing',
+        component: () => import('@/views/test/charts'),
+        meta: { title: '测试页面' },
     }, 
 ];
 

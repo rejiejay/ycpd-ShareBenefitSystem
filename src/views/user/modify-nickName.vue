@@ -64,12 +64,13 @@ export default {
          */
         updateNickname: function updateNickname() {
             const _this = this;
+            let myNickName = this.nickName.trim(); // 新增需求 去掉空格
 
-            if (this.nickName === '') {
+            if (myNickName === '') {
                 return alert('姓名不能为空!');
             }
 
-            ajaxs.updateNickname(this.nickName, this)
+            ajaxs.updateNickname(myNickName, this)
             .then(
                 res => {
                     // 修改成功

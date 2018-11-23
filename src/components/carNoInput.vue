@@ -151,7 +151,7 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
-            
+
             /**
              * 车牌
              */
@@ -277,9 +277,55 @@ export default {
         },
     },
 
-	mounted: function mounted() { },
-
 	methods: {
+        /**
+         * 初始化车牌号的方法
+         * @param {string} plateNo 要传递给父组件
+         */
+        initPlateNoHandle: function initPlateNoHandle(plateNo) {
+            // 为了避免函数报错， 必须先判断 传入的车牌号
+            if (!plateNo || typeof(plateNo) !== "string" || plateNo.length < 4) {
+                return alert(`车牌号数据‘${plateNo}’有误!`);
+            }
+
+            /**
+             * 初始化车牌省份 carNoProvince
+             * 车牌号第一位一定是 车牌省份
+             */
+            this.carNoProvince = plateNo.slice(0, 1);
+
+            /**
+             * 检查车型
+             * 判断是否包含 '学' '警' '港' '澳'
+             */
+            if (plateNo.indexOf('学') !== -1) {
+                this.carType_index = 3;
+                return this.plateNo = plateNo.slice(1, (plateNo.length - 1));
+
+            } else if (plateNo.indexOf('警') !== -1) {
+                this.carType_index = 4;
+                return this.plateNo = plateNo.slice(1, (plateNo.length - 1));
+
+            } else if (plateNo.indexOf('港') !== -1) {
+                this.carType_index = 5;
+                return this.plateNo = plateNo.slice(1, (plateNo.length - 1));
+
+            } else if (plateNo.indexOf('澳') !== -1) {
+                this.carType_index = 6;
+                return this.plateNo = plateNo.slice(1, (plateNo.length - 1));
+
+            }
+
+            /**
+             * 判断是不是新能源
+             */
+            if (plateNo.length === 8) {
+                this.carType_index = 2;
+            }
+            
+            this.plateNo = plateNo.slice(1, plateNo.length);
+        },
+
         /**
          * 选择车牌省份
          */

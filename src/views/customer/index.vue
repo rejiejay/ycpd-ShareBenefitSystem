@@ -43,184 +43,28 @@
     </div>
 
     <!-- 客户总量 —— 导航栏分页  -->
-    <div class="navigation-bar-page" v-if="navBarSelected === 'total'">
-        <div class="bar-page-item"
-            v-for="(item, key) in totalCustomers" 
-            :key="key"
-            @click="jumpToCustomerDetails(item.response)"
-        >
-            <div class="page-item-content flex-start-center">
-                <div class="item-main flex-rest">
-                    <div class="item-main-title">{{item.title}}</div>
-                    <div class="item-main-label flex-start flex-start-center">
-                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
-                        <div class="main-label-tag"
-                            v-for="(tagItem, tagkey) in item.tag" 
-                            :key="tagkey"
-                        >{{tagItem}}</div>
-                        <div class="label-next-time">{{item.nextTime ? item.nextTime : ''}}</div>
-                    </div>
-                </div>
-                <div class="item-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
-                    </svg>
-                </div>
-            </div>
-            <div class="page-item-line" v-if="item.insurance"><span></span></div>
-            <div class="page-item-bottom" v-if="item.insurance">
-                <div class="item-bottom-content flex-start-center" v-if="item.insurance">
-                    <div class="item-bottom-left">{{item.insurance.name}}</div>
-                    <div class="item-bottom-center">￥{{item.insurance.price}}</div>
-                    <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <NavigationPage :pageData="totalCustomers"  v-if="navBarSelected === 'total'"/>
 
     <!-- 可续保客户 —— 导航栏分页  -->
-    <div class="navigation-bar-page" v-else-if="navBarSelected === 'renewal'">
-        <div class="bar-page-item"
-            v-for="(item, key) in renewalCustomers" 
-            :key="key"
-            @click="jumpToCustomerDetails(item.response)"
-        >
-            <div class="page-item-content flex-start-center">
-                <div class="item-main flex-rest">
-                    <div class="item-main-title">{{item.title}}</div>
-                    <div class="item-main-label flex-start flex-start-center">
-                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
-                        <div class="main-label-tag"
-                            v-for="(tagItem, tagkey) in item.tag" 
-                            :key="tagkey"
-                        >{{tagItem}}</div>
-                    </div>
-                </div>
-                <div class="item-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
-                    </svg>
-                </div>
-            </div>
-            <div class="page-item-line" v-if="item.insurance"><span></span></div>
-            <div class="page-item-bottom" v-if="item.insurance">
-                <div class="item-bottom-content flex-start-center" v-if="item.insurance">
-                    <div class="item-bottom-left">{{item.insurance.name}}</div>
-                    <div class="item-bottom-center">￥{{item.insurance.price}}</div>
-                    <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <NavigationPage :pageData="renewalCustomers"  v-if="navBarSelected === 'renewal'"/>
 
     <!-- 违章未处理 —— 导航栏分页  -->
-    <div class="navigation-bar-page" v-else-if="navBarSelected === 'violation'">
-        <div class="bar-page-item"
-            v-for="(item, key) in violationCustomers" 
-            :key="key"
-            @click="jumpToCustomerDetails(item.response)"
-        >
-            <div class="page-item-content flex-start-center">
-                <div class="item-main flex-rest">
-                    <div class="item-main-title">{{item.title}}</div>
-                    <div class="item-main-label flex-start flex-start-center">
-                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
-                        <div class="main-label-tag"
-                            v-for="(tagItem, tagkey) in item.tag" 
-                            :key="tagkey"
-                        >{{tagItem}}</div>
-                    </div>
-                </div>
-                <div class="item-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
-                    </svg>
-                </div>
-            </div>
-            <div class="page-item-line" v-if="item.insurance"><span></span></div>
-            <div class="page-item-bottom" v-if="item.insurance">
-                <div class="item-bottom-content flex-start-center" v-if="item.insurance">
-                    <div class="item-bottom-left">{{item.insurance.name}}</div>
-                    <div class="item-bottom-center">￥{{item.insurance.price}}</div>
-                    <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <NavigationPage :pageData="violationCustomers"  v-if="navBarSelected === 'violation'"/>
 
     <!-- 年检将到期 —— 导航栏分页  -->
-    <div class="navigation-bar-page" v-else-if="navBarSelected === 'ASC'">
-        <div class="bar-page-item"
-            v-for="(item, key) in ASCustomers" 
-            :key="key"
-            @click="jumpToCustomerDetails(item.response)"
-        >
-            <div class="page-item-content flex-start-center">
-                <div class="item-main flex-rest">
-                    <div class="item-main-title">{{item.title}}</div>
-                    <div class="item-main-label flex-start flex-start-center">
-                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
-                        <div class="main-label-tag"
-                            v-for="(tagItem, tagkey) in item.tag" 
-                            :key="tagkey"
-                        >{{tagItem}}</div>
-                    </div>
-                </div>
-                <div class="item-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
-                    </svg>
-                </div>
-            </div>
-            <div class="page-item-line" v-if="item.insurance"><span></span></div>
-            <div class="page-item-bottom" v-if="item.insurance">
-                <div class="item-bottom-content flex-start-center" v-if="item.insurance">
-                    <div class="item-bottom-left">{{item.insurance.name}}</div>
-                    <div class="item-bottom-center">￥{{item.insurance.price}}</div>
-                    <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <NavigationPage :pageData="ASCustomers"  v-if="navBarSelected === 'ASC'"/>
 
     <!-- 跟进客户 —— 导航栏分页  -->
-    <div class="navigation-bar-page" v-else-if="navBarSelected === 'tofollow'">
-        <div class="bar-page-item"
-            v-for="(item, key) in toFollowCustomers" 
-            :key="key"
-            @click="jumpToCustomerDetails(item.response)"
-        >
-            <div class="page-item-content flex-start-center">
-                <div class="item-main flex-rest">
-                    <div class="item-main-title">{{item.title}}</div>
-                    <div class="item-main-label flex-start flex-start-center">
-                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
-                        <div class="main-label-tag"
-                            v-for="(tagItem, tagkey) in item.tag" 
-                            :key="tagkey"
-                        >{{tagItem}}</div>
-                    </div>
-                </div>
-                <div class="item-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                        <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
-                    </svg>
-                </div>
-            </div>
-            <div class="page-item-line" v-if="item.insurance"><span></span></div>
-            <div class="page-item-bottom" v-if="item.insurance">
-                <div class="item-bottom-content flex-start-center" v-if="item.insurance">
-                    <div class="item-bottom-left">{{item.insurance.name}}</div>
-                    <div class="item-bottom-center">￥{{item.insurance.price}}</div>
-                    <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
-                </div>
-            </div>
-        </div>
+    <NavigationPage :pageData="toFollowCustomers"  v-if="navBarSelected === 'tofollow'"/>
+
+    <!-- 图标分析 -->
+    <div class="customer-jump-charts" @click="jumpToRouter('/customer/charts/:id')">
+        <img src="data:image/png;base64,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" alt="charts">
     </div>
 
     <!-- 新增客户 -->
     <div class="customer-jump-add" @click="jumpToRouter('/customer/add')">
-        <svg width="54" height="54" viewBox="0 0 91 91" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FF887F" offset="0%"></stop><stop stop-color="#FF3B3B" offset="100%"></stop></linearGradient><circle id="path-2" cx="37.5" cy="37.5" r="37.5"></circle><filter x="-22.0%" y="-15.3%" width="144.0%" height="144.0%" filterUnits="objectBoundingBox" id="filter-3"><feMorphology radius="1" operator="erode" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology><feOffset dx="0" dy="5" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset><feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur><feColorMatrix values="0 0 0 0 0.898039216   0 0 0 0 0   0 0 0 0 0.0705882353  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix></filter></defs><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-637.000000, -1078.000000)"><g id="添加btn" transform="translate(645.000000, 1081.000000)"><g id="Oval"><use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use><use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use></g><path d="M50,47 L50,43 C50,42.4477153 50.4477153,42 51,42 C51.5522847,42 52,42.4477153 52,43 L52,47 L56,47 C56.5522847,47 57,47.4477153 57,48 C57,48.5522847 56.5522847,49 56,49 L52,49 L52,53 C52,53.5522847 51.5522847,54 51,54 C50.4477153,54 50,53.5522847 50,53 L50,49 L46,49 C45.4477153,49 45,48.5522847 45,48 C45,47.4477153 45.4477153,47 46,47 L50,47 Z M33.097164,36.7176604 C30.0546558,35.0028665 28,31.7413785 28,28 C28,22.4771525 32.4771525,18 38,18 C43.5228475,18 48,22.4771525 48,28 C48,31.7414912 45.9452204,35.003063 42.9025611,36.7178153 C44.9802433,37.3422422 46.9198855,38.3618675 48.6249697,39.7286088 C49.0559017,40.0740303 49.1252218,40.7033892 48.7798003,41.1343212 C48.4343788,41.5652533 47.8050199,41.6345734 47.3740879,41.2891519 C44.732871,39.1720364 41.457416,38 38,38 C29.7157288,38 23,44.7157288 23,53 C23,53.5522847 22.5522847,54 22,54 C21.4477153,54 21,53.5522847 21,53 C21,45.3156632 26.0984674,38.8221373 33.097164,36.7176604 Z M38,36 C42.418278,36 46,32.418278 46,28 C46,23.581722 42.418278,20 38,20 C33.581722,20 30,23.581722 30,28 C30,32.418278 33.581722,36 38,36 Z" id="Oval-9" fill="#FFFFFF" fill-rule="nonzero"></path></g></g></g></svg>
+        <img src="data:image/png;base64,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" alt="customer">
     </div>
 
     <!-- 底部 Tabbar -->
@@ -235,13 +79,14 @@ import { MessageBox } from 'mint-ui';
 // 请求类
 import ajaxs from "@/api/customer/index";
 // 组件类
+import NavigationPage from "@/components/customers-list-navigation-page";
 import Tabbar from "@/components/Tabbar";
 import TimeConver from "@/utils/TimeConver";
 
 export default {
     name: 'customer-home',
 
-    components: { Tabbar },
+    components: { NavigationPage, Tabbar },
 
 	data: function data() { 
         return {
@@ -296,104 +141,13 @@ export default {
             isLoding: false, // 当前列表是否正在加载
 
             /**
-             * 客户总量
+             * 导航栏分页 数据
              */
-            totalCustomers: [
-                // {
-                //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                //     name: '李四',
-                //     tag: [
-                //         '保险41天',
-                //         '年检23天',
-                //         '待跟进',
-                //     ],
-                //     insurance: {
-                //         name: '人保车险',
-                //         price: 4583.45,
-                //         factors: 0.45,
-                //     }
-                // },
-            ],
-
-            /**
-             * 可续保客户
-             */
-            renewalCustomers: [
-                // {
-                //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                //     name: '李四',
-                //     tag: [
-                //         '保险41天',
-                //         '年检23天',
-                //         '待跟进',
-                //     ],
-                //     insurance: {
-                //         name: '人保车险',
-                //         price: 4583.45,
-                //         factors: 0.45,
-                //     }
-                // },
-            ],
-
-            /**
-             * 违章未处理
-             */
-            violationCustomers: [
-                // {
-                //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                //     name: '李四',
-                //     tag: [
-                //         '保险41天',
-                //         '年检23天',
-                //         '待跟进',
-                //     ],
-                //     insurance: {
-                //         name: '人保车险',
-                //         price: 4583.45,
-                //         factors: 0.45,
-                //     }
-                // },
-            ],
-
-            /**
-             * 年检将到期
-             */
-            ASCustomers: [
-                // {
-                //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                //     name: '李四',
-                //     tag: [
-                //         '保险41天',
-                //         '年检23天',
-                //         '待跟进',
-                //     ],
-                //     insurance: {
-                //         name: '人保车险',
-                //         price: 4583.45,
-                //         factors: 0.45,
-                //     }
-                // },
-            ],
-
-            /**
-             * 待跟进客户
-             */
-            toFollowCustomers: [
-                // {
-                //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-                //     name: '李四',
-                //     tag: [
-                //         '保险41天',
-                //         '年检23天',
-                //         '待跟进',
-                //     ],
-                //     insurance: {
-                //         name: '人保车险',
-                //         price: 4583.45,
-                //         factors: 0.45,
-                //     }
-                // },
-            ],
+            totalCustomers: [ ], // 客户总量
+            renewalCustomers: [ ], // 可续保客户
+            violationCustomers: [ ], // 违章未处理
+            ASCustomers: [ ], // 年检将到期
+            toFollowCustomers: [ ], // 待跟进客户
         } 
     },
     
@@ -585,7 +339,7 @@ export default {
                         if (val.policy && val.policy.businessExpireDate) {
                             // 过期的时间戳
                             let businessExpireTimestamp = TimeConver.YYYYmmDDToTimestamp(val.policy.businessExpireDate);
-                            
+
                             // 相差时间戳
                             let differTimestamp = businessExpireTimestamp - new Date().getTime();
 
@@ -645,6 +399,7 @@ export default {
                             response: val, // 原始数据
                             title: title,
                             name: val.username,
+                            isByInvitation: false,
                             tag: tag,
                             nextTime: nextTime,
                         }
@@ -723,8 +478,8 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
-// 右下角新增客户按钮
-@customer-jump-add-z-index: 2;
+// 右下角新增客户按钮 以及 图标分析按钮
+@customer-rightbottom-icon-z-index: 2;
 
 .customer {
     position: relative;
@@ -908,12 +663,32 @@ export default {
     }
 }
 
+// 右下角跳转到图表分析
+.customer-jump-charts {
+    position: fixed;
+    right: 15px;
+    bottom: 135px;
+    z-index: @customer-rightbottom-icon-z-index;
+
+    img {
+        display: block;
+        width: 54px;
+        height: 54px;
+    }
+}
+
 // 右下角跳转到新增客户
 .customer-jump-add {
     position: fixed;
     right: 15px;
     bottom: 75px;
-    z-index: @customer-jump-add-z-index;
+    z-index: @customer-rightbottom-icon-z-index;
+
+    img {
+        display: block;
+        width: 52px;
+        height: 52px;
+    }
 }
 
 </style>

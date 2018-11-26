@@ -261,6 +261,16 @@ const routes = [
         component: () => import('@/views/team/member'),
         meta: { title: '成员管理' },
     },
+
+    /**
+     * 维保记录查询板块
+     */
+    {
+        path: '/car/report/details/:id',
+        name: 'car-report-details',
+        component: () => import('@/views/car-record/car-report-details car-report-details car-report-details'),
+        meta: { title: '车况报告详情' },
+    }, 
     
     /**
      * 测试

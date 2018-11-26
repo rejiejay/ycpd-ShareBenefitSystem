@@ -628,6 +628,8 @@ export default {
                 .then(
                     res => {
                         Toast({ message: '成功更新数据', duration: 1000 });
+                        _this.initPageData();
+
                     }, error => alert(error)
                 )
             } else if (this.vinNo && this.engineNo) {
@@ -636,6 +638,8 @@ export default {
                 .then(
                     res => {
                         Toast({ message: '成功更新数据', duration: 1000 });
+                        _this.initPageData();
+
                     }, error => alert(error)
                 );
             } else {

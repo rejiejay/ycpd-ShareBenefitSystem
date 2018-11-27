@@ -268,7 +268,7 @@ const routes = [
     {
         path: '/car/report/details/:id',
         name: 'car-report-details',
-        component: () => import('@/views/car-record/car-report-details car-report-details car-report-details'),
+        component: () => import('@/views/car-record/report-details'),
         meta: { title: '车况报告详情' },
     }, 
     

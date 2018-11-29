@@ -172,8 +172,33 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 复用 列表的时间内容展示 -->
+            <div class="list-sequence">
+                <div class="list-sequence-item">
+
+                    <!-- 标题部分 -->
+                    <div class="sequence-item-title flex-start-center">
+                        <div class="item-title-icon"></div>
+                        <div class="item-title-text">2018-11-28</div>
+                    </div>
+                    
+                    <!-- 内容部分 -->
+                    <div class="sequence-item-container">
+                        <div class="sequence-item-main">
+                            
+                            <div class="sequence-item-describe">
+                                <div class="item-describe-lable">维修历史</div>
+                                <div class="item-describe">数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div style="height: 1200px;"></div>
 
 </div>
 </template>
@@ -347,6 +372,15 @@ export default {
         padding: 0px 15px;
         border-bottom: 1px solid #ddd;
 
+        .big-title-decoration {
+            position: absolute;
+            left: 15px;
+            bottom: 10px;
+            width: 32px;
+            height: 2px;
+            background: #ef471c;
+        }
+
         .big-title-main {
             font-size: 18px;
             font-weight: bold;
@@ -399,6 +433,61 @@ export default {
 
             .option-item-container {
                 padding-left: 5px;
+            }
+        }
+    }
+
+    // 列表的时间内容展示
+    .list-sequence {
+        padding: 0px 15px;
+
+        // 标题部分
+        .sequence-item-title {
+            color: @black1;
+            
+            .item-title-icon {  
+                border: 4px solid #e3e7f5;
+                background: #1465f0;
+                border-radius: 8px;
+                height: 8px;
+                width: 8px;
+            }
+
+            .item-title-text {
+                padding-left: 10px;
+            }
+        }
+
+        // 内容部分
+        .sequence-item-container {
+            padding-top: 5px;
+            padding-left: 7px;
+            padding-bottom: 5px;
+
+            .sequence-item-main {
+                padding: 10px 0px 10px 25px;
+                border-left: 1px solid #ddd;
+            }
+
+            .sequence-item-describe {
+                overflow: hidden;
+                line-height: 22px;
+
+                .item-describe {
+                    display: block;
+                    text-indent: 70px;
+                }
+
+                .item-describe-lable {
+                    position: absolute;
+                    padding: 0px 5px;
+                    height: 22px;
+                    line-height: 22px;
+                    border-radius: 5px;
+                    font-size: 12px;
+                    color: #1465f0;
+                    background: #e8ebfd;
+                }
             }
         }
     }
@@ -599,15 +688,6 @@ export default {
 
     .accident-screen-container {
         background: #fff;
-    }
-
-    .big-title-decoration {
-        position: absolute;
-        left: 15px;
-        bottom: 10px;
-        width: 32px;
-        height: 2px;
-        background: #ef471c;
     }
 }
 

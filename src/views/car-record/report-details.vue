@@ -175,12 +175,15 @@
 
             <!-- 复用 列表的时间内容展示 -->
             <div class="list-sequence">
-                <div class="list-sequence-item">
+                <div class="list-sequence-item"
+                    v-for="(item, key) in accidentTimeList"
+                    :key="key"
+                >
 
                     <!-- 标题部分 -->
                     <div class="sequence-item-title flex-start-center">
                         <div class="item-title-icon"></div>
-                        <div class="item-title-text">2018-11-28</div>
+                        <div class="item-title-text">{{item.time}}</div>
                     </div>
                     
                     <!-- 内容部分 -->
@@ -188,13 +191,170 @@
                         <div class="sequence-item-main">
                             
                             <div class="sequence-item-describe">
-                                <div class="item-describe-lable">维修历史</div>
-                                <div class="item-describe">数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。</div>
+                                <div class="item-describe-lable">{{item.lable}}</div>
+                                <div class="item-describe">{{item.describe}}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- 重要部件 -->
+    <div class="major-part">
+        <div class="major-part-container">
+
+            <!-- 复用 列表的大标题 -->
+            <div class="list-big-title flex-start">
+                <div class="big-title-decoration"></div>
+                <div class="big-title-main flex-rest">重要部件 (1)</div>
+                <div class="big-title-lable">解析规则</div>
+            </div>
+
+
+            <!-- 复用 列表的选项展示 -->
+            <div class="list-option">
+                <div class="list-option-item"
+                    v-for="(item, key) in majorPartList"
+                    :key="key"
+                >
+                    <div class="option-item-container flex-start-center">
+                        <svg v-if="item.isgoodCondition" width="16" height="16" t="1543369847795" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2960" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path fill="#30b800" d="M997.888 70.144C686.592 261.12 460.8 502.272 358.912 623.104L110.08 428.032 0 516.608l429.568 437.248C503.296 764.416 737.792 394.24 1024 131.072l-26.112-60.928m0 0z" p-id="2961"></path>
+                        </svg>
+                        <svg v-else width="16" height="16" t="1543369826664"  viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2013" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path d="M258.56 76.8c-28.16 0-53.76 5.12-79.36 17.92-15.36 7.68-20.48 28.16-7.68 40.96l87.04 87.04-30.72 30.72-87.04-87.04c-5.12-5.12-10.24-7.68-17.92-7.68-10.24 0-17.92 5.12-23.04 15.36-33.28 66.56-23.04 151.04 33.28 207.36 35.84 35.84 79.36 51.2 125.44 51.2 20.48 0 40.96-2.56 58.88-10.24l284.16 284.16c-23.04 64-7.68 135.68 40.96 186.88 35.84 35.84 79.36 51.2 125.44 51.2 28.16 0 53.76-5.12 79.36-17.92 15.36-7.68 20.48-28.16 7.68-40.96l-87.04-87.04 30.72-30.72 87.04 87.04c5.12 5.12 10.24 7.68 17.92 7.68 10.24 0 17.92-5.12 23.04-15.36 33.28-66.56 23.04-151.04-33.28-207.36-35.84-35.84-79.36-51.2-125.44-51.2-20.48 0-40.96 2.56-61.44 10.24l-284.16-284.16c23.04-64 7.68-135.68-40.96-186.88-33.28-33.28-76.8-51.2-122.88-51.2z m-33.28 230.4c12.8 0 25.6-5.12 35.84-15.36l30.72-30.72c20.48-20.48 20.48-51.2 0-71.68l-58.88-58.88c7.68 0 15.36-2.56 23.04-2.56 33.28 0 66.56 12.8 89.6 38.4 35.84 35.84 46.08 87.04 30.72 133.12-7.68 17.92-2.56 38.4 12.8 53.76l284.16 284.16c10.24 10.24 23.04 15.36 35.84 15.36 5.12 0 12.8 0 17.92-2.56 12.8-5.12 28.16-7.68 43.52-7.68 33.28 0 66.56 12.8 89.6 38.4 30.72 30.72 43.52 71.68 35.84 112.64l-58.88-58.88c-10.24-10.24-23.04-15.36-35.84-15.36-12.8 0-25.6 5.12-35.84 15.36l-30.72 30.72c-10.24 10.24-15.36 23.04-15.36 35.84s5.12 25.6 15.36 35.84l58.88 58.88c-7.68 0-15.36 2.56-23.04 2.56-33.28 0-66.56-12.8-89.6-38.4-35.84-35.84-46.08-87.04-30.72-133.12 7.68-17.92 2.56-38.4-12.8-53.76l-284.16-284.16c-10.24-10.24-23.04-15.36-35.84-15.36-5.12 0-10.24 0-17.92 2.56-12.8 5.12-28.16 7.68-43.52 7.68-33.28 0-66.56-12.8-89.6-38.4-30.72-30.72-43.52-71.68-35.84-112.64l58.88 58.88c10.24 10.24 23.04 15.36 35.84 15.36z" p-id="2014" fill="#dddddd"></path>
+                            <path d="M337.92 563.2c-12.8 0-25.6 5.12-35.84 15.36l-184.32 184.32c-20.48 20.48-20.48 51.2 0 71.68l71.68 71.68c10.24 10.24 23.04 15.36 35.84 15.36 12.8 0 25.6-5.12 35.84-15.36l184.32-184.32c20.48-20.48 20.48-51.2 0-71.68l-71.68-71.68c-7.68-10.24-20.48-15.36-35.84-15.36z m-110.08 307.2l-71.68-71.68 184.32-184.32 71.68 71.68-184.32 184.32zM849.92 138.24l35.84 35.84-89.6 89.6-17.92-17.92-17.92-17.92 89.6-89.6m0-61.44c-7.68 0-12.8 2.56-17.92 7.68l-125.44 125.44c-10.24 10.24-10.24 25.6 0 35.84l17.92 17.92-125.44 125.44c-10.24 10.24-10.24 25.6 0 35.84 5.12 5.12 12.8 7.68 17.92 7.68s12.8-2.56 17.92-7.68l125.44-125.44 17.92 17.92c5.12 5.12 12.8 7.68 17.92 7.68s12.8-2.56 17.92-7.68l125.44-125.44c10.24-10.24 10.24-25.6 0-35.84l-71.68-71.68c-2.56-5.12-10.24-7.68-17.92-7.68z" p-id="2015" fill="#dddddd"></path>
+                        </svg>
+                        <span>{{item.name}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 复用 列表的时间内容展示 -->
+            <div class="list-sequence">
+                <div class="list-sequence-item"
+                    v-for="(item, key) in majorPartTimeList"
+                    :key="key"
+                >
+
+                    <!-- 标题部分 -->
+                    <div class="sequence-item-title flex-start-center">
+                        <div class="item-title-icon"></div>
+                        <div class="item-title-text">{{item.time}}</div>
+                    </div>
+                    
+                    <!-- 内容部分 -->
+                    <div class="sequence-item-container">
+                        <div class="sequence-item-main">
+                            
+                            <div class="sequence-item-describe">
+                                <div class="item-describe-lable">{{item.lable}}</div>
+                                <div class="item-describe">{{item.describe}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 车身外观 -->
+    <div class="appearance">
+        <div class="appearance-container">
+
+            <!-- 复用 列表的大标题 -->
+            <div class="list-big-title flex-start">
+                <div class="big-title-decoration"></div>
+                <div class="big-title-main flex-rest">车身外观 (3)</div>
+                <div class="big-title-lable">解析规则</div>
+            </div>
+
+            <!-- 复用 列表的选项展示 -->
+            <div class="list-option">
+                <div class="list-option-item"
+                    v-for="(item, key) in appearanceList"
+                    :key="key"
+                >
+                    <div class="option-item-container flex-start-center">
+                        <svg v-if="item.isgoodCondition" width="16" height="16" t="1543369847795" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2960" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path fill="#30b800" d="M997.888 70.144C686.592 261.12 460.8 502.272 358.912 623.104L110.08 428.032 0 516.608l429.568 437.248C503.296 764.416 737.792 394.24 1024 131.072l-26.112-60.928m0 0z" p-id="2961"></path>
+                        </svg>
+                        <svg v-else width="16" height="16" t="1543369826664"  viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2013" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path d="M258.56 76.8c-28.16 0-53.76 5.12-79.36 17.92-15.36 7.68-20.48 28.16-7.68 40.96l87.04 87.04-30.72 30.72-87.04-87.04c-5.12-5.12-10.24-7.68-17.92-7.68-10.24 0-17.92 5.12-23.04 15.36-33.28 66.56-23.04 151.04 33.28 207.36 35.84 35.84 79.36 51.2 125.44 51.2 20.48 0 40.96-2.56 58.88-10.24l284.16 284.16c-23.04 64-7.68 135.68 40.96 186.88 35.84 35.84 79.36 51.2 125.44 51.2 28.16 0 53.76-5.12 79.36-17.92 15.36-7.68 20.48-28.16 7.68-40.96l-87.04-87.04 30.72-30.72 87.04 87.04c5.12 5.12 10.24 7.68 17.92 7.68 10.24 0 17.92-5.12 23.04-15.36 33.28-66.56 23.04-151.04-33.28-207.36-35.84-35.84-79.36-51.2-125.44-51.2-20.48 0-40.96 2.56-61.44 10.24l-284.16-284.16c23.04-64 7.68-135.68-40.96-186.88-33.28-33.28-76.8-51.2-122.88-51.2z m-33.28 230.4c12.8 0 25.6-5.12 35.84-15.36l30.72-30.72c20.48-20.48 20.48-51.2 0-71.68l-58.88-58.88c7.68 0 15.36-2.56 23.04-2.56 33.28 0 66.56 12.8 89.6 38.4 35.84 35.84 46.08 87.04 30.72 133.12-7.68 17.92-2.56 38.4 12.8 53.76l284.16 284.16c10.24 10.24 23.04 15.36 35.84 15.36 5.12 0 12.8 0 17.92-2.56 12.8-5.12 28.16-7.68 43.52-7.68 33.28 0 66.56 12.8 89.6 38.4 30.72 30.72 43.52 71.68 35.84 112.64l-58.88-58.88c-10.24-10.24-23.04-15.36-35.84-15.36-12.8 0-25.6 5.12-35.84 15.36l-30.72 30.72c-10.24 10.24-15.36 23.04-15.36 35.84s5.12 25.6 15.36 35.84l58.88 58.88c-7.68 0-15.36 2.56-23.04 2.56-33.28 0-66.56-12.8-89.6-38.4-35.84-35.84-46.08-87.04-30.72-133.12 7.68-17.92 2.56-38.4-12.8-53.76l-284.16-284.16c-10.24-10.24-23.04-15.36-35.84-15.36-5.12 0-10.24 0-17.92 2.56-12.8 5.12-28.16 7.68-43.52 7.68-33.28 0-66.56-12.8-89.6-38.4-30.72-30.72-43.52-71.68-35.84-112.64l58.88 58.88c10.24 10.24 23.04 15.36 35.84 15.36z" p-id="2014" fill="#dddddd"></path>
+                            <path d="M337.92 563.2c-12.8 0-25.6 5.12-35.84 15.36l-184.32 184.32c-20.48 20.48-20.48 51.2 0 71.68l71.68 71.68c10.24 10.24 23.04 15.36 35.84 15.36 12.8 0 25.6-5.12 35.84-15.36l184.32-184.32c20.48-20.48 20.48-51.2 0-71.68l-71.68-71.68c-7.68-10.24-20.48-15.36-35.84-15.36z m-110.08 307.2l-71.68-71.68 184.32-184.32 71.68 71.68-184.32 184.32zM849.92 138.24l35.84 35.84-89.6 89.6-17.92-17.92-17.92-17.92 89.6-89.6m0-61.44c-7.68 0-12.8 2.56-17.92 7.68l-125.44 125.44c-10.24 10.24-10.24 25.6 0 35.84l17.92 17.92-125.44 125.44c-10.24 10.24-10.24 25.6 0 35.84 5.12 5.12 12.8 7.68 17.92 7.68s12.8-2.56 17.92-7.68l125.44-125.44 17.92 17.92c5.12 5.12 12.8 7.68 17.92 7.68s12.8-2.56 17.92-7.68l125.44-125.44c10.24-10.24 10.24-25.6 0-35.84l-71.68-71.68c-2.56-5.12-10.24-7.68-17.92-7.68z" p-id="2015" fill="#dddddd"></path>
+                        </svg>
+                        <span>{{item.name}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 复用 列表的时间内容展示 -->
+            <div class="list-sequence">
+                <div class="list-sequence-item"
+                    v-for="(item, key) in appearanceTimeList"
+                    :key="key"
+                >
+
+                    <!-- 标题部分 -->
+                    <div class="sequence-item-title flex-start-center">
+                        <div class="item-title-icon"></div>
+                        <div class="item-title-text">{{item.time}}</div>
+                    </div>
+                    
+                    <!-- 内容部分 -->
+                    <div class="sequence-item-container">
+                        <div class="sequence-item-main">
+                            
+                            <div class="sequence-item-describe">
+                                <div class="item-describe-lable">{{item.lable}}</div>
+                                <div class="item-describe">{{item.describe}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 复用 列表的小标题 -->
+            <div class="list-little-title flex-start-center unimportance-appearance-title">
+                <span>1</span>
+                <div>非重要维修历史 (7)</div>
+            </div>
+
+            <!-- 复用 列表的时间内容展示 -->
+            <div class="list-sequence">
+                <div class="list-sequence-item"
+                    v-for="(item, key) in unimportanceATList"
+                    :key="key"
+                >
+
+                    <!-- 标题部分 -->
+                    <div class="sequence-item-title flex-start-center">
+                        <div class="item-title-icon"></div>
+                        <div class="item-title-text">{{item.time}}</div>
+                    </div>
+                    
+                    <!-- 内容部分 -->
+                    <div class="sequence-item-container">
+                        <div class="sequence-item-main">
+                            
+                            <div class="sequence-item-describe">
+                                <div class="item-describe-lable">{{item.lable}}</div>
+                                <div class="item-describe">{{item.describe}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 复用 列表的小标题 -->
+            <div class="list-little-title flex-start-center unimportance-appearance-title">
+                <span>2</span>
+                <div>历史里程 (10)</div>
+            </div>
+
+            <!-- 历史里程项展示 -->
         </div>
     </div>
 
@@ -268,8 +428,10 @@ export default {
                 ],
             ],
 
-            // 事故排查项列表 （通过icon展示）
-            accidentScreenList: [
+            /**
+             * 事故
+             */
+            accidentScreenList: [ // 排查项列表 （通过icon展示）
                 {
                     isgoodCondition: false, // 是否完好? 不完好的情况显示维修符号
                     name: '左前门'
@@ -322,7 +484,138 @@ export default {
                     isgoodCondition: false,
                     name: '后保险杠'
                 },
-            ]
+            ],
+            accidentTimeList: [ // 维修历史
+                {
+                    time: '2018-11-28',
+                    lable: '维修历史',
+                    describe: '数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。',
+                }
+            ],
+
+            /**
+             * 重要部件
+             */
+            majorPartList: [ // 项列表 （通过icon展示）
+                {
+                    isgoodCondition: true, // 是否完好? 不完好的情况显示维修符号
+                    name: '发动机'
+                }, {
+                    isgoodCondition: false,
+                    name: '前/后桥'
+                }, {
+                    isgoodCondition: true,
+                    name: '转向系统'
+                }, {
+                    isgoodCondition: true,
+                    name: '空调系统'
+                }, 
+                {
+                    isgoodCondition: true,
+                    name: '变速箱'
+                }, {
+                    isgoodCondition: true,
+                    name: '悬架系统'
+                }, {
+                    isgoodCondition: true,
+                    name: '制动系统'
+                }, {
+                    isgoodCondition: true,
+                    name: '气囊安全带'
+                }, 
+            ],
+            majorPartTimeList: [ // 维修历史
+                {
+                    time: '2018-11-28',
+                    lable: '维修历史',
+                    describe: '数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。',
+                }
+            ],
+
+            /**
+             * 车身外观
+             */
+            appearanceList: [ // 项列表 （通过icon展示）
+                {
+                    isgoodCondition: false, // 是否完好? 不完好的情况显示维修符号
+                    name: '左前门'
+                }, {
+                    isgoodCondition: true,
+                    name: '前/后桥'
+                }, {
+                    isgoodCondition: true,
+                    name: '前机盖'
+                }, {
+                    isgoodCondition: true,
+                    name: '车顶'
+                }, 
+                {
+                    isgoodCondition: false,
+                    name: '左后门'
+                }, {
+                    isgoodCondition: true,
+                    name: '左后翼子板'
+                }, {
+                    isgoodCondition: false,
+                    name: '后尾门'
+                }, {
+                    isgoodCondition: true,
+                    name: '底大边'
+                },  
+                {
+                    isgoodCondition: true,
+                    name: '右后门'
+                }, {
+                    isgoodCondition: true,
+                    name: '右后翼子板'
+                }, {
+                    isgoodCondition: true,
+                    name: '前保险杠'
+                }, {
+                    isgoodCondition: true,
+                    name: '挡风玻璃'
+                },  
+                {
+                    isgoodCondition: true,
+                    name: '右前门'
+                }, {
+                    isgoodCondition: true,
+                    name: '右前翼子板'
+                }, {
+                    isgoodCondition: true,
+                    name: '后保险杠'
+                }, 
+            ],
+            appearanceTimeList: [ // 维修历史
+                {
+                    time: '2018-11-28',
+                    lable: '维修历史',
+                    describe: '数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。',
+                }, {
+                    time: '2018-1-18',
+                    lable: '维修历史',
+                    describe: '数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。',
+                }, {
+                    time: '2018-6-21',
+                    lable: '维修历史',
+                    describe: '数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。',
+                }
+            ],
+            unimportanceATList: [ // 不重要维修历史
+                {
+                    time: '2018-11-28',
+                    lable: '维修历史',
+                    describe: '数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。',
+                }, {
+                    time: '2018-1-18',
+                    lable: '维修历史',
+                    describe: '数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。',
+                }, {
+                    time: '2018-6-21',
+                    lable: '维修历史',
+                    describe: '数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。',
+                }
+            ],
         }
     },
 
@@ -688,6 +981,31 @@ export default {
 
     .accident-screen-container {
         background: #fff;
+    }
+}
+
+// 事故排查
+.major-part {
+    padding-bottom: 10px;
+
+    .major-part-container {
+        background: #fff;
+    }
+}
+
+// 车身外观
+.appearance {
+    padding-bottom: 10px;
+
+    .appearance-container {
+        background: #fff;
+    }
+
+    // 副标题 非重要维修历史 历史里程
+    .unimportance-appearance-title {
+        border-top: 1px solid #ddd;
+        margin-top: 15px;
+        margin-bottom: 15px;
     }
 }
 

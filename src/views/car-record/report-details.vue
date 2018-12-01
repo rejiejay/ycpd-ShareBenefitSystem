@@ -355,11 +355,52 @@
             </div>
 
             <!-- 历史里程项展示 -->
+            <div class="history-mileage flex-start">
+                <div class="history-mileage-item flex-rest flex-center">
+                    <div class="mileage-container flex-column-center">
+                        <svg width="45" height="45" t="1543629523843" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2908" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path fill="#606266" d="M172.8 925.866667c-4.266667 21.333333-21.333333 36.266667-38.4 34.133333l0 0c-17.066667-2.133333-29.866667-23.466667-25.6-44.8l138.666667-842.666667c4.266667-21.333333 21.333333-36.266667 38.4-34.133333l0 0c17.066667 2.133333 29.866667 23.466667 25.6 44.8L172.8 925.866667zM552.533333 288c0 10.666667-12.8 21.333333-29.866667 21.333333l0 0c-17.066667 0-29.866667-8.533333-29.866667-21.333333L492.8 93.866667c0-10.666667 12.8-21.333333 29.866667-21.333333l0 0c17.066667 0 29.866667 8.533333 29.866667 21.333333L552.533333 288zM552.533333 608c0 12.8-12.8 23.466667-29.866667 23.466667l0 0c-17.066667 0-29.866667-10.666667-29.866667-23.466667L492.8 390.4c0-12.8 12.8-23.466667 29.866667-23.466667l0 0c17.066667 0 29.866667 10.666667 29.866667 23.466667L552.533333 608zM552.533333 936.533333c0 12.8-12.8 23.466667-29.866667 23.466667l0 0c-17.066667 0-29.866667-10.666667-29.866667-23.466667L492.8 718.933333c0-12.8 12.8-23.466667 29.866667-23.466667l0 0c17.066667 0 29.866667 10.666667 29.866667 23.466667L552.533333 936.533333zM853.333333 928c4.266667 21.333333 21.333333 36.266667 38.4 34.133333l0 0c17.066667-2.133333 29.866667-23.466667 25.6-44.8L778.666667 74.666667c-4.266667-21.333333-21.333333-36.266667-38.4-34.133333l0 0C721.066667 44.8 710.4 64 714.666667 85.333333L853.333333 928z" p-id="2909"></path>
+                        </svg>
+                        <div class="mileage-item-describe">60860 km</div>
+                        <div class="mileage-item-lable">已行驶里程数</div>
+                    </div>
+                </div>
+                <div class="history-mileage-item flex-rest flex-center">
+                    <div class="mileage-container flex-column-center">
+                        <svg width="45" height="45" t="1543629569051" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3702" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path fill="#606266" d="M808.1 813.8h-53.3V452.3c0-122.8-99.9-222.7-222.7-222.7-122.8 0-222.7 99.9-222.7 222.7v356.3h-53.3V452.3c0-152.2 123.8-276 276-276s276 123.8 276 276v361.5z"  p-id="3703"></path>
+                            <path fill="#606266" d="M907 853.3H157.2v-53.2l26.6-0.3H907z"  p-id="3704"></path>
+                            <path fill="#606266" d="M559 608.8h-53.3l-0.3-26.6-0.2-180.9h53.2l0.4 26.6zM532.2 718.4h-26.6l-0.3-53.2 53.6-0.4v53.3z"  p-id="3705"></path>
+                        </svg>
+                        <div class="mileage-item-describe">1条</div>
+                        <div class="mileage-item-lable">异常里程记录</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 历史里程 列表 -->
+            <div class="history-mileage-list">
+                <div class="history-mileage-item flex-start-center"
+                    :class="{'mileage-item-line': key !== (historyMileageList.length - 1)}"
+                    v-for="(item, key) in historyMileageList"
+                    :key="key"
+                >
+                    <div class="mileage-item-left">{{item.time}}</div>
+                    <div class="mileage-item-center flex-rest">{{item.distance}} km</div>
+                    <div class="mileage-item-right">{{item.describe}}</div>
+                </div>
+            </div>
+
+            <!-- 预估 总公里数 -->
+            <div class="history-mileage-count">无法估算公里数</div>
+
+            <!-- 点击查看更多 -->
+            <div class="history-mileage-showmore">点击查看更多</div>
         </div>
     </div>
 
-    <div style="height: 1200px;"></div>
-
+    <!-- 金车管家免责条款 -->
+    <div class="escape-clause">《金车管家免责条款》</div>
 </div>
 </template>
 
@@ -614,6 +655,41 @@ export default {
                     time: '2018-6-21',
                     lable: '维修历史',
                     describe: '数据库管理系统（英语：Database Management System，简称DBMS）是为管理数据库而设计的电脑软件系统，一般具有存储、截取、安全保障、备份等基础功能。数据库管理系统可以依据它所支持的数据库模型来作分类，例如关系式、XML；或依据所支持的计算机类型来作分类，例如服务器群集、移动电话；或依据所用查询语言来作分类，例如SQL、XQuery；或依据性能冲量重点来作分类，例如最大规模、最高运行速度；亦或其他的分类方式。不论使用哪种分类方式，一些DBMS能够跨类别，例如，同时支持多种查询语言。',
+                }
+            ],
+
+            /**
+             * 历史里程
+             */
+            historyMileageList: [
+                {
+                    time: '2018-12-1', // 进店时间
+                    distance: '5518', // 距离里程
+                    describe: '首次进店', // 描述
+                }, {
+                    time: '2018-12-6',
+                    distance: '11275',
+                    describe: '正常数据',
+                }, {
+                    time: '2018-8-6',
+                    distance: '16568',
+                    describe: '正常数据',
+                }, {
+                    time: '2012-8-6',
+                    distance: '19981',
+                    describe: '正常数据',
+                }, {
+                    time: '2015-18-26',
+                    distance: '28381',
+                    describe: '正常数据',
+                }, {
+                    time: '2015-5-3',
+                    distance: '39399',
+                    describe: '正常数据',
+                }, {
+                    time: '2013-7-16',
+                    distance: '49220',
+                    describe: '正常数据',
                 }
             ],
         }
@@ -1007,6 +1083,71 @@ export default {
         margin-top: 15px;
         margin-bottom: 15px;
     }
+
+    // 历史里程项展示
+    .history-mileage {
+        padding: 0px 15px;
+        border-bottom: 1px solid #ddd;
+
+        .mileage-container {
+            padding: 15px;
+        }
+
+        .mileage-item-describe {
+            padding-top: 15px;
+            font-weight: bold;
+            color: @black1;
+        }
+
+        .mileage-item-lable {
+            padding-top: 5px;
+        }
+    }
+
+    // 历史里程 列表
+    .history-mileage-list {
+        padding-left: 15px;
+        color: @black1;
+
+        .history-mileage-item {
+            padding-right: 15px;
+            height: 45px;
+        }
+
+        .mileage-item-left {
+            width: 75px;
+        }
+
+        .mileage-item-center {
+            text-align: center;
+        }
+
+        .mileage-item-line {
+            border-bottom: 1px solid #ddd;
+        }
+    }
+
+    // 预估 总公里数
+    .history-mileage-count {
+        padding-left: 15px;
+        line-height: 45px;
+        border-top: 1px solid #ddd;
+        color: #f57f17;
+    }
+
+    // 点击查看更多 
+    .history-mileage-showmore {
+        border-top: 1px solid #ddd;
+        line-height: 50px;
+        text-align: center;
+        color: @black1;
+    }
+}
+
+.escape-clause {
+    padding-top: 5px;
+    height: 55px;
+    text-align: center;
 }
 
 </style>

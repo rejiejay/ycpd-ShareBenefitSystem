@@ -523,13 +523,91 @@ export default {
                             }
                         }
 
+                        // 初始化 是否通过邀请添加的客户
+                        let isByInvitation = val.clentType === 1 ? true : false;
+
+                        /**
+                         * 初始化 客户状态
+                         * 一共有3种状态【未注册】【享分成中】【他人分成中】
+                         * 其中 【享分成中】 的状态有两种情况，一种是有 优惠加油提成的情况 另外一种是没有
+                         */
+                        let customerState = {
+                            val: null, // 享分成中 sharing;  享分成中lable状态 sharing-lable;  他人分成中 otherShared;  未注册 noRegister;   不显示 null;
+                            createdDate: '', // 3天前 今天 昨天
+                            projectName: '', // 优惠加油
+                            obtainMoney: '', // 提成
+                        }
+                        let nowDateTimeStamp = (() => {
+                            let nowTimeStamp = new Date();
+
+                            return new Date(nowTimeStamp.getFullYear(), nowTimeStamp.getMonth(), nowTimeStamp.getDate()).getTime();
+                        })();
+                        // 判断 邀请分享选项 是否是 分享成中
+                        if (val.sharingStatus === 'SHARING') {
+                            /**
+                             * 判断 是否有 优惠加油提成 的自执行函数
+                             * @returns true false
+                             */
+                            let isPromote = (() => {
+                                // 首先判断 是否同时存在 记录时间 以及 养车频道注册时间
+                                if (val.ycpdRegisterDate && val.recordCreatedDate) {
+                                    // 判断 记录时间 更加接近现在 表示有 优惠加油提成
+                                    if ( (nowDateTimeStamp - TimeConver.YYYYmmDDhhMMssToTimestamp(val.recordCreatedDate)) > (nowDateTimeStamp - TimeConver.YYYYmmDDToTimestamp(val.ycpdRegisterDate)) ) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+
+                                } else {
+                                    // 如果 不是同时存在 是无法进行对比判断 哪个更加接近现在的时间段的
+                                    if (val.recordCreatedDate) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                }
+                            })();
+
+                            // 如果是 优惠加油提成 
+                            if (isPromote) {
+                                customerState.val = 'sharing-lable';
+
+                                let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDhhMMssToTimestamp(val.recordCreatedDate)) / (1000 * 60 * 60 * 24));
+                                // 如果相差的时间 小于或者等于 0
+                                if (timeDifference <= 0) {
+                                    customerState.createdDate = '今天';
+                                } else {
+                                    customerState.createdDate = `${timeDifference}天前`;
+                                }
+
+                                customerState.obtainMoney = val.recordObtainMoney;
+                                customerState.projectName = val.recordProjectName;
+                            } else {
+                                customerState.val = 'sharing';
+
+                                let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDToTimestamp(val.ycpdRegisterDate)) / (1000 * 60 * 60 * 24));
+                                // 如果相差的时间 小于或者等于 0
+                                if (timeDifference <= 0) {
+                                    customerState.createdDate = '今天';
+                                } else {
+                                    customerState.createdDate = `${timeDifference}天前`;
+                                }
+                            }
+
+                        } else if (val.sharingStatus === 'OTHER_SHARING') { // 他人分享成中
+                            customerState.val = 'otherShared';
+                        } else if (val.sharingStatus === 'NO_REGISTER') { // 未注册
+                            customerState.val = 'noRegister';
+                        } 
+
                         return {
                             response: val, // 原始数据
                             title: title,
                             name: val.username,
-                            isByInvitation: false,
+                            isByInvitation: isByInvitation,
                             tag: tag,
                             nextTime: nextTime,
+                            state: customerState,
                         }
                     });
 

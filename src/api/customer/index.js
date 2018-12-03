@@ -41,7 +41,7 @@ export default {
                     models: null,
                     ranges: null,
                     /**
-                     * 养车频道注册时间 与记录时间 （recordCreatedDate） 对比 
+                     * 养车频道注册时间 与 记录时间 （recordCreatedDate） 对比 
                      * 哪个更加接近现在 显示 哪个
                      * 如果 记录时间 是最近的 拼接 多少天前 计算 recordObtainMoney recordProjectName 得出lable便签
                      * 如果 养车频道 注册是最近的 直接显示 多少天 注册时间就可以了

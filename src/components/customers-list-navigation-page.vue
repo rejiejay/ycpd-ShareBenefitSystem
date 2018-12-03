@@ -40,21 +40,21 @@
         </div> -->
 
         <!-- 客户状态 -->
-        <div class="bottom-customer-status" v-if="item.state">
+        <div class="bottom-customer-status" v-if="item.state && item.state.val">
             <!-- 享分成中 有提成的情况 -->
-            <div class="customer-status-ing flex-start-center" v-if="false">
-                <div class="customer-status-havedivide flex-rest"><span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span style="color: #FFA100;">优惠加油</span><span style="padding-right: 5px;">提成:</span><span style="color: #E50012; font-weight: bold;">￥3.5</span></div>
+            <div class="customer-status-ing flex-start-center" v-if="item.state && item.state.val === 'sharing'">
+                <div class="customer-status-havedivide flex-rest"><span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span style="color: #FFA100;">{{item.state.projectName}}</span><span style="padding-right: 5px;">提成:</span><span style="color: #E50012; font-weight: bold;">￥{{item.state.obtainMoney}}</span></div>
 
-                <div class="customer-status-right">3天前</div>
+                <div class="customer-status-right">{{item.state.createdDate}}</div>
             </div>
 
             <!-- 享分成中 无提成的情况 -->
-            <div class="customer-status-ing flex-start-center" v-if="false">
-                <span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span>17天前注册</span>
+            <div class="customer-status-ing flex-start-center" v-if="item.state && item.state.val === 'sharing'">
+                <span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span>{{item.state.createdDate}}注册</span>
             </div>
             
             <!-- 未注册 -->
-            <div class="customer-status-unregistered flex-start-center" v-if="false">
+            <div class="customer-status-unregistered flex-start-center" v-if="item.state && item.state.val === 'otherShared'">
                 <div class="customer-status-havedivide flex-rest">未注册：<span style="color: #FFA100;">邀请注册享分成，先下手为强</span></div>
                 
                 <div class="customer-status-right flex-start-center" @click="jumpToaCtivity(1)">
@@ -66,7 +66,7 @@
             </div>
 
             <!-- 他人分享 -->
-            <div class="customer-status-other flex-start-center" v-if="false">他人分成中：<span>无法查看动态~</span></div>
+            <div class="customer-status-other flex-start-center" v-if="item.state && item.state.val === 'noRegister'">他人分成中：<span>无法查看动态~</span></div>
         </div>
     </div>
 </div>
@@ -81,29 +81,35 @@ export default {
     name: 'NavigationPage',
 
     props: [
-        /**
-         * 页面的数据
-         * {
-         *     response: {}, // 服务器返回的原生数据
-         *     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
-         *     name: '李四',
-         *     isByInvitation: false, // 是否通过邀请添加的客户
-         *     tag: [
-         *         '保险41天',
-         *         '年检23天',
-         *         '待跟进',
-         *     ],
-         *     insurance: {
-         *         name: '人保车险',
-         *         price: 4583.45,
-         *         factors: 0.45,
-         *     },
-         *     // 客户状态，一共有3种状态【未注册】【享分成中】【他人分成中】
-         *     // 其中 【享分成中】 的状态有两种情况，一种是有 优惠加油提成的情况 另外一种是没有
-         *     // 
-         *     state: {},
-         * },
-         */
+        // 页面的数据
+        // {
+        //     response: {}, // 服务器返回的原生数据
+        //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
+        //     name: '李四',
+        //     insurance: {
+        //         name: '人保车险',
+        //         price: 4583.45,
+        //         factors: 0.45,
+        //     },
+        //     isByInvitation: false, // 是否通过邀请添加的客户
+        //     tag: [
+        //         '保险41天',
+        //         '年检23天',
+        //         '待跟进',
+        //     ],
+        //     nextTime: '2018-12-3', // 跟进时间
+        //     /**
+        //      * 客户状态
+        //      * 一共有3种状态【未注册】【享分成中】【他人分成中】
+        //      * 其中 【享分成中】 的状态有两种情况，一种是有 优惠加油提成的情况 另外一种是没有
+        //      */
+        //     state: {
+        //         val: '', // 享分成中 sharing;  享分成中lable状态 sharing-lable;  他人分成中 otherShared;  未注册 noRegister;   不显示 null;
+        //         createdDate: '', // 3天前 今天 昨天
+        //         projectName: '', // 优惠加油
+        //         obtainMoney: '', // 提成
+        //     },
+        // },
         'pageData', 
     ],
 

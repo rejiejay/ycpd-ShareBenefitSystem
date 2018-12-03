@@ -45,7 +45,7 @@
     <!-- 筛选栏 -->
     <div class="navigation-filter">
         <div class="navigation-filter-container flex-start-center">
-            <div class="filter-title-item" :class="{'filter-item-selected' : filterChecked === 'time'}" @click="isSortModalShow = true;">
+            <div class="filter-title-item" :class="{'filter-item-selected' : filterChecked === 'sort'}" @click="isSortModalShow = true;">
                 <div class="flex-start-center">
                     <span>默认排序</span>
                     <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
@@ -78,16 +78,16 @@
         <div class="filter-modal-list">
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">默认排序</div>
+                <div class="modal-item-describe" @click="selectSort(null)">默认排序</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">保险到期时间</div>
+                <div class="modal-item-describe" @click="selectSort('SORT_CLIENT_CREATEDDATE')">保险到期时间</div>
                 <div class="modal-item-line"></div>
             </div>
             
-            <div class="filter-modal-item">
+            <div class="filter-modal-item" @click="selectSort('SORT_ANNUAL_INSPECT')">
                 <div class="modal-item-describe">年检到期时间</div>
             </div>
         </div>
@@ -98,22 +98,22 @@
         <div class="filter-modal-list">
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">全部客户</div>
+                <div class="modal-item-describe" @click="selectFilter(null)">全部客户</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">享分成中的客户</div>
+                <div class="modal-item-describe" @click="selectFilter('SHARING')">享分成中的客户</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">他人分成中的客户</div>
+                <div class="modal-item-describe" @click="selectFilter('OTHER_SHARING')">他人分成中的客户</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">未注册客户</div>
+                <div class="modal-item-describe" @click="selectFilter('NO_REGISTER')">未注册客户</div>
             </div>
         </div>
     </div>
@@ -123,37 +123,32 @@
         <div class="filter-modal-list">
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">全部</div>
+                <div class="modal-item-describe" @click="selectActiveTime(null)">全部</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">7天内活跃</div>
+                <div class="modal-item-describe" @click="selectActiveTime('ACTIVE_SEVEN_DAY')">7天内活跃</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">15天内活跃</div>
+                <div class="modal-item-describe" @click="selectActiveTime('ACTIVE_FIFTEEN_DAY')">15天内活跃</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">1个月内活跃</div>
+                <div class="modal-item-describe" @click="selectActiveTime('ACTIVE_ONE_MONTH')">1个月内活跃</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">3个月内活跃</div>
+                <div class="modal-item-describe" @click="selectActiveTime('ACTIVE_THREE_MONTH')">3个月内活跃</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe">超过3个月</div>
-                <div class="modal-item-line"></div>
-            </div>
-            
-            <div class="filter-modal-item">
-                <div class="modal-item-describe">不活跃</div>
+                <div class="modal-item-describe" @click="selectActiveTime('PASS_THREE_MONTH')">超过3个月</div>
             </div>
         </div>
     </div>
@@ -177,7 +172,7 @@
     <NavigationPage :pageData="toFollowCustomers"  v-if="navBarSelected === 'tofollow'"/>
 
     <!-- 图标分析 -->
-    <div class="customer-jump-charts" @click="jumpToRouter('/customer/charts/:id')">
+    <div class="customer-jump-charts" @click="jumpToRouter('/customer/charts')">
         <img src="data:image/png;base64,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" alt="charts">
     </div>
 
@@ -259,8 +254,11 @@ export default {
              */
             filterChecked: 'sort', // 排序栏 选中
             isSortModalShow: false, // 排序 模态框
+            sortType: null, // 排序选项 非必填 默认排序（客户创建时间） SORT_CLIENT_CREATEDDATE 保险到期时间：SORT_INSURANCE    年检到期时间： SORT_ANNUAL_INSPECT 
             isDividStatusModalShow: false, // 邀请分成状态 模态框
+            sharingStatus: null, // 分成状态 非必填 默认是所有 分享成中：SHARING  他人分享成中： OTHER_SHARING  未注册： NO_REGISTER
             isActiveTimeModalShow: false, // 邀请分成状态 模态框
+            activeStatus: null, // 活跃时间 非必填 活跃时间选项 7天内活跃: ACTIVE_SEVEN_DAY  15天内活跃: ACTIVE_FIFTEEN_DAY   1个月内活跃: ACTIVE_ONE_MONTH   3个月内活跃: ACTIVE_THREE_MONTH  超过3个月:PASS_THREE_MONTH
 
             /**
              * 列表相关
@@ -351,7 +349,7 @@ export default {
         /**
          * 获取顶部导航栏统计数据
          */
-        getBarCount: function getCustomerList() {
+        getBarCount: function getBarCount() {
             const _this = this;
 
             ajaxs.getCountClientNum(this)
@@ -449,12 +447,12 @@ export default {
                 }
             }
 
-            ajaxs.getCustomerList(this.pageNo, this.pageSize, NBarSeleTosearchTy[this.navBarSelected], this.searchInput, this)
+            ajaxs.getCustomerList(this.pageNo, this.pageSize, NBarSeleTosearchTy[this.navBarSelected], this.searchInput, this.sortType, this.sharingStatus, this.activeStatus, this)
             .then(
                 res => {
                     _this.isLoding = false; // 设置 当前列表 为 加载完成
 
-                    _this.totalPages = res.totalPages;
+                    _this.totalPages = res.pages;
 
                     let newCustomers = res.content.map(val => {
                         // 初始化列表标题
@@ -547,11 +545,66 @@ export default {
                     MessageBox.confirm('获取客户列表失败, 是否重新获取?')
                     .then(action => {
                         _this.getCustomerList(pageNo, pageSize, search);
-                    }, () => {
-                        alert(error);
-                    });
+                    }, () => alert(error));
                 }
             )
+        },
+
+        /**
+         * 选择 排序 
+         * @param {string} sortType 排序选项 非必填 默认排序（客户创建时间） SORT_CLIENT_CREATEDDATE 保险到期时间：SORT_INSURANCE    年检到期时间： SORT_ANNUAL_INSPECT 
+         */
+        selectSort: function selectSort(sortType) {
+            this.sortType = sortType;
+            this.sharingStatus = null;
+            this.activeStatus = null;
+            this.filterChecked = 'sort';
+            this.isSortModalShow = false;
+            this.isDividStatusModalShow = false;
+            this.isActiveTimeModalShow = false;
+
+            this.pageNo = 1;
+            this.isLoding = false;
+
+            this.getCustomerList();
+        },
+
+        /**
+         * 选择 分成状态 
+         * @param {string} sharingStatus 分成状态 非必填 默认是所有 分享成中： SHARING  他人分享成中： OTHER_SHARING  未注册： NO_REGISTER
+         */
+        selectFilter: function selectFilter(sharingStatus) {
+            this.sortType = null;
+            this.sharingStatus = sharingStatus;
+            this.activeStatus = null;
+            this.filterChecked = 'dividStatus';
+            this.isSortModalShow = false;
+            this.isDividStatusModalShow = false;
+            this.isActiveTimeModalShow = false;
+
+            this.pageNo = 1;
+            this.isLoding = false;
+
+            this.getCustomerList();
+        },
+
+        /**
+         * 选择活跃时间
+         * @param {string} activeStatus 活跃时间 非必填 活跃时间选项 7天内活跃: ACTIVE_SEVEN_DAY  15天内活跃: ACTIVE_FIFTEEN_DAY   1个月内活跃: ACTIVE_ONE_MONTH   3个月内活跃: ACTIVE_THREE_MONTH  超过3个月: PASS_THREE_MONTH
+         */
+        selectActiveTime: function selectActiveTime(activeStatus) {
+            this.sortType = null;
+            this.sharingStatus = null;
+            this.activeStatus = activeStatus;
+            this.filterChecked = 'activeTime';
+            this.isSortModalShow = false;
+            this.isDividStatusModalShow = false;
+            this.isActiveTimeModalShow = false;
+
+            this.pageNo = 1;
+            this.isLoding = false;
+
+            this.getCustomerList();
         },
 
         /**

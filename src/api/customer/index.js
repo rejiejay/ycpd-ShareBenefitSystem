@@ -12,7 +12,7 @@ export default {
      * @param {string} sharingStatus 分成状态 非必填 默认是所有 分享成中：SHARING  他人分享成中： OTHER_SHARING  未注册： NO_REGISTER
      * @param {string} activeStatus 活跃时间 非必填 活跃时间选项 ,  7天内活跃: ACTIVE_SEVEN_DAY  15天内活跃: ACTIVE_FIFTEEN_DAY   1个月内活跃: ACTIVE_ONE_MONTH   3个月内活跃: ACTIVE_THREE_MONTH  超过3个月:PASS_THREE_MONTH
      */
-    getCustomerList: function getCustomerList(pageNo, pageSize, searchType, search, self) {
+    getCustomerList: function getCustomerList(pageNo, pageSize, searchType, search, sortType, sharingStatus, activeStatus, self) {
         // 返回的测试数据
         let resolve = {
             pageNo: 1,
@@ -120,6 +120,9 @@ export default {
         let paramString = `pageNo=${pageNo}&pageSize=${pageSize}&searchType=${searchType}`
         // 非必填项
         search ? paramString += `&searchParam=${search}` : null;
+        sortType ? paramString += `&sortType=${sortType}` : null;
+        sharingStatus ? paramString += `&sharingStatus=${sharingStatus}` : null;
+        activeStatus ? paramString += `&activeStatus=${activeStatus}` : null;
 
         return apibasics.get(`${config.url.origin}/ycpd/cas/client/list?token=${window.localStorage.getItem('ycpd_token')}&${paramString}`, '客户列表', self);
     },

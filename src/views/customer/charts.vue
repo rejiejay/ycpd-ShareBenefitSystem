@@ -12,7 +12,7 @@
 
         <div class="operate-form-item flex-start-center">
             <div class="form-item-left flex-rest">
-                <div class="form-item-title flex-start-center" style="color: #2DAF24;"><span style="background: #2DAF24;"></span>享分成中：38% (178位)</div>
+                <div class="form-item-title flex-start-center" style="color: #2DAF24;"><span style="background: #2DAF24;"></span>享分成中：{{sharingPercentage}}% ({{sharingClientNum}}位)</div>
                 <div class="form-item-container">您成功邀请使用“养车频道”的用户，客户加油您可享提成</div>
             </div>
             <div class="form-item-right flex-start">
@@ -26,7 +26,7 @@
 
         <div class="operate-form-item flex-start-center">
             <div class="form-item-left flex-rest">
-                <div class="form-item-title flex-start-center" style="color: #FFA100;"><span style="background: #FFA100;"></span>他人分成中：12% (89位)</div>
+                <div class="form-item-title flex-start-center" style="color: #FFA100;"><span style="background: #FFA100;"></span>他人分成中：{{otherSharingPercentage}}% ({{otherSharingClientNum}}位)</div>
                 <div class="form-item-container">他人成功邀请使用“养车频道”的用户</div>
             </div>
             <div class="form-item-right flex-start">
@@ -40,7 +40,7 @@
 
         <div class="operate-form-item flex-start-center">
             <div class="form-item-left flex-rest">
-                <div class="form-item-title flex-start-center" style="color: #404040;"><span style="background: #404040;"></span>未注册：50% (366位)</div>
+                <div class="form-item-title flex-start-center" style="color: #404040;"><span style="background: #404040;"></span>未注册：{{noRegisterPercentage}}% ({{noRegisterClientClientNum}}位)</div>
                 <div class="form-item-container">未注册的用户，赶紧去邀请吧</div>
             </div>
             <div class="form-item-right flex-start">
@@ -66,6 +66,8 @@
 
 // 框架类
 import VeRing from 'v-charts/lib/ring.js';
+// 请求类
+import ajaxs from "@/api/customer/charts";
 // 组件类
 import jumpToaCtivityPage from "@/components/jumpToaCtivityPage";
 
@@ -78,6 +80,11 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            // 客户邀请分成统计 (单位/人)
+            noRegisterClientClientNum: 0,
+            otherSharingClientNum: 0,
+            sharingClientNum: 0,
             
             // v-charts 组件的数据
             chartSettings: { radius: [40, 80] },
@@ -100,10 +107,72 @@ export default {
         } 
     },
 
+    computed: {
+        /**
+         * 客户邀请分成统计总人数
+         */
+        allCount: function allCount() {
+            return this.noRegisterClientClientNum + this.otherSharingClientNum + this.sharingClientNum;
+        },
+
+        /**
+         * 享分成中 百分比
+         */
+        sharingPercentage: function sharingPercentage() {
+            let myPercentage = this.sharingClientNum / this.allCount;
+
+            return Math.round(myPercentage * 10 * 100) / 10; // 意思是保留一位小数, 小数点后面为0的时候不显示
+        },
+
+        /**
+         * 他人分成中 百分比
+         */
+        otherSharingPercentage: function otherSharingPercentage() {
+            let myPercentage = this.otherSharingClientNum / this.allCount;
+
+            return Math.round(myPercentage * 10 * 100) / 10; // 意思是保留一位小数, 小数点后面为0的时候不显示
+        },
+
+        /**
+         * 未注册 百分比
+         */
+        noRegisterPercentage: function noRegisterPercentage() {
+            let myPercentage = this.noRegisterClientClientNum / this.allCount;
+
+            return Math.round(myPercentage * 10 * 100) / 10; // 意思是保留一位小数, 小数点后面为0的时候不显示
+        },
+
+    },
+
 	mounted: function mounted() {
+        this.initPageData(); // 初始化页面数据
     },
 
 	methods: {
+        /**
+         * 初始化页面数据
+         */
+        initPageData: function initPageData() {
+            const _this = this;
+
+            ajaxs.getKanban() // 获取客户邀请分成统计
+            .then(
+                res => {
+                    console.log('获取客户邀请分成统计', res);
+
+                    _this.sharingClientNum = res.sharingClientNum;
+                    _this.otherSharingClientNum = res.otherSharingClientNum;
+                    _this.noRegisterClientClientNum = res.noRegisterClientClientNum;
+
+                    // 初始化 v-charts 组件的数据
+                    _this.chartData.rows[0]['统计量'] = res.sharingClientNum; // 分成中
+                    _this.chartData.rows[1]['统计量'] = res.otherSharingClientNum; // 他人分成中
+                    _this.chartData.rows[2]['统计量'] = res.noRegisterClientClientNum; // 未注册
+
+                }, error => alert(error)
+            )
+        },
+
         /**
          * 跳转到活动
          * @param {number} activityNo 跳转到活动的下标

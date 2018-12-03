@@ -145,7 +145,7 @@ const routes = [
         component: () => import('@/views/customer/details'),
         meta: { title: '客户详情' },
     }, {
-        path: '/customer/charts/:id',
+        path: '/customer/charts',
         name: 'customer-charts',
         component: () => import('@/views/customer/charts'),
         meta: { title: '数据看板' },

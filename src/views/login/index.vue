@@ -18,12 +18,12 @@
                 <div class="login-input-item flex-start-center">
                     <div class="input-item-lable">短信验证:</div>
                     <div class="input-item-main flex-start-center flex-rest">
-                        <input v-model="SMSNumber" placeholder="输入4位手机验证码"  @click="verifySMSHandle" />
+                        <input v-model="SMSNumber" placeholder="输入4位手机验证码"  @click="verifySMSHandle(true)" />
                     </div>
                     <div class="input-item-verify">
                         <div class="item-verify-content"
                             :class="{'item-verify-disable' : isSMSGeting}"
-                            @click="verifySMSHandle"
+                            @click="verifySMSHandle(false)"
                         >{{isSMSGeting ? (reGetCount + '秒后获取') : '获取验证码'}}</div>
                     </div>
                 </div>
@@ -135,8 +135,6 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            wx_code: '081ykH7t0bhN2d1417at00RJ7t0ykH7X', // 获取微信网页信息的 code
-            
 			// 手机号码
             phoneNumber: '',
 
@@ -146,6 +144,7 @@ export default {
 			SMSNumber: '', // 短信验证码
 			isSMSGeting: false, // 是否 正在获取短信验证码
             reGetCount: 60, // 再次获取 倒计时60秒
+            getSmsCount: 0, // 第几次获取 短信验证码 用于判断是否可以键盘弹出
 
 			/**
              * 人机验证码
@@ -180,6 +179,7 @@ export default {
              */
             isAgreement: true, // 是否同意协议
             isAgreementShow: false, // 是否显示协议      
+
             /**
              * 同意 5秒倒计时 
              */
@@ -222,15 +222,14 @@ export default {
 
     mounted: function () {
         // 判断是否存在微信 code
-        if (loadPageVar('code')) {
-            this.wx_code = loadPageVar('code');
-            window.localStorage.setItem('wx_code', this.wx_code);
+        let mywx_code = loadPageVar('code');
+        if (mywx_code) {
+            window.localStorage.setItem('wx_code', mywx_code);
 
         } else {
             
             // 判断是否本地开发环境
             if (window.location.hostname === 'localhost') {
-                this.wx_code = '081ykH7t0bhN2d1417at00RJ7t0ykH7X';
                 window.localStorage.setItem('wx_code', '081ykH7t0bhN2d1417at00RJ7t0ykH7X');
             } else {
                 console.error('微信code为空');
@@ -344,8 +343,9 @@ export default {
 
 		/**
 		 * 获取验证码
+         * @param {Booleans} isInputCilck 是否从键盘点击
 		 */
-		verifySMSHandle: function verifySMSHandle() {
+		verifySMSHandle: function verifySMSHandle(isInputCilck) {
           
 			// 校验手机号码
 			if (this.verifyPhoneNumber().result !== 1) {
@@ -354,8 +354,20 @@ export default {
 
 			// 判断是否正在获取验证码
 			if (this.isSMSGeting === false) { // 没有获取验证码的情况
-				
-				this.isMachineModalShow = true; // 弹出模态框
+                
+                // 判断是否从键盘点击
+                if (isInputCilck) {
+                    // 如果 是 第一次点击 的情况下
+                    if (this.getSmsCount === 0) {
+				        this.isMachineModalShow = true; // 弹出 人机验证码的模态框
+                    } else {
+                        // 不是第一次点击则是 输入短信验证码
+                        // 不需要进行处理
+                    }
+                } else {
+                    // 不是 从键盘点击 情况下, 那就是通过按钮点击获取验证码
+				    this.isMachineModalShow = true; // 弹出 人机验证码的模态框
+                }
 			}
         },
         
@@ -382,6 +394,7 @@ export default {
                                 message: '验证码已发送!',
                                 duration: 2000
                             });
+                            _this.getSmsCount++; // 获取验证码的次数 +1
                             _this.isMachineModalShow = false; // 关闭人机验证 模态框
                             _this.jigsawStatus = 'natural'; // 将 滑动拼图状态 设置为 正常状态
                             _this.jigsawMovepx = 0;
@@ -397,7 +410,7 @@ export default {
                                             _this.reGetCount = 60;
                                             _this.isSMSGeting = false;
                                         }
-                                    }, i * 1000);
+                                    }, i * 100);
                                 })(i);
                             }
 

@@ -78,12 +78,12 @@
         <div class="filter-modal-list">
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectSort(null)">默认排序</div>
+                <div class="modal-item-describe" @click="selectSort('SORT_CLIENT_CREATEDDATE')">默认排序</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectSort('SORT_CLIENT_CREATEDDATE')">保险到期时间</div>
+                <div class="modal-item-describe" @click="selectSort('SORT_INSURANCE')">保险到期时间</div>
                 <div class="modal-item-line"></div>
             </div>
             
@@ -648,7 +648,7 @@ export default {
 
         /**
          * 选择 排序 
-         * @param {string} sortType 排序选项 非必填 默认排序（客户创建时间） SORT_CLIENT_CREATEDDATE 保险到期时间：SORT_INSURANCE    年检到期时间： SORT_ANNUAL_INSPECT 
+         * @param {string} sortType 排序选项 非必填 默认排序（客户创建时间） SORT_CLIENT_CREATEDDATE 保险到期时间： SORT_INSURANCE    年检到期时间：  SORT_ANNUAL_INSPECT 
          */
         selectSort: function selectSort(sortType) {
             this.sortType = sortType;

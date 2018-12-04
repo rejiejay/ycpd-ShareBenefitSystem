@@ -6,8 +6,8 @@
     <div class="home-banner">
         <div class="home-banner-content">
             <mt-swipe :auto="4000">
-                <mt-swipe-item><img @click="jumpToaCtivity(1)" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
-                <mt-swipe-item><img @click="jumpToaCtivity(2)" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
+                <mt-swipe-item><img @click="jumpToActivity(1)" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
+                <mt-swipe-item><img @click="jumpToActivity(2)" alt="banner" :src="`https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`" /></mt-swipe-item>
             </mt-swipe>
             
         </div>
@@ -42,7 +42,7 @@
 
     <!-- 两行的列表 - 邀请有奖 维保记录查询 -->
     <div class="home-invite-tow flex-start-center">
-        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="jumpToaCtivity(1)">
+        <div class="invite-tow-item" :style="`width: ${Math.floor((clientWidth - 40) / 2)}px;`" @click="jumpToActivity(1)">
             <div class="tow-item-content flex-start-center">
                 <!-- 服务礼品商城 icon按钮 -->
                 <div class="tow-item-icon">
@@ -221,7 +221,7 @@ import Vue from "vue";
 // 配置类
 import config from "@/config/index.js";
 // 组件类
-import jumpToaCtivityPage from "@/components/jumpToaCtivityPage";
+import jumpToActivityPage from "@/components/jumpToActivityPage";
 import Tabbar from "@/components/Tabbar";
 import html5WxBMapLocation from "@/components/html5WxBMapLocation";
 import { Toast, Swipe, SwipeItem } from 'mint-ui';
@@ -296,8 +296,8 @@ export default {
          * 跳转到活动
          * @param {number} activityNo 跳转到活动的下标
          */
-        jumpToaCtivity: function jumpToaCtivity(activityNo) {
-            jumpToaCtivityPage(activityNo, this);
+        jumpToActivity: function jumpToActivity(activityNo) {
+            jumpToActivityPage(activityNo, this);
         },
 
         /**

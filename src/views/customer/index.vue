@@ -256,7 +256,7 @@ export default {
             isSortModalShow: false, // 排序 模态框
             sortType: null, // 排序选项 非必填 默认排序（客户创建时间） SORT_CLIENT_CREATEDDATE 保险到期时间：SORT_INSURANCE    年检到期时间： SORT_ANNUAL_INSPECT 
             isDividStatusModalShow: false, // 邀请分成状态 模态框
-            sharingStatus: null, // 分成状态 非必填 默认是所有 分享成中：SHARING  他人分享成中： OTHER_SHARING  未注册： NO_REGISTER
+            sharingStatus: null, // 分成状态 非必填 默认是所有 分享成中： SHARING  他人分享成中： OTHER_SHARING  未注册： NO_REGISTER
             isActiveTimeModalShow: false, // 邀请分成状态 模态框
             activeStatus: null, // 活跃时间 非必填 活跃时间选项 7天内活跃: ACTIVE_SEVEN_DAY  15天内活跃: ACTIVE_FIFTEEN_DAY   1个月内活跃: ACTIVE_ONE_MONTH   3个月内活跃: ACTIVE_THREE_MONTH  超过3个月:PASS_THREE_MONTH
 
@@ -326,10 +326,7 @@ export default {
     },
 
 	mounted: function mounted() {
-        this.initPageData(); // 初始化页面数据从 store 获取数据 用户信息
-        
-        this.getCustomerList(); // 获取客户列表
-        this.getBarCount(); // 获取顶部导航栏统计数据
+        this.initPageData(); // 初始化页面数据
 
 		window.addEventListener('scroll', this.scrollBottom); // 添加滚动事件，检测滚动到页面底部
     },
@@ -343,7 +340,20 @@ export default {
          * 初始化页面数据
          */
 	    initPageData: function initPageData() {
-            let userInfoStore = this.userInfoStore;
+            this.getBarCount(); // 获取顶部导航栏统计数据
+            
+            let sharingStatus = window.sessionStorage.ycpd_sharingStatus;
+
+            // 判断是否存在 根据分成状态排序
+            if (sharingStatus) {
+                // 如果存在 根据分成状态排序
+                this.selectFilter(sharingStatus); // 根据分成状态 获取客户列表
+                window.sessionStorage.removeItem('ycpd_sharingStatus'); // 并且删除掉这个 缓存数据 目的是防止顶部数据污染
+
+            } else {
+                // 如果不存在的情况下
+                this.getCustomerList(); // 获取客户列表
+            }
         },
 
         /**
@@ -537,11 +547,16 @@ export default {
                             projectName: '', // 优惠加油
                             obtainMoney: '', // 提成
                         }
+
+                        /**
+                         * 获取到当前时间戳 精确到 日 的自执行函数
+                         */
                         let nowDateTimeStamp = (() => {
                             let nowTimeStamp = new Date();
 
                             return new Date(nowTimeStamp.getFullYear(), nowTimeStamp.getMonth(), nowTimeStamp.getDate()).getTime();
                         })();
+
                         // 判断 邀请分享选项 是否是 分享成中
                         if (val.sharingStatus === 'SHARING') {
                             /**
@@ -570,8 +585,9 @@ export default {
 
                             // 如果是 优惠加油提成 
                             if (isPromote) {
-                                customerState.val = 'sharing-lable';
+                                customerState.val = 'sharing-lable'; // 设置 状态为 分享成中 并且 优惠加油提成
 
+                                // 初始化 分成时间
                                 let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDhhMMssToTimestamp(val.recordCreatedDate)) / (1000 * 60 * 60 * 24));
                                 // 如果相差的时间 小于或者等于 0
                                 if (timeDifference <= 0) {
@@ -580,11 +596,13 @@ export default {
                                     customerState.createdDate = `${timeDifference}天前`;
                                 }
 
+                                // 初始化 优惠加油提成 的标签
                                 customerState.obtainMoney = val.recordObtainMoney;
                                 customerState.projectName = val.recordProjectName;
                             } else {
-                                customerState.val = 'sharing';
+                                customerState.val = 'sharing'; // 设置 状态为 分享成中 无优惠加油提成
 
+                                // 初始化 分成时间
                                 let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDToTimestamp(val.ycpdRegisterDate)) / (1000 * 60 * 60 * 24));
                                 // 如果相差的时间 小于或者等于 0
                                 if (timeDifference <= 0) {

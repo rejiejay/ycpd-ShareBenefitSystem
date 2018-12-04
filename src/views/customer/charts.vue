@@ -15,7 +15,7 @@
                 <div class="form-item-title flex-start-center" style="color: #2DAF24;"><span style="background: #2DAF24;"></span>享分成中：{{sharingPercentage}}% ({{sharingClientNum}}位)</div>
                 <div class="form-item-container">您成功邀请使用“养车频道”的用户，客户加油您可享提成</div>
             </div>
-            <div class="form-item-right flex-start">
+            <div class="form-item-right flex-start" @click="jumpToCustomerList('SHARING')">
                 <span>查看</span>
                 <svg width="16" height="16" t="1542965801766" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1955" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path fill="#909399" d="M681.322 538.268c0.011 0 0.025 0 0.040 0 6.564 0 12.506-2.667 16.801-6.978 4.312-4.31 6.979-10.264 6.979-16.841 0-6.577-2.666-12.532-6.978-16.84l-345.758-345.736c-9.302-9.302-24.375-9.302-33.681 0s-9.302 24.375 0 33.681l345.755 345.741c4.298 4.308 10.241 6.974 16.808 6.974 0.013 0 0.025 0 0.038 0z" p-id="1956"></path>
@@ -29,7 +29,7 @@
                 <div class="form-item-title flex-start-center" style="color: #FFA100;"><span style="background: #FFA100;"></span>他人分成中：{{otherSharingPercentage}}% ({{otherSharingClientNum}}位)</div>
                 <div class="form-item-container">他人成功邀请使用“养车频道”的用户</div>
             </div>
-            <div class="form-item-right flex-start">
+            <div class="form-item-right flex-start" @click="jumpToCustomerList('OTHER_SHARING')">
                 <span>查看</span>
                 <svg width="16" height="16" t="1542965801766" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1955" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path fill="#909399" d="M681.322 538.268c0.011 0 0.025 0 0.040 0 6.564 0 12.506-2.667 16.801-6.978 4.312-4.31 6.979-10.264 6.979-16.841 0-6.577-2.666-12.532-6.978-16.84l-345.758-345.736c-9.302-9.302-24.375-9.302-33.681 0s-9.302 24.375 0 33.681l345.755 345.741c4.298 4.308 10.241 6.974 16.808 6.974 0.013 0 0.025 0 0.038 0z" p-id="1956"></path>
@@ -43,7 +43,7 @@
                 <div class="form-item-title flex-start-center" style="color: #404040;"><span style="background: #404040;"></span>未注册：{{noRegisterPercentage}}% ({{noRegisterClientClientNum}}位)</div>
                 <div class="form-item-container">未注册的用户，赶紧去邀请吧</div>
             </div>
-            <div class="form-item-right flex-start">
+            <div class="form-item-right flex-start" @click="jumpToCustomerList('NO_REGISTER')">
                 <span>查看</span>
                 <svg width="16" height="16" t="1542965801766" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1955" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path fill="#909399" d="M681.322 538.268c0.011 0 0.025 0 0.040 0 6.564 0 12.506-2.667 16.801-6.978 4.312-4.31 6.979-10.264 6.979-16.841 0-6.577-2.666-12.532-6.978-16.84l-345.758-345.736c-9.302-9.302-24.375-9.302-33.681 0s-9.302 24.375 0 33.681l345.755 345.741c4.298 4.308 10.241 6.974 16.808 6.974 0.013 0 0.025 0 0.038 0z" p-id="1956"></path>
@@ -57,7 +57,7 @@
     <!-- 跳转到活动 -->
     <div class="activity flex-start-center">
         <div class="activity-left flex-rest">再不下手客户都被别人抢先邀请了~</div>
-        <div class="activity-btn" @click="jumpToaCtivity(1)">立即邀请</div>
+        <div class="activity-btn" @click="jumpToActivity(1)">立即邀请</div>
     </div>
 </div>
 </template>
@@ -69,7 +69,7 @@ import VeRing from 'v-charts/lib/ring.js';
 // 请求类
 import ajaxs from "@/api/customer/charts";
 // 组件类
-import jumpToaCtivityPage from "@/components/jumpToaCtivityPage";
+import jumpToActivityPage from "@/components/jumpToActivityPage";
 
 export default {
     name: 'customer-charts',
@@ -174,11 +174,20 @@ export default {
         },
 
         /**
+         * 跳转到客户列 并且 根据分成状态排序
+         * @param {string} sharingStatus  分成状态排序 分享成中：SHARING  他人分享成中： OTHER_SHARING  未注册： NO_REGISTER
+         */
+        jumpToCustomerList: function jumpToCustomerList(sharingStatus) {
+            window.sessionStorage.setItem('ycpd_sharingStatus', sharingStatus);
+            this.$router.replace('/customer');
+        },
+
+        /**
          * 跳转到活动
          * @param {number} activityNo 跳转到活动的下标
          */
-        jumpToaCtivity: function jumpToaCtivity(activityNo) {
-            jumpToaCtivityPage(activityNo, this);
+        jumpToActivity: function jumpToActivity(activityNo) {
+            jumpToActivityPage(activityNo, this);
         },
     }
 }

@@ -42,7 +42,7 @@
         <!-- 客户状态 -->
         <div class="bottom-customer-status" v-if="item.state && item.state.val">
             <!-- 享分成中 有提成的情况 -->
-            <div class="customer-status-ing flex-start-center" v-if="item.state && item.state.val === 'sharing'">
+            <div class="customer-status-ing flex-start-center" v-if="item.state && item.state.val === 'sharing-lable'">
                 <div class="customer-status-havedivide flex-rest"><span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span style="color: #FFA100;">{{item.state.projectName}}</span><span style="padding-right: 5px;">提成:</span><span style="color: #E50012; font-weight: bold;">￥{{item.state.obtainMoney}}</span></div>
 
                 <div class="customer-status-right">{{item.state.createdDate}}</div>
@@ -54,10 +54,10 @@
             </div>
             
             <!-- 未注册 -->
-            <div class="customer-status-unregistered flex-start-center" v-if="item.state && item.state.val === 'otherShared'">
+            <div class="customer-status-unregistered flex-start-center" v-if="item.state && item.state.val === 'noRegister'">
                 <div class="customer-status-havedivide flex-rest">未注册：<span style="color: #FFA100;">邀请注册享分成，先下手为强</span></div>
                 
-                <div class="customer-status-right flex-start-center" @click="jumpToaCtivity(1)">
+                <div class="customer-status-right flex-start-center" @click="jumpToActivity(1)">
                     <span>去邀请</span>
                     <svg width="12" height="12" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                         <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
@@ -66,7 +66,7 @@
             </div>
 
             <!-- 他人分享 -->
-            <div class="customer-status-other flex-start-center" v-if="item.state && item.state.val === 'noRegister'">他人分成中：<span>无法查看动态~</span></div>
+            <div class="customer-status-other flex-start-center" v-if="item.state && item.state.val === 'otherShared'">他人分成中：<span>无法查看动态~</span></div>
         </div>
     </div>
 </div>
@@ -75,7 +75,7 @@
 <script>
 
 // 组件类
-import jumpToaCtivityPage from "@/components/jumpToaCtivityPage";
+import jumpToActivityPage from "@/components/jumpToActivityPage";
 
 export default {
     name: 'NavigationPage',
@@ -127,8 +127,8 @@ export default {
          * 跳转到活动
          * @param {number} activityNo 跳转到活动的下标
          */
-        jumpToaCtivity: function jumpToaCtivity(activityNo) {
-            jumpToaCtivityPage(activityNo, this);
+        jumpToActivity: function jumpToActivity(activityNo) {
+            jumpToActivityPage(activityNo, this);
         },
 
         /**
@@ -256,7 +256,7 @@ export default {
         padding: 0px 15px;
         height: 40px;
         line-height: 40px;
-        font-size: 14px;
+        font-size: 12px;
         border-top: 1px solid #ddd;
         background: #fff;
         color: @black3;

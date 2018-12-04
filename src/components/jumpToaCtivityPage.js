@@ -6,7 +6,7 @@ import ajaxsgetAllActivity from "@/api/common/getAllActivity";
  * @param {number} activityNo 跳转到活动的下标
  * @param {object} self vue的组件类
  */
-let jumpToaCtivityPage = (activityNo, self) => {
+let jumpToActivityPage = (activityNo, self) => {
     /**
      * 跳转到路由
      * @param {object} query 携带的参数 非必填
@@ -40,4 +40,4 @@ let jumpToaCtivityPage = (activityNo, self) => {
     );
 }
 
-export default jumpToaCtivityPage;
+export default jumpToActivityPage;

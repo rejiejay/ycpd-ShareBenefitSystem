@@ -45,21 +45,21 @@
     <!-- 筛选栏 -->
     <div class="navigation-filter">
         <div class="navigation-filter-container flex-start-center">
-            <div class="filter-title-item" :class="{'filter-item-selected' : filterChecked === 'sort'}" @click="isSortModalShow = true;">
+            <div class="filter-title-item" :class="{'filter-item-selected' : (sortType !== null && sortType !== 'SORT_CLIENT_CREATEDDATE')}" @click="isSortModalShow = !isSortModalShow; isDividStatusModalShow = false; isActiveTimeModalShow = false;">
                 <div class="flex-start-center">
                     <span>默认排序</span>
                     <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
                     <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
                 </div>
             </div>
-            <div class="filter-title-item flex-center" :class="{'filter-item-selected' : filterChecked === 'dividStatus'}"  @click="isDividStatusModalShow = true;">
+            <div class="filter-title-item flex-center" :class="{'filter-item-selected' : sharingStatus !== null}"  @click="isDividStatusModalShow = !isDividStatusModalShow; isSortModalShow = false; isActiveTimeModalShow = false;">
                 <div class="flex-start-center">
                     <span>享分成状态</span>
                     <svg width="9" height="9" class="svg-active" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-89.000000, -283.000000)" fill="#E50012"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M2.29312721,6.70711751 L8.29290394,12.7066694 C8.68342578,13.0971793 9.31657422,13.0971793 9.70709606,12.7066694 L15.7068728,6.70711751 C16.097403,6.31659914 16.0974126,5.68343416 15.7068942,5.29290394 C15.519357,5.105361 15.2649985,5 14.9997767,5 L3.00022327,5 C2.44793852,5 2.00022327,5.44771525 2.00022327,6 C2.00022327,6.26522175 2.10558428,6.51958025 2.29312721,6.70711751 Z" id="Path-9"></path></g></g></g></g></svg>
                     <svg width="9" height="9" class="svg-disable" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="我的奖励" transform="translate(-397.000000, -283.000000)" fill="#CCCCCC"><g id="排序" transform="translate(0.000000, 248.000000)"><g id="icon" transform="translate(89.000000, 35.000000)"><path d="M310.293127,11.7071175 L316.292904,17.7066694 C316.683426,18.0971793 317.316574,18.0971793 317.707096,17.7066694 L323.706873,11.7071175 C324.097403,11.3165991 324.097413,10.6834342 323.706894,10.2929039 C323.519357,10.105361 323.264998,10 322.999777,10 L311.000223,10 C310.447939,10 310.000223,10.4477153 310.000223,11 C310.000223,11.2652217 310.105584,11.5195803 310.293127,11.7071175 Z" id="Path-9-Copy"></path><path d="M310.293127,1.70711751 L316.292904,7.70666935 C316.683426,8.09717935 317.316574,8.09717935 317.707096,7.70666935 L323.706873,1.70711751 C324.097403,1.31659914 324.097413,0.683434157 323.706894,0.292903943 C323.519357,0.105361004 323.264998,2.00363412e-16 322.999777,-2.22044605e-16 L311.000223,2.22044605e-16 C310.447939,3.23497668e-16 310.000223,0.44771525 310.000223,1 C310.000223,1.26522175 310.105584,1.51958025 310.293127,1.70711751 Z" id="Path-9-Copy-3" transform="translate(317.000000, 4.000045) scale(1, -1) translate(-317.000000, -4.000045) "></path></g></g></g></g></svg>
                 </div>
             </div>
-            <div class="filter-title-item" :class="{'filter-item-selected' : filterChecked === 'activeTime'}"  @click="isActiveTimeModalShow = true;">
+            <div class="filter-title-item" :class="{'filter-item-selected' : activeStatus !== null}"  @click="isActiveTimeModalShow = !isActiveTimeModalShow; isSortModalShow = false; isDividStatusModalShow = false;">
                 <div class="flex-start-center">
                 <div class="flex-rest"></div>
                     <span>活跃时间</span>
@@ -78,16 +78,16 @@
         <div class="filter-modal-list">
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectSort('SORT_CLIENT_CREATEDDATE')">默认排序</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : (sortType === 'SORT_CLIENT_CREATEDDATE' || sortType === null)}" @click="selectSort('SORT_CLIENT_CREATEDDATE')">默认排序</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectSort('SORT_INSURANCE')">保险到期时间</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : sortType === 'SORT_INSURANCE'}" @click="selectSort('SORT_INSURANCE')">保险到期时间</div>
                 <div class="modal-item-line"></div>
             </div>
             
-            <div class="filter-modal-item" @click="selectSort('SORT_ANNUAL_INSPECT')">
+            <div class="filter-modal-item" :class="{'modal-item-active' : sortType === 'SORT_ANNUAL_INSPECT'}" @click="selectSort('SORT_ANNUAL_INSPECT')">
                 <div class="modal-item-describe">年检到期时间</div>
             </div>
         </div>
@@ -98,22 +98,22 @@
         <div class="filter-modal-list">
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectFilter(null)">全部客户</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : sharingStatus === null}" @click="selectFilter(null)">全部客户</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectFilter('SHARING')">享分成中的客户</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : sharingStatus === 'SHARING'}" @click="selectFilter('SHARING')">享分成中的客户</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectFilter('OTHER_SHARING')">他人分成中的客户</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : sharingStatus === 'OTHER_SHARING'}" @click="selectFilter('OTHER_SHARING')">他人分成中的客户</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectFilter('NO_REGISTER')">未注册客户</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : sharingStatus === 'NO_REGISTER'}" @click="selectFilter('NO_REGISTER')">未注册客户</div>
             </div>
         </div>
     </div>
@@ -123,32 +123,32 @@
         <div class="filter-modal-list">
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectActiveTime(null)">全部</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : activeStatus === null}" @click="selectActiveTime(null)">全部</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectActiveTime('ACTIVE_SEVEN_DAY')">7天内活跃</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : activeStatus === 'ACTIVE_SEVEN_DAY'}" @click="selectActiveTime('ACTIVE_SEVEN_DAY')">7天内活跃</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectActiveTime('ACTIVE_FIFTEEN_DAY')">15天内活跃</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : activeStatus === 'ACTIVE_FIFTEEN_DAY'}" @click="selectActiveTime('ACTIVE_FIFTEEN_DAY')">15天内活跃</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectActiveTime('ACTIVE_ONE_MONTH')">1个月内活跃</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : activeStatus === 'ACTIVE_ONE_MONTH'}" @click="selectActiveTime('ACTIVE_ONE_MONTH')">1个月内活跃</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectActiveTime('ACTIVE_THREE_MONTH')">3个月内活跃</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : activeStatus === 'ACTIVE_THREE_MONTH'}" @click="selectActiveTime('ACTIVE_THREE_MONTH')">3个月内活跃</div>
                 <div class="modal-item-line"></div>
             </div>
             
             <div class="filter-modal-item">
-                <div class="modal-item-describe" @click="selectActiveTime('PASS_THREE_MONTH')">超过3个月</div>
+                <div class="modal-item-describe" :class="{'modal-item-active' : activeStatus === 'PASS_THREE_MONTH'}" @click="selectActiveTime('PASS_THREE_MONTH')">超过3个月</div>
             </div>
         </div>
     </div>
@@ -248,11 +248,7 @@ export default {
 
             /**
              * 筛选栏
-             * @param {string} sort 【排序】筛选 —— 默认排序（添加时间最近的在上面） -保险到期时间（到期最近的在上面） -年检到期时间（到期时间最近的在上面）
-             * @param {string} dividStatus 【邀请分成状态】筛选 ——  全部客户（默认选项） 享分成中的客户 他人分成中的客户 未注册客户
-             * @param {string} activeTime 【活跃时间】筛选 —— 全部（默认选项） 7天内活跃 15天内活跃 1个月内活跃 3个月内活跃 超过3个月 不活跃
              */
-            filterChecked: 'sort', // 排序栏 选中
             isSortModalShow: false, // 排序 模态框
             sortType: null, // 排序选项 非必填 默认排序（客户创建时间） SORT_CLIENT_CREATEDDATE 保险到期时间：SORT_INSURANCE    年检到期时间： SORT_ANNUAL_INSPECT 
             isDividStatusModalShow: false, // 邀请分成状态 模态框
@@ -652,9 +648,6 @@ export default {
          */
         selectSort: function selectSort(sortType) {
             this.sortType = sortType;
-            this.sharingStatus = null;
-            this.activeStatus = null;
-            this.filterChecked = 'sort';
             this.isSortModalShow = false;
             this.isDividStatusModalShow = false;
             this.isActiveTimeModalShow = false;
@@ -670,10 +663,7 @@ export default {
          * @param {string} sharingStatus 分成状态 非必填 默认是所有 分享成中： SHARING  他人分享成中： OTHER_SHARING  未注册： NO_REGISTER
          */
         selectFilter: function selectFilter(sharingStatus) {
-            this.sortType = null;
             this.sharingStatus = sharingStatus;
-            this.activeStatus = null;
-            this.filterChecked = 'dividStatus';
             this.isSortModalShow = false;
             this.isDividStatusModalShow = false;
             this.isActiveTimeModalShow = false;
@@ -689,10 +679,7 @@ export default {
          * @param {string} activeStatus 活跃时间 非必填 活跃时间选项 7天内活跃: ACTIVE_SEVEN_DAY  15天内活跃: ACTIVE_FIFTEEN_DAY   1个月内活跃: ACTIVE_ONE_MONTH   3个月内活跃: ACTIVE_THREE_MONTH  超过3个月: PASS_THREE_MONTH
          */
         selectActiveTime: function selectActiveTime(activeStatus) {
-            this.sortType = null;
-            this.sharingStatus = null;
             this.activeStatus = activeStatus;
-            this.filterChecked = 'activeTime';
             this.isSortModalShow = false;
             this.isDividStatusModalShow = false;
             this.isActiveTimeModalShow = false;
@@ -942,6 +929,11 @@ export default {
 
         .modal-item-describe {
             line-height: 45px;
+        }
+
+        // 激活状态
+        .modal-item-active {
+            color: #E50012;
         }
 
         .modal-item-line {

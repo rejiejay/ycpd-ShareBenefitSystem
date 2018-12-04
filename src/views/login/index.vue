@@ -410,7 +410,7 @@ export default {
                                             _this.reGetCount = 60;
                                             _this.isSMSGeting = false;
                                         }
-                                    }, i * 100);
+                                    }, i * 1000);
                                 })(i);
                             }
 

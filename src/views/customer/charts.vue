@@ -121,6 +121,8 @@ export default {
         sharingPercentage: function sharingPercentage() {
             let myPercentage = this.sharingClientNum / this.allCount;
 
+            myPercentage = myPercentage ? myPercentage : 0; // 因为有可能会出现 NaN 的情况, 所以 判空, 一般 NaN 的情况是 数据 为空的情况， 赋值为 0 即可
+
             return Math.round(myPercentage * 10 * 100) / 10; // 意思是保留一位小数, 小数点后面为0的时候不显示
         },
 
@@ -129,6 +131,8 @@ export default {
          */
         otherSharingPercentage: function otherSharingPercentage() {
             let myPercentage = this.otherSharingClientNum / this.allCount;
+            
+            myPercentage = myPercentage ? myPercentage : 0; // 因为有可能会出现 NaN 的情况, 所以 判空, 一般 NaN 的情况是 数据 为空的情况， 赋值为 0 即可
 
             return Math.round(myPercentage * 10 * 100) / 10; // 意思是保留一位小数, 小数点后面为0的时候不显示
         },
@@ -138,6 +142,8 @@ export default {
          */
         noRegisterPercentage: function noRegisterPercentage() {
             let myPercentage = this.noRegisterClientClientNum / this.allCount;
+            
+            myPercentage = myPercentage ? myPercentage : 0; // 因为有可能会出现 NaN 的情况, 所以 判空, 一般 NaN 的情况是 数据 为空的情况， 赋值为 0 即可
 
             return Math.round(myPercentage * 10 * 100) / 10; // 意思是保留一位小数, 小数点后面为0的时候不显示
         },

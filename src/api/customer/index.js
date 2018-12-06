@@ -25,7 +25,7 @@ export default {
                     agentInfoId: "a5e825dd3f0d43a589eaf3bb5c0734f4",
                     brand: "福迪",
                     carNo: "粤BH007U",
-                    clentType: null, // 判断是不是 1 如果是 1就是邀请
+                    ClientType: null, // 判断是不是 1 如果是 1就是邀请
                     clientId: "2c920286674f082c01674f1aa4b7003a",
                     createdDate: "2018-11-26",
                     createdUser: "a5e825dd3f0d43a589eaf3bb5c0734f4",

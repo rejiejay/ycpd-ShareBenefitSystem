@@ -8,14 +8,14 @@
             <svg :width="clientWidth - 30" :height="Math.floor((clientWidth - 30) * 21 / 71)" viewBox="0 0 710 212" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FF4A00" offset="0%"></stop><stop stop-color="#E50012" offset="100%"></stop></linearGradient><rect id="path-2" x="0" y="0" width="710" height="212" rx="10"></rect></defs><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="个人中心" transform="translate(-20.000000, -148.000000)"><g id="user" transform="translate(20.000000, 148.000000)"><g id="top_bg"><mask id="mask-3" fill="white"><use xlink:href="#path-2"></use></mask><use fill="url(#linearGradient-1)" xlink:href="#path-2"></use><polygon id="Path-3" fill="#000000" opacity="0.0299999993" mask="url(#mask-3)" points="-10 217 294.5 -3 -10 -3"></polygon><polygon id="Path-3-Copy" fill="#000000" opacity="0.0299999993" mask="url(#mask-3)" transform="translate(563.250000, 106.000000) scale(-1, -1) translate(-563.250000, -106.000000) " points="411 216 715.5 -4 411 -4"></polygon><polygon id="Rectangle-8" fill="#000000" opacity="0.0299999993" mask="url(#mask-3)" points="-95 -5 218.5 -5 485.5 216 172 216"></polygon></g></g></g></g></svg>
         </div>
 
-        <div class="user-banner-content flex-start-center" @click="agentName ? jumpToRouter('/user/info') : jumpToRouter('/user/nickName/modify')">
+        <div class="user-banner-content flex-start-center">
             <!-- 头像 -->
-            <div class="user-banner-photo">
+            <div class="user-banner-photo" @click="agentName ? jumpToRouter('/user/info') : jumpToRouter('/user/nickName/modify')">
                 <PortraitPhoto propsRadius="60" />
             </div>
 
             <!-- 内容 -->
-            <div class="user-banner-main flex-rest">
+            <div class="user-banner-main flex-rest" @click="agentName ? jumpToRouter('/user/info') : jumpToRouter('/user/nickName/modify')">
                 <div class="banner-main-name">
                     {{agentName ? agentName : '点击设置昵称'}}<!-- <span>已实名认证</span> -->
                 </div>
@@ -25,7 +25,7 @@
             </div>
 
             <!-- 指示 -->
-            <div class="user-banner-icon">
+            <div class="user-banner-icon" @click="jumpToRouter('/user/info')">
                 <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                     <path fill="#fff" d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
                 </svg>

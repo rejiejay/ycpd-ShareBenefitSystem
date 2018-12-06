@@ -1,7 +1,6 @@
 <!-- 客户管理 首页 -->
 <template>
 <div class="customer" id="customer">
-
     <!-- 顶部导航栏 -->
     <div class="navigation-bar flex-start">
         <div class="navigation-bar-item"
@@ -181,6 +180,14 @@
         <img src="data:image/png;base64,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" alt="customer">
     </div>
 
+    <!-- 加载框 -->
+    <div class="loading-modal-box flex-center" v-if="isLoadingModalShow">
+        <div class="loading-modal-container flex-column-center">
+            <Icon color class="el-icon-loading" />
+            <div class="loading-modal-text">正在加载..</div>
+        </div>
+    </div>
+
     <!-- 底部 Tabbar -->
     <Tabbar selectTabbar='customer'/>
 </div>
@@ -189,7 +196,9 @@
 <script>
 
 // 框架类
+import Vue from 'vue';
 import { MessageBox } from 'mint-ui';
+import { Icon } from 'element-ui';
 // 请求类
 import ajaxs from "@/api/customer/index";
 // 组件类
@@ -200,12 +209,16 @@ import TimeConver from "@/utils/TimeConver";
 export default {
     name: 'customer-home',
 
-    components: { NavigationPage, Tabbar },
+    components: { NavigationPage, Tabbar, Icon },
 
 	data: function data() { 
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            // 加载的模态框
+            isFirst: true,
+            isLoadingModalShow: false,
 
             /**
              * 导航栏
@@ -250,7 +263,7 @@ export default {
              * 筛选栏
              */
             isSortModalShow: false, // 排序 模态框
-            sortType: null, // 排序选项 非必填 默认排序（客户创建时间） SORT_CLIENT_CREATEDDATE 保险到期时间：SORT_INSURANCE    年检到期时间： SORT_ANNUAL_INSPECT 
+            sortType: 'SORT_CLIENT_CREATEDDATE', // 排序选项 非必填 默认排序（客户创建时间） SORT_CLIENT_CREATEDDATE 保险到期时间：SORT_INSURANCE    年检到期时间： SORT_ANNUAL_INSPECT 
             isDividStatusModalShow: false, // 邀请分成状态 模态框
             sharingStatus: null, // 分成状态 非必填 默认是所有 分享成中： SHARING  他人分享成中： OTHER_SHARING  未注册： NO_REGISTER
             isActiveTimeModalShow: false, // 邀请分成状态 模态框
@@ -453,14 +466,19 @@ export default {
                 }
             }
 
+            if (this.isFirst) {
+                this.isLoadingModalShow = true;
+            }
             ajaxs.getCustomerList(this.pageNo, this.pageSize, NBarSeleTosearchTy[this.navBarSelected], this.searchInput, this.sortType, this.sharingStatus, this.activeStatus, this)
             .then(
                 res => {
+                    _this.isFirst = false;
+                    _this.isLoadingModalShow = false;
                     _this.isLoding = false; // 设置 当前列表 为 加载完成
 
                     _this.totalPages = res.pages;
 
-                    let newCustomers = res.content.map(val => {
+                    let newCustomers = res.content.map((val, key) => {
                         // 初始化列表标题
                         let carType = '';
                         if (val.brand || val.models || val.series) {
@@ -530,7 +548,7 @@ export default {
                         }
 
                         // 初始化 是否通过邀请添加的客户
-                        let isByInvitation = val.clentType === 1 ? true : false;
+                        let isByInvitation = val.ClientType === 1 ? true : false;
 
                         /**
                          * 初始化 客户状态
@@ -544,15 +562,6 @@ export default {
                             obtainMoney: '', // 提成
                         }
 
-                        /**
-                         * 获取到当前时间戳 精确到 日 的自执行函数
-                         */
-                        let nowDateTimeStamp = (() => {
-                            let nowTimeStamp = new Date();
-
-                            return new Date(nowTimeStamp.getFullYear(), nowTimeStamp.getMonth(), nowTimeStamp.getDate()).getTime();
-                        })();
-
                         // 判断 邀请分享选项 是否是 分享成中
                         if (val.sharingStatus === 'SHARING') {
                             /**
@@ -563,7 +572,7 @@ export default {
                                 // 首先判断 是否同时存在 记录时间 以及 养车频道注册时间
                                 if (val.ycpdRegisterDate && val.recordCreatedDate) {
                                     // 判断 记录时间 更加接近现在 表示有 优惠加油提成
-                                    if ( (nowDateTimeStamp - TimeConver.YYYYmmDDhhMMssToTimestamp(val.recordCreatedDate)) > (nowDateTimeStamp - TimeConver.YYYYmmDDToTimestamp(val.ycpdRegisterDate)) ) {
+                                    if ( TimeConver.YYYYmmDDhhMMssToTimestamp(val.recordCreatedDate) > TimeConver.YYYYmmDDToTimestamp(val.ycpdRegisterDate) ) {
                                         return true;
                                     } else {
                                         return false;
@@ -632,6 +641,7 @@ export default {
                         _this[mySelected] = newCustomers;
                     }
                 }, error => {
+                    _this.isLoadingModalShow = false;
                     _this.isLoding = false; // 设置 当前列表 为 加载完成
 
                     MessageBox.confirm('获取客户列表失败, 是否重新获取?')
@@ -639,7 +649,7 @@ export default {
                         _this.getCustomerList(pageNo, pageSize, search);
                     }, () => alert(error));
                 }
-            )
+            );
         },
 
         /**
@@ -753,6 +763,9 @@ export default {
 
 // 右下角新增客户按钮 以及 图标分析按钮
 @customer-rightbottom-icon-z-index: 2;
+
+// 模态框
+@loading-modal-box-z-index: 5;
 
 .customer {
     position: relative;
@@ -968,6 +981,26 @@ export default {
         display: block;
         width: 52px;
         height: 52px;
+    }
+}
+
+.loading-modal-box {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @loading-modal-box-z-index;
+
+    .loading-modal-container {
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.46);
+    }
+
+    .loading-modal-text {
+        padding-top: 7.5px;
     }
 }
 

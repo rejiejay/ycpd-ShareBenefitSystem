@@ -1,133 +1,133 @@
 <!-- 添加客户 -->
 <template>
 <div class="add">
+    <div class="add-content" :style="`min-height: ${clientHeight - 105}px;`">
 
-    <!-- banner -->
-    <div class="add-banner">
-        <img alt="banner" :src="picture.register" />
-    </div>
+        <!-- banner -->
+        <div class="add-banner">
+            <img alt="banner" :src="picture.register" />
+        </div>
 
-    <!-- tag 标签栏 -->
-    <div class="add-tag flex-start-center">
-        <div class="add-tag-item" @click="tagSelected = 'carNo'" :class="{'tag-item-selected' : tagSelected === 'carNo'}">车牌号</div>
-        <div class="add-tag-item" @click="tagSelected = 'vinNo'" :class="{'tag-item-selected' : tagSelected === 'vinNo'}">发动机号、车架号</div>
-    </div>
-
-    <!-- 车牌号 -->
-    <div class="tag-car-no" v-if="tagSelected === 'carNo'">
-        
-        <!-- 选择的照片 -->
-        <div class="carno-photo-selected" v-if="carNoPhotoSelected">
-            <img alt="carno-photo-selected" :src="carNoPhotoSelected"/>
+        <!-- tag 标签栏 -->
+        <div class="add-tag flex-start-center">
+            <div class="add-tag-item" @click="tagSelected = 'carNo'" :class="{'tag-item-selected' : tagSelected === 'carNo'}">车牌号</div>
+            <div class="add-tag-item" @click="tagSelected = 'vinNo'" :class="{'tag-item-selected' : tagSelected === 'vinNo'}">发动机号、车架号</div>
         </div>
 
         <!-- 车牌号 -->
-        <div class="carno-input-list">
-            <div class="input-list-content">
-                <carNoInput @outPutHandle="carNoHandle" />
+        <div class="tag-car-no" v-if="tagSelected === 'carNo'">
+            
+            <!-- 选择的照片 -->
+            <div class="carno-photo-selected" v-if="carNoPhotoSelected">
+                <img alt="carno-photo-selected" :src="carNoPhotoSelected"/>
             </div>
-        </div>
 
-        <div class="tag-carno-line"><div class="carno-line-content"></div></div>
-
-        <!-- 客户姓名 -->
-        <div class="tag-carno-list flex-start-center">
-            <div class="carno-list-title">客户姓名:</div>
-            <div class="carno-list-input flex-rest">
-                <input placeholder="请输入客户姓名(选填)" v-model="customerName"/>
+            <!-- 车牌号 -->
+            <div class="carno-input-list">
+                <div class="input-list-content">
+                    <carNoInput @outPutHandle="carNoHandle" />
+                </div>
             </div>
-        </div>
 
-        <div class="tag-carno-line"><div class="carno-line-content"></div></div>
+            <div class="tag-carno-line"><div class="carno-line-content"></div></div>
 
-        <!-- 手机号 -->
-        <div class="tag-carno-list flex-start-center">
-            <div class="carno-list-title">手&ensp;机&ensp;号:</div>
-            <div class="carno-list-input flex-rest">
-                <input placeholder="请输入手机号(选填)" v-model="phoneNumber"/>
+            <!-- 客户姓名 -->
+            <div class="tag-carno-list flex-start-center">
+                <div class="carno-list-title">客户姓名:</div>
+                <div class="carno-list-input flex-rest">
+                    <input placeholder="请输入客户姓名(选填)" v-model="customerName"/>
+                </div>
             </div>
-        </div>
 
-        <!-- 确认添加 -->
-        <div class="tag-car-confirm">
-            <div class="car-confirm-content" @click="addCustomerByCarNo">确认添加</div>
-        </div>
+            <div class="tag-carno-line"><div class="carno-line-content"></div></div>
 
-        <!-- 底部提示 -->
-        <div class="tag-car-tig flex-center" @click="jumpToRouter('/customer/addlot')">
-            <!-- <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-30.000000, -840.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="批量" transform="translate(30.000000, 840.000000)">
-                <path d="M12,24 C5.372583,24 0,18.627417 0,12 C0,5.372583 5.372583,0 12,0 C18.627417,0 24,5.372583 24,12 C24,18.627417 18.627417,24 12,24 Z M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M13,14 C13,14.5522847 12.5522847,15 12,15 C11.4477153,15 11,14.5522847 11,14 C11,12.8657776 11.5351865,11.9917798 12.4447019,11.2002143 C12.6743482,11.0003495 13.2918781,10.5284046 13.3429572,10.4820781 C13.7592515,10.1045183 14,9.57280307 14,9 C14,7.8954305 13.1045695,7 12,7 C10.8954305,7 10,7.8954305 10,9 C10,9.55228475 9.55228475,10 9,10 C8.44771525,10 8,9.55228475 8,9 C8,6.790861 9.790861,5 12,5 C14.209139,5 16,6.790861 16,9 C16,10.1430874 15.516591,11.2107407 14.6865687,11.9635329 C14.5568336,12.0811966 13.917373,12.5699021 13.7577039,12.7088646 C13.2420363,13.1576582 13,13.5529208 13,14 Z M12,19 C11.1715729,19 10.5,18.3284271 10.5,17.5 C10.5,16.6715729 11.1715729,16 12,16 C12.8284271,16 13.5,16.6715729 13.5,17.5 C13.5,18.3284271 12.8284271,19 12,19 Z" id="icon_info"></path></g></g></g>
-            </svg> -->
-            <span>批量导入客户</span>
-        </div>
-    </div>
+            <!-- 手机号 -->
+            <div class="tag-carno-list flex-start-center">
+                <div class="carno-list-title">手&ensp;机&ensp;号:</div>
+                <div class="carno-list-input flex-rest">
+                    <input placeholder="请输入手机号(选填)" v-model="phoneNumber"/>
+                </div>
+            </div>
 
-    <!-- 车架号 -->
-    <div class="tag-vin-no" v-if="tagSelected === 'vinNo'">
-        <!-- 选择的照片 -->
-        <div class="carvin-photo-selected" v-if="vinNoPhotoSelected">
-            <img alt="carvin-photo-selected" :src="vinNoPhotoSelected"/>
+            <!-- 确认添加 -->
+            <div class="tag-car-confirm">
+                <div class="car-confirm-content" @click="addCustomerByCarNo">快速添加</div>
+            </div>
+
+            <!-- 剩余次数提示 -->
+            <div class="res-count-tip flex-center">实时添加，名额有限，今日剩余：<span style="color: #E50012;">{{addResCount}}</span>/{{addResALL}}</div>
+
         </div>
 
         <!-- 车架号 -->
-        <div class="tag-carvin-list flex-start-center">
-            <div class="carvin-list-title">车&ensp;架&ensp;号:</div>
-            <div class="carvin-list-input flex-rest">
-                <input placeholder="请输入车架号" v-model="vinNo"/>
+        <div class="tag-vin-no" v-if="tagSelected === 'vinNo'">
+            <!-- 选择的照片 -->
+            <div class="carvin-photo-selected" v-if="vinNoPhotoSelected">
+                <img alt="carvin-photo-selected" :src="vinNoPhotoSelected"/>
             </div>
-            
-            <!-- 拍照驾驶证识别 -->
-            <div class="input-item-photo flex-start-center" v-if="'这期' === '暂不显示'" @click="isPhotographShow = true; photographStatus = 'vinNo';">
-                <svg v-if="vinNoPhotoSelected === ''" width="14" height="14" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-564.000000, -456.000000)" fill="#469AFF" fill-rule="nonzero"><g id="客户信息" transform="translate(0.000000, 426.000000)"><g id="Group" transform="translate(214.000000, 30.000000)">
-                    <path d="M353,8 C352.447715,8 352,8.44771525 352,9 L352,23 C352,23.5522847 352.447715,24 353,24 L375,24 C375.552285,24 376,23.5522847 376,23 L376,9 C376,8.44771525 375.552285,8 375,8 L368.558482,8 L367.558482,5 L360.441518,5 L359.441518,8 L353,8 Z M353,6 L358,6 L358.544152,4.36754447 C358.81638,3.55086019 359.580658,3 360.441518,3 L367.558482,3 C368.419342,3 369.18362,3.55086019 369.455848,4.36754447 L370,6 L375,6 C376.656854,6 378,7.34314575 378,9 L378,23 C378,24.6568542 376.656854,26 375,26 L353,26 C351.343146,26 350,24.6568542 350,23 L350,9 C350,7.34314575 351.343146,6 353,6 Z M364,20 C366.209139,20 368,18.209139 368,16 C368,13.790861 366.209139,12 364,12 C361.790861,12 360,13.790861 360,16 C360,18.209139 361.790861,20 364,20 Z M364,22 C360.686292,22 358,19.3137085 358,16 C358,12.6862915 360.686292,10 364,10 C367.313708,10 370,12.6862915 370,16 C370,19.3137085 367.313708,22 364,22 Z M372.5,13 C371.671573,13 371,12.3284271 371,11.5 C371,10.6715729 371.671573,10 372.5,10 C373.328427,10 374,10.6715729 374,11.5 C374,12.3284271 373.328427,13 372.5,13 Z" id="photo"></path></g></g></g></g>
-                </svg>
-                <span v-if="vinNoPhotoSelected === ''">拍照行驶证识别</span>
-                <svg v-if="vinNoPhotoSelected !== ''" width="14" height="14" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-564.000000, -456.000000)" fill="#469AFF" fill-rule="nonzero"><g id="客户信息" transform="translate(0.000000, 426.000000)"><g id="Group" transform="translate(214.000000, 30.000000)">
-                    <path fill="#00CC44" d="M353,8 C352.447715,8 352,8.44771525 352,9 L352,23 C352,23.5522847 352.447715,24 353,24 L375,24 C375.552285,24 376,23.5522847 376,23 L376,9 C376,8.44771525 375.552285,8 375,8 L368.558482,8 L367.558482,5 L360.441518,5 L359.441518,8 L353,8 Z M353,6 L358,6 L358.544152,4.36754447 C358.81638,3.55086019 359.580658,3 360.441518,3 L367.558482,3 C368.419342,3 369.18362,3.55086019 369.455848,4.36754447 L370,6 L375,6 C376.656854,6 378,7.34314575 378,9 L378,23 C378,24.6568542 376.656854,26 375,26 L353,26 C351.343146,26 350,24.6568542 350,23 L350,9 C350,7.34314575 351.343146,6 353,6 Z M364,20 C366.209139,20 368,18.209139 368,16 C368,13.790861 366.209139,12 364,12 C361.790861,12 360,13.790861 360,16 C360,18.209139 361.790861,20 364,20 Z M364,22 C360.686292,22 358,19.3137085 358,16 C358,12.6862915 360.686292,10 364,10 C367.313708,10 370,12.6862915 370,16 C370,19.3137085 367.313708,22 364,22 Z M372.5,13 C371.671573,13 371,12.3284271 371,11.5 C371,10.6715729 371.671573,10 372.5,10 C373.328427,10 374,10.6715729 374,11.5 C374,12.3284271 373.328427,13 372.5,13 Z" id="photo"></path></g></g></g></g>
-                </svg>
-                <span v-if="vinNoPhotoSelected !== ''" style="color: #00CC44;">重拍</span>
+
+            <!-- 车架号 -->
+            <div class="tag-carvin-list flex-start-center">
+                <div class="carvin-list-title">车&ensp;架&ensp;号:</div>
+                <div class="carvin-list-input flex-rest">
+                    <input placeholder="请输入车架号" v-model="vinNo"/>
+                </div>
+                
+                <!-- 拍照驾驶证识别 -->
+                <div class="input-item-photo flex-start-center" v-if="'这期' === '暂不显示'" @click="isPhotographShow = true; photographStatus = 'vinNo';">
+                    <svg v-if="vinNoPhotoSelected === ''" width="14" height="14" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-564.000000, -456.000000)" fill="#469AFF" fill-rule="nonzero"><g id="客户信息" transform="translate(0.000000, 426.000000)"><g id="Group" transform="translate(214.000000, 30.000000)">
+                        <path d="M353,8 C352.447715,8 352,8.44771525 352,9 L352,23 C352,23.5522847 352.447715,24 353,24 L375,24 C375.552285,24 376,23.5522847 376,23 L376,9 C376,8.44771525 375.552285,8 375,8 L368.558482,8 L367.558482,5 L360.441518,5 L359.441518,8 L353,8 Z M353,6 L358,6 L358.544152,4.36754447 C358.81638,3.55086019 359.580658,3 360.441518,3 L367.558482,3 C368.419342,3 369.18362,3.55086019 369.455848,4.36754447 L370,6 L375,6 C376.656854,6 378,7.34314575 378,9 L378,23 C378,24.6568542 376.656854,26 375,26 L353,26 C351.343146,26 350,24.6568542 350,23 L350,9 C350,7.34314575 351.343146,6 353,6 Z M364,20 C366.209139,20 368,18.209139 368,16 C368,13.790861 366.209139,12 364,12 C361.790861,12 360,13.790861 360,16 C360,18.209139 361.790861,20 364,20 Z M364,22 C360.686292,22 358,19.3137085 358,16 C358,12.6862915 360.686292,10 364,10 C367.313708,10 370,12.6862915 370,16 C370,19.3137085 367.313708,22 364,22 Z M372.5,13 C371.671573,13 371,12.3284271 371,11.5 C371,10.6715729 371.671573,10 372.5,10 C373.328427,10 374,10.6715729 374,11.5 C374,12.3284271 373.328427,13 372.5,13 Z" id="photo"></path></g></g></g></g>
+                    </svg>
+                    <span v-if="vinNoPhotoSelected === ''">拍照行驶证识别</span>
+                    <svg v-if="vinNoPhotoSelected !== ''" width="14" height="14" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-564.000000, -456.000000)" fill="#469AFF" fill-rule="nonzero"><g id="客户信息" transform="translate(0.000000, 426.000000)"><g id="Group" transform="translate(214.000000, 30.000000)">
+                        <path fill="#00CC44" d="M353,8 C352.447715,8 352,8.44771525 352,9 L352,23 C352,23.5522847 352.447715,24 353,24 L375,24 C375.552285,24 376,23.5522847 376,23 L376,9 C376,8.44771525 375.552285,8 375,8 L368.558482,8 L367.558482,5 L360.441518,5 L359.441518,8 L353,8 Z M353,6 L358,6 L358.544152,4.36754447 C358.81638,3.55086019 359.580658,3 360.441518,3 L367.558482,3 C368.419342,3 369.18362,3.55086019 369.455848,4.36754447 L370,6 L375,6 C376.656854,6 378,7.34314575 378,9 L378,23 C378,24.6568542 376.656854,26 375,26 L353,26 C351.343146,26 350,24.6568542 350,23 L350,9 C350,7.34314575 351.343146,6 353,6 Z M364,20 C366.209139,20 368,18.209139 368,16 C368,13.790861 366.209139,12 364,12 C361.790861,12 360,13.790861 360,16 C360,18.209139 361.790861,20 364,20 Z M364,22 C360.686292,22 358,19.3137085 358,16 C358,12.6862915 360.686292,10 364,10 C367.313708,10 370,12.6862915 370,16 C370,19.3137085 367.313708,22 364,22 Z M372.5,13 C371.671573,13 371,12.3284271 371,11.5 C371,10.6715729 371.671573,10 372.5,10 C373.328427,10 374,10.6715729 374,11.5 C374,12.3284271 373.328427,13 372.5,13 Z" id="photo"></path></g></g></g></g>
+                    </svg>
+                    <span v-if="vinNoPhotoSelected !== ''" style="color: #00CC44;">重拍</span>
+                </div>
             </div>
-        </div>
-        <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
+            <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
 
-        <!-- 发动机号 -->
-        <div class="tag-carvin-list flex-start-center">
-            <div class="carvin-list-title">发动机号:</div>
-            <div class="carvin-list-input flex-rest">
-                <input placeholder="请输入发动机号" v-model="engineNo"/>
+            <!-- 发动机号 -->
+            <div class="tag-carvin-list flex-start-center">
+                <div class="carvin-list-title">发动机号:</div>
+                <div class="carvin-list-input flex-rest">
+                    <input placeholder="请输入发动机号" v-model="engineNo"/>
+                </div>
             </div>
-        </div>
-        <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
+            <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
 
-        <!-- 客户姓名 -->
-        <div class="tag-carvin-list flex-start-center">
-            <div class="carvin-list-title">客户姓名:</div>
-            <div class="carvin-list-input flex-rest">
-                <input placeholder="请输入客户姓名(选填)" v-model="customerName"/>
+            <!-- 客户姓名 -->
+            <div class="tag-carvin-list flex-start-center">
+                <div class="carvin-list-title">客户姓名:</div>
+                <div class="carvin-list-input flex-rest">
+                    <input placeholder="请输入客户姓名(选填)" v-model="customerName"/>
+                </div>
             </div>
-        </div>
-        <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
+            <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
 
-        <!-- 手机号 -->
-        <div class="tag-carvin-list flex-start-center">
-            <div class="carvin-list-title">手&ensp;机&ensp;号:</div>
-            <div class="carvin-list-input flex-rest">
-                <input placeholder="请输入手机号(选填)" v-model="phoneNumber"/>
+            <!-- 手机号 -->
+            <div class="tag-carvin-list flex-start-center">
+                <div class="carvin-list-title">手&ensp;机&ensp;号:</div>
+                <div class="carvin-list-input flex-rest">
+                    <input placeholder="请输入手机号(选填)" v-model="phoneNumber"/>
+                </div>
             </div>
-        </div>
 
-        <!-- 确认添加 -->
-        <div class="tag-car-confirm">
-            <div class="car-confirm-content" @click="addCustomerByVinNo">确认添加</div>
-        </div>
+            <!-- 确认添加 -->
+            <div class="tag-car-confirm">
+                <div class="car-confirm-content" @click="addCustomerByVinNo">快速添加</div>
+            </div>
 
-        <!-- 底部提示 -->
-        <div class="tag-car-tig flex-center" @click="jumpToRouter('/customer/addlot')">
-            <!-- <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-30.000000, -840.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="批量" transform="translate(30.000000, 840.000000)">
-                <path d="M12,24 C5.372583,24 0,18.627417 0,12 C0,5.372583 5.372583,0 12,0 C18.627417,0 24,5.372583 24,12 C24,18.627417 18.627417,24 12,24 Z M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M13,14 C13,14.5522847 12.5522847,15 12,15 C11.4477153,15 11,14.5522847 11,14 C11,12.8657776 11.5351865,11.9917798 12.4447019,11.2002143 C12.6743482,11.0003495 13.2918781,10.5284046 13.3429572,10.4820781 C13.7592515,10.1045183 14,9.57280307 14,9 C14,7.8954305 13.1045695,7 12,7 C10.8954305,7 10,7.8954305 10,9 C10,9.55228475 9.55228475,10 9,10 C8.44771525,10 8,9.55228475 8,9 C8,6.790861 9.790861,5 12,5 C14.209139,5 16,6.790861 16,9 C16,10.1430874 15.516591,11.2107407 14.6865687,11.9635329 C14.5568336,12.0811966 13.917373,12.5699021 13.7577039,12.7088646 C13.2420363,13.1576582 13,13.5529208 13,14 Z M12,19 C11.1715729,19 10.5,18.3284271 10.5,17.5 C10.5,16.6715729 11.1715729,16 12,16 C12.8284271,16 13.5,16.6715729 13.5,17.5 C13.5,18.3284271 12.8284271,19 12,19 Z" id="icon_info"></path></g></g></g>
-            </svg> -->
-            <span>批量导入客户</span>
+            <!-- 剩余次数提示 -->
+            <div class="res-count-tip flex-center">实时添加，名额有限，今日剩余：<span style="color: #E50012;">{{addResCount}}</span>/{{addResALL}}</div>
+
         </div>
+    </div>
+
+    <!-- 普通添加 -->
+    <div class="add-lot-bottom flex-column-center">
+        <div class="lot-bottom-btn" @click="jumpToRouter('/customer/addlot')">普通添加</div>
+        <div class="lot-bottom-lable">支持批量添加，按添加时间排队处理</div>
     </div>
 
     <!-- 拍照模态框 -->
@@ -369,6 +369,12 @@ export default {
              */
             vinNo: '', // 车架号 
             engineNo: '', // 发动机号
+
+            /**
+             * 剩余添加的次数
+             */
+            addResCount: 10,
+            addResALL: 20, // 一共多少次
 
             isBatchImportModalShow: false, // 是否显示 批量导入提示
             isShowRepetitionWarning: false, /// 是否显示 重复的提示框
@@ -748,7 +754,6 @@ export default {
 // 车牌号整体框架
 .tag-car-no {
     padding-top: 10px;
-    padding-bottom: 290px;
 
     // 选择的照片
     .carno-photo-selected {
@@ -815,22 +820,37 @@ export default {
         }
     }
 
-    // 提示
-    .tag-car-tig {
-        padding-top: 10px;
+    // 剩余添加的次数 提示
+    .res-count-tip {
         font-size: 12px;
+        color: @black2;
+    }
+}
 
-        span {
-            color: @black3;
-            padding-left: 5px;
-        }
+
+// 普通添加 底部按钮
+.add-lot-bottom {
+    padding-top: 15px;
+
+    .lot-bottom-btn {
+        line-height: 45px;
+        width: 75%;
+        border-radius: 45px;
+        text-align: center;
+        color: @black1;
+        background: #fff;
+    }
+
+    .lot-bottom-lable {
+        padding-top: 15px;
+        font-size: 12px;
+        color: @black3;
     }
 }
 
 // 车架号整体框架
 .tag-vin-no {
     padding-top: 10px;
-    padding-bottom: 290px;
 
     // 选择的照片
     .carvin-photo-selected {

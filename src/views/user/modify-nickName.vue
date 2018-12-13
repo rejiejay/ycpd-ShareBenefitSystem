@@ -199,7 +199,7 @@ export default {
         border-radius: 3px;
         text-align: center;
         color: #fff;
-        background-color: #E50012;
+        background-color: #EFC60E;
     }
 }
 

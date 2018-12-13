@@ -5,7 +5,7 @@
     <div class="user-banner flex-start-center" :style="`height: ${Math.floor((clientWidth - 30) * 21 / 71)}px;`">
         <!-- 背景 -->
         <div class="user-banner-background" :style="`width: ${clientWidth - 30}px; height: ${Math.floor((clientWidth - 30) * 21 / 71)}px;`">
-            <svg :width="clientWidth - 30" :height="Math.floor((clientWidth - 30) * 21 / 71)" viewBox="0 0 710 212" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1"><stop stop-color="#FF4A00" offset="0%"></stop><stop stop-color="#E50012" offset="100%"></stop></linearGradient><rect id="path-2" x="0" y="0" width="710" height="212" rx="10"></rect></defs><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="个人中心" transform="translate(-20.000000, -148.000000)"><g id="user" transform="translate(20.000000, 148.000000)"><g id="top_bg"><mask id="mask-3" fill="white"><use xlink:href="#path-2"></use></mask><use fill="url(#linearGradient-1)" xlink:href="#path-2"></use><polygon id="Path-3" fill="#000000" opacity="0.0299999993" mask="url(#mask-3)" points="-10 217 294.5 -3 -10 -3"></polygon><polygon id="Path-3-Copy" fill="#000000" opacity="0.0299999993" mask="url(#mask-3)" transform="translate(563.250000, 106.000000) scale(-1, -1) translate(-563.250000, -106.000000) " points="411 216 715.5 -4 411 -4"></polygon><polygon id="Rectangle-8" fill="#000000" opacity="0.0299999993" mask="url(#mask-3)" points="-95 -5 218.5 -5 485.5 216 172 216"></polygon></g></g></g></g></svg>
+            <img :width="clientWidth - 30" :height="Math.floor((clientWidth - 30) * 21 / 71)" :src="img.user_top_bg" alt="user_top_bg">
         </div>
 
         <div class="user-banner-content flex-start-center">
@@ -226,6 +226,9 @@ import getBase64ByImageName from "@/api/common/getBase64ByImageName";
 // 组件类
 import Tabbar from "@/components/Tabbar";
 import PortraitPhoto from "@/components/PortraitPhoto";
+// 资源类
+import user_top_bg from "@/static/user_top_bg.png";
+
 
 export default {
     name: 'user-home',
@@ -236,6 +239,10 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            img: {
+                user_top_bg: user_top_bg,
+            },
 
             usableMoney: '0.00', // 可用余额
             totalMoney: '0.00', // 累计收入

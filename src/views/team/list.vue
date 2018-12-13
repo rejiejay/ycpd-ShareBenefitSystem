@@ -726,10 +726,11 @@ export default {
         border-radius: 40px;
         text-align: center;
         color: #fff;
-        background: -webkit-linear-gradient(135deg, rgba(255 ,95, 50, 1) 0%, rgba(229, 0, 18, 1) 100%); /* Safari 5.1 - 6.0 */
-        background: -o-linear-gradient(135deg, rgba(255 ,95, 50, 1) 0%, rgba(229, 0, 18, 1) 100%); /* Opera 11.1 - 12.0 */
-        background: -moz-linear-gradient(135deg, rgba(255 ,95, 50, 1) 0%, rgba(229, 0, 18, 1) 100%); /* Firefox 3.6 - 15 */
-        background: linear-gradient(135deg, rgba(255 ,95, 50, 1) 0%, rgba(229, 0, 18, 1) 100%); /* 标准的语法 */
+        background: -webkit-linear-gradient(153deg,rgba(255,221,48,1) 0%,rgba(255,193,0,1) 100%); /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(153deg,rgba(255,221,48,1) 0%,rgba(255,193,0,1) 100%); /* Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(153deg,rgba(255,221,48,1) 0%,rgba(255,193,0,1) 100%); /* Firefox 3.6 - 15 */
+        background: linear-gradient(153deg,rgba(255,221,48,1) 0%,rgba(255,193,0,1) 100%); /* 标准的语法 */
+        box-shadow:0px 3px 15px 0px rgba(255,161,0,0.3);
     }
 }
 

@@ -24,7 +24,7 @@
                 <input v-model="telphone2" type="text" placeholder="请输入客户电话信息" />
             </div>
         </div>
-        <div class="edit-main-line"><span></span></div>
+        <div class="edit-main-line" v-if="'这期暂' === '不显示'"><span></span></div>
 
         <div class="edit-main-item flex-start" v-if="'这期暂' === '不显示'">
             <span>证件类型</span>
@@ -344,7 +344,7 @@ export default {
         border-radius: 3px;
         text-align: center;
         color: #fff;
-        background-color: #E50012;
+        background-color: #EFC60E;
     }
 }
 

@@ -24,7 +24,7 @@ const routes = [
         component: () => import('@/views/login/index'),
         meta: { title: '金车管家' },
     }, {
-        path: '/register',
+        path: '/register', // 事实上邀请和注册是同一个页面
         component: () => import('@/views/login/register/index'),
         children: [
             {

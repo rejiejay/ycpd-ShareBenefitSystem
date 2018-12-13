@@ -763,7 +763,7 @@ export default {
     
     // 单选框选中
     .agreement-radio-selected path {
-        fill: #E50012;
+        fill: #FF8D18;
     }
 
     // 协议文本
@@ -983,7 +983,7 @@ export default {
         border-radius: 3px;
         text-align: center;
         color: #fff;
-        background-color: #E50012;
+        background-color: #EFC60E;
     }
 }
 
@@ -997,7 +997,7 @@ export default {
         font-size: 16px;
         border-radius: 3px;
         text-align: center;
-        color: #E50012;
+        color: #EFC60E;
         background-color: #fff;
     }
 }
@@ -1034,7 +1034,7 @@ export default {
 
         div {
             border-radius: 4px;
-            background: #E50012;
+            background: #EFC60E;
             color: #fff;
         }
     }

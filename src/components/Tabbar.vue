@@ -110,10 +110,10 @@ export default {
 
     // 一个激活项
     .Tabbar-item-selected {
-        color: #E50012;
+        color: #EFC60E;
 
         path {
-            fill: #E50012;
+            fill: #EFC60E;
         }
     }
 }

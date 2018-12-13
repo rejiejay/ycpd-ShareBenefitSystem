@@ -767,7 +767,7 @@ export default {
             line-height: 45px;
             font-size: 16px;
             color: #fff;
-            background-color: #df0000;
+            background-color: #EFC60E;
             border-radius: 5px;
             text-align: center;
         }
@@ -859,7 +859,7 @@ export default {
             line-height: 45px;
             font-size: 16px;
             color: #fff;
-            background-color: #df0000;
+            background-color: #EFC60E;
             border-radius: 5px;
             text-align: center;
         }

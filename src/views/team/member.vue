@@ -423,7 +423,7 @@ export default {
 
             .main-operate-affirm {
                 color: #fff;
-                background: #E50012;
+                background: #EFC60E;
             }
         }
     }

@@ -155,7 +155,7 @@ export default {
 
         div {
             border-radius: 4px;
-            background: #E50012;
+            background: #EFC60E;
             color: #fff;
         }
     }

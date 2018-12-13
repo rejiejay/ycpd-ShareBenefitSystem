@@ -46,23 +46,6 @@ const routes = [
             },
         ],
     }, {
-        path: '/invite',
-        component: () => import('@/views/login/invite/index'),
-        children: [
-            {
-                path: 'register',
-                alias: ['/'],
-                name: 'invite-input',
-                component: () => import('@/views/login/invite/invite-input'),
-                meta: { title: '加入金车管家' },
-            }, {
-                path: 'agreement',
-                name: 'invite-agreement',
-                component: () => import('@/views/login/invite/invite-agreement'),
-                meta: { title: '加入金车管家' },
-            },
-        ],
-    }, {
         path: '/invite/succeed',
         name: 'invite-succeed',
         component: () => import('@/views/login/invite-succeed'),

@@ -573,10 +573,9 @@ export default {
                     // 添加成功
                     // 跳转到客户列表页
                     _this.$router.replace({path: `/customer`});
-                }, error => {
-                    alert(error);
-                }
-            )
+
+                }, error => alert(error)
+            );
         },
 
         /**
@@ -617,10 +616,9 @@ export default {
                 res => { // 添加成功
                     // 跳转到客户列表页
                     _this.$router.replace({path: `/customer`});
-                }, error => {
-                    alert(error);
-                }
-            )
+
+                }, error => alert(error)
+            );
         },
 
         /**

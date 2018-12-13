@@ -628,7 +628,7 @@ export default {
                 .then(
                     res => {
                         Toast({ message: '成功更新数据', duration: 1000 });
-                        _this.initPageData();
+                        _this.getPageData();
 
                     }, error => alert(error)
                 )
@@ -638,7 +638,7 @@ export default {
                 .then(
                     res => {
                         Toast({ message: '成功更新数据', duration: 1000 });
-                        _this.initPageData();
+                        _this.getPageData();
 
                     }, error => alert(error)
                 );

@@ -3,12 +3,17 @@ import apibasics from "@/components/apibasics";
 
 export default {
     /**
+     * 获取添加客户的token
+     */
+    getAddCustomerToken: () => apibasics.get(`${config.url.origin}/ycpd/cas/client/getSaveClientToken?token=${window.localStorage.getItem('ycpd_token')}`),
+
+    /**
      * 通过车牌号添加客户
      * @param {string} carNo 车牌号码
      * @param {string} username 用户名
      * @param {string} telphone 手机号码
      */
-    addCustomerByCarNo: (carNo, username, telphone, self) => apibasics.post(`${config.url.origin}/ycpd/cas/client/add?token=${window.localStorage.getItem('ycpd_token')}`, {
+    addCustomerByCarNo: (carNo, username, telphone, self) => apibasics.post(`${config.url.origin}/ycpd/cas/client/add?token=${window.localStorage.getItem('ycpd_token')}&saveClientToken=${window.sessionStorage.saveClientToken}`, {
         carNo: carNo,
         username: username,
         telphone: telphone,

@@ -373,11 +373,25 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.initAddCustomerToken(); // 获取添加客户的token
         this.checkMaxAddNum(); // 校验是否可以继续添加客户
         this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口
     },
 
 	methods: {
+        /**
+         * 获取添加客户的token
+         */
+        initAddCustomerToken: function initAddCustomerToken() {
+            const _this = this;
+
+            ajaxs.getAddCustomerToken()
+            .then(res => {
+                // 缓存
+                window.sessionStorage.setItem('saveClientToken', res.saveClientToken);
+            }, error => alert(error));
+        },
+
         /**
          * 校验是否可以继续添加客户
          */

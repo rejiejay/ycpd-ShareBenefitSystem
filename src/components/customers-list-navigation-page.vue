@@ -19,8 +19,15 @@
                 </div>
             </div>
 
-            <div class="item-icon">
-                <span class="flex-center" v-if="item.isByInvitation">邀</span>
+            <div class="item-right-label">
+                <!-- 先判断 客户信息是否 加载延迟 如果加载延迟，优先展示延迟 -->
+                <div class="load-delay-label" v-if="item.isLoadDelay">
+                    <div class="delay-label-text">客户信息查询超时，请稍后更新</div>
+                    <div class="delay-label-btn">更新信息</div>
+                </div>
+
+                <!-- 判断 客户是否通过 邀请 -->
+                <span class="invitation-lable flex-center" v-else-if="item.isByInvitation">邀</span>
                 
                 <svg v-else width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                     <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
@@ -81,7 +88,7 @@ export default {
     name: 'NavigationPage',
 
     props: [
-        // 页面的数据
+        // pageData 的数据
         // {
         //     response: {}, // 服务器返回的原生数据
         //     title: '粤S8GW42 (东风日产DFL7168VBL2轿车)',
@@ -91,6 +98,7 @@ export default {
         //         price: 4583.45,
         //         factors: 0.45,
         //     },
+        //     isLoadDelay: false, // 是否 客户信息超时
         //     isByInvitation: false, // 是否通过邀请添加的客户
         //     tag: [
         //         '保险41天',
@@ -203,15 +211,39 @@ export default {
         }
     }
 
-    // 向右指向的箭头 是否通过邀请添加的客户 如果是 显示 “邀” 这个按钮
-    .item-icon span {
-        height: 16px;
-        width: 16px;
-        line-height: 16px;
-        font-size: 12px;
-        border-radius: 16px;
-        border: 1px solid #469AFF;
-        color: #469AFF;
+    // 向右指向的箭头
+    .item-right-label {
+        .load-delay-label {
+            padding-left: 5px;
+            font-size: 10px;
+            text-align: right;
+            color: @black3;
+
+            .delay-label-text {
+                padding-bottom: 5px;
+                font-size: 12px;
+            }
+
+            .delay-label-btn {
+                float: right;
+                padding: 0px 5px;
+                border: 1px solid #E50012;
+                line-height: 18px;
+                border-radius: 18px;
+                color: #E50012;
+            }
+        }
+        
+        // 客户通过 邀请 显示 “邀” 这个按钮
+        .invitation-lable {
+            height: 16px;
+            width: 16px;
+            line-height: 16px;
+            font-size: 12px;
+            border-radius: 16px;
+            border: 1px solid #469AFF;
+            color: #469AFF;
+        }
     }
 
     // 分割线

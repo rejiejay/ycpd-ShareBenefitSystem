@@ -689,7 +689,8 @@ export default {
                             response: val, // 原始数据
                             title: title,
                             name: val.username,
-                            isByInvitation: isByInvitation,
+                            isLoadDelay: false, // 是否 客户信息超时
+                            isByInvitation: isByInvitation, // 是否通过邀请添加的客户
                             tag: tag,
                             nextTime: nextTime,
                             state: customerState,

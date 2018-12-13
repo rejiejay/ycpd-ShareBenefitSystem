@@ -267,6 +267,32 @@
             <div class="tip-content-bottom" @click="isBatchImportModalShow = false">确定</div>
         </div>
     </div>
+
+    <!-- 重复添加模态框 -->
+    <div class="repetition-warning-modal flex-center" v-if="isShowRepetitionWarning">
+        <div class="warning-modal-shade"></div>
+        <div class="warning-modal-main" :style="`width: ${clientWidth - 60}px;`">
+            <div class="warning-main-contanier">
+
+                <div class="warning-modal-title">“粤B12345”该车辆已存在</div>
+                
+                <div class="warning-main-describe">
+                    <div class="main-describe-row flex-start">
+                        <div class="flex-rest">粤B12345</div>
+                        <span style="color: #f44336">3个月前添加</span>
+                    </div>
+                    <div class="main-describe-row">丰田-卡罗拉-1.6 无级 GLX-i</div>
+                    <div class="main-describe-row">李先生 18927403415</div>
+                </div>
+
+                <div class="warning-modal-operate flex-start">
+                    <div class="modal-operate-back operate-btn">返回修改</div>
+                    <div class="flex-rest"></div>
+                    <div class="modal-operate-review operate-btn">更新数据</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -345,6 +371,7 @@ export default {
             engineNo: '', // 发动机号
 
             isBatchImportModalShow: false, // 是否显示 批量导入提示
+            isShowRepetitionWarning: false, /// 是否显示 重复的提示框
         }
     },
 
@@ -402,7 +429,7 @@ export default {
             .then(
                 res => {
                     if (res.code === 1008) {
-                        alert('不好意思，您当前的客户数量名额已达到上限，不能再添加客户');
+                        alert('您当前的客户数量名额已达到上限，不能再添加客户');
                         _this.jumpToRouter('/');
                     }
                 }, error => alert(error)
@@ -671,6 +698,7 @@ export default {
 @batch-import-tip-z-index: 2; // 批量导入提示
 @batch-tip-shade-z-index: 3; // 批量导入提示 遮罩
 @batch-tip-main-z-index: 3; // 批量导入提示 主要内容
+@repetition-warning-modal: 3; // 重复添加模态框
 
 .add {
     position: relative;
@@ -1355,6 +1383,74 @@ export default {
         text-align: center;
         color: @black1;
     }
+}
+
+// 重复添加模态框
+.repetition-warning-modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    z-index: @repetition-warning-modal;
+
+    .warning-modal-shade {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+        background: rgba(0, 0, 0, 0.24);
+    }
+
+    .warning-modal-main {
+        position: relative;
+        font-size: 14px;
+        border-radius: 10px;
+        background-color: #fff;
+
+        .warning-main-contanier {
+            padding: 15px;
+        }
+    }
+
+    // 标题
+    .warning-modal-title {
+        text-align: center;
+        font-weight: bold;
+        padding-bottom: 15px;
+    }
+
+    // 中间描述
+    .warning-main-describe {
+        padding: 10px 15px;
+        font-size: 12px;
+        color: @black3;
+        background: #fff8db;
+    }
+
+    // 底部提示
+    .warning-modal-operate {
+        padding-top: 15px;
+
+        .operate-btn {
+            line-height: 40px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .modal-operate-back {
+            width: 35%;
+            border: 1px solid #ddd;
+        }
+
+        .modal-operate-review {
+            width: 55%;
+            color: #fff;
+            background-color: #469aff;
+        }
+    }
+
 }
 
 </style>

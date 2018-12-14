@@ -39,6 +39,16 @@
             </div>
         </div>
     </div>
+
+    <!-- 底部Excel导入提交按钮 -->
+    <div class="excel-submit">
+        <div class="excel-submit-container flex-start">
+            <div class="excel-submit-left" @click="jumpToRouter('/customer/addexcel', {pageStatus: 'before'})">
+                <div class="submit-left-container">Excel导入</div>
+            </div>
+            <div class="excel-submit-rigth flex-rest">添加客户队列</div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -107,7 +117,20 @@ export default {
 				// this.getMyRewards(true); // 开始请求 并且 该请求 设置为 新增列表
 			}
         },
-        
+
+        /**
+         * 跳转到路由
+         * @param {object} query 携带的参数 非必填
+         */
+        jumpToRouter: function jumpToRouter(url, query) {
+            let routerConfig = {
+                path: url,
+            }
+
+            query ? routerConfig.query = query : null; // 初始化携带的参数 非必填
+
+            this.$router.push(routerConfig);
+        },
     }
 }
 
@@ -160,6 +183,7 @@ export default {
 // 队列列表
 .queue-list {
     background: #fff;
+    padding-bottom: 75px;
 
     .queue-item {
         padding-left: 15px;
@@ -190,6 +214,45 @@ export default {
             font-size: 12px;
             color: @black3;
         }
+    }
+}
+
+// 底部Excel导入提交按钮
+.excel-submit {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    padding-bottom: 10px;
+
+    .excel-submit-container {
+        padding: 0px 10px;
+        height: 45px;
+        font-size: 16px;
+        line-height: 45px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .excel-submit-left {
+        padding-right: 15px;
+
+        .submit-left-container {
+            width: 120px;
+            height: 45px;
+            border-radius: 45px;
+            color: #EFC60E;
+            border: 1px solid #EFC60E;
+        }
+    }
+    .excel-submit-rigth {
+        height: 45px;
+        border-radius: 45px;
+        background-color: #FFD240; /* 标准的语法 */
+        background: -webkit-linear-gradient(#FFD240, #FFBB00); /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(#FFD240, #FFBB00); /* Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(#FFD240, #FFBB00); /* Firefox 3.6 - 15 */
+        background: linear-gradient(#FFD240, #FFBB00); /* 标准的语法 */
     }
 }
 

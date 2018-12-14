@@ -131,7 +131,7 @@
             <div class="excel-submit-left" @click="jumpToRouter('/customer/addexcel', {pageStatus: 'before'})">
                 <div class="submit-left-container">Excel导入</div>
             </div>
-            <div class="excel-submit-rigth flex-rest" @click="submit">立即添加</div>
+            <div class="excel-submit-rigth flex-rest" @click="submit">添加到队列</div>
         </div>
     </div>
 
@@ -960,21 +960,18 @@ export default {
             width: 120px;
             height: 45px;
             border-radius: 45px;
-            background-color: #FFB700; /* 标准的语法 */
-            background: -webkit-linear-gradient(#FFB700, #FFA100); /* Safari 5.1 - 6.0 */
-            background: -o-linear-gradient(#FFB700, #FFA100); /* Opera 11.1 - 12.0 */
-            background: -moz-linear-gradient(#FFB700, #FFA100); /* Firefox 3.6 - 15 */
-            background: linear-gradient(#FFB700, #FFA100); /* 标准的语法 */
+            color: #EFC60E;
+            border: 1px solid #EFC60E;
         }
     }
     .excel-submit-rigth {
         height: 45px;
         border-radius: 45px;
-        background-color: #FF5F32; /* 标准的语法 */
-        background: -webkit-linear-gradient(#FF5F32, #E50012); /* Safari 5.1 - 6.0 */
-        background: -o-linear-gradient(#FF5F32, #E50012); /* Opera 11.1 - 12.0 */
-        background: -moz-linear-gradient(#FF5F32, #E50012); /* Firefox 3.6 - 15 */
-        background: linear-gradient(#FF5F32, #E50012); /* 标准的语法 */
+        background-color: #FFD240; /* 标准的语法 */
+        background: -webkit-linear-gradient(#FFD240, #FFBB00); /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(#FFD240, #FFBB00); /* Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(#FFD240, #FFBB00); /* Firefox 3.6 - 15 */
+        background: linear-gradient(#FFD240, #FFBB00); /* 标准的语法 */
     }
 }
 

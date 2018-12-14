@@ -18,6 +18,27 @@
             </svg>
         </div>
     </div>
+
+    <!-- 队列列表 -->
+    <div class="queue-list">
+        <div class="queue-item"
+            v-for="(item, key) in queueList" 
+            :key="key"
+        >
+            <div class="queue-item-container flex-start-center" :class="{'queue-item-line' : (key !== (queueList.length - 1))}">
+
+                <div class="queue-item-left flex-rest">
+                    <div class="item-left-title">粤S8GW42</div>
+                    <div class="item-left-name">张三</div>
+                </div>
+
+                <div class="queue-item-right">
+                    <div class="item-right-no">第3位</div>
+                    <div class="item-right-lable">预计1天后添加成功</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -43,6 +64,11 @@ export default {
             pageNo: 1, // 当前页面
             totalPageNum: 1, // 总页数
             isLoding: true, // 是否正在加载..
+
+            // 列表
+            queueList: [
+                {},{},{},{},{},
+            ],
         }
     },
 
@@ -129,7 +155,42 @@ export default {
         position: relative;
         top: 1.5px;
     }
+}
 
+// 队列列表
+.queue-list {
+    background: #fff;
+
+    .queue-item {
+        padding-left: 15px;
+
+        .queue-item-container {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-right: 15px;
+        }
+
+        .queue-item-line {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .item-left-title {
+            padding-bottom: 5px;
+            font-weight: bold;
+            color: @black1;
+        }
+
+        .item-right-no {
+            padding-bottom: 5px;
+            text-align: right;
+            color: #FFA100;
+        }
+
+        .item-right-lable {
+            font-size: 12px;
+            color: @black3;
+        }
+    }
 }
 
 </style>

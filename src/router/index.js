@@ -153,6 +153,11 @@ const routes = [
         component: () => import('@/views/customer/add-lot'),
         meta: { title: '批量添加客户' },
     }, {
+        path: '/customer/addqueue',
+        name: 'add-queue',
+        component: () => import('@/views/customer/add-queue'),
+        meta: { title: '客户队列' },
+    }, {
         path: '/customer/addexcel',
         name: 'add-excel',
         component: () => import('@/views/customer/add-excel'),

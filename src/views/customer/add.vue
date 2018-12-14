@@ -751,6 +751,17 @@ export default {
     }
 }
 
+// 车牌车架共有部分
+.tag-car-no,
+.tag-vin-no {
+    // 剩余添加的次数 提示
+    .res-count-tip {
+        font-size: 12px;
+        color: @black2;
+    }
+}
+    
+
 // 车牌号整体框架
 .tag-car-no {
     padding-top: 10px;
@@ -818,33 +829,6 @@ export default {
             border-radius: 5px;
             text-align: center;
         }
-    }
-
-    // 剩余添加的次数 提示
-    .res-count-tip {
-        font-size: 12px;
-        color: @black2;
-    }
-}
-
-
-// 普通添加 底部按钮
-.add-lot-bottom {
-    padding-top: 15px;
-
-    .lot-bottom-btn {
-        line-height: 45px;
-        width: 75%;
-        border-radius: 45px;
-        text-align: center;
-        color: @black1;
-        background: #fff;
-    }
-
-    .lot-bottom-lable {
-        padding-top: 15px;
-        font-size: 12px;
-        color: @black3;
     }
 }
 
@@ -936,6 +920,26 @@ export default {
             color: @black3;
             padding-left: 5px;
         }
+    }
+}
+
+// 普通添加 底部按钮
+.add-lot-bottom {
+    padding-top: 15px;
+
+    .lot-bottom-btn {
+        line-height: 45px;
+        width: 75%;
+        border-radius: 45px;
+        text-align: center;
+        color: @black1;
+        background: #fff;
+    }
+
+    .lot-bottom-lable {
+        padding-top: 15px;
+        font-size: 12px;
+        color: @black3;
     }
 }
 

@@ -11,7 +11,7 @@
 
         <div class="progress-des"><span style="color: #2F8AFF;">{{queueFinish}}</span>/{{queueCount}}</div>
         
-        <div class="progress-tip-icon">
+        <div class="progress-tip-icon" @click="isAddTipShow = true;">
             <svg width="18" height="18" t="1544773280505" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3402" xmlns:xlink="http://www.w3.org/1999/xlink" >
                 <path fill="#2F8AFF" d="M481.5 65.5c-229.2 0-415 185.8-415 415s185.8 415 415 415 415-185.8 415-415-185.8-415-415-415z m0 766.2c-193.6 0-351.2-157.5-351.2-351.2s157.5-351.2 351.2-351.2 351.2 157.5 351.2 351.2-157.6 351.2-351.2 351.2z" p-id="3403"></path>
                 <path fill="#2F8AFF" d="M481.5 257.1c-77.2 0-141.6 54.8-156.4 127.7h66.5c13.2-37.1 48.3-63.8 89.9-63.8 52.8 0 95.8 43 95.8 95.8 0 41.6-26.8 76.7-63.8 89.9v5.9h-63.8v127.7h63.8v-67.1c72.9-14.8 127.7-79.2 127.7-156.4-0.1-88.3-71.6-159.7-159.7-159.7zM449.5 704h63.8v63.8h-63.8z" p-id="3404"></path>
@@ -49,6 +49,23 @@
             <div class="excel-submit-rigth flex-rest">添加客户队列</div>
         </div>
     </div>
+
+    <!-- 导入提示 模态框 -->
+    <div class="add-tip-modal flex-center" v-if="isAddTipShow">
+        <div class="tip-modal-shade" @click="isAddTipShow = false;"></div>
+
+        <div class="tip-modal-container">
+            <div class="modal-row-container">
+                <div class="modal-row-main">由于添加客户过于火爆，一些接口服务数据量供不应求，为保障稳定使用：</div>
+                <div class="modal-row">· 每天可 “快速添加” 20个客户：添加后立即可查看客户信息；</div>
+                <div class="modal-row">· 非紧急客户推荐使用“普通添加”功能：添加后将保存在您的客户队列中；</div>
+                <div class="modal-row">· 客户队列最多可添加300个客户，添加成功后会从队列删除；</div>
+                <div class="modal-row">· 空闲时会按添加顺序自动查询并添加到您的客户中。</div>
+            </div>
+
+            <div class="tip-modal-submit flex-center" @click="isAddTipShow = false;">我知道了</div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -79,6 +96,8 @@ export default {
             queueList: [
                 {},{},{},{},{},
             ],
+
+            isAddTipShow: false, // 是否显示提示模态框
         }
     },
 
@@ -142,11 +161,17 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
+// 导入提示 模态框
+@add-tip-modal-z-index: 2;
+@add-tip-shade-z-index: 3;
+@add-tip-container-z-index: 4;
+
 .add-queue {
     position: relative;
     font-size: 14px;
     width: 100%;
     min-height: 100%;
+    color: @black2;
     background-color: #f5f5f5;
 }
 
@@ -182,10 +207,10 @@ export default {
 
 // 队列列表
 .queue-list {
-    background: #fff;
     padding-bottom: 75px;
 
     .queue-item {
+        background: #fff;
         padding-left: 15px;
 
         .queue-item-container {
@@ -253,6 +278,55 @@ export default {
         background: -o-linear-gradient(#FFD240, #FFBB00); /* Opera 11.1 - 12.0 */
         background: -moz-linear-gradient(#FFD240, #FFBB00); /* Firefox 3.6 - 15 */
         background: linear-gradient(#FFD240, #FFBB00); /* 标准的语法 */
+    }
+}
+
+// 导入提示 模态框
+.add-tip-modal {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @add-tip-modal-z-index;
+
+    .tip-modal-shade {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: @add-tip-shade-z-index;
+        background:rgba(0, 0, 0, 0.46);
+    }
+
+    .tip-modal-container {
+        position: relative;
+        width: 280px;
+        border-radius: 10px;
+        background-color: #fff;
+        z-index: @add-tip-container-z-index;
+    }
+
+    .modal-row-container {
+        padding: 15px;
+
+        .modal-row-main {
+            padding-bottom: 10px;
+            color: @black1;
+        }
+
+        .modal-row {
+            font-size: 12px;
+            color: @black2;
+            padding-bottom: 5px;
+        }
+    }
+
+    .tip-modal-submit {
+        border-top: 1px solid #ddd;
+        height: 45px;
+        color: #2F8AFF;
     }
 }
 

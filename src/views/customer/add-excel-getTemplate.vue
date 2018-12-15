@@ -38,17 +38,33 @@
     <div class="bottom-back flex-center">
         <div class="back-btn" @click="routerBack">返回</div>
     </div>
+    
+    <!-- 邮件发送成功 模态框 -->
+    <ModalByZindex 
+        class="send-mail-succeed"
+        :isShow="sendMailSucceedTip" 
+        :zindex="3" 
+        @clickShade="sendMailSucceedTip = false"
+    >
+        <div class="mail-succeed-title">《金车管家导入模板.xls》已经发送到您的邮箱，请注意查收</div>
+        <div class="mail-succeed-emailaddress">{{emailaddress}}</div>
+        <div class="mail-succeed-btn" @click="sendMailSucceedTip = false">我知道了</div>
+    </ModalByZindex>
 </div>
 </template>
 
 <script>
 // 请求类
 import ajaxs from "@/api/customer/add-lot-excel.js";
+// 组件类
+import ModalByZindex from "@/components/ModalByZindex";
 // 资源类
 import teachcreatexceltemplate from "@/static/teach-creat-excel-template.png";
 
 export default {
     name: 'get-excel-template',
+
+    components: { ModalByZindex },
 
 	data: function data() { 
         return {
@@ -60,7 +76,10 @@ export default {
             },
 
             // 邮箱地址
-            emailaddress: '',
+            emailaddress: '454766952@qq,com',
+
+            // 邮件发送成功提示
+            sendMailSucceedTip: false,
         }
     },
 
@@ -68,6 +87,10 @@ export default {
     },
 
 	methods: {
+        consolellelelel() {
+            console.log(123)
+        },
+
         /**
          * 下载 excel 模板
          */

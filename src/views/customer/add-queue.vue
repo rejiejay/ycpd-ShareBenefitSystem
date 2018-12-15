@@ -46,7 +46,7 @@
             <div class="excel-submit-left" @click="jumpToRouter('/customer/addexcel', {pageStatus: 'before'})">
                 <div class="submit-left-container">Excel导入</div>
             </div>
-            <div class="excel-submit-rigth flex-rest">添加客户队列</div>
+            <div class="excel-submit-rigth flex-rest" @click="jumpToRouter('/customer/addlot')">添加客户队列</div>
         </div>
     </div>
 

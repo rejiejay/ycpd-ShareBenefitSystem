@@ -163,6 +163,11 @@ const routes = [
         component: () => import('@/views/customer/add-excel'),
         meta: { title: '批量添加客户' },
     }, {
+        path: '/customer/get/excel/template', // 获取 Excel 模板
+        name: 'get-excel-template',
+        component: () => import('@/views/customer/add-excel-getTemplate'),
+        meta: { title: '批量添加客户' },
+    }, {
         path: '/customer/supplement',
         name: 'customer-supplement',
         component: () => import('@/views/customer/supplement'),

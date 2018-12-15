@@ -33,6 +33,11 @@
             <div class="input-submit">发送</div>
         </div>
     </div>
+
+    <!-- 邮件接收模板 输入框 -->
+    <div class="bottom-back flex-center">
+        <div class="back-btn" @click="routerBack">返回</div>
+    </div>
 </div>
 </template>
 
@@ -68,6 +73,13 @@ export default {
          */
         downloadExcel: function downloadExcel() {
             window.location.href = ajaxs.downloadTemplate;
+        },
+
+        /**
+         * 返回到上一页
+         */
+        routerBack: function routerBack() {
+            this.$router.back(-1);
         },
     }
 }
@@ -177,6 +189,26 @@ export default {
             color: #fff;
             background: #efc60e;
         }
+    }
+}
+
+.bottom-back {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 75px;
+
+    .back-btn {
+        line-height: 45px;
+        width: 240px;
+        border-radius: 45px;
+        text-align: center;
+        color: #fff;
+        background: -webkit-linear-gradient(#73C6FF, #4B8BF1); /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(#73C6FF, #4B8BF1); /* Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(#73C6FF, #4B8BF1); /* Firefox 3.6 - 15 */
+        background: linear-gradient(#73C6FF, #4B8BF1); /* 标准的语法 */
     }
 }
 

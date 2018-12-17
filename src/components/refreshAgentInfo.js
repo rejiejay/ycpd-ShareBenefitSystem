@@ -35,5 +35,4 @@ let refreshAgentInfo = {
     },
 }
 
-
 export default refreshAgentInfo;

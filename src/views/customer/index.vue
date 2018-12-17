@@ -156,19 +156,39 @@
     <div style="height: 146.5px;"></div>
 
     <!-- 客户总量 —— 导航栏分页  -->
-    <NavigationPage :pageData="totalCustomers"  v-if="navBarSelected === 'total'"/>
+    <NavigationPage 
+        v-if="navBarSelected === 'total'"
+        :pageData="totalCustomers" 
+        @setDelBtnVisible="setDelBtnVisible"
+    ></NavigationPage>
 
     <!-- 可续保客户 —— 导航栏分页  -->
-    <NavigationPage :pageData="renewalCustomers"  v-if="navBarSelected === 'renewal'"/>
+    <NavigationPage 
+        v-if="navBarSelected === 'renewal'"
+        :pageData="renewalCustomers" 
+        @setDelBtnVisible="setDelBtnVisible"
+    ></NavigationPage>
 
     <!-- 违章未处理 —— 导航栏分页  -->
-    <NavigationPage :pageData="violationCustomers"  v-if="navBarSelected === 'violation'"/>
+    <NavigationPage 
+        v-if="navBarSelected === 'violation'"
+        :pageData="violationCustomers" 
+        @setDelBtnVisible="setDelBtnVisible"
+    ></NavigationPage>
 
     <!-- 年检将到期 —— 导航栏分页  -->
-    <NavigationPage :pageData="ASCustomers"  v-if="navBarSelected === 'ASC'"/>
+    <NavigationPage 
+        v-if="navBarSelected === 'ASC'"
+        :pageData="ASCustomers" 
+        @setDelBtnVisible="setDelBtnVisible"
+    ></NavigationPage>
 
     <!-- 跟进客户 —— 导航栏分页  -->
-    <NavigationPage :pageData="toFollowCustomers"  v-if="navBarSelected === 'tofollow'"/>
+    <NavigationPage 
+        v-if="navBarSelected === 'tofollow'"
+        :pageData="toFollowCustomers" 
+        @setDelBtnVisible="setDelBtnVisible"
+    ></NavigationPage>
 
     <!-- 添加队列 -->
     <div class="customer-jump-queue" @click="jumpToRouter('/customer/addqueue')" >
@@ -359,6 +379,22 @@ export default {
                 return '超过3个月';
             }
         },
+
+        /**
+         * 选中的数据 键值对 的键
+         */
+        selectedKeyName: function selectedKeyName() {
+            // 导航栏选中的键值对
+            let selectedKeyVal = {
+                'total': 'totalCustomers', // 客户总量
+                'renewal': 'renewalCustomers', // 可续保客户
+                'violation': 'violationCustomers', // 违章未处理
+                'ASC': 'ASCustomers', // 年检将到期
+                'tofollow': 'toFollowCustomers', // 待跟进客户
+            }
+
+            return selectedKeyVal[this.navBarSelected];
+        }
     },
 
     watch: {
@@ -485,14 +521,6 @@ export default {
          */
         getCustomerList: function getCustomerList(isRefresh) {
             const _this = this;
-            // 导航栏选中的键值对
-            let selectedKeyVal = {
-                'total': 'totalCustomers', // 客户总量
-                'renewal': 'renewalCustomers', // 可续保客户
-                'violation': 'violationCustomers', // 违章未处理
-                'ASC': 'ASCustomers', // 年检将到期
-                'tofollow': 'toFollowCustomers', // 待跟进客户
-            }
             /**
              * 导航栏选中类型 转换为 列表查询参数 searchType
              */
@@ -504,8 +532,7 @@ export default {
                 tofollow: 'TO_FOLLOWUP', // 年检将到期
             }
 
-
-            let mySelected = selectedKeyVal[this.navBarSelected];
+            let mySelected = this.selectedKeyName;
 
             /**
              * 转换跟进结果
@@ -692,6 +719,7 @@ export default {
                             isLoadDelay: false, // 是否 客户信息超时
                             isByInvitation: isByInvitation, // 是否通过邀请添加的客户
                             tag: tag,
+                            delBtnVisible: false, // 是否显示删除按钮
                             nextTime: nextTime,
                             state: customerState,
                         }
@@ -729,6 +757,20 @@ export default {
             this.isLoding = false;
 
             this.getCustomerList();
+        },
+
+        /**
+         * 设置是否删除的按钮
+         */
+        setDelBtnVisible: function setDelBtnVisible(key, isShow) {
+            // 浅复制一个列表
+            let myList = this[this.selectedKeyName].concat([]);
+            
+            // 设置是否删除
+            myList[key].delBtnVisible = isShow;
+
+            // 将新列表复制到Vue里面
+            this[this.selectedKeyName] = myList;
         },
 
         /**

@@ -4,76 +4,91 @@
     <div class="bar-page-item"
         v-for="(item, key) in pageData" 
         :key="key"
+        @touchstart="itemTouchStart(item, key, $event)"
     >
-        <div class="page-item-content flex-start-center" @click="jumpToCustomerDetails(item.response)">
+        <!-- 这里包裹一层是因为需要 弄出个删除按钮 -->
+        <div class="page-item-container"
+            :class="{'item-slide-left': item.delBtnVisible}"
+        >
+            <div class="page-item-content flex-start-center" @click="jumpToCustomerDetails(item.response)">
 
-            <div class="item-main flex-rest">
-                <div class="item-main-title">{{item.title}}</div>
-                <div class="item-main-label flex-start flex-start-center">
-                    <div class="main-label-name" v-if="item.name">{{item.name}}</div>
-                    <div class="main-label-tag"
-                        v-for="(tagItem, tagkey) in item.tag" 
-                        :key="tagkey"
-                    >{{tagItem}}</div>
-                    <div class="label-next-time">{{item.nextTime ? item.nextTime : ''}}</div>
-                </div>
-            </div>
-
-            <div class="item-right-label">
-                <!-- 先判断 客户信息是否 加载延迟 如果加载延迟，优先展示延迟 -->
-                <div class="load-delay-label" v-if="item.isLoadDelay">
-                    <div class="delay-label-text">客户信息查询超时，请稍后更新</div>
-                    <div class="delay-label-btn">更新信息</div>
+                <div class="item-main flex-rest">
+                    <div class="item-main-title">{{item.title}}</div>
+                    <div class="item-main-label flex-start flex-start-center">
+                        <div class="main-label-name" v-if="item.name">{{item.name}}</div>
+                        <div class="main-label-tag"
+                            v-for="(tagItem, tagkey) in item.tag" 
+                            :key="tagkey"
+                        >{{tagItem}}</div>
+                        <div class="label-next-time">{{item.nextTime ? item.nextTime : ''}}</div>
+                    </div>
                 </div>
 
-                <!-- 判断 客户是否通过 邀请 -->
-                <span class="invitation-lable flex-center" v-else-if="item.isByInvitation">邀</span>
-                
-                <svg v-else width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                    <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
-                </svg>
-            </div>
-        </div>
+                <div class="item-right-label">
+                    <!-- 先判断 客户信息是否 加载延迟 如果加载延迟，优先展示延迟 -->
+                    <div class="load-delay-label" v-if="item.isLoadDelay">
+                        <div class="delay-label-text">客户信息查询超时，请稍后更新</div>
+                        <div class="delay-label-btn">更新信息</div>
+                    </div>
 
-        <!-- 底部保险 - 暂时不显示在这里了 -->
-        <!-- <div class="page-item-line" v-if="item.insurance"><span></span></div>
-
-        <div class="page-item-bottom" v-if="item.insurance">
-            <div class="item-bottom-content flex-start-center" v-if="item.insurance">
-                <div class="item-bottom-left">{{item.insurance.name}}</div>
-                <div class="item-bottom-center">￥{{item.insurance.price}}</div>
-                <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
-            </div>
-        </div> -->
-
-        <!-- 客户状态 -->
-        <div class="bottom-customer-status" v-if="item.state && item.state.val">
-            <!-- 享分成中 有提成的情况 -->
-            <div class="customer-status-ing flex-start-center" v-if="item.state && item.state.val === 'sharing-lable'">
-                <div class="customer-status-havedivide flex-rest"><span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span style="color: #FFA100;">{{item.state.projectName}}</span><span style="padding-right: 5px;">提成:</span><span style="color: #E50012; font-weight: bold;">￥{{item.state.obtainMoney}}</span></div>
-
-                <div class="customer-status-right">{{item.state.createdDate}}</div>
-            </div>
-
-            <!-- 享分成中 无提成的情况 -->
-            <div class="customer-status-ing flex-start-center" v-if="item.state && item.state.val === 'sharing'">
-                <span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span>{{item.state.createdDate}}注册</span>
-            </div>
-            
-            <!-- 未注册 -->
-            <div class="customer-status-unregistered flex-start-center" v-if="item.state && item.state.val === 'noRegister'">
-                <div class="customer-status-havedivide flex-rest">未注册：<span style="color: #FFA100;">邀请注册享分成，先下手为强</span></div>
-                
-                <div class="customer-status-right flex-start-center" @click="jumpToActivity(1)">
-                    <span>去邀请</span>
-                    <svg width="12" height="12" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                    <!-- 判断 客户是否通过 邀请 -->
+                    <span class="invitation-lable flex-center" v-else-if="item.isByInvitation">邀</span>
+                    
+                    <svg v-else width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
                         <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
                     </svg>
                 </div>
             </div>
 
-            <!-- 他人分享 -->
-            <div class="customer-status-other flex-start-center" v-if="item.state && item.state.val === 'otherShared'">他人分成中：<span>无法查看动态~</span></div>
+            <!-- 底部保险 - 暂时不显示在这里了 -->
+            <!-- <div class="page-item-line" v-if="item.insurance"><span></span></div>
+
+            <div class="page-item-bottom" v-if="item.insurance">
+                <div class="item-bottom-content flex-start-center" v-if="item.insurance">
+                    <div class="item-bottom-left">{{item.insurance.name}}</div>
+                    <div class="item-bottom-center">￥{{item.insurance.price}}</div>
+                    <div class="item-bottom-right">商业险系数: {{item.insurance.factors}}</div>
+                </div>
+            </div> -->
+
+            <!-- 客户状态 -->
+            <div class="bottom-customer-status" v-if="item.state && item.state.val">
+                <!-- 享分成中 有提成的情况 -->
+                <div class="customer-status-ing flex-start-center" v-if="item.state && item.state.val === 'sharing-lable'">
+                    <div class="customer-status-havedivide flex-rest"><span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span style="color: #FFA100;">{{item.state.projectName}}</span><span style="padding-right: 5px;">提成:</span><span style="color: #E50012; font-weight: bold;">￥{{item.state.obtainMoney}}</span></div>
+
+                    <div class="customer-status-right">{{item.state.createdDate}}</div>
+                </div>
+
+                <!-- 享分成中 无提成的情况 -->
+                <div class="customer-status-ing flex-start-center" v-if="item.state && item.state.val === 'sharing'">
+                    <span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span>{{item.state.createdDate}}注册</span>
+                </div>
+                
+                <!-- 未注册 -->
+                <div class="customer-status-unregistered flex-start-center" v-if="item.state && item.state.val === 'noRegister'">
+                    <div class="customer-status-havedivide flex-rest">未注册：<span style="color: #FFA100;">邀请注册享分成，先下手为强</span></div>
+                    
+                    <div class="customer-status-right flex-start-center" @click="jumpToActivity(1)">
+                        <span>去邀请</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                            <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 他人分享 -->
+                <div class="customer-status-other flex-start-center" v-if="item.state && item.state.val === 'otherShared'">他人分成中：<span>无法查看动态~</span></div>
+            </div>
+        </div>
+        
+        <div class="page-item-delete" 
+            :class="{'page-delete-show' : item.delBtnVisible}"
+            @click="deleteItem"
+        >
+            <div class="item-delete-btn flex-center">
+                <span>删除</span>
+            </div>
         </div>
     </div>
 </div>
@@ -105,6 +120,7 @@ export default {
         //         '年检23天',
         //         '待跟进',
         //     ],
+        //     delBtnVisible: false, // 是否显示删除按钮
         //     nextTime: '2018-12-3', // 跟进时间
         //     /**
         //      * 客户状态
@@ -131,6 +147,49 @@ export default {
 	mounted: function mounted() { },
 
 	methods: {
+		/**
+		 * 初始化 触摸车辆列表 (用于删除)
+		 */
+		itemTouchStart: function itemTouchStart(item, key, startEvent) {
+            let _this = this;
+            let touchStartX = startEvent.touches[0].pageX; // 开始触摸的位置
+            
+            // 移动中 处理函数
+			function handleTouchMove(event) {
+				let currentX = event.touches[0].pageX; // 每次 触摸 X距离
+				let interval = currentX - touchStartX; // 每次 触摸 间隔
+				
+				// 判断是否显示
+                if (interval < -100 && item.delBtnVisible === false) { 
+                    // 显示删除按钮 情况
+                    _this.$emit('setDelBtnVisible', key, true);
+
+				} else if (interval > 100 && item.delBtnVisible) { 
+                    // 隐藏删除按钮 情况
+                    _this.$emit('setDelBtnVisible', key, false);
+
+                }
+                
+				startEvent.preventDefault();
+			}
+            
+            // 移动结束 处理函数
+			function handleTouchEnd() {
+				window.removeEventListener('touchmove', handleTouchMove);
+				window.removeEventListener('touchend', handleTouchEnd);
+			}
+            
+            window.addEventListener('touchmove', handleTouchMove); // 监听 移动事件
+            window.addEventListener('touchend', handleTouchEnd); // 监听 移动结束事件
+        },
+
+        /**
+         * 
+         */
+        deleteItem: function deleteItem(params) {
+            console.log('删除一个项')
+        },
+        
         /**
          * 跳转到活动
          * @param {number} activityNo 跳转到活动的下标
@@ -170,6 +229,56 @@ export default {
         .page-item-content {
             background: #fff;
             padding: 15px 15px 10px 15px;
+        }
+    }
+
+    // 删除部分
+    .bar-page-item {
+        position: relative;
+        overflow: hidden;
+
+        // 滑动区域
+        .page-item-container {
+            position: relative;
+            width: 100%;
+            left: 0px;
+            background: #fff;
+
+            transition: left 0.2s;
+            -moz-transition: left 0.2s;	/* Firefox 4 */
+            -webkit-transition: left 0.2s;	/* Safari 和 Chrome */
+            -o-transition: left 0.2s;	/* Opera */
+        }
+
+        // 滑动
+        .item-slide-left {
+            left: -120px;
+        }
+
+        // 删除
+        .page-item-delete {
+            position: absolute;
+            top: 6px;
+            width: 120px;
+            height: 100%;
+            right: -120px;
+            font-size: 14px;
+            color: #fff;
+            text-align: center;
+
+            .item-delete-btn {
+                height: 100%;
+                background: #ff1d1d;
+            }
+
+            transition: right 0.2s;
+            -moz-transition: right 0.2s;	/* Firefox 4 */
+            -webkit-transition: right 0.2s;	/* Safari 和 Chrome */
+            -o-transition: right 0.2s;	/* Opera */
+        }
+
+        .page-delete-show {
+            right: 0px;
         }
     }
 

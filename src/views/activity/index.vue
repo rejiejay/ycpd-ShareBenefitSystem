@@ -168,7 +168,12 @@ export default {
                         }
                     }
 
-                    if (res && res[1]) {
+                    // 隐藏建行无感支付推广活动（12-31日截止），包含按钮、banner
+                    if (1546185600000 < new Date().getTime()) {
+                        this.activityList = this.activityList.pop();
+                    }
+                    // 隐藏建行无感支付推广活动（12-31日截止），包含按钮、banner
+                    if (res && res[1] && 1546185600000 > new Date().getTime()) {
                         res[1].projectId ? _this.activityList[1].projectId = res[1].projectId : null;
                         res[1].projectName ? _this.activityList[1].describe = res[1].projectName : null;
 

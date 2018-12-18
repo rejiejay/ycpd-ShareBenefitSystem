@@ -233,10 +233,15 @@ const routes = [
         name: 'redirect',
         component: () => import('@/views/redirect/redirect'),
         meta: { title: '金车管家' },
-    },  {
+    }, {
         path: '/redirect/register',
         name: 'redirect-register',
         component: () => import('@/views/redirect/register'),
+        meta: { title: '金车管家' },
+    },  {
+        path: '/redirect/merchant',
+        name: 'redirect-merchant',
+        component: () => import('@/views/redirect/merchant'),
         meta: { title: '金车管家' },
     }, 
 

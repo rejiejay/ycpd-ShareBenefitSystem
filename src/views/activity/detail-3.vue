@@ -227,6 +227,7 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.initShareTimeline(); // 初始化 分享到朋友圈 与 分享给朋友
         this.getMyRewards(); // 获取 - 我的奖励
 
 		window.addEventListener('scroll', this.scrollNavigation); // 添加滚动事件，检测滚动的距离
@@ -241,11 +242,11 @@ export default {
          * 初始化 分享到朋友圈 与 分享给朋友
          */
 	    initShareTimeline: function initShareTimeline() {
-            let title = `分享标题`; // 分享标题
-            let desc = '分享描述'; // 分享描述
+            let title = '养车频道-优惠养车'; // 分享标题
+            let desc = '覆盖全市优质300+门店，洗车保养限时特价'; // 分享描述
 
-            let link = ``; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            let imgUrl = ``; // 分享图片
+            let link = `${config.location.href}#/redirect/merchant?agentInfoId=${window.localStorage.ycpd_agentInfoId}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            let imgUrl = `https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/portrait.png`; // 分享图片
 
             initShareTimeline(title, desc, link, imgUrl);
         },

@@ -3,13 +3,13 @@
 <div class="activity-detail">
     <!-- 顶部导航栏 -->
     <div class="activity-top-navigation flex-start-center">
-        <div class="top-navigation-item flex-center">
+        <div class="top-navigation-item flex-center" @click="scrollTopBy(0)">
             <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 0}">活动规则</div>
         </div>
-        <div class="top-navigation-item flex-center">
+        <div class="top-navigation-item flex-center" @click="scrollTopBy(381)">
             <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 1}">参与方式</div>
         </div>
-        <div class="top-navigation-item flex-center">
+        <div class="top-navigation-item flex-center" @click="scrollTopBy(561)">
             <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 2}">我的奖励</div>
         </div>
     </div>
@@ -345,7 +345,7 @@ export default {
 
     },
 
-    destroyed: function () {
+    destroyed: function destroyed() {
 		window.removeEventListener('scroll', this.scrollNavigation); // 添加滚动事件，检测滚动的距离
     },
 
@@ -399,7 +399,14 @@ export default {
             }
 
             this.navigation_index = navigation_index;
-		},
+        },
+        
+        /**
+         * 滚动到 距离顶部的距离
+         */
+        scrollTopBy: function scrollTopBy(despx) {
+            window.scrollTo(0, despx);
+        },
 
         /**
          * 获取 - 二维码
@@ -472,24 +479,6 @@ export default {
                     alert(error);
                 }
             );
-        },
-
-        /**
-         * 获取 - 已入账、未入账
-         */
-    	getRewardHeads: function getRewardHeads() {
-            const _this = this;
-
-            ajaxsAward.findRewardHeads(this)
-            .then(
-                res => {
-                    if (res && res.total) {
-                        _this.awardTotal = res.total === '-' ? '0.00' : res.total; // 总金额
-                    }
-                }, error => {
-                    alert(error);
-                }
-            )
         },
 
         /**

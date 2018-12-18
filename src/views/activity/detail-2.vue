@@ -4,13 +4,13 @@
     <div class="activity-detail-content">
         <!-- 顶部导航栏 -->
         <div class="activity-top-navigation flex-start-center">
-            <div class="top-navigation-item flex-center">
+            <div class="top-navigation-item flex-center" @click="scrollTopBy(0)">
                 <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 0}">活动规则</div>
             </div>
-            <div class="top-navigation-item flex-center">
+            <div class="top-navigation-item flex-center" @click="scrollTopBy(231)">
                 <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 1}">参与方式</div>
             </div>
-            <div class="top-navigation-item flex-center">
+            <div class="top-navigation-item flex-center" @click="scrollTopBy(311)">
                 <div class="navigation-item-describe" :class="{'item-describe-active': navigation_index === 2}">我的奖励</div>
             </div>
         </div>
@@ -239,6 +239,13 @@ export default {
             }
 
             this.navigation_index = navigation_index;
+        },
+        
+        /**
+         * 滚动到 距离顶部的距离
+         */
+        scrollTopBy: function scrollTopBy(despx) {
+            window.scrollTo(0, despx);
         },
         
         /**

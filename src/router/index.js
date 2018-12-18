@@ -204,6 +204,11 @@ const routes = [
         component: () => import('@/views/activity/detail-2'),
         meta: { title: '邀请好友享加油分成' },
     }, {
+        path: '/activity/detail/3',
+        name: 'activity-detail-3',
+        component: () => import('@/views/activity/detail-3'),
+        meta: { title: '优惠养车（保养洗车特惠）' },
+    }, {
         path: '/activity/sharer',
         name: 'activity-sharer',
         component: () => import('@/views/activity/sharer'),

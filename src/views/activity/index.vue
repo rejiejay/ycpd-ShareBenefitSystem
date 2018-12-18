@@ -5,6 +5,7 @@
         <div class="activity-item"
             v-for="(item, key) in activityList" 
             :key="key"
+            v-if="item.isActivity"
             @click="jumpToActivityRouter(`/activity/detail/${item.id}`, item.projectId)"
         >
             <div class="activity-item-content">
@@ -51,28 +52,35 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            activityList: [ // 活动列表
+            // 活动列表
+            activityList: [ 
                 {
-                    /**
-                     * 活动状态
-                     * @param {string} going 正在进行
-                     * @param {string} finish 活动结束
-                     */
                     id: 1, // 活动唯一标识
-                    projectId: "3AF07C7AB66140C592FAC852C67CF650",
-                    status: 'going', 
+                    isActivity: true, // 活动是否激活状态
+                    projectId: "这个id是用来查询详情的",
+                    status: 'going', // 有两个值 going finish
                     picture: '',
                     award: '享好友加油总金额1%返佣',
                     describe: '养车频道优惠加油双重返利活动', // 活动描述
-                    time: '2018-10-6 至 2018-12-9', // 活动时间
+                    time: '2018-10-1 至 2018-12-31', // 活动时间
                 }, {
                     id: 2,
-                    projectId: "3AF07C7AB66140C592FAC852C67CF650",
+                    isActivity: (1546185600000 > new Date().getTime()), // 12-31日截止
+                    projectId: "这个id是用来查询详情的",
                     status: 'going', 
                     picture: '',
                     award: '推荐成功享10元/人返佣',
                     describe: '养车频道优惠加油双重返利活动', 
-                    time: '2018-10-6 至 2018-12-9',
+                    time: '2018-10-1 至 2018-12-31',
+                }, {
+                    id: 3,
+                    isActivity: true,
+                    projectId: "这个id是用来查询详情的",
+                    status: 'going', 
+                    picture: '',
+                    award: '订单成绩金额10%返佣',
+                    describe: '优惠养车（保养洗车特惠）', 
+                    time: '2018-10-1 至 2018-12-31',
                 }
             ],
         } 
@@ -168,11 +176,7 @@ export default {
                         }
                     }
 
-                    // 隐藏建行无感支付推广活动（12-31日截止），包含按钮、banner
-                    if (1546185600000 < new Date().getTime()) {
-                        this.activityList = this.activityList.pop();
-                    }
-                    // 隐藏建行无感支付推广活动（12-31日截止），包含按钮、banner
+                    // 建行无感支付推广活动
                     if (res && res[1] && 1546185600000 > new Date().getTime()) {
                         res[1].projectId ? _this.activityList[1].projectId = res[1].projectId : null;
                         res[1].projectName ? _this.activityList[1].describe = res[1].projectName : null;

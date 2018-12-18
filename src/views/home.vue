@@ -200,7 +200,7 @@
     <!-- 攻略教程 -->
     <div class="strategy-tutorial">
         <div class="strategy-tutorial-container">
-            <div class="strategy-tutorial-top">攻略：如果月增收￥5000</div>
+            <div class="strategy-tutorial-top">攻略：如何月增收￥5000</div>
             <div class="strategy-tutorial-bottom">教程：新增客户、批量新增客户操作指南</div>
         </div>
     </div>

@@ -27,15 +27,22 @@
         </div>
     </div>
 
-    <!-- 底部 按钮部分 -->
-    <div class="activity-sharer-button flex-start-center">
-        <div class="sharer-button-left">
-            <div class="button-item button-left-content" @click="routerBack">返回活动</div>
-        </div>
-        <div class="sharer-button-rigth flex-rest">
-            <div class="button-item button-rigth-content" @click="isInvitationModalShow = true">立即邀请，享加油分成</div>
+    <!-- preview Tip 预览提示文案 -->
+    <div class="preview-tip">
+        <div class="preview-tip-container">
+            <div class="preview-tip-row">本二维码只对新关注/注册的用户有效</div>
+            <div class="preview-tip-row">如用户已关注“养车频道”，在客户管理中率先添加用户车牌即享分成。</div>
         </div>
     </div>
+
+    <!-- 底部 按钮部分 -->
+    <div class="activity-sharer-button flex-start-center">
+        <div class="activity-store" @click="routerBack"><span>返回活动</span></div>
+        <div class="activity-share-now flex-rest" @click="isInvitationModalShow = true;"><span>分享给好友</span></div>
+    </div>
+
+    <!-- 分享 优惠加油操作说明 -->
+    <activitysharerguide/>
     
     <!-- 模态框 —— 底部分享 -->
     <div class="activity-invitation-modal" v-if="isInvitationModalShow">
@@ -131,11 +138,12 @@ import getBase64ByImageName from "@/api/common/getBase64ByImageName";
 import initShareTimeline from "@/components/initShareTimeline";
 import PortraitPhoto from "@/components/PortraitPhoto";
 import shareGuidance from "@/components/shareGuidance";
+import activitysharerguide from "@/views/activity/sharer/guide";
 
 export default {
     name: 'activity-sharer-preview',
 
-    components: { shareGuidance, PortraitPhoto },
+    components: { shareGuidance, PortraitPhoto, activitysharerguide },
 
 	data: function data() { 
         return {
@@ -265,25 +273,25 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
+// 底部分享 按钮部分
+@activity-sharer-button-z-index: 2;
+
 // 模态框 立即邀请，享加油分成
-@invitation-modal-z-index: 2;
-@invitation-shade-z-index: 3;
-@invitation-main-z-index: 4;
+@invitation-modal-z-index: 3;
+@invitation-shade-z-index: 4;
+@invitation-main-z-index: 5;
 
 // 二维码
-@QRcode-modal-z-index: 2;
-@QRcode-shade-z-index: 3;
-@QRcode-main-z-index: 4;
+@QRcode-modal-z-index: 3;
+@QRcode-shade-z-index: 4;
+@QRcode-main-z-index: 5;
 
 .activity-sharer-preview {
     position: relative;
     font-size: 14px;
     width: 100%;
-    height: 100%;
-    background: -webkit-linear-gradient(#FFFFFF, #F1F1F1); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(#FFFFFF, #F1F1F1); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(#FFFFFF, #F1F1F1); /* Firefox 3.6 - 15 */
-    background: linear-gradient(#FFFFFF, #F1F1F1); /* 标准的语法 */
+    min-height: 100%;
+    background: #F1F1F1;
 }
 
 // 标题部分
@@ -368,29 +376,63 @@ export default {
     }
 }
 
-// 按钮部分
-.activity-sharer-button {
-    padding: 15px 25px 0px 25px;
+// preview Tip 预览提示文案
+.preview-tip {
+    padding: 15px;
+    font-size: 12px;
+    color: #FB5735;
 
-    .button-item {
-        height: 45px;
-        line-height: 45px;
-        border-radius: 45px;
-        text-align: center;
+    .preview-tip-container {
+        padding: 15px 15px 12.5px 15px;
+        border-radius: 10px;
         background: #fff;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
 
-    .sharer-button-left {
-        padding-right: 20px;
+    .preview-tip-row {
+        padding-bottom: 2.5px;
+    }
+}
 
-        .button-left-content {
-            padding: 0px 30px 0px 30px;
+// 底部分享 按钮部分
+.activity-sharer-button {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 50px;
+    background:rgba(0, 0, 0, 0.46);
+    z-index: @activity-sharer-button-z-index;
+
+    span {
+        display: block;
+        height: 38px;
+        line-height: 38px;
+        border-radius: 38px;
+        text-align: center;
+        background: #fff;
+    }
+
+    .activity-store {
+        padding-left: 15px;
+        padding-right: 5px;
+
+        span {
+            color: #E50012;
+            width: 120px;
         }
     }
 
-    .button-rigth-content {
-        color: #E50012;
+    .activity-share-now {
+        padding-left: 5px;
+        padding-right: 15px;
+
+        span {
+            color: #fff;
+            background: -webkit-linear-gradient(135deg,rgba(255,95,50,1) 0%,rgba(229,0,18,1) 100%); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(135deg,rgba(255,95,50,1) 0%,rgba(229,0,18,1) 100%); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(135deg,rgba(255,95,50,1) 0%,rgba(229,0,18,1) 100%); /* Firefox 3.6 - 15 */
+            background: linear-gradient(135deg,rgba(255,95,50,1) 0%,rgba(229,0,18,1) 100%); /* 标准的语法 */
+        }
     }
 }
 
@@ -529,7 +571,7 @@ export default {
 
 // 底部 icon
 .activity-sharer-svg {
-    position: fixed;
+    position: absolute;
     bottom: 0px;
     left: 0px;
     width: 100%;

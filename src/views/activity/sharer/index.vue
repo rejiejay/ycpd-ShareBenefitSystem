@@ -1,4 +1,4 @@
-<!-- 分享预览 -->
+<!-- 分享出去的页面 -->
 <template>
 <div class="activity-sharer">
     <!-- 标题部分 -->
@@ -27,6 +27,9 @@
         </div>
     </div>
 
+    <!-- 分享 优惠加油操作说明 -->
+    <activitysharerguide/>
+
     <!-- 底部背景 svg -->
     <div class="activity-sharer-svg">
         <svg :width="clientWidth" height="65" viewBox="0 0 750 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient x1="14.5612522%" y1="135.070068%" x2="14.5612522%" y2="0%" id="linearGradient-1"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient><linearGradient x1="38.9953707%" y1="158.647828%" x2="38.9953707%" y2="0%" id="linearGradient-2"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient><linearGradient x1="56.5895744%" y1="136.515723%" x2="63.4977092%" y2="0%" id="linearGradient-3"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient><linearGradient x1="66.089026%" y1="154.283574%" x2="75.3648545%" y2="0%" id="linearGradient-4"><stop stop-color="#F0F0F0" stop-opacity="0.3" offset="0%"></stop><stop stop-color="#CDCDCD" offset="100%"></stop></linearGradient></defs><g id="活动" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="分享预览" transform="translate(0.000000, -1204.000000)"><g id="BG" transform="translate(0.000000, 128.000000)"><g id="底纹" transform="translate(0.000000, 1076.000000)"><polygon id="Path-4" fill="url(#linearGradient-1)" opacity="0.200000003" points="75.4935058 37.6471357 0 130 507.226136 130"></polygon><polygon id="Path-4-Copy" fill="url(#linearGradient-2)" opacity="0.200000003" points="198.314499 5.50615304 0 130 496.528698 130"></polygon><polygon id="Path-4-Copy-2" fill="url(#linearGradient-3)" opacity="0.200000003" points="335.887055 1 0 130.635761 531.560617 130.635761"></polygon><polygon id="Path-4-Copy-3" fill="url(#linearGradient-4)" opacity="0.200000003" points="630.927522 7.14023816 750 130.635761 263 130.635761"></polygon><path d="M490,44 L513,61 L480,66 L490,44 Z M129,29.4985018 L148.795846,7 L158.554206,18.2492509 L129,29.4985018 Z M366,20 L399.5,22 L372.375163,37.4857646 L366,20 Z M50.5384894,84.7968508 L8,92.0062393 L16.691984,66 L50.5384894,84.7968508 Z M708.116956,9 L750,28.0103058 L695,38.5917011 L708.116956,9 Z" id="Combined-Shape" fill="#000000" opacity="0.027701"></path></g></g></g></g></svg>
@@ -40,11 +43,15 @@
 import { Toast } from 'mint-ui';
 // 请求类
 import getBase64ByImageName from "@/api/common/getBase64ByImageName";
-// 组件类
+// 配置类
 import config from "@/config/index";
+// 组件类
+import activitysharerguide from "@/views/activity/sharer/guide";
 
 export default {
     name: 'activity-sharer',
+
+    components: { activitysharerguide },
 
 	data: function data() { 
         return {
@@ -106,11 +113,8 @@ export default {
     position: relative;
     font-size: 14px;
     width: 100%;
-    height: 100%;
-    background: -webkit-linear-gradient(#FFFFFF, #F1F1F1); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(#FFFFFF, #F1F1F1); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(#FFFFFF, #F1F1F1); /* Firefox 3.6 - 15 */
-    background: linear-gradient(#FFFFFF, #F1F1F1); /* 标准的语法 */
+    min-height: 100%;
+    background: #F1F1F1;
 }
 
 // 标题部分

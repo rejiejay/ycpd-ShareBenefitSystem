@@ -211,12 +211,12 @@ const routes = [
     }, {
         path: '/activity/sharer',
         name: 'activity-sharer',
-        component: () => import('@/views/activity/sharer'),
+        component: () => import('@/views/activity/sharer/index'),
         meta: { title: '' },
     },  {
         path: '/activity/sharer/preview',
         name: 'activity-sharer-preview',
-        component: () => import('@/views/activity/sharer-preview'),
+        component: () => import('@/views/activity/sharer/preview'),
         meta: { title: '分享预览' },
     }, 
 

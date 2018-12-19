@@ -47,8 +47,8 @@
                 <div class="customer-main-label">车险/违章/年审提醒<!-- 这一期暂时不显示 报价出单 --></div>
             </div>
 
-            <!-- 拍车照 -->
-            <div class="customer-get-picture flex-center">
+            <!-- 领取秘籍 -->
+            <div class="customer-get-picture flex-center" @click="jumpToRouter('/guide')">
                 <div class="get-picture-content flex-column-center">
                     <svg width="22" height="22" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="home" transform="translate(-636.000000, -504.000000)" fill="#E50012" fill-rule="nonzero"><g id="新增客户" transform="translate(20.000000, 452.000000)"><g id="Group-3" transform="translate(616.000000, 52.000000)"><path d="M7,0 L29,0 C31.209139,-4.05812251e-16 33,1.790861 33,4 L33,32 C33,34.209139 31.209139,36 29,36 L7,36 C4.790861,36 3,34.209139 3,32 L3,4 C3,1.790861 4.790861,4.05812251e-16 7,0 Z M7,2 C5.8954305,2 5,2.8954305 5,4 L5,32 C5,33.1045695 5.8954305,34 7,34 L29,34 C30.1045695,34 31,33.1045695 31,32 L31,4 C31,2.8954305 30.1045695,2 29,2 L7,2 Z M10,10 L16,10 C16.5522847,10 17,10.4477153 17,11 C17,11.5522847 16.5522847,12 16,12 L10,12 C9.44771525,12 9,11.5522847 9,11 C9,10.4477153 9.44771525,10 10,10 Z M10,16 L24,16 C24.5522847,16 25,16.4477153 25,17 C25,17.5522847 24.5522847,18 24,18 L10,18 C9.44771525,18 9,17.5522847 9,17 C9,16.4477153 9.44771525,16 10,16 Z M10,22 L20,22 C20.5522847,22 21,22.4477153 21,23 C21,23.5522847 20.5522847,24 20,24 L10,24 C9.44771525,24 9,23.5522847 9,23 C9,22.4477153 9.44771525,22 10,22 Z M23,7.13148291 L24.4452998,6.16794971 C24.7811992,5.94401676 25.2188008,5.94401676 25.5547002,6.16794971 L27,7.13148291 L27,2 L23,2 L23,7.13148291 Z M22.5547002,9.83205029 C21.8901455,10.2750868 21,9.79869538 21,9 L21,2 L29,2 L29,9 C29,9.79869538 28.1098545,10.2750868 27.4452998,9.83205029 L25,8.20185043 L22.5547002,9.83205029 Z" id="矩形"></path></g></g></g></g></svg>
                     <div style="padding-top: 5px;">领取秘籍</div>
@@ -198,7 +198,7 @@
     </div>
     
     <!-- 攻略教程 -->
-    <div class="strategy-tutorial">
+    <div class="strategy-tutorial" @click="jumpToRouter('/guide')">
         <div class="strategy-tutorial-container">
             <div class="strategy-tutorial-top">攻略：如何月增收￥5000</div>
             <div class="strategy-tutorial-bottom">教程：新增客户、批量新增客户操作指南</div>

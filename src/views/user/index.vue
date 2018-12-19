@@ -1,6 +1,7 @@
 <!-- 客户管理 首页 -->
 <template>
 <div class="user">
+
     <!-- banner -->
     <div class="user-banner flex-start-center" :style="`height: ${Math.floor((clientWidth - 30) * 21 / 71)}px;`">
         <!-- 背景 -->
@@ -20,44 +21,49 @@
                     {{agentName ? agentName : '点击设置昵称'}}<!-- <span>已实名认证</span> -->
                 </div>
                 <div class="banner-main-phone">
-                    {{telephone}}
+                    {{`${telephone.substr(0, 3)}****${telephone.substr(7, telephone.length - 1)}`}}
                 </div>
             </div>
 
             <!-- 指示 -->
-            <div class="user-banner-icon" @click="jumpToRouter('/user/info')">
+            <div class="user-banner-icon flex-start-center" @click="jumpToRouter('/user/info')">
+                <span>修改资料</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                    <path fill="#fff" d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
+                    <path fill="#FFA100" d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
                 </svg>
             </div>
         </div>
-
     </div>
 
-    <!-- 余额 -->
-    <div class="user-proto-content user-wallet">
-        <div class="proto-content">
-            <div class="user-wallet-now flex-start-center">
-                <div class="user-wallet-left">
-                    余额
-                </div>
-                <div class="user-wallet-center flex-rest">
-                    ￥{{usableMoney}}
-                </div>
-                <div class="user-wallet-right" @click="upgrading">
-                    提现
+    <!-- 钱包 -->
+    <div class="user-wallet-block user-block">
+        <div class="user-block-container">
+
+            <div class="user-wallet-title user-block-title flex-start-center">
+                <div class="wallet-title-left flex-rest">钱包<span>小有资产</span></div>
+                <div class="wallet-title-btn flex-start-center" @click="upgrading">
+                    <span>提现/账单</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" >
+                        <path fill="#E50012" d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path>
+                    </svg>
                 </div>
             </div>
-            <div class="user-wallet-count flex-start-center">
-                <div class="user-wallet-left">
-                    累计总收入
+            
+            <div class="user-wallet-main user-block-main flex-start-center" @click="jumpToRouter('/account/detail')">
+                <div class="block-main-describe flex-center flex-rest">
+                    <div class="main-describe-container">
+
+                        <div class="describe-usable-money flex-start">
+                            ￥<span>{{usableMoney}}</span>
+                            <svg width="45" height="20" viewBox="0 0 77 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="个人中心" transform="translate(-474.000000, -499.000000)"><g id="钱包" transform="translate(20.000000, 370.000000)"><g id="好礼换购" transform="translate(454.000000, 129.000000)"><path d="M8.64923735,22 L1.50001841,22 C1.34812655,22 1.2044701,21.9309551 1.10958401,21.8123475 C0.937079233,21.5967166 0.97203992,21.2820704 1.18767089,21.1095656 L5.07462788,18 L5.07462788,4 C5.07462788,1.790861 6.86548888,4.05812251e-16 9.07462788,0 L73.0746279,0 C75.2837669,-4.05812251e-16 77.0746279,1.790861 77.0746279,4 L77.0746279,18 C77.0746279,20.209139 75.2837669,22 73.0746279,22 L8.64923735,22 Z" id="合并形状" fill="#FFD415"></path><text font-family="PingFangSC-Regular, PingFang SC" font-size="16" font-weight="normal" line-spacing="16" fill="#FCFCFC"><tspan x="9" y="20">好礼换购</tspan></text></g></g></g></g></svg>
+                        </div>
+
+                        <div class="describe-total-money">累计总收入：￥{{totalMoney}}</div>
+                    </div>
                 </div>
-                <div class="user-wallet-center flex-rest" style="color: #469AFF;">
-                    ￥{{totalMoney}}
-                </div>
-                <div class="user-wallet-right" @click="jumpToRouter('/account/detail')">
-                    账单
-                </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" >
+                    <path fill="#303133" d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path>
+                </svg>
             </div>
         </div>
     </div>
@@ -208,10 +214,9 @@
             </div>
         </div>
     </div>
-    <!-- 底部 Tabbar -->
-    <div style="height: 75px;"></div>
 
     <!-- 底部 Tabbar -->
+    <div style="height: 75px;"><!-- 用于底部的间隙 --></div>
     <Tabbar selectTabbar='user'/>
 </div>
 </template>
@@ -421,17 +426,42 @@ export default {
     background-color: #f5f5f5;
 }
 
-// banner 
+// 复用的圈圈
+.user-proto-content {
+    padding: 10px 15px 0px 15px;
+
+    .proto-content {
+        border-radius: 10px;
+        background: #fff;
+    }
+}
+
+// 复用的一个模块
+.user-block {
+    padding: 5px 10px 0px 10px;
+
+    .user-block-container {
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .user-block-title {
+        padding: 0px 15px;
+        height: 45px;
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+// 用户 顶部 横幅
 .user-banner {
     position: relative;
-    padding: 10px 15px 0px 15px;
+    padding: 5px 10px 0px 10px;
     color: #fff;
     
     // 背景
     .user-banner-background {
         position: absolute;
-        left: 15px;
-        top: 10px;
     }
 
     // 内容区域
@@ -471,7 +501,9 @@ export default {
 
     .user-banner-main {
         .banner-main-name {
-            font-size: 16px;
+            font-size: 14px;
+            font-weight: bold;
+            color: @black1;
 
             span {
                 padding: 2px 5px;
@@ -484,76 +516,65 @@ export default {
         }
 
         .banner-main-phone {
+            color: @black1;
             padding-top: 10px;
         }
     }
-}
 
-// 复用的圈圈
-.user-proto-content {
-    padding: 10px 15px 0px 15px;
-
-    .proto-content {
-        border-radius: 10px;
-        background: #fff;
+    .user-banner-icon {
+        font-size: 12px;
+        color: #FFA100;
     }
 }
 
-// 余额
-.user-wallet {
-    .user-wallet-now,
-    .user-wallet-count {
-        height: 45px;
-        padding-right: 15px;
-    }
-
-    .user-wallet-now {
-        border-bottom: 1px solid #ddd;
-
-        .user-wallet-left {
-            color: @black1;
+// 钱包
+.user-wallet-block {
+    
+    .user-wallet-title {
+        .wallet-title-left {
+            span {
+                padding-left: 10px;
+                font-size: 12px;
+                color: @black3;
+            }
         }
 
-        .user-wallet-center {
-            color: #E50012;
-        }
-
-        .user-wallet-right {
+        .wallet-title-btn {
+            padding: 0px 10px;
+            font-size: 12px;
+            line-height: 22px;
+            border-radius: 22px;
             color: #E50012;
             border: 1px solid #E50012;
         }
     }
-
-    .user-wallet-count {
-        .user-wallet-left {
-            color: @black3;
-        }
-
-        .user-wallet-center {
-            color: @black3;
-        }
-
-        .user-wallet-right {
-            color: #469AFF;
-            border: 1px solid #469AFF;
-        }
-    }
     
-    .user-wallet-left {
-        padding: 0 15px;
-    }
+    .user-wallet-main {
+        padding: 15px;
 
-    .user-wallet-right {
-        font-size: 12px;
-        height: 22px;
-        line-height: 22px;
-        border-radius: 22px;
-        padding: 0 15px 0 12px;
-    }
+        .describe-usable-money {
+            padding-top: 5px;
+            font-size: 12px;
+            color: #E50012;
+            
+            span {
+                position: relative;
+                top: -2px;
+                font-size: 20px;
+            }
 
-    .user-wallet-center {
-        padding-right: 15px;
-        text-align: right;
+            svg {
+                position: relative;
+                top: -7.5px;
+                padding-left: 5px;
+            }
+        }
+
+        .describe-total-money {
+            padding-top: 5px;
+            font-size: 12px;
+            color: @black3;
+        }
     }
 }
 

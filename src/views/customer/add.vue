@@ -377,17 +377,19 @@ export default {
             addResALL: 20, // 一共多少次
 
             isBatchImportModalShow: false, // 是否显示 批量导入提示
-            isShowRepetitionWarning: false, /// 是否显示 重复的提示框
+            isShowRepetitionWarning: false, // 是否显示 重复的提示框
         }
     },
 
     computed: {
-        // 车牌省份的宽度
+        /**
+         * 车牌省份的宽度
+         */
         intervalWidth: function intervalWidth() {
             var myIntervalWidth = (this.clientWidth - 288) / 18;
             myIntervalWidth = myIntervalWidth > 0 ? myIntervalWidth : 0;
             return myIntervalWidth;
-        }
+        },
     },
 
     watch: {
@@ -408,7 +410,7 @@ export default {
 	mounted: function mounted() {
         this.initAddCustomerToken(); // 获取添加客户的token
         this.checkMaxAddNum(); // 校验是否可以继续添加客户
-        this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口
+        // this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口
     },
 
 	methods: {

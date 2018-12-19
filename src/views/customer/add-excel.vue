@@ -6,7 +6,7 @@
     <div class="add-excel-before flex-center" :style="`display: ${pageStatus === 'before' ? 'flex' : 'none'};`">
         <div class="excel-template-container flex-column-center">
             <!-- excel导入模板下载 -->
-            <div class="excel-import-template" @click="downloadExcel">
+            <div class="excel-import-template" @click="jumpToRouter('/customer/get/excel/template')">
                 <div class="excel-import-container">Excel导入模板下载</div>
             </div>
 
@@ -340,7 +340,6 @@ export default {
             });
 
         },
-
 
         /**
          * 跳转到路由

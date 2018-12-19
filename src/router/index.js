@@ -283,7 +283,22 @@ const routes = [
         name: 'guide',
         component: () => import('@/views/guide/index'),
         meta: { title: '玩转秘籍' },
-    }, 
+    }, {
+        path: '/guide/addcustomer',
+        name: 'add-customer',
+        component: () => import('@/views/guide/add-customer'),
+        meta: { title: '“新增用户”教程' },
+    }, {
+        path: '/guide/excelcustomer',
+        name: 'excel-customer',
+        component: () => import('@/views/guide/excel-customer'),
+        meta: { title: '“批量添加客户”教程' },
+    }, {
+        path: '/guide/gasstation',
+        name: 'gas-station',
+        component: () => import('@/views/guide/gas-station'),
+        meta: { title: '邀请好友使用“优惠加油”教程' },
+    },
     
     /**
      * 测试

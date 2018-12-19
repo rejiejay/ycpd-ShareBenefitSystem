@@ -274,6 +274,16 @@ const routes = [
         component: () => import('@/views/car-record/report-details'),
         meta: { title: '车况报告详情' },
     }, 
+
+    /**
+     * 用户教程模块
+     */
+    {
+        path: '/guide',
+        name: 'guide',
+        component: () => import('@/views/guide/index'),
+        meta: { title: '玩转秘籍' },
+    }, 
     
     /**
      * 测试

@@ -87,10 +87,6 @@ export default {
     },
 
 	methods: {
-        consolellelelel() {
-            console.log(123)
-        },
-
         /**
          * 下载 excel 模板
          */

@@ -347,7 +347,7 @@ export default {
          * 跳转到养车频道商城
          */
         jumpToMerchant: function jumpToMerchant() {
-            window.location.href = `${config.location.ycpd_root}/merchant/Merchanthome.html?id=180727010001925946&agentInfoId=${window.localStorage.ycpd_agentInfoId}`;
+            window.location.href = `${config.location.ycpd_root}/merchant/Merchanthome.html?id=181120010004311645&agentInfoId=${window.localStorage.ycpd_agentInfoId}`;
         },
     }
 }

@@ -77,7 +77,7 @@ export default {
                     isActivity: true,
                     projectId: "这个id是用来查询详情的",
                     status: 'going', 
-                    picture: '',
+                    picture: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-list-three.png',
                     award: '订单成绩金额10%返佣',
                     describe: '优惠养车（保养洗车特惠）', 
                     time: '2018-10-1 至 2019-12-31',

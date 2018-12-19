@@ -27,7 +27,7 @@ export default {
         let agentInfoId = this.$route.query.agentInfoId;
         
         // 再进行跳转 养车频道商城(捷停车商城)
-        window.location.href = `${config.location.ycpd_root}/merchant/Merchanthome.html?id=180727010001925946&agentInfoId=${agentInfoId}`;
+        window.location.href = `${config.location.ycpd_root}/merchant/Merchanthome.html?id=181120010004311645&agentInfoId=${agentInfoId}`;
     },
 
     destroyed: function destroyed() {

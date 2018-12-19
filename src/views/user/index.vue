@@ -2,7 +2,7 @@
 <template>
 <div class="user">
 
-    <!-- banner -->
+    <!-- 用户 顶部 横幅 -->
     <div class="user-banner flex-start-center" :style="`height: ${Math.floor((clientWidth - 30) * 21 / 71)}px;`">
         <!-- 背景 -->
         <div class="user-banner-background" :style="`width: ${clientWidth - 30}px; height: ${Math.floor((clientWidth - 30) * 21 / 71)}px;`">
@@ -64,6 +64,61 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" >
                     <path fill="#303133" d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path>
                 </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据资产 -->
+    <div class="user-assets-block user-block">
+        <div class="user-block-container">
+
+            <div class="user-assets-title user-block-title flex-start-center">
+                <div class="assets-title-left flex-rest">数据资产<span>价值￥</span></div>
+                <div class="assets-title-btn flex-start-center" @click="upgrading">
+                    <span>购买</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" >
+                        <path fill="#FFA100" d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="user-assets-main user-block-main">
+                <div class="assets-main-row flex-start" style="border-bottom: 1px solid #ddd;">
+                    <div class="assets-main-item flex-center flex-rest" style="border-right: 1px solid #ddd;">
+                        <div class="item-container">
+                            <div class="item-count">0</div>
+                            <div class="item-describe">短信条数</div>
+                        </div>
+                    </div>
+                    <div class="assets-main-item flex-center flex-rest">
+                        <div class="item-container">
+                            <div class="item-count">0</div>
+                            <div class="item-describe">客户查询数量</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="assets-main-row flex-start">
+                    <div class="assets-main-item flex-center flex-rest" style="border-right: 1px solid #ddd;">
+                        <div class="item-container">
+                            <div class="item-count flex-center" style="color: #FFA100">
+                                <span>0</span>
+                                <svg 
+                                    style="position: absolute; left: 50%; margin-left: 10px;" 
+                                    width="35"
+                                    height="20" 
+                                    viewBox="0 0 60 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="个人中心" transform="translate(-239.000000, -862.000000)"><rect fill="#F1F1F1" x="0" y="0" width="750" height="1671"></rect><g id="数据资产" transform="translate(20.000000, 617.000000)"><rect id="Rectangle-2-Copy" fill="#FFFFFF" x="0" y="0" width="710" height="334" rx="10"></rect><g id="分组-2" transform="translate(219.000000, 36.000000)"><path d="M4,223 L-3.83475851e-17,220 L4,217 L4,213 C4,210.790861 5.790861,209 8,209 L56,209 C58.209139,209 60,210.790861 60,213 L60,227 C60,229.209139 58.209139,231 56,231 L8,231 C5.790861,231 4,229.209139 4,227 L4,223 Z" id="合并形状" fill="#FFD415"></path><text id="可赠送" font-family="PingFangSC-Regular, PingFang SC" font-size="16" font-weight="normal" line-spacing="16" fill="#FCFCFC"><tspan x="8" y="228.5">可赠送</tspan></text></g></g></g></g>
+                                </svg>
+                            </div>
+                            <div class="item-describe">我的礼品</div>
+                        </div>
+                    </div>
+                    <div class="assets-main-item flex-center flex-rest">
+                        <div class="item-container">
+                            <div class="item-count">0</div>
+                            <div class="item-describe">维保记录查询</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -428,7 +483,7 @@ export default {
 
 // 复用的圈圈
 .user-proto-content {
-    padding: 10px 15px 0px 15px;
+    padding: 5px 10px 0px 10px;
 
     .proto-content {
         border-radius: 10px;
@@ -574,6 +629,49 @@ export default {
             padding-top: 5px;
             font-size: 12px;
             color: @black3;
+        }
+    }
+}
+
+// 数据资产
+.user-assets-block {
+    
+    .user-assets-title {
+        .assets-title-left {
+            span {
+                padding-left: 10px;
+                font-size: 12px;
+                color: @black3;
+            }
+        }
+
+        .assets-title-btn {
+            padding: 0px 10px;
+            font-size: 12px;
+            line-height: 22px;
+            border-radius: 22px;
+            color: #FFA100;
+            border: 1px solid #FFA100;
+        }
+    }
+
+    .user-assets-main {
+        padding: 15px;
+        font-size: 12px;
+        
+        .item-container {
+            padding: 15px;
+            text-align: center;
+
+            .item-count {
+                position: relative;
+                font-size: 16px;
+                padding-bottom: 5px;
+            }
+
+            .item-describe {
+                color: @black3;
+            }
         }
     }
 }

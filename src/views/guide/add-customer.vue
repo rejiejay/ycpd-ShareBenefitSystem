@@ -71,7 +71,6 @@ export default {
                     return this.$router.back(-1);
                 }
 
-                
                 // 判断在不在 我知道了 按钮距离范围内
                 if (cursorX > watchAgainMinX && cursorX < watchAgainMaxX && cursorY > watchAgainMinY && cursorY < watchAgainMaxY) {
                     // 如果点击 再看一遍 返回步骤一

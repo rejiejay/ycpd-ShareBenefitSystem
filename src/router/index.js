@@ -273,6 +273,11 @@ const routes = [
         name: 'car-report-details',
         component: () => import('@/views/car-record/report-details'),
         meta: { title: '车况报告详情' },
+    }, {
+        path: '/car/report/buy',
+        name: 'buy-car-report',
+        component: () => import('@/views/car-record/buy'),
+        meta: { title: '车况报告详情' },
     }, 
 
     /**

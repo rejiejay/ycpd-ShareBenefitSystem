@@ -1,6 +1,6 @@
 <!-- 购买次数 -->
 <template>
-<div class="buy">
+<div class="maintenance-record-buy">
 
     <!-- 选中面额 -->
     <div class="buy-select-amount">
@@ -115,7 +115,7 @@
 <script>
 
 export default {
-    name: 'buy',
+    name: 'maintenance-record-buy',
 
 	data: function data() { 
         return {
@@ -172,7 +172,7 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
-.buy {
+.maintenance-record-buy {
     position: relative;
     font-size: 14px;
     width: 100%;

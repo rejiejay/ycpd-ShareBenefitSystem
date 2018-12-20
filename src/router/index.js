@@ -269,8 +269,8 @@ const routes = [
      * 维保记录查询板块
      */
     {
-        path: '/maintenance/record/buy',
-        name: 'buy-maintenance-record',
+        path: '/maintenance/record/search',
+        name: 'maintenance-record-search',
         component: () => import('@/views/maintenance-record/search'),
         meta: { title: '维保记录查询' },
     }, {
@@ -280,12 +280,12 @@ const routes = [
         meta: { title: '查询记录' },
     }, {
         path: '/maintenance/record/report/:id',
-        name: 'maintenance-report',
+        name: 'maintenance-record-report',
         component: () => import('@/views/maintenance-record/report'),
         meta: { title: '车况报告详情' },
     }, {
         path: '/maintenance/record/buy',
-        name: 'buy-maintenance-record',
+        name: 'maintenance-record-buy',
         component: () => import('@/views/maintenance-record/buy'),
         meta: { title: '维保记录购买' },
     }, 

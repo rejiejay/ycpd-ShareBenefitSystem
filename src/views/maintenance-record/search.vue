@@ -44,7 +44,7 @@
             <div class="res-tip-container flex-start">
                 <div>剩余次数:</div>
                 <div style="padding-left: 5px; color: #E50012;">1</div>
-                <div style="padding-left: 5px; color: #5594FF;">购买</div>
+                <div style="padding-left: 5px; color: #5594FF;" @click="jumpToRouter('/maintenance/record/buy')">购买</div>
             </div>
         </div>
 

@@ -269,15 +269,25 @@ const routes = [
      * 维保记录查询板块
      */
     {
-        path: '/car/report/details/:id',
-        name: 'car-report-details',
-        component: () => import('@/views/car-record/report-details'),
+        path: '/maintenance/record/buy',
+        name: 'buy-maintenance-record',
+        component: () => import('@/views/maintenance-record/search'),
+        meta: { title: '维保记录查询' },
+    }, {
+        path: '/maintenance/record/history',
+        name: 'maintenance-record-history',
+        component: () => import('@/views/maintenance-record/history'),
+        meta: { title: '查询记录' },
+    }, {
+        path: '/maintenance/record/report/:id',
+        name: 'maintenance-report',
+        component: () => import('@/views/maintenance-record/report'),
         meta: { title: '车况报告详情' },
     }, {
-        path: '/car/report/buy',
-        name: 'buy-car-report',
-        component: () => import('@/views/car-record/buy'),
-        meta: { title: '车况报告详情' },
+        path: '/maintenance/record/buy',
+        name: 'buy-maintenance-record',
+        component: () => import('@/views/maintenance-record/buy'),
+        meta: { title: '维保记录购买' },
     }, 
 
     /**

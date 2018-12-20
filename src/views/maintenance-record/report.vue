@@ -1,6 +1,6 @@
 <!-- 车况报告详情 -->
 <template>
-<div class="car-report-details">
+<div class="maintenance-report">
 
     <!-- 车牌头像部分 -->
     <div class="carNo-head">
@@ -407,7 +407,7 @@
 <script>
 
 export default {
-    name: 'car-report-details',
+    name: 'maintenance-report',
 
 	data: function data() { 
         return {
@@ -722,7 +722,7 @@ export default {
 @black3: #909399;
 @black4: #C0C4CC;
 
-.car-report-details {
+.maintenance-report {
     position: relative;
     font-size: 14px;
     width: 100%;
@@ -732,7 +732,7 @@ export default {
 }
 
 // 复用部分
-.car-report-details {
+.maintenance-report {
 
     // 列表的大标题
     .list-big-title {

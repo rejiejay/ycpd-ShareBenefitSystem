@@ -129,6 +129,15 @@ export default {
 
     computed: {
         /**
+         * clientId 用于 页面 vuex 数据是否变化,
+         * 因为 只要 clientId 改变， 说明一定是换了新用户 这时候就可以触发 watch 刷新页面数据
+         * 这个是因为页面持久化带来的需求
+         */
+        clientId: function clientId() {
+            return this.$store.state.customer.clientId;
+        },
+
+        /**
          * 客户生日
          */
         customerFormat: function () {
@@ -140,8 +149,20 @@ export default {
         },
     },
 
+    watch: {
+        /**
+         * clientId 用于 页面 vuex 数据是否变化,
+         * 因为 只要 clientId 改变， 说明一定是换了新用户 这时候就可以触发 watch 刷新页面数据
+         * 这个是因为页面持久化带来的需求
+         */
+        clientId: function clientId() {
+            // 每当 clientId 改变 初始化一下 页面数据
+            this.initPageData();
+        },
+    },
+
 	mounted: function mounted() {
-        this.getPageData();
+        this.$store.dispatch('customer/init', this);
         this.initPageData(); // 初始化页面数据
     },
 
@@ -149,23 +170,9 @@ export default {
         /**
          * 初始化页面数据
          */
-	    getPageData: function getPageData() {
-            const _this = this;
+	    initPageData: function initPageData() {
+            let pageStore = this.$store.state.customer;
 
-            getClientDetailById(this) // 根据客户id 获取 客户信息
-            .then(
-                res => {
-                    _this.initPageData(res); // 初始化页面数据
-                }, error => {
-                    alert(error);
-                }
-            );
-        },
-
-        /**
-         * 初始化页面数据
-         */
-	    initPageData: function initPageData(pageStore) {
             this.username = pageStore.username;
             this.telphone = pageStore.telphone;
             this.telphone2 = pageStore.telphone2;
@@ -190,14 +197,11 @@ export default {
             ajaxs.editCustomer(this.username, this.telphone, this.telphone2, this.customerBirthday, this.remark, this)
             .then(
                 res => {
-                    Toast({
-                        message: '修改成功',
-                        duration: 1000
-                    });
+                    Toast({ message: '修改成功', duration: 1000 });
+                    _this.$store.dispatch('customer/init', _this);
                     _this.$router.go(-1);
-                }, error => {
-                    alert(error);
-                }
+
+                }, error => alert(error)
             )
         },
     }

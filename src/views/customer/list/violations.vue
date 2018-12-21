@@ -152,34 +152,43 @@ export default {
         } 
     },
 
+    computed: {
+        /**
+         * clientId 用于 页面 vuex 数据是否变化,
+         * 因为 只要 clientId 改变， 说明一定是换了新用户 这时候就可以触发 watch 刷新页面数据
+         * 这个是因为页面持久化带来的需求
+         */
+        clientId: function clientId() {
+            return this.$store.state.customer.clientId;
+        },
+    },
+
+    watch: {
+        /**
+         * clientId 用于 页面 vuex 数据是否变化,
+         * 因为 只要 clientId 改变， 说明一定是换了新用户 这时候就可以触发 watch 刷新页面数据
+         * 这个是因为页面持久化带来的需求
+         */
+        clientId: function clientId() {
+            // 每当 clientId 改变 初始化一下 页面数据
+            this.initPageData();
+            this.getFollowupRecord(); // 跟进记录也要重新获取一下
+        },
+    },
+
 	mounted: function mounted() { 
-        this.getClientById(); // 根据客户id 获取 客户信息
+        this.$store.dispatch('customer/init', this);
+        this.initPageData(); // 初始化页面数据
     },
 
 	methods: {
-        /**
-         * 根据客户id 获取 客户信息
-         */
-	    getClientById: function getClientById() {
-            const _this = this;
-            /**
-             * 根据客户id 获取 客户信息
-             * 因为上个页面缓存过id了，所以这个页面
-             */
-            getClientDetailById(this) // 根据客户id 获取 客户信息
-            .then(
-                res => {
-                    _this.initPageData(res); // 初始化页面数据
-                }, error => {
-                    alert(error);
-                }
-            );
-        },
 
         /**
          * 初始化页面数据
          */
-	    initPageData: function initPageData(pageStore) {
+	    initPageData: function initPageData() {
+            let pageStore = this.$store.state.customer;
+
             this.carNo = pageStore.carNo;
 
             // 初始化违章列表
@@ -220,7 +229,8 @@ export default {
             .then(
                 res => {
                     alert('成功更新违章数据！');
-                    _this.getClientById();
+                    _this.$store.dispatch('customer/init', _this);
+                    
                 }, error => alert(error)
             );
         },

@@ -1,6 +1,6 @@
 <!-- 编辑客户车辆 -->
 <template>
-<div class="edit">
+<div class="edit" :style="`min-height: ${clientHeight}px`">
     <div class="edit-main">
         <div class="edit-main-item flex-start">
             <span>车牌号</span>
@@ -104,6 +104,15 @@ export default {
 
     computed: {
         /**
+         * clientId 用于 页面 vuex 数据是否变化,
+         * 因为 只要 clientId 改变， 说明一定是换了新用户 这时候就可以触发 watch 刷新页面数据
+         * 这个是因为页面持久化带来的需求
+         */
+        clientId: function clientId() {
+            return this.$store.state.customer.clientId;
+        },
+
+        /**
          * 注册日期
          */
         carRegisterFormat: function () {
@@ -115,30 +124,36 @@ export default {
         },
     },
 
-	mounted: function mounted() {
-        const _this = this;
+    watch: {
+        /**
+         * clientId 用于 页面 vuex 数据是否变化,
+         * 因为 只要 clientId 改变， 说明一定是换了新用户 这时候就可以触发 watch 刷新页面数据
+         * 这个是因为页面持久化带来的需求
+         */
+        clientId: function clientId() {
+            // 每当 clientId 改变 初始化一下 页面数据
+            this.initPageData();
+        },
+    },
 
-        getClientDetailById(this) // 根据客户id 获取 客户信息
-        .then(
-            res => {
-                _this.initPageData(res); // 初始化页面数据
-            }, error => {
-                alert(error);
-            }
-        );
+	mounted: function mounted() {
+        this.$store.dispatch('customer/init', this);
+        this.initPageData(); // 初始化页面数据
     },
 
 	methods: {
         /**
          * 初始化页面数据
          */
-	    initPageData: function initPageData(pageStore) {
+	    initPageData: function initPageData() {
+            let pageStore = this.$store.state.customer;
+
             this.carNo = pageStore.carNo;
             this.models = pageStore.models;
             this.vinNo = pageStore.vinNo;
             this.engineNo = pageStore.engineNo;
             if (pageStore.registerDate) {
-                this.registerDate = new Date(TimeConver.YYYYmmDDhhMMssToTimestamp(pageStore.registerDate));
+                this.registerDate = new Date(TimeConver.YYYYmmDDToTimestamp(pageStore.registerDate));
             }
         },
     }

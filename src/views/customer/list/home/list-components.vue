@@ -203,8 +203,9 @@ export default {
          * @param {object} response 客户端响应原始数据
          */
         jumpToCustomerDetails: function jumpToCustomerDetails(response) {
-            this.$router.push({ path: `/customer/detail/${response.clientId}` });
             window.localStorage.setItem('ycpd_clientId', response.clientId);
+            this.$store.dispatch('customer/init', this);
+            this.$router.push({ path: `/customer/detail/${response.clientId}` });
         },
     }
 }

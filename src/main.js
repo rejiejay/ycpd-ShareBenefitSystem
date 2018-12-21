@@ -11,7 +11,7 @@ import "./components/css/index.less"; // 顶层样式
 /**
  * 异步加载控制台
  */
-if (process.env.NODE_ENV === 'development') { // 判断是否测试环境
+if (process.env.NODE_ENV === 'development' && window.location.hostname !== 'localhost') { // 判断是否测试环境
     // 异步加载
     require.ensure([], require => {
         let VConsole = require('vconsole');

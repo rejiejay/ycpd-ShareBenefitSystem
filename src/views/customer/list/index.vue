@@ -19,9 +19,6 @@ export default {
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
         } 
     },
-
-    computed: {
-    },
 }
 
 </script>

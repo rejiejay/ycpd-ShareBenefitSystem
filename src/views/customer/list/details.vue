@@ -334,8 +334,6 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            clientId: '', // 用户id
-            
             /**
              * 顶部导航栏选择
              * @param {string} customerInfor 客户信息
@@ -420,13 +418,24 @@ export default {
 
     computed: {
         /**
+         * clientId 用于 页面 vuex 数据是否变化,
+         * 因为 只要 clientId 改变， 说明一定是换了新用户 这时候就可以触发 watch 刷新页面数据
+         * 这个是因为页面持久化带来的需求
+         */
+        clientId: function clientId() {
+            return this.$store.state.customer.clientId;
+        },
+
+        /**
          * 渲染 (选中后的)下次跟进时间
          */
         nextFollowUpTimeFormat: function () {
             if (this.nextFollowUpTime === null) {
                 return '下次跟进时间';
+
             } else {
                 return TimeConver.dateToFormat(this.nextFollowUpTime);
+
             }
         },
 
@@ -440,8 +449,22 @@ export default {
         },
     },
 
+    watch: {
+        /**
+         * clientId 用于 页面 vuex 数据是否变化,
+         * 因为 只要 clientId 改变， 说明一定是换了新用户 这时候就可以触发 watch 刷新页面数据
+         * 这个是因为页面持久化带来的需求
+         */
+        clientId: function clientId() {
+            // 每当 clientId 改变 初始化一下 页面数据
+            this.initPageData();
+            this.getFollowupRecord(); // 跟进记录也要重新获取一下
+        },
+    },
+
 	mounted: function mounted() {
-        this.getPageData();
+        this.$store.dispatch('customer/init', this);
+        this.initPageData(); // 初始化页面数据
         this.getFollowupRecord(); // 获取 - 跟进记录
     },
 
@@ -449,26 +472,8 @@ export default {
         /**
          * 初始化页面数据
          */
-	    getPageData: function getPageData() {
-            const _this = this;
-            let clientId = this.$route.params.clientId; // 上个页面传值过来的id
-            this.clientId = clientId;
-            window.localStorage.setItem('ycpd_clientId', clientId);
-
-            getClientDetailById(this) // 根据客户id 获取 客户信息
-            .then(
-                res => {
-                    _this.initPageData(res); // 初始化页面数据
-                }, error => {
-                    alert(error);
-                }
-            );
-        },
-        
-        /**
-         * 初始化页面数据
-         */
-	    initPageData: function initPageData(pageCustomerStore) {
+	    initPageData: function initPageData() {
+            let pageCustomerStore = this.$store.state.customer;
             let userInfoStore = this.userInfoStore;
 
             // 初始化用户信息
@@ -492,40 +497,38 @@ export default {
             }
             this.carNoType = `${pageCustomerStore.carNo ? pageCustomerStore.carNo : '暂无车牌号'} ${carType}`;
 
-            if (pageCustomerStore && pageCustomerStore.policy) {
-                this.policyBusinessExpireDate = pageCustomerStore.policy.businessExpireDate ? pageCustomerStore.policy.businessExpireDate : null; // 商业险过期时间
-                this.policyForceExpireDate = pageCustomerStore.policy.forceExpireDate ? pageCustomerStore.policy.forceExpireDate : null; // 强险过期时间
-                this.policyRegisterDate = pageCustomerStore.policy.registerDate ? pageCustomerStore.policy.registerDate : null; // 注册时间
-                
+            this.policyBusinessExpireDate = pageCustomerStore.businessExpireDate; // 商业险过期时间
+            this.policyForceExpireDate = pageCustomerStore.forceExpireDate; // 强险过期时间
+            this.policyRegisterDate = pageCustomerStore.registerDate; // 注册时间
+
+            /**
+             * 初始化年检多少天后到期
+             */
+            if (pageCustomerStore.annualInspectDate) {
+                let annualInspectTimestamp = TimeConver.YYYYmmDDToTimestamp(pageCustomerStore.annualInspectDate);
+                let annualInspectdifferTimestamp = annualInspectTimestamp - new Date().getTime();
                 /**
-                 * 初始化年检多少天后到期
+                 * 时间相差必须大于一天
+                 * 而且超过 90天也不显示
                  */
-                if (pageCustomerStore.policy.annualInspectDate) {
-                    let annualInspectTimestamp = TimeConver.YYYYmmDDToTimestamp(pageCustomerStore.policy.annualInspectDate);
-                    let annualInspectdifferTimestamp = annualInspectTimestamp - new Date().getTime();
-                    /**
-                     * 时间相差必须大于一天
-                     * 而且超过 90天也不显示
-                     */
-                    if (annualInspectdifferTimestamp > 86400000 && annualInspectdifferTimestamp < 7776000000) {
-                        this.policyASDate = Math.floor(annualInspectdifferTimestamp / (1000 * 60 * 60 * 24));
-                    }
+                if (annualInspectdifferTimestamp > 86400000 && annualInspectdifferTimestamp < 7776000000) {
+                    this.policyASDate = Math.floor(annualInspectdifferTimestamp / (1000 * 60 * 60 * 24));
                 }
+            }
+
+            /**
+             * 判断是否可能脱保
+             */
+            if (pageCustomerStore.businessExpireDate) {
+                // 过期的时间戳
+                let businessExpireTimestamp = TimeConver.YYYYmmDDToTimestamp(pageCustomerStore.businessExpireDate);
 
                 /**
-                 * 判断是否可能脱保
+                 * 相差时间 小于零
+                 * 表示可能脱保
                  */
-                if (pageCustomerStore.policy.businessExpireDate) {
-                    // 过期的时间戳
-                    let businessExpireTimestamp = TimeConver.YYYYmmDDToTimestamp(pageCustomerStore.policy.businessExpireDate);
-                            
-                    /**
-                     * 相差时间 小于零
-                     * 表示可能脱保
-                     */
-                    if ((businessExpireTimestamp - new Date().getTime()) < 0) {
-                        this.isMayTuoBao = true;
-                    }
+                if ((businessExpireTimestamp - new Date().getTime()) < 0) {
+                    this.isMayTuoBao = true;
                 }
             }
 
@@ -602,8 +605,10 @@ export default {
         contactCustomer: function contactCustomer() {
             if (this.telphone) {
                 window.location.href = `tel:${this.telphone}`;
+
             } else {
                 Toast({ message: '客户手机号未录入，无法拨打电话', duration: 2000 });
+
             }
         },
 
@@ -619,7 +624,7 @@ export default {
                 .then(
                     res => {
                         Toast({ message: '成功更新数据', duration: 1000 });
-                        _this.getPageData();
+                        _this.$store.dispatch('customer/init', _this);
 
                     }, error => alert(error)
                 )
@@ -629,7 +634,7 @@ export default {
                 .then(
                     res => {
                         Toast({ message: '成功更新数据', duration: 1000 });
-                        _this.getPageData();
+                        _this.$store.dispatch('customer/init', _this);
 
                     }, error => alert(error)
                 );

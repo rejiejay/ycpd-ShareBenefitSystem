@@ -5,7 +5,7 @@
 
         <!-- 维保记录 横幅 -->
         <div class="search-banner">
-            <img alt="banner" src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/pingan-wechatapplets/home/banner/001image002.jpg" />
+            <img alt="banner" :src="img.maintenancerecordbanner" />
         </div>
 
         <!-- 车牌号 -->
@@ -24,7 +24,6 @@
             </div>
         </div>
         <div class="tag-carvin-line"><div class="carvin-line-content"></div></div>
-
 
         <!-- 发动机号 -->
         <div class="tag-carvin-list flex-start-center">
@@ -58,7 +57,8 @@
 </template>
 
 <script>
-
+// 资源类
+import maintenancerecordbanner from "@/static/maintenance-record-banner.jpg";
 // 组件类
 import carNoInput from "@/components/carNoInput";
 
@@ -72,6 +72,9 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
             
+            img: {
+                maintenancerecordbanner: maintenancerecordbanner
+            },
 
             /**
              * 车牌

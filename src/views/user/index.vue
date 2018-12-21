@@ -73,7 +73,7 @@
         <div class="user-block-container">
 
             <div class="user-assets-title user-block-title flex-start-center">
-                <div class="assets-title-left flex-rest">数据资产<span>价值￥</span></div>
+                <div class="assets-title-left flex-rest">数据资产<!-- <span>价值￥</span> 这里是根据数量进行计算的 --></div>
                 <div class="assets-title-btn flex-start-center" @click="upgrading">
                     <span>购买</span>
                     <svg width="12" height="12" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" >
@@ -86,7 +86,7 @@
                 <div class="assets-main-row flex-start" style="border-bottom: 1px solid #ddd;">
                     <div class="assets-main-item flex-center flex-rest" style="border-right: 1px solid #ddd;">
                         <div class="item-container">
-                            <div class="item-count">0</div>
+                            <div class="item-count">{{msgUsedNum}}</div>
                             <div class="item-describe">短信条数</div>
                         </div>
                     </div>
@@ -322,7 +322,7 @@ export default {
 
             usableMoney: '0.00', // 可用余额
             totalMoney: '0.00', // 累计收入
-            msgUsedNum: '0.00', // 短信用量
+            msgUsedNum: '0', // 短信用量
 
             agentName: '', // 用户昵称
             telephone: '', // 用户手机

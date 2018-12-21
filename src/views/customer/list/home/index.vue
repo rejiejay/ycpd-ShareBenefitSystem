@@ -156,39 +156,39 @@
     <div style="height: 146.5px;"></div>
 
     <!-- 客户总量 —— 导航栏分页  -->
-    <NavigationPage 
+    <ListComponents 
         v-if="navBarSelected === 'total'"
         :pageData="totalCustomers" 
         @setDelBtnVisible="setDelBtnVisible"
-    ></NavigationPage>
+    ></ListComponents>
 
     <!-- 可续保客户 —— 导航栏分页  -->
-    <NavigationPage 
+    <ListComponents 
         v-if="navBarSelected === 'renewal'"
         :pageData="renewalCustomers" 
         @setDelBtnVisible="setDelBtnVisible"
-    ></NavigationPage>
+    ></ListComponents>
 
     <!-- 违章未处理 —— 导航栏分页  -->
-    <NavigationPage 
+    <ListComponents 
         v-if="navBarSelected === 'violation'"
         :pageData="violationCustomers" 
         @setDelBtnVisible="setDelBtnVisible"
-    ></NavigationPage>
+    ></ListComponents>
 
     <!-- 年检将到期 —— 导航栏分页  -->
-    <NavigationPage 
+    <ListComponents 
         v-if="navBarSelected === 'ASC'"
         :pageData="ASCustomers" 
         @setDelBtnVisible="setDelBtnVisible"
-    ></NavigationPage>
+    ></ListComponents>
 
     <!-- 跟进客户 —— 导航栏分页  -->
-    <NavigationPage 
+    <ListComponents 
         v-if="navBarSelected === 'tofollow'"
         :pageData="toFollowCustomers" 
         @setDelBtnVisible="setDelBtnVisible"
-    ></NavigationPage>
+    ></ListComponents>
 
     <!-- 添加队列 -->
     <div class="customer-jump-queue" @click="jumpToRouter('/customer/addqueue')" >
@@ -227,14 +227,14 @@ import { Icon } from 'element-ui';
 // 请求类
 import ajaxs from "@/api/customer/index";
 // 组件类
-import NavigationPage from "@/components/customers-list-navigation-page";
+import ListComponents from "./list-components";
 import Tabbar from "@/components/Tabbar";
 import TimeConver from "@/utils/TimeConver";
 
 export default {
     name: 'customer-home',
 
-    components: { NavigationPage, Tabbar, Icon },
+    components: { ListComponents, Tabbar, Icon },
 
 	data: function data() { 
         return {
@@ -824,15 +824,6 @@ export default {
 				this.getCustomerList(true);
 			}
 		},
-        
-        /**
-         * 跳转到客户详情
-         * @param {object} response 客户端响应原始数据
-         */
-        jumpToCustomerDetails: function jumpToCustomerDetails(response) {
-            this.$router.push({ path: `/customer/detail/${response.clientId}` });
-            window.localStorage.setItem('ycpd_clientId', response.clientId);
-        },
 
         /**
          * 跳转到路由

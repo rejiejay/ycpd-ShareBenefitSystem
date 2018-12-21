@@ -1,12 +1,9 @@
 <!-- 客户持久化页面 -->
 <template>
     <div :style="`min-height: ${clientHeight}px`">
-        <!-- 当处于列表页的时候使用持久化的页面 keep-alive -->
-        <keep-alive v-if="isInList">
+        <keep-alive>
             <router-view/>
         </keep-alive>
-
-        <router-view v-else/>
     </div>
 </template>
 
@@ -24,12 +21,6 @@ export default {
     },
 
     computed: {
-        /**
-         * 路由是否处于 列表页
-         */
-        isInList: function isInList() {
-            return this.$store.state.customer.isInList;
-        },
     },
 }
 

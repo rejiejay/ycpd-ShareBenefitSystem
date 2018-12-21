@@ -100,7 +100,7 @@
 import jumpToActivityPage from "@/components/jumpToActivityPage";
 
 export default {
-    name: 'NavigationPage',
+    name: 'ListComponents',
 
     props: [
         // pageData 的数据
@@ -205,7 +205,6 @@ export default {
         jumpToCustomerDetails: function jumpToCustomerDetails(response) {
             this.$router.push({ path: `/customer/detail/${response.clientId}` });
             window.localStorage.setItem('ycpd_clientId', response.clientId);
-            this.$store.commit('customer/initCustomerDetails', response);
         },
     }
 }

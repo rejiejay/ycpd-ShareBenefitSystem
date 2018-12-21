@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import store from './../store/index';
 
 Vue.use(Router);
 
@@ -124,7 +125,7 @@ const routes = [
                 path: 'index',
                 alias: ['/customer'],
                 name: 'customer-list',
-                component: () => import('@/views/customer/list/list'),
+                component: () => import('@/views/customer/list/home/index'),
                 meta: { title: '客户管理' },
             }, {
                 path: 'detail/:clientId',
@@ -346,7 +347,7 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) { // 路由发生变化修改页面 title
         document.title = to.meta.title;
     }
-
+    
     next();
 });
 

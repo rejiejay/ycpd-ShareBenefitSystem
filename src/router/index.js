@@ -117,27 +117,43 @@ const routes = [
      * 客户管理
      */
     {
-        path: '/customer/index',
-        alias: ['/customer'],
-        name: 'customer-home',
-        component: () => import('@/views/customer/index'),
-        meta: { title: '客户管理' },
-    }, {
-        path: '/customer/detail/:clientId',
-        name: 'customer-details',
-        component: () => import('@/views/customer/details'),
-        meta: { title: '客户详情' },
+        path: '/customer',
+        component: () => import('@/views/customer/list/index'),
+        children: [
+            {
+                path: 'index',
+                alias: ['/customer'],
+                name: 'customer-list',
+                component: () => import('@/views/customer/list/list'),
+                meta: { title: '客户管理' },
+            }, {
+                path: 'detail/:clientId',
+                name: 'customer-details',
+                component: () => import('@/views/customer/list/details'),
+                meta: { title: '客户详情' },
+            }, {
+                path: 'violations/:id',
+                name: 'customer-violations',
+                component: () => import('@/views/customer/list/violations'),
+                meta: { title: '违章信息' },
+            }, {
+                path: 'edit/:id',
+                name: 'customer-edit',
+                component: () => import('@/views/customer/list/edit'),
+                meta: { title: '编辑客户' },
+            }, {
+                path: 'edit/car/:id',
+                name: 'customer-car-edit',
+                component: () => import('@/views/customer/list/car'),
+                meta: { title: '编辑客户车辆' },
+            },
+        ],
     }, {
         path: '/customer/charts',
         name: 'customer-charts',
         component: () => import('@/views/customer/charts'),
         meta: { title: '数据看板' },
-    }, {
-        path: '/customer/violations/:id',
-        name: 'customer-violations',
-        component: () => import('@/views/customer/violations'),
-        meta: { title: '违章信息' },
-    }, 
+    },
 
     /**
      * 添加编辑客户
@@ -145,43 +161,33 @@ const routes = [
     {
         path: '/customer/add',
         name: 'customer-add',
-        component: () => import('@/views/customer/add'),
+        component: () => import('@/views/customer/add/index'),
         meta: { title: '添加客户' },
     }, {
         path: '/customer/addlot',
         name: 'add-lot',
-        component: () => import('@/views/customer/add-lot'),
+        component: () => import('@/views/customer/add/lot'),
         meta: { title: '批量添加客户' },
     }, {
         path: '/customer/addqueue',
         name: 'add-queue',
-        component: () => import('@/views/customer/add-queue'),
+        component: () => import('@/views/customer/add/queue'),
         meta: { title: '客户队列' },
     }, {
         path: '/customer/addexcel',
         name: 'add-excel',
-        component: () => import('@/views/customer/add-excel'),
+        component: () => import('@/views/customer/add/excel'),
         meta: { title: '批量添加客户' },
     }, {
         path: '/customer/get/excel/template', // 获取 Excel 模板
         name: 'get-excel-template',
-        component: () => import('@/views/customer/add-excel-getTemplate'),
+        component: () => import('@/views/customer/add/excel-getTemplate'),
         meta: { title: '批量添加客户' },
     }, {
         path: '/customer/supplement',
         name: 'customer-supplement',
-        component: () => import('@/views/customer/supplement'),
+        component: () => import('@/views/customer/add/supplement'),
         meta: { title: '完善客户信息' },
-    }, {
-        path: '/customer/edit/:id',
-        name: 'customer-edit',
-        component: () => import('@/views/customer/edit'),
-        meta: { title: '编辑客户' },
-    }, {
-        path: '/customer/edit/car/:id',
-        name: 'customer-car-edit',
-        component: () => import('@/views/customer/car-edit'),
-        meta: { title: '编辑客户车辆' },
     },
 
     /**

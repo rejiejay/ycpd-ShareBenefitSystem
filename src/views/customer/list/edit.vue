@@ -1,6 +1,6 @@
 <!-- 编辑客户 -->
 <template>
-<div class="edit">
+<div class="edit" :style="`min-height: ${clientHeight}px`">
     <div class="edit-main">
         <div class="edit-main-item flex-start">
             <span>姓名</span>
@@ -138,13 +138,6 @@ export default {
                 return '请选择客户生日';
             }
         },
-    
-        /**
-         * 从 store 获取数据
-         */
-        pageStore: function pageStore() {
-            return this.$store.getters["customer/getCustomerDetails"];
-        },
     },
 
 	mounted: function mounted() {
@@ -162,8 +155,7 @@ export default {
             getClientDetailById(this) // 根据客户id 获取 客户信息
             .then(
                 res => {
-                    _this.$store.commit('customer/initCustomerDetails', res);
-                    _this.initPageData(); // 初始化页面数据
+                    _this.initPageData(res); // 初始化页面数据
                 }, error => {
                     alert(error);
                 }
@@ -173,9 +165,7 @@ export default {
         /**
          * 初始化页面数据
          */
-	    initPageData: function initPageData() {
-            let pageStore = this.pageStore;
-
+	    initPageData: function initPageData(pageStore) {
             this.username = pageStore.username;
             this.telphone = pageStore.telphone;
             this.telphone2 = pageStore.telphone2;

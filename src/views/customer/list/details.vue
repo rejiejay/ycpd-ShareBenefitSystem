@@ -1,6 +1,6 @@
 <!-- 客户管理 首页 -->
 <template>
-<div class="customer-details">
+<div class="customer-details" :style="`min-height: ${clientHeight}px`">
     <div class="customer-details-container">
 
         <!-- 顶部导航栏 -->
@@ -431,13 +431,6 @@ export default {
         },
 
         /**
-         * 从 store 获取数据 customer 数据
-         */
-        pageCustomerStore: function pageCustomerStore() {
-            return this.$store.getters["customer/getCustomerDetails"];
-        },
-
-        /**
          * 从 store 获取数据 用户信息
          */
         userInfoStore: function userInfoStore() {
@@ -465,8 +458,7 @@ export default {
             getClientDetailById(this) // 根据客户id 获取 客户信息
             .then(
                 res => {
-                    _this.$store.commit('customer/initCustomerDetails', res);
-                    _this.initPageData(); // 初始化页面数据
+                    _this.initPageData(res); // 初始化页面数据
                 }, error => {
                     alert(error);
                 }
@@ -476,8 +468,7 @@ export default {
         /**
          * 初始化页面数据
          */
-	    initPageData: function initPageData() {
-            let pageCustomerStore = this.pageCustomerStore;
+	    initPageData: function initPageData(pageCustomerStore) {
             let userInfoStore = this.userInfoStore;
 
             // 初始化用户信息

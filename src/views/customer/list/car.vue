@@ -76,11 +76,15 @@
 
 <script>
 
+// 框架类
 import Vue from 'vue';
 import { DatetimePicker } from 'mint-ui';
-Vue.component(DatetimePicker.name, DatetimePicker);
-
+// 请求类
+import getClientDetailById from "@/api/common/getClientDetailById";
+// 组件类
 import TimeConver from "@/utils/TimeConver";
+// 初始化类
+Vue.component(DatetimePicker.name, DatetimePicker);
 
 export default {
     name: 'customer-car-edit',
@@ -109,26 +113,26 @@ export default {
                 return '请选择注册日期';
             }
         },
-
-        /**
-         * 从 store 获取数据
-         */
-        pageStore: function pageStore() {
-            return this.$store.getters["customer/getCustomerDetails"];
-        },
     },
 
 	mounted: function mounted() {
-        this.initPageData(); // 初始化页面数据
+        const _this = this;
+
+        getClientDetailById(this) // 根据客户id 获取 客户信息
+        .then(
+            res => {
+                _this.initPageData(res); // 初始化页面数据
+            }, error => {
+                alert(error);
+            }
+        );
     },
 
 	methods: {
         /**
          * 初始化页面数据
          */
-	    initPageData: function initPageData() {
-            let pageStore = this.pageStore;
-
+	    initPageData: function initPageData(pageStore) {
             this.carNo = pageStore.carNo;
             this.models = pageStore.models;
             this.vinNo = pageStore.vinNo;

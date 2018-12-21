@@ -1,6 +1,6 @@
 <!-- 客户管理 首页 -->
 <template>
-<div class="customer" id="customer">
+<div class="customer" id="customer" :style="`min-height: ${clientHeight}px`">
     <!-- 顶部导航栏 -->
     <div class="navigation-bar flex-start">
         <div class="navigation-bar-item"
@@ -832,7 +832,6 @@ export default {
         jumpToCustomerDetails: function jumpToCustomerDetails(response) {
             this.$router.push({ path: `/customer/detail/${response.clientId}` });
             window.localStorage.setItem('ycpd_clientId', response.clientId);
-            this.$store.commit('customer/initCustomerDetails', response);
         },
 
         /**

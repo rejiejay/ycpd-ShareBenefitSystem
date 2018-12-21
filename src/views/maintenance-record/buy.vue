@@ -149,6 +149,55 @@ export default {
         },
 
         /**
+         * 微信内H5唤醒支付
+         * @param {string} appId 公众号名称，由商户传入
+         * @param {string} timeStamp 时间戳，自1970年以来的秒数
+         * @param {string} nonceStr 随机串
+         * @param {string} package prepay_id=u802345jgfjsdfgsdg888
+         * @param {string} signType 微信签名方式
+         * @param {string} paySign 微信签名
+         */
+        invokeWeixinJSBridge: function invokeWeixinJSBridge(getBrandWCPayRequest) {
+            const _this = this;
+
+            function onBridgeReady() {
+                WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest', getBrandWCPayRequest,
+                    function(res) {
+                        if (res.err_msg === "get_brand_wcpay_request:ok" ){
+                            // 使用以上方式判断前端返回,微信团队郑重提示： res.err_msg 将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                            alert('支付成功');
+                            _this.$router.back(-1); // 返回上一页
+
+                        } else {
+                            alert(`支付失败, ${res.err_msg}`);
+
+                        }
+                    }
+                );
+            }
+
+            // 判断页面 微信浏览器 WeixinJSBridge 是否 没有初始化进来
+            if (typeof WeixinJSBridge == "undefined") {
+                // 如果未初始化进去 监听 初始化 WeixinJSBridge 的事件
+                // 兼容处理
+                if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+
+                }
+
+            } else {
+                // 如果初始化进去的情况下, 直接调用 WeixinJSBridge 唤醒支付
+                onBridgeReady();
+
+            }
+        },
+
+        /**
          * 跳转到路由
          * @param {object} query 携带的参数 非必填
          */

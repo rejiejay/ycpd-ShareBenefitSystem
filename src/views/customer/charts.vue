@@ -57,7 +57,7 @@
     <!-- 跳转到活动 -->
     <div class="activity flex-start-center">
         <div class="activity-left flex-rest">再不下手客户都被别人抢先邀请了~</div>
-        <div class="activity-btn" @click="jumpToActivity(1)">立即邀请</div>
+        <div class="activity-btn" @click="jumpToActivity('ycpdyouhuijiayoushuangchongfanli')">立即邀请</div>
     </div>
 </div>
 </template>
@@ -190,10 +190,10 @@ export default {
 
         /**
          * 跳转到活动
-         * @param {number} activityNo 跳转到活动的下标
+         * @param {number} activityName 跳转到活动的名称 也就是唯一标识
          */
-        jumpToActivity: function jumpToActivity(activityNo) {
-            jumpToActivityPage(activityNo, this);
+        jumpToActivity: function jumpToActivity(activityName) {
+            jumpToActivityPage(activityName, this);
         },
     }
 }

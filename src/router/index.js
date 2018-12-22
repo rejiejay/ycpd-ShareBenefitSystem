@@ -200,20 +200,20 @@ const routes = [
         name: 'activity',
         component: () => import('@/views/activity/index'),
         meta: { title: '最新活动' },
-    }, {
-        path: '/activity/detail/1',
-        name: 'activity-detail-1',
-        component: () => import('@/views/activity/detail-1'),
+    }, { // 养车频道优惠加油双重返利活动
+        path: '/activity/detail/ycpdyouhuijiayoushuangchongfanli',
+        name: 'ycpdyouhuijiayoushuangchongfanli',
+        component: () => import('@/views/activity/detail-ycpdyouhuijiayoushuangchongfanli'),
         meta: { title: '邀请好友享加油分成' },
-    }, {
-        path: '/activity/detail/2',
-        name: 'activity-detail-2',
-        component: () => import('@/views/activity/detail-2'),
-        meta: { title: '邀请好友享加油分成' },
-    }, {
-        path: '/activity/detail/3',
-        name: 'activity-detail-3',
-        component: () => import('@/views/activity/detail-3'),
+    }, { // 开通建行无感支付推广返佣
+        path: '/activity/detail/jianhangwuganzhifu',
+        name: 'jianhangwuganzhifu',
+        component: () => import('@/views/activity/detail-jianhangwuganzhifu'),
+        meta: { title: '开通建行无感支付推广返佣' },
+    }, { // 优惠养车（保养洗车特惠）
+        path: '/activity/detail/youhuiyangchebaoyangxichetehui',
+        name: 'youhuiyangchebaoyangxichetehui',
+        component: () => import('@/views/activity/detail-youhuiyangchebaoyangxichetehui'),
         meta: { title: '优惠养车（保养洗车特惠）' },
     }, {
         path: '/activity/sharer',

@@ -5,7 +5,7 @@
         <div class="activity-item"
             v-for="(item, key) in activityList" 
             :key="key"
-            v-if="item.isActivity"
+            v-if="item.status === 'going'"
             @click="jumpToActivityRouter(`/activity/detail/${item.id}`, item.projectId)"
         >
             <div class="activity-item-content">
@@ -54,34 +54,16 @@ export default {
 
             // 活动列表
             activityList: [ 
-                {
-                    id: 1, // 活动唯一标识
-                    isActivity: true, // 活动是否激活状态
-                    projectId: "这个id是用来查询详情的",
-                    status: 'going', // 有两个值 going finish
-                    picture: '',
-                    award: '享好友加油总金额1%返佣',
-                    describe: '养车频道优惠加油双重返利活动', // 活动描述
-                    time: '2018-10-1 至 2018-12-31', // 活动时间
-                }, {
-                    id: 2,
-                    isActivity: (1546185600000 > new Date().getTime()), // 12-31日截止
-                    projectId: "这个id是用来查询详情的",
-                    status: 'going', 
-                    picture: '',
-                    award: '推荐成功享10元/人返佣',
-                    describe: '养车频道优惠加油双重返利活动', 
-                    time: '2018-10-1 至 2018-12-31',
-                }, {
-                    id: 3,
-                    isActivity: true,
-                    projectId: "这个id是用来查询详情的",
-                    status: 'going', 
-                    picture: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-list-three.png',
-                    award: '订单成绩金额10%返佣',
-                    describe: '优惠养车（保养洗车特惠）', 
-                    time: '2018-10-1 至 2019-12-31',
-                }
+                // {
+                //     id: 1, // 活动唯一标识
+                //     isActivity: true, // 活动是否激活状态
+                //     projectId: "这个id是用来查询详情的",
+                //     status: 'going', // 有两个值 going finish
+                //     picture: '',
+                //     award: '享好友加油总金额1%返佣',
+                //     describe: '养车频道优惠加油双重返利活动', // 活动描述
+                //     time: '2018-10-1 至 2018-12-31', // 活动时间
+                // },
             ],
         } 
     },
@@ -133,98 +115,54 @@ export default {
             ajaxsgetAllActivity(this)
             .then(
                 res => {
-                    // 按理应当通过数据转换，但是因为现阶段数据是写死的
-                    // _this.activityList = res.map(val => {
-                    // });
+                    _this.activityList = res.map((val, key) => {
+                        /**
+                         * 初始化对应页面的序号
+                         * 并且 初始化图片 
+                         * 暂时根据 数组下标 进行跳转 因为这个数组是固定的
+                         */ 
+                        let idName = '';
+                        let picture = '';
+                        if (key === 0) {
+                            // 第一个是 优惠养车(保养洗车特惠) 活动
+                            idName = 'youhuiyangchebaoyangxichetehui';
+                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-list-three.png?x-oss-process=image/resize,m_fill,w_${(_this.clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`
+                        } else if (key === 1) {
+                            // 第二个是 养车频道优惠加油双重返利 活动
+                            idName = 'ycpdyouhuijiayoushuangchongfanli';
+                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(_this.clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`
 
-                    if (res && res[0]) {
-                        res[0].projectId ? _this.activityList[0].projectId = res[0].projectId : null;
-                        res[0].projectName ? _this.activityList[0].describe = res[0].projectName : null;
+                        } else if (key === 2) {
+                            // 第二个是 开通建行无感支付推广返佣 活动
+                            idName = 'jianhangwuganzhifu';
+                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(_this.clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`
 
-                        // 判断是否进行中
-                        if (new Date().getTime() < TimeConver.YYYYmmDDhhMMssToTimestamp(res[0].endTime)) {
-                            _this.activityList[0].status = 'going';
-                        } else {
-                            _this.activityList[0].status = 'finish';
                         }
 
-                        // 渲染图片
-                        _this.activityList[0].picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(_this.clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`;
+                        /**
+                         * 初始化页状态
+                         */
+                        let status = new Date().getTime() < TimeConver.YYYYmmDDhhMMssToTimestamp(val.endTime) ? "going" : "finish";
 
                         /**
                          * 渲染标签信息
                          * 后台设置的lable 标签 + 分成比例的计算
                          */
-                        if (res[0].label) {
-                            _this.activityList[0].award = `${res[0].label} ${res[0].proportion ? `${Math.round(res[0].proportion * 10000) / 100}%` : ''}`;
-                        }
-                        // if (res[0].category === 1) {
-                        //     // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）
-                        //     if (res[0].proportion) {
-                        //         _this.activityList[0].award = `享好友加油总金额${res[0].proportion * 100}%返佣`
-                        //     }
-                        // } else if (res[0].category === 2) {
-                        //     // 2 表示基数，取决于baseCount，提成基数 推荐成功享10元/人返佣
-                        //     if (res[0].baseCount) {
-                        //         _this.activityList[0].award = `推荐成功享${res[0].baseCount}元/人返佣`
-                        //     }
-                        // }
+                        let award = `${val.label} ${val.proportion ? `${Math.round(val.proportion * 10000) / 100}%` : ''}`;
 
                         // 渲染时间
-                        if (res[0].startTime && res[0].endTime) {
-                            _this.activityList[0].time = `${res[0].startTime.split(' ')[0]} 至 ${res[0].endTime.split(' ')[0]}`
+                        let time = `${val.startTime.split(' ')[0]} 至 ${val.endTime.split(' ')[0]}`;
+
+                        return {
+                            id: idName,
+                            projectId: val.projectId,
+                            status: status,
+                            describe: val.projectName,
+                            award: award,
+                            picture: picture,
+                            time: time,
                         }
-                    }
-
-                    // 建行无感支付推广活动
-                    if (res && res[1] && 1546185600000 > new Date().getTime()) {
-                        res[1].projectId ? _this.activityList[1].projectId = res[1].projectId : null;
-                        res[1].projectName ? _this.activityList[1].describe = res[1].projectName : null;
-
-                        // 判断是否进行中
-                        if (new Date().getTime() < TimeConver.YYYYmmDDhhMMssToTimestamp(res[1].endTime)) {
-                            _this.activityList[1].status = 'going';
-                        } else {
-                            _this.activityList[1].status = 'finish';
-                        }
-
-                        // 渲染图片
-                        _this.activityList[1].picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(_this.clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`;
-
-                        /**
-                         * 渲染标签信息
-                         * 后台设置的lable 标签 + 分成比例的计算
-                         * 分成比例的计算是 先判断是不是 null 
-                         * 如果是null 就显示10元， 因为这就是一级的代理
-                         * 如果不是 null 是二级代理，根据 分成比例计算就行
-                         */
-                        if (res[1].label) {
-                            // 一级代理是 10 块钱
-                            if (this.isPXV) {
-                                _this.activityList[1].award = `${res[1].label} 10元`;
-                            } else {
-                                _this.activityList[1].award = `${res[1].label} ${(res[1].proportion * res[1].baseCount)}元`;
-                            }
-                            // _this.activityList[1].award = `${res[1].label} ${res[1].proportion ? `${(res[1].proportion * res[1].baseCount)}元` : '10元'}`;
-                        }
-                        // if (res[1].category === 1) {
-                        //     // 1表示金额， 取决于proportion分成比例，（例如0.01 = 1%）
-                        //     if (res[1].proportion) {
-                        //         _this.activityList[1].award = `享好友加油总金额${res[1].proportion * 100}%返佣`
-                        //     }
-                        // } else if (res[1].category === 2) {
-                        //     // 2 表示基数，取决于baseCount，提成基数 推荐成功享10元/人返佣
-                        //     if (res[1].baseCount) {
-                        //         _this.activityList[1].award = `推荐成功享${res[1].baseCount}元/人返佣`
-                        //     }
-                        // }
-
-                        // 渲染时间
-                        if (res[1].startTime && res[1].endTime) {
-                            _this.activityList[1].time = `${res[1].startTime.split(' ')[0]} 至 ${res[1].endTime.split(' ')[0]}`
-                        }
-                    }
-
+                    });
                 }, error => {
                     alert(error);
                 }

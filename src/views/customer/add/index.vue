@@ -420,7 +420,7 @@ export default {
         initAddCustomerToken: function initAddCustomerToken() {
             const _this = this;
 
-            ajaxs.getAddCustomerToken()
+            ajaxs.getAddCustomerToken(this)
             .then(res => {
                 // 缓存
                 window.sessionStorage.setItem('saveClientToken', res.saveClientToken);
@@ -616,7 +616,7 @@ export default {
             //     return alert(verifyPhoneNumber.message);
             // }
 
-            ajaxs.addCustomerByCarNo(this.carNoComponents.carNo, this.customerName, this.phoneNumber)
+            ajaxs.addCustomerByCarNo(this.carNoComponents.carNo, this.customerName, this.phoneNumber, this)
             .then(
                 res => {
                     // 添加成功

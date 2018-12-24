@@ -5,7 +5,7 @@ export default {
     /**
      * 获取添加客户的token
      */
-    getAddCustomerToken: () => apibasics.get(`${config.url.origin}/ycpd/cas/client/getSaveClientToken?token=${window.localStorage.getItem('ycpd_token')}`),
+    getAddCustomerToken: self => apibasics.get(`${config.url.origin}/ycpd/cas/client/getSaveClientToken?token=${window.localStorage.getItem('ycpd_token')}`, '获取添加客户的token', self),
 
     /**
      * 通过车牌号添加客户

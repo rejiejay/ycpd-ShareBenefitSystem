@@ -10,18 +10,29 @@ let errorHandle = (xhr, textStatus, reason, reject, self) => {
     Indicator.close(); // 关闭加载框
     console.error(xhr);
 
+    // 网络错误的情况
+    if (xhr.status === 0 && xhr.statusText === 'error') {
+        return reject('网络错误, 请检查你的网络');
+    }
+
+    // 登录过期的情况
     if (xhr.status === 444) {
-        self.$router.push({path: '/login'}, () => {
+        return self.$router.push({path: '/login'}, () => {
             reject(`登录过期, 请重新登录`);
         });
-    } else if (xhr.status === 502) {
+        
+    }
+    
+    // 服务器正在升级或异常
+    if (xhr.status === 502) {
         // 跳转等正在升级页面
-        self.$router.push({path: '/404'}, () => {
+        return self.$router.push({path: '/404'}, () => {
             reject(`服务器正在升级或异常,请稍后再试!`);
         });
-    } else {
-        reject(`向服务器获取${reason}发生错误! 原因: ${textStatus}`);
-    }
+    } 
+
+    // 其他情况返回
+    reject(`向服务器获取${reason}发生错误! 原因: ${textStatus}`);
 }
 
 export default {

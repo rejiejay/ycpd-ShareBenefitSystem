@@ -423,7 +423,7 @@ export default {
                     }, error => {
                         alert(error);
                     }
-                )
+                );
             }
 
             ajaxs.getQRcode(this.$route.query.projectId, this)

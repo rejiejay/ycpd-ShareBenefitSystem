@@ -103,6 +103,11 @@
             
             <div class="sort-modal-item" v-if="isPXV" @click="selectActivity(3)">
                 <div class="modal-item-describe">团队提成</div>
+                <div class="modal-item-line"></div>
+            </div>
+            
+            <div class="sort-modal-item" v-if="isPXV" @click="selectActivity(4)">
+                <div class="modal-item-describe">保养洗车特惠</div>
             </div>
         </div>
     </div>

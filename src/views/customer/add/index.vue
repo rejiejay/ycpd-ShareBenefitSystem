@@ -51,7 +51,10 @@
 
             <!-- 确认添加 -->
             <div class="tag-car-confirm">
-                <div class="car-confirm-content" @click="addCustomerByCarNo">快速添加</div>
+                <div class="car-confirm-content" 
+                    :class="{'confirm-content-gray': addResCount > addResALL}"
+                    @click="addCustomerByCarNo"
+                >快速添加</div>
             </div>
 
             <!-- 剩余次数提示 -->
@@ -115,7 +118,10 @@
 
             <!-- 确认添加 -->
             <div class="tag-car-confirm">
-                <div class="car-confirm-content" @click="addCustomerByVinNo">快速添加</div>
+                <div class="car-confirm-content" 
+                    :class="{'confirm-content-gray': addResCount > addResALL}"
+                    @click="addCustomerByVinNo"
+                >快速添加</div>
             </div>
 
             <!-- 剩余次数提示 -->
@@ -274,21 +280,21 @@
         <div class="warning-modal-main" :style="`width: ${clientWidth - 60}px;`">
             <div class="warning-main-contanier">
 
-                <div class="warning-modal-title">“粤B12345”该车辆已存在</div>
+                <div class="warning-modal-title">“{{repeatCarNo}}”该车辆已存在</div>
                 
                 <div class="warning-main-describe">
                     <div class="main-describe-row flex-start">
-                        <div class="flex-rest">粤B12345</div>
-                        <span style="color: #f44336">3个月前添加</span>
+                        <div class="flex-rest">{{repeatCarNo}}</div>
+                        <span style="color: #f44336">{{repeatCreatedDate}}添加</span>
                     </div>
-                    <div class="main-describe-row">丰田-卡罗拉-1.6 无级 GLX-i</div>
-                    <div class="main-describe-row">李先生 18927403415</div>
+                    <div class="main-describe-row">{{repeatModels}}</div>
+                    <div class="main-describe-row">{{repeatUsername}} {{repeatTelphone}}</div>
                 </div>
 
                 <div class="warning-modal-operate flex-start">
-                    <div class="modal-operate-back operate-btn">返回修改</div>
+                    <div class="modal-operate-back operate-btn" @click="isShowRepetitionWarning = false">返回修改</div>
                     <div class="flex-rest"></div>
-                    <div class="modal-operate-review operate-btn">更新数据</div>
+                    <div class="modal-operate-review operate-btn" @click="updateInformation">更新数据</div>
                 </div>
             </div>
         </div>
@@ -301,7 +307,8 @@
 import { Toast } from 'mint-ui';
 // 请求类
 import ajaxs from "@/api/customer/add";
-import checkMaxAddNum from "@/api/common/checkMaxAddNum";
+import detailsAjaxs from "@/api/customer/details"; // 用于更新客户信息
+import getUseFastNum from "@/api/common/getUseFastNum";
 // 组件类
 import initJSSDK from "@/components/initJSSDK";
 import Consequencer from "@/utils/Consequencer";
@@ -373,11 +380,16 @@ export default {
             /**
              * 剩余添加的次数
              */
-            addResCount: 10,
+            addResCount: 20,
             addResALL: 20, // 一共多少次
 
             isBatchImportModalShow: false, // 是否显示 批量导入提示
             isShowRepetitionWarning: false, // 是否显示 重复的提示框
+            repeatCarNo: '', // 重复车牌号
+            repeatModels: '', // 重复车辆类型
+            repeatUsername: '', // 重复姓名
+            repeatTelphone: '', // 重复手机号
+            repeatCreatedDate: '', // 添加时间
         }
     },
 
@@ -409,11 +421,26 @@ export default {
 
 	mounted: function mounted() {
         this.initAddCustomerToken(); // 获取添加客户的token
-        this.checkMaxAddNum(); // 校验是否可以继续添加客户
+        this.getUseFastNum(); // 获取快速添加客户剩余次数
         // this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口
     },
 
 	methods: {
+        /**
+         * 获取快速添加客户剩余次数
+         */
+        getUseFastNum: function getUseFastNum() {
+            const _this = this;
+
+            getUseFastNum()
+            .then(
+                res => {
+                    _this.addResCount = 20 - res;
+
+                }, error => alert(error)
+            )
+        },
+
         /**
          * 获取添加客户的token
          */
@@ -428,20 +455,20 @@ export default {
         },
 
         /**
-         * 校验是否可以继续添加客户
+         * 更新信息
          */
-        checkMaxAddNum: function checkMaxAddNum() {
+        updateInformation: function updateInformation() {
             const _this = this;
 
-            checkMaxAddNum(this)
+            // 判断是否存在车牌
+            detailsAjaxs.updateInforByCarNo(this.repeatCarNo, this)
             .then(
                 res => {
-                    if (res.code === 1008) {
-                        alert('您当前的客户数量名额已达到上限，不能再添加客户');
-                        _this.jumpToRouter('/');
-                    }
+                    Toast({ message: '成功更新数据', duration: 2000 });
+                    _this.isShowRepetitionWarning = false;
+
                 }, error => alert(error)
-            )
+            );
         },
 
         /**
@@ -460,15 +487,16 @@ export default {
             sel.removeAllRanges();
             sel.addRange(range);
             input.select();
+
             if (document.execCommand('copy')) {
-                Toast({
-                    message: '复制成功!',
-                    duration: 1000
-                });
+                Toast({ message: '复制成功!', duration: 1000 });
                 _this.isBatchImportModalShow = false;
+
             } else {
                 // alert('复制失败，请手动复制！')
+
             }
+
             input.blur();
             input.setAttribute('style', 'visibility: hidden;');
         },
@@ -519,8 +547,10 @@ export default {
         verifyPlateNo: function verifyPlateNo() {
             if (this.carNoComponents.verify === true) {
                 return Consequencer.success();
+
             } else {
                 return Consequencer.error('车牌号有误.');
+
             }
         },
 
@@ -531,6 +561,7 @@ export default {
             // 判断车牌号码是否为空
             if (this.customerName === '') {
                 return Consequencer.error('用户名不能为空');
+
             }
             
             return Consequencer.success();
@@ -598,6 +629,11 @@ export default {
         addCustomerByCarNo: function addCustomerByCarNo() {
             const _this = this;
 
+            // 校验剩余添加次数
+            if (this.addResCount > this.addResALL) {
+                return false;
+            }
+
             // 校验车牌号
             let verifyPlateNo = this.verifyPlateNo();
             if (verifyPlateNo.result !== 1) {
@@ -619,9 +655,22 @@ export default {
             ajaxs.addCustomerByCarNo(this.carNoComponents.carNo, this.customerName, this.phoneNumber, this)
             .then(
                 res => {
-                    // 添加成功
                     // 跳转到客户列表页
-                    _this.$router.replace({path: `/customer`});
+                    if (res.code === 1000) {
+                        // 添加成功
+                        _this.$router.replace({path: `/customer`});
+
+                    } else if (res.code === 1003) {
+                        _this.isShowRepetitionWarning = true;
+                        _this.repeatCarNo = res.data.carNo;
+                        _this.repeatModels = res.data.brand + res.data.models + res.data.series;
+                        _this.repeatUsername = res.data.username;
+                        _this.repeatTelphone = res.data.telphone;
+                        _this.repeatCreatedDate = res.data.createdDate.split(' ')[0];
+
+                    } else {
+                        alert(`添加车辆失败, ${res.msg}`);
+                    }
 
                 }, error => alert(error)
             );
@@ -632,6 +681,11 @@ export default {
          */
         addCustomerByVinNo: function addCustomerByVinNo() {
             const _this = this;
+
+            // 校验剩余添加次数
+            if (this.addResCount > this.addResALL) {
+                return false;
+            }
 
             // 校验车架号
 			if (this.vinNo ===  '') {
@@ -831,6 +885,10 @@ export default {
             border-radius: 5px;
             text-align: center;
         }
+        
+        .confirm-content-gray {
+            background-color: #ddd;
+        }
     }
 }
 
@@ -910,6 +968,10 @@ export default {
             background-color: #EFC60E;
             border-radius: 5px;
             text-align: center;
+        }
+        
+        .confirm-content-gray {
+            background-color: #ddd;
         }
     }
 

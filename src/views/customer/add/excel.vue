@@ -74,7 +74,10 @@
             <div class="excel-modal-row1 flex-center"><span>第{{errorRow}}行</span>数据车牌号格式有误</div>
             <div class="excel-modal-row2 flex-center">请修改后重新选择文件导入</div>
 
-            <div class="excel-modal-submit flex-center" @click="pageStatus = 'before'">我知道了</div>
+            <div class="excel-modal-submit flex-start-center">
+                <div class="flex-rest flex-center" style="border-right: 1px solid #ddd;" @click="pageStatus = 'before'">返回修改</div>
+                <div class="flex-rest flex-center" @click="pageStatus = 'before'; continueUploadFile()">继续导入</div>
+            </div>
         </div>
     </div>
 </div>
@@ -83,12 +86,11 @@
 <script>
 // 请求类
 import ajaxs from "@/api/customer/add-lot-excel.js";
+import ajaxsQueue from "@/api/customer/queue"; // 获取批量添加
 // 组件类
 import Consequencer from "@/utils/Consequencer";
 // 配置文件类
 import config from "@/config/index";
-// 配置文件类
-import checkMaxAddNum from "@/api/common/checkMaxAddNum";
 
 export default {
     name: 'add-excel',
@@ -114,17 +116,22 @@ export default {
             totalNum: 0, // 批量插入的成功数
 
             isPollingUp: false, // 是否轮询完成
+
+            formData: '', // 缓存提交的 excel file, 因为继续添加的时候会使用到
         }
     },
 
 	mounted: function mounted() {
         this.$route.query.pageStatus ? this.pageStatus = this.$route.query.pageStatus : null;
 
-        // 不管什么状态 这个都必须 初始化
-        this.initUploadFile();
+        this.getBeingNormalNum(); // 客户队列统计
 
-        // 查看批量操作记录 状态
-        this.getOperateRecords();
+        this.initUploadFile(); // 初始化上传
+
+        // // 查看批量操作记录 状态
+        // this.getOperateRecords();
+
+        
     },
 
     destroyed: function () {
@@ -133,6 +140,24 @@ export default {
     },
 
 	methods: {
+        /**
+         * 获取 - 客户队列统计
+         */
+		getBeingNormalNum: function getBeingNormalNum(isAdd) {
+            const _this = this;
+
+            ajaxsQueue.getBeingNormalNum(this)
+            .then(
+                res => {
+                    // 如果添加的队列大于300个的情况下
+                    if (res > 300) {
+                        _this.jumpToRouter('/customer/addqueue');
+                    }
+
+                }, error => alert(error)
+            );
+        },
+
         /**
          * 查看批量操作记录
          * status 批量插入的状态：1：正在插入， 2：插入完成， 3:已经查看
@@ -181,13 +206,15 @@ export default {
                 let formData = new FormData();
                 formData.append("file", event.target.files[0]);
 
-                ajaxs.batchExcelAdd(formData)
+                // 缓存 formData
+                this.formData = formData;
+
+                ajaxs.batchExcelAdd(formData, false)
                 .then(
                     res => {
                         // 操作成功
                         if (res.code === 1000) {
-                            _this.pageStatus = 'process';
-                            _this.pollingCheckStatus(); // 轮询查看 批量操作状态
+                            _this.pageStatus = 'success';
 
                         } else if (res.code === 1001) {
                             alert(`参数不能为空, ${res.msg}`);
@@ -209,6 +236,39 @@ export default {
                     }, error => alert(error)
                 );
             };
+        },
+
+        /**
+         * 继续添加
+         */
+        continueUploadFile: function continueUploadFile() {
+            ajaxs.batchExcelAdd(this.formData, true)
+            .then(
+                res => {
+                    // 操作成功
+                    if (res.code === 1000) {
+                        _this.pageStatus = 'success';
+
+                    } else if (res.code === 1001) {
+                        alert(`参数不能为空, ${res.msg}`);
+
+                    } else if (res.code === 1002) {
+                        alert(`参数错误, ${res.msg}`);
+
+                    } else if (res.code === 1003) {
+                        alert(`批量添加客户流程还未走完, ${res.msg}`);
+
+                    } else if (res.code === 1004) {
+                        alert(`读取Excel文件异常, ${res.msg}`);
+
+                    } else if (res.code === 1009) {
+                        _this.pageStatus = 'failure';
+                        _this.errorRow = res.data;
+                        
+                    }
+
+                }, error => alert(error)
+            );
         },
 
         /**
@@ -257,23 +317,26 @@ export default {
                             setTimeout( () => {
                                 _this.pollingCheckStatus();
                             }, 5000);
-                        } else if (res.status === 2) {
 
+                        } else if (res.status === 2) {
                             // 插入完成
                             _this.isPollingUp = true;
                             return _this.pageStatus = 'success';
-                        } else if (res.status === 3) {
 
+                        } else if (res.status === 3) {
                             // 已经查看了，不做任何操作
                             _this.isPollingUp = true;
                             // return _this.pageStatus = 'success';
+
                         }
+
                     } else {
                         // 第一次批量操作的时候为 null
                         // 这个状态 是第一次 和 状态码 为 3 的时候是差不多的
                         // 已经查看了，不做任何操作
                         _this.isPollingUp = true;
                         // return _this.pageStatus = 'success';
+
                     }
                 }, error => {
                     _this.isPollingUp = true;
@@ -289,28 +352,12 @@ export default {
         setReaded: function setReaded(isContinue) {
             const _this = this;
 
+            _this.jumpToRouter('/customer/addqueue');
+
             ajaxs.setReaded(this)
             .then(
-                res => {
-                    _this.checkMaxAddNum() // 查看是否已经达到请求的上限
-                    .then(() => {
-
-                        // 当前的客户数量名额已达到上限，不能再添加客户
-                        if (isContinue) {
-                            alert('当前的客户数量名额已达到上限，不能再添加客户');
-                        }
-
-                        _this.replaceToRouter('/');
-                    }, error => {
-
-                        // 可以继续添加的情况
-                        if (isContinue) {
-                            _this.jumpToRouter('/customer/addlot');
-                        } else {
-                            _this.jumpToRouter('/customer/add');
-                        }
-                    });
-                }, error => alert(error)
+                res => {}, 
+                error => alert(error)
             );
         },
 
@@ -319,26 +366,6 @@ export default {
          */
         downloadExcel: function downloadExcel() {
             window.location.href = ajaxs.downloadTemplate;
-        },
-
-        /**
-         * 校验是否可以继续添加客户
-         */
-        checkMaxAddNum: function checkMaxAddNum() {
-            const _this = this;
-            return new Promise((resolve, reject) => {
-                checkMaxAddNum(this)
-                .then(
-                    res => {
-                        if (res.code === 1008) {
-                            resolve();
-                        } else {
-                            reject();
-                        }
-                    }, error => alert(error)
-                );
-            });
-
         },
 
         /**
@@ -592,6 +619,7 @@ export default {
     .excel-modal-submit {
         border-top: 1px solid #ddd;
         height: 45px;
+        line-height: 45px;
         color: #2F8AFF;
     }
 }

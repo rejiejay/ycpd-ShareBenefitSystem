@@ -160,6 +160,7 @@
         v-if="navBarSelected === 'total'"
         :pageData="totalCustomers" 
         @setDelBtnVisible="setDelBtnVisible"
+        @refreshData="refreshData"
     ></ListComponents>
 
     <!-- 可续保客户 —— 导航栏分页  -->
@@ -167,6 +168,7 @@
         v-if="navBarSelected === 'renewal'"
         :pageData="renewalCustomers" 
         @setDelBtnVisible="setDelBtnVisible"
+        @refreshData="refreshData"
     ></ListComponents>
 
     <!-- 违章未处理 —— 导航栏分页  -->
@@ -174,6 +176,7 @@
         v-if="navBarSelected === 'violation'"
         :pageData="violationCustomers" 
         @setDelBtnVisible="setDelBtnVisible"
+        @refreshData="refreshData"
     ></ListComponents>
 
     <!-- 年检将到期 —— 导航栏分页  -->
@@ -181,6 +184,7 @@
         v-if="navBarSelected === 'ASC'"
         :pageData="ASCustomers" 
         @setDelBtnVisible="setDelBtnVisible"
+        @refreshData="refreshData"
     ></ListComponents>
 
     <!-- 跟进客户 —— 导航栏分页  -->
@@ -188,10 +192,15 @@
         v-if="navBarSelected === 'tofollow'"
         :pageData="toFollowCustomers" 
         @setDelBtnVisible="setDelBtnVisible"
+        @refreshData="refreshData"
     ></ListComponents>
 
     <!-- 添加队列 -->
-    <div class="customer-jump-queue" @click="jumpToRouter('/customer/addqueue')" >
+    <div class="customer-jump-queue" 
+        v-if="beingNormalNum >= 300"
+        @click="jumpToRouter('/customer/addqueue')" 
+    >
+        <span v-if="beingNormalNum">{{beingNormalNum}}</span>
         <img src="data:image/png;base64,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" alt="charts">
     </div>
 
@@ -226,6 +235,7 @@ import { MessageBox } from 'mint-ui';
 import { Icon } from 'element-ui';
 // 请求类
 import ajaxs from "@/api/customer/index";
+import ajaxsQueue from "@/api/customer/queue"; // 获取批量添加
 // 组件类
 import ListComponents from "./list-components";
 import Tabbar from "@/components/Tabbar";
@@ -283,6 +293,9 @@ export default {
              * 搜索框
              */
             searchInput: '',
+
+            // 当前代理正在队列中（普通添加）的客户数量
+            beingNormalNum: 0,
 
             /**
              * 筛选栏
@@ -434,6 +447,7 @@ export default {
 
 	mounted: function mounted() {
         this.initPageData(); // 初始化页面数据
+        this.getBeingNormalNum(); // 客户队列统计
 
 		window.addEventListener('scroll', this.scrollBottom); // 添加滚动事件，检测滚动到页面底部
     },
@@ -461,6 +475,29 @@ export default {
                 // 如果不存在的情况下
                 this.getCustomerList(); // 获取客户列表
             }
+        },
+
+        /**
+         * 更新信息
+         */
+        refreshData: function refreshData() {
+            this.getBarCount();
+            this.getCustomerList();
+        },
+
+        /**
+         * 获取 - 客户队列统计
+         */
+		getBeingNormalNum: function getBeingNormalNum(isAdd) {
+            const _this = this;
+
+            ajaxsQueue.getBeingNormalNum(this)
+            .then(
+                res => {
+                    this.beingNormalNum = res;
+
+                }, error => alert(error)
+            );
         },
 
         /**
@@ -517,9 +554,9 @@ export default {
 
         /**
          * 获取客户列表
-         * @param {boolean} isRefresh 是否刷新
+         * @param {boolean} isAdd 是否新增
          */
-        getCustomerList: function getCustomerList(isRefresh) {
+        getCustomerList: function getCustomerList(isAdd) {
             const _this = this;
             /**
              * 导航栏选中类型 转换为 列表查询参数 searchType
@@ -712,21 +749,33 @@ export default {
                             customerState.val = 'noRegister';
                         } 
 
+                        /**
+                         * 初始化 客户信息超时
+                         */
+                        let isLoadDelay = false;
+                        if (val.isTimeOut && val.isTimeOut === 1) {
+                            isLoadDelay = true;
+                        }
+
                         return {
                             response: val, // 原始数据
                             title: title,
                             name: val.username,
-                            isLoadDelay: false, // 是否 客户信息超时
-                            isByInvitation: isByInvitation, // 是否通过邀请添加的客户
                             tag: tag,
-                            delBtnVisible: false, // 是否显示删除按钮
                             nextTime: nextTime,
                             state: customerState,
+                            isByInvitation: isByInvitation, // 是否通过邀请添加的客户
+                            delBtnVisible: false, // 是否显示删除按钮
+                            isLoadDelay: isLoadDelay, // 是否 客户信息超时
+                            carNo: val.carNo, // 用于更新用户信息
+                            vinNo: val.vinNo, // 用于更新用户信息
+                            engineNo: val.engineNo, // 用于更新用户信息
+                            clientId: val.clientId, // 用于删除
                         }
                     });
 
                     // 赋值 判断是否需要新增 
-                    if (isRefresh) {
+                    if (isAdd) {
                         _this[mySelected] = JSON.parse(JSON.stringify(_this[mySelected])).concat(newCustomers);
                     } else {
                         _this[mySelected] = newCustomers;
@@ -737,7 +786,7 @@ export default {
 
                     MessageBox.confirm('获取客户列表失败, 是否重新获取?')
                     .then(action => {
-                        _this.getCustomerList(pageNo, pageSize, search);
+                        _this.getCustomerList();
                     }, () => alert(error));
                 }
             );
@@ -1064,6 +1113,19 @@ export default {
     right: 15px;
     bottom: 196px;
     z-index: @customer-rightbottom-icon-z-index;
+
+    span {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: 22px;
+        line-height: 22px;
+        border-radius: 22px;
+        font-size: 12px;
+        color: #fff;
+        text-align: center;
+        background: #E50012;
+    }
 
     img {
         display: block;

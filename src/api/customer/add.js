@@ -13,7 +13,7 @@ export default {
      * @param {string} username 用户名
      * @param {string} telphone 手机号码
      */
-    addCustomerByCarNo: (carNo, username, telphone, self) => apibasics.post(`${config.url.origin}/ycpd/cas/client/add?token=${window.localStorage.getItem('ycpd_token')}&saveClientToken=${window.sessionStorage.saveClientToken}`, {
+    addCustomerByCarNo: (carNo, username, telphone, self) => apibasics.respost(`${config.url.origin}/ycpd/cas/client/add?token=${window.localStorage.getItem('ycpd_token')}&saveClientToken=${window.sessionStorage.saveClientToken}`, {
         carNo: carNo,
         username: username,
         telphone: telphone,

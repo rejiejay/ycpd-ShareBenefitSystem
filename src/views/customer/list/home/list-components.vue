@@ -10,9 +10,9 @@
         <div class="page-item-container"
             :class="{'item-slide-left': item.delBtnVisible}"
         >
-            <div class="page-item-content flex-start-center" @click="jumpToCustomerDetails(item.response)">
+            <div class="page-item-content flex-start-center">
 
-                <div class="item-main flex-rest">
+                <div class="item-main flex-rest" @click="jumpToCustomerDetails(item.response)">
                     <div class="item-main-title">{{item.title}}</div>
                     <div class="item-main-label flex-start flex-start-center">
                         <div class="main-label-name" v-if="item.name">{{item.name}}</div>
@@ -26,15 +26,25 @@
 
                 <div class="item-right-label">
                     <!-- 先判断 客户信息是否 加载延迟 如果加载延迟，优先展示延迟 -->
-                    <div class="load-delay-label" v-if="item.isLoadDelay">
+                    <div class="load-delay-label" 
+                        v-if="item.isLoadDelay"
+                        @click="updateInformation(item)"
+                    >
                         <div class="delay-label-text">客户信息查询超时，请稍后更新</div>
                         <div class="delay-label-btn">更新信息</div>
                     </div>
 
                     <!-- 判断 客户是否通过 邀请 -->
-                    <span class="invitation-lable flex-center" v-else-if="item.isByInvitation">邀</span>
+                    <span class="invitation-lable flex-center" 
+                        v-else-if="item.isByInvitation"
+                        @click="jumpToCustomerDetails(item.response)"
+                    >邀</span>
                     
-                    <svg v-else width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
+                    <svg
+                        v-else 
+                        width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)"
+                        @click="jumpToCustomerDetails(item.response)" 
+                    >
                         <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
                     </svg>
                 </div>
@@ -84,7 +94,7 @@
         
         <div class="page-item-delete" 
             :class="{'page-delete-show' : item.delBtnVisible}"
-            @click="deleteItem"
+            @click="deleteItem(item.clientId, key)"
         >
             <div class="item-delete-btn flex-center">
                 <span>删除</span>
@@ -96,6 +106,10 @@
 
 <script>
 
+// 框架类
+import { Toast } from 'mint-ui';
+// 请求类
+import ajaxs from "@/api/customer/details"; // 用于更新客户信息
 // 组件类
 import jumpToActivityPage from "@/components/jumpToActivityPage";
 
@@ -133,6 +147,10 @@ export default {
         //         projectName: '', // 优惠加油
         //         obtainMoney: '', // 提成
         //     },
+        //     carNo: val.carNo, // 用于更新用户信息
+        //     vinNo: val.vinNo, // 用于更新用户信息
+        //     engineNo: val.engineNo, // 用于更新用户信息
+        //     clientId: val.clientId, // 用于删除
         // },
         'pageData', 
     ],
@@ -184,12 +202,61 @@ export default {
         },
 
         /**
-         * 
+         * 更新信息
          */
-        deleteItem: function deleteItem(params) {
-            console.log('删除一个项')
+        updateInformation: function updateInformation(item) {
+            const _this = this;
+            let carNo = item.carNo;
+            let vinNo = item.vinNo;
+            let engineNo = item.engineNo;
+
+            // 判断是否存在车牌
+            if (carNo) {
+                ajaxs.updateInforByCarNo(carNo, this)
+                .then(
+                    res => {
+                        Toast({ message: '成功更新数据', duration: 2000 });
+                        _this.$emit('refreshData');
+
+                    }, error => alert(error)
+                );
+
+            } else if (vinNo && engineNo) {
+                // 发动机号，车架号
+                ajaxs.updateInforByVinengineNo(vinNo, engineNo, this)
+                .then(
+                    res => {
+                        Toast({ message: '成功更新数据', duration: 1000 });
+                        _this.$emit('refreshData');
+
+                    }, error => alert(error)
+                );
+
+            } else {
+                alert('无法更新数据, 因为找不到车牌，发动机号以及车架号！');
+
+            }
         },
-        
+
+        /**
+         * 删除用户
+         */
+        deleteItem: function deleteItem(clientId, key) {
+            const _this = this;
+
+            if (confirm('是否删除此用户?')) {
+
+                ajaxs.delCustomer(clientId, this)
+                .then(
+                    res => {
+                        Toast({ message: '成功删除用户', duration: 2000 });
+                        _this.$emit('refreshData');
+
+                    }, error => alert(error)
+                );
+            }
+        },
+
         /**
          * 跳转到活动
          * @param {number} activityName 跳转到活动的名称 也就是活动唯一标识

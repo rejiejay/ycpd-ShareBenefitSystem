@@ -22,6 +22,11 @@ export default {
     },
 
     /**
+     * 删除客户信息
+     */
+    delCustomer: (clientId, self) => apibasics.get(`${config.url.origin}/ycpd/cas/client/del?token=${window.localStorage.getItem('ycpd_token')}&clientId=${clientId}`, '删除客户信息', self),
+
+    /**
      * 获取 - 跟进记录
      */
     // 返回测试数据

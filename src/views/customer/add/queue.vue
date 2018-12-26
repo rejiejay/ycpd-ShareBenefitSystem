@@ -28,13 +28,13 @@
             <div class="queue-item-container flex-start-center" :class="{'queue-item-line' : (key !== (queueList.length - 1))}">
 
                 <div class="queue-item-left flex-rest">
-                    <div class="item-left-title">粤S8GW42</div>
-                    <div class="item-left-name">张三</div>
+                    <div class="item-left-title">{{item.carNo}}</div>
+                    <div class="item-left-name">{{item.username}}</div>
                 </div>
 
                 <div class="queue-item-right">
-                    <div class="item-right-no">第3位</div>
-                    <div class="item-right-lable">预计1天后添加成功</div>
+                    <div class="item-right-no">第{{item.queueRanking}}位</div>
+                    <div class="item-right-lable">预计{{Math.ceil(item.queueRanking / 1000)}}天后添加成功</div>
                 </div>
             </div>
         </div>
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+// 请求类
+import ajaxs from "@/api/customer/queue";
 
 export default {
     name: 'add-queue',
@@ -82,20 +84,18 @@ export default {
             /**
              * 队列进行
              */
-            queueFinish: 150, // 已经完成的 队列
-            queueCount: 200, // 队列所有
+            queueFinish: 0, // 已经完成的 队列
+            queueCount: 0, // 队列所有
 
             /**
              * 分页
              */
             pageNo: 1, // 当前页面
-            totalPageNum: 1, // 总页数
+            totalPageNum: 10, // 总页数
             isLoding: true, // 是否正在加载..
 
             // 列表
-            queueList: [
-                {},{},{},{},{},
-            ],
+            queueList: [],
 
             isAddTipShow: false, // 是否显示提示模态框
         }
@@ -111,6 +111,9 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.getCustomerListByQueue(); // 获取 - 客户队列
+        this.getNormalProgress(); // 获取 - 客户队列统计
+
 		window.addEventListener('scroll', this.scrollBottom); // 添加滚动事件，检测滚动到页面底部
     },
 
@@ -133,8 +136,65 @@ export default {
 				this.pageNo < this.totalPageNum // 并且 目前的页码 必须小于 总页码
 			) {
                 this.pageNo = this.pageNo + 1; // 请求的页码 加一
-				// this.getMyRewards(true); // 开始请求 并且 该请求 设置为 新增列表
+				this.getCustomerListByQueue(true); // 开始请求 并且 该请求 设置为 新增列表
 			}
+        },
+
+        /**
+         * 获取 - 客户队列
+         */
+		getCustomerListByQueue: function getCustomerListByQueue(isAdd) {
+            const _this = this;
+
+            ajaxs.getCustomerListByQueue(this.pageNo, this.totalPageNum, this)
+            .then(
+                res => {
+                    _this.isLoding = false; // 设置 当前列表 为 加载完成
+                    let newQueueList = [];
+
+                    _this.totalPageNum = res.pageSize;
+
+                    if (res.content && res.content.length > 0) {
+                        newQueueList = res.content.map((val, key) => {
+                            return {
+                                carNo: val.carNo,
+                                username: val.username ? val.username : '',
+                                queueRanking: val.queueRanking,
+                            }
+                        });
+                    }
+
+
+                    // 赋值 判断是否需要刷新
+                    if (isAdd) {
+                        _this.queueList = JSON.parse(JSON.stringify(_this.queueList)).concat(newQueueList);
+
+                    } else {
+                        _this.queueList = newQueueList;
+
+                    }
+
+                }, error => {
+                    _this.isLoding = false; // 设置 当前列表 为 加载完成
+                    alert(error);
+                }
+            );
+        },
+
+        /**
+         * 获取 - 客户队列统计
+         */
+		getNormalProgress: function getNormalProgress(isAdd) {
+            const _this = this;
+
+            ajaxs.getNormalProgress(this)
+            .then(
+                res => {
+                    _this.queueFinish = res.completeNormalNum;
+                    _this.queueCount = res.normalTaskNum;
+
+                }, error => alert(error)
+            );
         },
 
         /**
@@ -268,6 +328,7 @@ export default {
             border-radius: 45px;
             color: #EFC60E;
             border: 1px solid #EFC60E;
+            background: #fff;
         }
     }
     .excel-submit-rigth {

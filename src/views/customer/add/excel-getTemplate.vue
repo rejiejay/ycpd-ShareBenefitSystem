@@ -30,7 +30,7 @@
                 <input v-model="emailaddress" type="text" placeholder="请输入邮箱地址" />
             </div>
 
-            <div class="input-submit">发送</div>
+            <div class="input-submit" @click="submitEmaila">发送</div>
         </div>
     </div>
 
@@ -54,6 +54,8 @@
 </template>
 
 <script>
+// 框架类
+import { Toast } from 'mint-ui';
 // 请求类
 import ajaxs from "@/api/customer/add-lot-excel.js";
 // 组件类
@@ -76,7 +78,7 @@ export default {
             },
 
             // 邮箱地址
-            emailaddress: '454766952@qq,com',
+            emailaddress: '',
 
             // 邮件发送成功提示
             sendMailSucceedTip: false,
@@ -92,6 +94,28 @@ export default {
          */
         downloadExcel: function downloadExcel() {
             window.location.href = ajaxs.downloadTemplate;
+        },
+
+        /**
+         * 发送邮件
+         */
+        submitEmaila: function submitEmaila() {
+            // 校验邮箱
+            if (!this.emailaddress) {
+                return alert('邮箱不能为空');
+            }
+
+            if (/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(this.emailaddress) === false) {
+                return alert('请输入正确的邮箱格式');
+            }
+
+            ajaxs.sentTemplate(this.emailaddress, this)
+            .then(
+                res => {
+                    Toast({ message: '发送邮件成功!', duration: 1000 });
+
+                }, error => alert(error)
+            );
         },
 
         /**

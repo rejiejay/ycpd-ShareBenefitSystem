@@ -15,8 +15,8 @@ module.exports = {
      */
     proxyTable: {
       '/api': {
-        // target: 'http://scas.api2.hotgz.com/',
-        target: 'http://casyc.api2.hotgz.com/', // 这个是有才的，暂时替换一下
+        target: 'http://scas.api2.hotgz.com/',
+        // target: 'http://casyc.api2.hotgz.com/', // 这个是有才的，暂时替换一下
         // target: 'http://cas.api2.hotgz.com/', // 这个是文涛的，暂时替换一下
         pathRewrite: {'^/api' : ''},
         changeOrigin: true,

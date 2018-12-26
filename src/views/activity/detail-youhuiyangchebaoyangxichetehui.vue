@@ -19,8 +19,8 @@
         <div class="privilege-rules-content">
             <div class="detail-rules-title">活动规则</div>
             <div class="detail-rules-container">
-                <div class="detail-rules-row">金车管家为每一个用户创建了专属商城，通过您的商城购买养车服务产品，您可享订单实际支付金额10%的返佣</div>
-                <div class="detail-rules-time">活动时间：2018-12-01 至 2019-12-31</div>
+                <div class="detail-rules-row">金车管家为每一个用户创建了专属商城，通过您的商城购买养车服务产品，您可享订单实际支付金额{{proportion}}的返佣</div>
+                <div class="detail-rules-time">活动时间：{{time}}</div>
             </div>
         </div>
     </div>
@@ -33,22 +33,22 @@
             <div class="product-details-preview flex-start">
                 <div class="details-preview-item">
                     <div class="preview-item-container">
-                        <img src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/portrait.png" alt="specific-discount">
+                        <img src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-youhuiyangchebaoyangxichetehui-001.jpg" alt="specific-discount">
                     </div>
                 </div>
                 <div class="details-preview-item">
                     <div class="preview-item-container">
-                        <img src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/portrait.png" alt="specific-discount">
+                        <img src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-youhuiyangchebaoyangxichetehui-002.jpg" alt="specific-discount">
                     </div>
                 </div>
                 <div class="details-preview-item">
                     <div class="preview-item-container">
-                        <img src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/portrait.png" alt="specific-discount">
+                        <img src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-youhuiyangchebaoyangxichetehui-003.jpg" alt="specific-discount">
                     </div>
                 </div>
                 <div class="details-preview-item">
                     <div class="preview-item-container">
-                        <img src="https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/portrait.png" alt="specific-discount">
+                        <img src="https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-youhuiyangchebaoyangxichetehui-004.jpg" alt="specific-discount">
                     </div>
                 </div>
             </div>
@@ -177,6 +177,27 @@
         </div>
     </div>
 
+    <!-- 二维码分享 -->
+    <div class="activity-share-QRcode flex-center" v-if="isShareModalShow">
+        <div class="share-QRcode-shade" @click="isShareModalShow = false"></div>
+        <div class="share-QRcode-main" :style="`width: ${clientWidth - 30}px;`">
+            <div class="share-QRcode-content">
+                <div class="QRcode-main-title flex-start-center">
+                    
+                    <!-- 头像 -->
+                    <div class="user-banner-photo">
+                        <PortraitPhoto propsRadius="60" />
+                    </div>
+                    <div class="main-title-name">{{userInfoStore.nickName ? userInfoStore.nickName : userInfoStore.telephone}}</div>
+
+                </div>
+                <div class="QRcode-main-content flex-center">
+                    <img :src="qRcodeImg" />
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 分享引导指示 -->
     <div @click="isShareGuidanceShow = false;">
         <shareGuidance v-if="isShareGuidanceShow" />
@@ -191,16 +212,19 @@ import { Toast } from 'mint-ui';
 // 配置文件类
 import config from "@/config";
 // 请求类
+import ajaxs from "@/api/activity/detail";
 import initJSSDK from "@/components/initJSSDK";
 import ajaxsAward from "@/api/common/award";
+import getBase64ByImageName from "@/api/common/getBase64ByImageName";
 // 组件类
 import shareGuidance from "@/components/shareGuidance";
+import PortraitPhoto from "@/components/PortraitPhoto";
 import initShareTimeline from "@/components/initShareTimeline";
 
 export default {
-    name: 'activity-detail-3',
+    name: 'youhuiyangchebaoyangxichetehui',
 
-    components: { shareGuidance },
+    components: { shareGuidance, PortraitPhoto },
 
 	data: function data() { 
         return {
@@ -210,6 +234,8 @@ export default {
             navigation_index: 0, // 顶部导航的下标
 
             awardTotal: 0, // 总金额
+
+            quickMark: '', // 用于交换的二维码图片， 分享的时候使用
 
             awardList: [ // 我的奖励
                 // {
@@ -223,12 +249,31 @@ export default {
             isInvitationModalShow: false, // 是否显示分享模态框
 
             isShareGuidanceShow: false, // 分享的引导模态框
+
+            isShareModalShow: false, // 是否显示 二维码分享模态框
+
+            proportion: '10%', // 返佣
+
+            time: '2018-12-01 至 2019-12-31',
         }
+    },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            let ycpd_userInfo = window.localStorage.getItem('ycpd_userInfo');
+
+            return ycpd_userInfo ? JSON.parse(ycpd_userInfo) : this.$store.getters["userInfo/getAgentInfo"]; // 因为数据刷新页面会失效, 所以优先使用 window.localStorage
+        },
     },
 
 	mounted: function mounted() {
-        this.initShareTimeline(); // 初始化 分享到朋友圈 与 分享给朋友
+        this.initPageData(); // 初始化页面数据
+
         this.getMyRewards(); // 获取 - 我的奖励
+        this.getQRcode(); // 获取 - 二维码
 
 		window.addEventListener('scroll', this.scrollNavigation); // 添加滚动事件，检测滚动的距离
     },
@@ -239,6 +284,41 @@ export default {
 
 	methods: {
         /**
+         * 初始化页面数据
+         */
+        initPageData: function initPageData() {
+            const _this = this;
+
+            // 获取 - 活动详情 根据id
+            ajaxs.getActivityDetail(this.$route.query.projectId, this)
+            .then(
+                res => {
+                    
+                    /**
+                     * 分享返佣
+                     */
+                    if (res.baseCount) {
+                        if (res.proportion) {
+                            _this.proportion = `${Math.round(res.proportion * res.baseCount * 100) / 100}元`;
+
+                        } else {
+                            _this.proportion = `${res.baseCount}元`;
+
+                        }
+                        
+                    } else {
+                        _this.proportion = `${Math.round(res.proportion * 10000) / 100}%`;
+
+                    }
+
+                    // 活动时间
+                    _this.time = `${res.startTime.split(' ')[0]} 至 ${res.endTime.split(' ')[0]}`;
+
+                }, error => alert(error)
+            );
+        },
+
+        /**
          * 初始化 分享到朋友圈 与 分享给朋友
          */
 	    initShareTimeline: function initShareTimeline() {
@@ -246,9 +326,38 @@ export default {
             let desc = '覆盖全市优质300+门店，洗车保养限时特价'; // 分享描述
 
             let link = `${config.location.href}#/redirect/merchant?agentInfoId=${window.localStorage.ycpd_agentInfoId}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            let imgUrl = `https://rejiejay-1251940173.cos.ap-guangzhou.myqcloud.com/myweb/page-assets/picture/portrait.png`; // 分享图片
+            let imgUrl = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/wx-sharer.png`; // 分享图片
 
             initShareTimeline(title, desc, link, imgUrl);
+        },
+
+        /**
+         * 获取 - 二维码
+         */
+        getQRcode: function getQRcode() {
+            const _this = this;
+
+            // 通过二维码名称交换base64的图片
+            let exchangeImage = quickMark => {
+                getBase64ByImageName(`img/QuickMark/${quickMark}`)
+                .then(
+                    res => {
+                        _this.qRcodeImg = `data:image/png;base64,${res}`;
+                    }, error => {
+                        alert(error);
+                    }
+                );
+            }
+
+            ajaxs.getStoreProjectQM(this.$route.query.projectId, this)
+            .then(
+                res => {
+                    exchangeImage(res.quickMark); // 通过二维码名称交换base64的图片
+                    _this.initShareTimeline(); // 这个时候才开始，初始化 分享到朋友圈 与 分享给朋友
+                }, error => {
+                    alert(error);
+                }
+            );
         },
 
         /**
@@ -367,6 +476,11 @@ export default {
 @invitation-modal-z-index: 3;
 @invitation-shade-z-index: 4;
 @invitation-main-z-index: 5;
+
+// 二维码
+@QRcode-modal-z-index: 3;
+@QRcode-shade-z-index: 4;
+@QRcode-main-z-index: 5;
 
 .activity-detail-3 {
     position: relative;
@@ -708,5 +822,63 @@ export default {
     }
 }
 
+// 二维码
+.activity-share-QRcode {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: @QRcode-modal-z-index;
+
+    // 遮罩
+    .share-QRcode-shade {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.46);
+        z-index: @QRcode-shade-z-index;
+    }
+
+    // 主要区域
+    .share-QRcode-main {
+        border-radius: 5px;
+        z-index: @QRcode-main-z-index;
+        background: #fff;
+
+        .share-QRcode-content {
+            padding: 15px;
+        }
+
+        .QRcode-main-title {
+            padding-bottom: 25px;
+        }
+
+        .main-title-name {
+            padding-left: 15px;
+            font-size: 18px;
+        }
+
+        .user-banner-photo {
+            padding-right: 0px;
+            border: 1px solid #ddd;
+        }
+
+        .QRcode-main-content {
+            text-align: center;
+            padding-bottom: 25px;
+
+            img {
+                padding: 5px;
+                border: 1px solid #ddd;
+                display: block;
+                height: 200px;
+                width: 200px;
+            }
+        }
+    }
+}
 
 </style>

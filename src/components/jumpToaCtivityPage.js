@@ -26,15 +26,15 @@ let jumpToActivityPage = (activityName, self) => {
         res => {
             if (res && res[0] && res[0].projectId && activityName === 'youhuiyangchebaoyangxichetehui') {
                 // 优惠养车（保养洗车特惠）的活动
-                jumpToRouter('/activity/detail/1', {projectId: res[0].projectId});
+                jumpToRouter('/activity/detail/youhuiyangchebaoyangxichetehui', {projectId: res[0].projectId});
 
             } else if (res && res[1] && res[1].projectId && activityName === 'ycpdyouhuijiayoushuangchongfanli') {
                 // 加油双重返利活动
-                jumpToRouter('/activity/detail/2', {projectId: res[1].projectId});
+                jumpToRouter('/activity/detail/ycpdyouhuijiayoushuangchongfanli', {projectId: res[1].projectId});
 
             } else if (res && res[1] && res[1].projectId && activityName === 'jianhangwuganzhifu') {
                 // 建行无感支付活动
-                jumpToRouter('/activity/detail/2', {projectId: res[2].projectId});
+                jumpToRouter('/activity/detail/jianhangwuganzhifu', {projectId: res[2].projectId});
 
             } else {
                 alert(`跳转活动失败, 原因活动数据有误！`);

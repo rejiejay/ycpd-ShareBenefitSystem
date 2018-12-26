@@ -148,7 +148,21 @@ export default {
                          * 渲染标签信息
                          * 后台设置的lable 标签 + 分成比例的计算
                          */
-                        let award = `${val.label} ${val.proportion ? `${Math.round(val.proportion * 10000) / 100}%` : ''}`;
+                        let award = '';
+                        if (val.baseCount) {
+                            // 如果存在 baseCount 的情况下
+                            if (val.proportion) {
+                                award = `${val.label} ${Math.round(val.proportion * val.baseCount * 100) / 100}元`;
+
+                            } else {
+                                award = `${val.label} ${val.baseCount}元`;
+
+                            }
+                            
+                        } else {
+                            award = `${val.label} ${Math.round(val.proportion * 10000) / 100}%`;
+
+                        }
 
                         // 渲染时间
                         let time = `${val.startTime.split(' ')[0]} 至 ${val.endTime.split(' ')[0]}`;

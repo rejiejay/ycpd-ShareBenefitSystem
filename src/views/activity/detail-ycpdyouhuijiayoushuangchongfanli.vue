@@ -372,6 +372,7 @@ export default {
                 res => {
                     _this.proportion = res.proportion;
                     _this.time = `${res.startTime.split(' ')[0]} 至 ${res.endTime.split(' ')[0]}`
+                    
                 }, error => {
                     alert(error);
                 }

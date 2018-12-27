@@ -82,6 +82,8 @@ const actions = {
             }
 
             mystate.clientId = res.clientId ? res.clientId : '';
+            
+            mystate.lastUpdatedDate = res.lastUpdatedDate ? res.lastUpdatedDate : '';
 
             mystate.username = res.username ? res.username : '';
             mystate.telphone = res.telphone ? res.telphone : '';

@@ -427,6 +427,13 @@ export default {
         },
 
         /**
+         * 这里因为有 客户id不改变的情况 所以不能监听 id
+         */
+        lastUpdatedDate: function lastUpdatedDate() {
+            return this.$store.state.customer.lastUpdatedDate;
+        },
+
+        /**
          * 渲染 (选中后的)下次跟进时间
          */
         nextFollowUpTimeFormat: function () {
@@ -458,7 +465,18 @@ export default {
         clientId: function clientId() {
             // 每当 clientId 改变 初始化一下 页面数据
             this.initPageData();
-            this.getFollowupRecord(); // 跟进记录也要重新获取一下
+        },
+
+        /**
+         * lastUpdatedDate 用于 页面 vuex 数据是否变化,
+         * 因为 只要 lastUpdatedDate 改变， 说明一定是换了新用户 这时候就可以触发 watch 刷新页面数据
+         * 这个是因为页面持久化带来的需求
+         * 这里因为有 客户id不改变的情况 所以不能监听 id
+         * 多刷新几次数据其实是无所谓的
+         */
+        lastUpdatedDate: function lastUpdatedDate() {
+            // 每当 lastUpdatedDate 改变 初始化一下 页面数据
+            this.initPageData();
         },
     },
 
@@ -618,8 +636,6 @@ export default {
         updateInformation: function updateInformation() {
             const _this = this;
             
-            this.$store.dispatch('customer/init', this);
-
             // 判断是否存在车牌
             if (this.carNo) {
                 ajaxs.updateInforByCarNo(this.carNo, this)
@@ -627,6 +643,7 @@ export default {
                     res => {
                         Toast({ message: '成功更新数据', duration: 1000 });
                         _this.$store.dispatch('customer/init', _this);
+                        _this.getFollowupRecord(); // 获取 - 跟进记录
 
                     }, error => alert(error)
                 )
@@ -637,6 +654,7 @@ export default {
                     res => {
                         Toast({ message: '成功更新数据', duration: 1000 });
                         _this.$store.dispatch('customer/init', _this);
+                        _this.getFollowupRecord(); // 获取 - 跟进记录
 
                     }, error => alert(error)
                 );

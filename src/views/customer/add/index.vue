@@ -420,6 +420,13 @@ export default {
     },
 
 	mounted: function mounted() {
+        const _this = this;
+        
+        window.setTimeout(function () {
+            // 解决苹果兼容问题
+            _this.clientHeight = document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight;
+        }, 1000);
+
         this.initAddCustomerToken(); // 获取添加客户的token
         this.getUseFastNum(); // 获取快速添加客户剩余次数
         // this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口

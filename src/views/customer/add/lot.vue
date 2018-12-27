@@ -143,6 +143,7 @@
 <script>
 // 请求类
 import ajaxs from "@/api/customer/add-lot-excel.js";
+import ajaxsQueue from "@/api/customer/queue"; // 获取批量添加
 // 组件类
 import { Indicator } from 'mint-ui';
 import Consequencer from "@/utils/Consequencer";
@@ -199,6 +200,13 @@ export default {
              * 因为超过20条就不可以继续添加了
              */
             isContinueAddCustomerList: true, 
+
+            /**
+             * 队列的数量
+             * 有一个需求, 队列
+             * 如果添加的队列大于300个的情况下不可添加的情况
+             */
+            beingNormalNum: 0,
         }
     },
 
@@ -247,9 +255,28 @@ export default {
         // 为什么要查看这个，因为有一个逻辑是这样的
         // 进来 批量添加需要判断是否有 excel 添加 如果 有 excel 必须调整
         this.getOperateRecords();
+        this.getBeingNormalNum();
     },
 
 	methods: {
+        /**
+         * 获取 - 客户队列统计
+         */
+		getBeingNormalNum: function getBeingNormalNum() {
+            const _this = this;
+
+            ajaxsQueue.getBeingNormalNum(this)
+            .then(
+                res => {
+                    // 如果添加的队列大于300个的情况下
+                    if (res > 300) {
+                        _this.jumpToRouter('/customer/addqueue');
+                    }
+
+                }, error => alert(error)
+            );
+        },
+
         /**
          * 查看批量操作记录
          * status 批量插入的状态：1：正在插入， 2：插入完成， 3:已经查看

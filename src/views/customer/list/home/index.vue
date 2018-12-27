@@ -197,7 +197,7 @@
 
     <!-- 添加队列 -->
     <div class="customer-jump-queue" 
-        v-if="beingNormalNum <= 300"
+        v-if="beingNormalNum !== 0"
         @click="jumpToRouter('/customer/addqueue')" 
     >
         <span v-if="beingNormalNum">{{beingNormalNum}}</span>

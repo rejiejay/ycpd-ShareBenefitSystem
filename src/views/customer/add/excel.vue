@@ -71,7 +71,7 @@
             </div>
 
 
-            <div class="excel-modal-row1 flex-center"><span>第{{errorRow}}行</span>数据车牌号格式有误</div>
+            <div class="excel-modal-row1 flex-center"><span>第{{errorRow}}</span>数据车牌号格式有误</div>
             <div class="excel-modal-row2 flex-center">请修改后重新选择文件导入</div>
 
             <div class="excel-modal-submit flex-start-center">
@@ -143,7 +143,7 @@ export default {
         /**
          * 获取 - 客户队列统计
          */
-		getBeingNormalNum: function getBeingNormalNum(isAdd) {
+		getBeingNormalNum: function getBeingNormalNum() {
             const _this = this;
 
             ajaxsQueue.getBeingNormalNum(this)
@@ -215,6 +215,7 @@ export default {
                         // 操作成功
                         if (res.code === 1000) {
                             _this.pageStatus = 'success';
+                            _this.totalNum = res.data.totalNum;
 
                         } else if (res.code === 1001) {
                             alert(`参数不能为空, ${res.msg}`);
@@ -242,12 +243,15 @@ export default {
          * 继续添加
          */
         continueUploadFile: function continueUploadFile() {
+            const _this = this;
+
             ajaxs.batchExcelAdd(this.formData, true)
             .then(
                 res => {
                     // 操作成功
                     if (res.code === 1000) {
                         _this.pageStatus = 'success';
+                        _this.totalNum = res.data.totalNum;
 
                     } else if (res.code === 1001) {
                         alert(`参数不能为空, ${res.msg}`);

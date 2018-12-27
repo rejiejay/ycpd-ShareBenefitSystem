@@ -114,7 +114,7 @@ const actions = {
 
             // 违章列表
             if (res.violations && res.violations.length > 0) {
-                mystate.violations.map(val => ({
+                mystate.violations = res.violations.map(val => ({
                     date: val.date ? val.date : '',
                     createdDate: val.createdDate ? val.createdDate : '',
                     handled: val.handled ? val.handled : '',

@@ -139,6 +139,13 @@ export default {
     },
 
 	mounted: function mounted() {
+        if (this.$route.query.position === 'bottom') {
+            this.scrollTopBy(750);
+
+        } else {
+            this.scrollTopBy(0);
+
+        }
     },
 
 	methods: {
@@ -147,6 +154,13 @@ export default {
          */ 
         jumpToGasStation: function jumpToGasStation() {
             window.location.href = config.jumpwx(`${config.location.ycpd}#/redirect/gasstation`, config.wxappid.ycpd);
+        },
+        
+        /**
+         * 滚动到 距离顶部的距离
+         */
+        scrollTopBy: function scrollTopBy(despx) {
+            window.scrollTo(0, despx);
         },
 
         /**

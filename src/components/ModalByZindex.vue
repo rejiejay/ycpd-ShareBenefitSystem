@@ -1,4 +1,4 @@
-<!-- 层级模态框 -->
+<!-- 模态框 (可传输层级) -->
 <template>
 <div class="modal-z-index flex-center" 
     v-if="isShow" 

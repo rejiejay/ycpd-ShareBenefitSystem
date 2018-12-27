@@ -106,7 +106,7 @@
                 <div class="modal-item-line"></div>
             </div>
             
-            <div class="sort-modal-item" v-if="isPXV" @click="selectActivity(4)">
+            <div class="sort-modal-item" @click="selectActivity(4)">
                 <div class="modal-item-describe">保养洗车特惠</div>
             </div>
         </div>

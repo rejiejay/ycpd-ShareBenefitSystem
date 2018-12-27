@@ -1,9 +1,10 @@
-// 请求类
-import initJSSDK from "@/components/initJSSDK";
-
 /**
  * 初始化 分享到朋友圈 与 分享给朋友
  */
+
+// 请求类
+import initJSSDK from "@/components/initJSSDK";
+
 let initShareTimeline = (title, desc, link, imgUrl) => {
     document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
 

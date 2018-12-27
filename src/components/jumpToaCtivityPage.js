@@ -1,11 +1,12 @@
-// 请求类
-import ajaxsgetAllActivity from "@/api/common/getAllActivity";
-
 /**
  * 跳转到活动
  * @param {number} activityName 跳转到活动的名称 也是是唯一标识
  * @param {object} self vue的组件类
  */
+
+// 请求类
+import ajaxsgetAllActivity from "@/api/common/getAllActivity";
+
 let jumpToActivityPage = (activityName, self) => {
     /**
      * 跳转到路由

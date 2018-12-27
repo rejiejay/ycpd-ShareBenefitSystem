@@ -126,16 +126,17 @@ export default {
                         if (key === 0) {
                             // 第一个是 优惠养车(保养洗车特惠) 活动
                             idName = 'youhuiyangchebaoyangxichetehui';
-                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-list-three.png?x-oss-process=image/resize,m_fill,w_${(_this.clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`
+                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-list-three.png`
+
                         } else if (key === 1) {
                             // 第二个是 养车频道优惠加油双重返利 活动
                             idName = 'ycpdyouhuijiayoushuangchongfanli';
-                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg?x-oss-process=image/resize,m_fill,w_${(_this.clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`
+                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg`
 
                         } else if (key === 2) {
                             // 第二个是 开通建行无感支付推广返佣 活动
                             idName = 'jianhangwuganzhifu';
-                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg?x-oss-process=image/resize,m_fill,w_${(_this.clientWidth - 30) * 2},h_260,limit_0/auto-orient,0/quality,q_100`
+                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg`
 
                         }
 
@@ -237,12 +238,13 @@ export default {
     .activity-item-img {
         width: 100%;
         height: 130px;
+        border-radius: 5px;
+        overflow: hidden;
 
         img {
             display: block;
             width: 100%;
             height: 100%;
-            border-radius: 5px;
         }
     }
 

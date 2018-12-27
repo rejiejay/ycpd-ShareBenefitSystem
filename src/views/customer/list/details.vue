@@ -148,7 +148,7 @@
                             <div class="main-title-describe">{{record.result}}</div>
                         </div>
 
-                        <div class="list-main-item flex-start">
+                        <div class="list-main-item flex-start" v-if="record.content">
                             <div class="main-title-lable">跟进内容:</div>
                             <div class="main-title-describe">{{record.content}}</div>
                         </div>
@@ -617,6 +617,8 @@ export default {
          */
         updateInformation: function updateInformation() {
             const _this = this;
+            
+            this.$store.dispatch('customer/init', this);
 
             // 判断是否存在车牌
             if (this.carNo) {

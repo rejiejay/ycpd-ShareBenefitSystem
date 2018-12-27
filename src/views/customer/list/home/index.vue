@@ -197,7 +197,7 @@
 
     <!-- 添加队列 -->
     <div class="customer-jump-queue" 
-        v-if="beingNormalNum >= 300"
+        v-if="beingNormalNum <= 300"
         @click="jumpToRouter('/customer/addqueue')" 
     >
         <span v-if="beingNormalNum">{{beingNormalNum}}</span>
@@ -858,8 +858,14 @@ export default {
          * 检测滚动到页面底部
          */
 		scrollBottom: function scrollBottom(event) {
+            // 因为现在做了页面持久化, 所以当获取不到 customer id 的情况下, 就阻止下面的方法执行
+            let customerDOM = document.getElementById('customer');
+            if (!customerDOM) {
+                return false;
+            }
+
 			let screenHeight = window.screen.height; // 屏幕的高度
-			let clientHeight = document.getElementById('customer').clientHeight; // 页面的总高度
+			let clientHeight = customerDOM.clientHeight; // 页面的总高度
 			let myScrollTop = document.documentElement.scrollTop || document.body.scrollTop; // 滚动的距离
 
 			if (

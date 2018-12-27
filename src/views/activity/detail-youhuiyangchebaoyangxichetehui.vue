@@ -88,27 +88,26 @@
                 <div class="award-title-lable flex-start-center">累计:<span>¥{{awardTotal}}</span></div>
             </div>
 
-            <!-- 列表标题 -->
-            <div class="detail-award-item flex-start-center">
-                <div class="award-item-name">微信昵称</div>
-                <div class="award-item-oil" style="color: #606266;">加油金额</div>
-                <div class="award-item-divide" style="color: #606266;">我的分成</div>
-                <div class="award-item-time">时间</div>
-            </div>
-            <div class="detail-award-line"><div class="award-line-content"></div></div>
-
             <!-- 列表项 -->
-            <div class="detail-award-list"
+            <div class="user-award-list"
                 v-for="(item, key) in awardList" 
                 :key="key"
             >
-                <div class="detail-award-item flex-start-center">
-                    <div class="award-item-name">{{item.name}}</div>
-                    <div class="award-item-oil">{{item.sum}}</div>
-                    <div class="award-item-divide">{{item.sharing}}</div>
-                    <div class="award-item-time">{{item.time}}</div>
+                <div class="user-award-item">
+                    <div class="award-item-row item-row-1 flex-start-center">
+                        <div class="award-item-left flex-start-center flex-rest">
+                            <div class="item-left-1">{{item.userName}}<!-- (优先显示昵称 如果没有昵称显示车牌)这个后台已经帮我处理了 --></div>
+                            <div class="item-left-2">【{{item.projectName}}】 ￥{{item.costMoney}}</div>
+                        </div>
+                        <div class="award-item-right">+{{item.obtainMoney}}</div>
+                    </div>
+
+                    <div class="award-item-row item-row-2 flex-start-center">
+                        <div class="award-item-left flex-rest">{{item.recordDate}}</div>
+                        <div class="award-item-right" :class="{'is-enter-account': true}">{{true ? '已入账' : '待入账'}}</div>
+                    </div>
                 </div>
-                <div class="detail-award-line" v-if="key !== (awardList.length - 1)"><div class="award-line-content"></div></div>
+                <div class="user-award-line" v-if="key !== (awardList.length - 1)"><div class="award-line-content"></div></div>
             </div>
 
             <!-- 查看全部 -->
@@ -326,7 +325,7 @@ export default {
             let desc = '覆盖全市优质300+门店，洗车保养限时特价'; // 分享描述
 
             let link = `${config.location.href}#/redirect/merchant?agentInfoId=${window.localStorage.ycpd_agentInfoId}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            let imgUrl = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/wx-sharer.png`; // 分享图片
+            let imgUrl = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/youhuiyangchebaoyangxichetehui-share.jpg`; // 分享图片
 
             initShareTimeline(title, desc, link, imgUrl);
         },
@@ -394,11 +393,10 @@ export default {
         getMyRewards: function getMyRewards() {
             const _this = this;
 
-            ajaxsAward.findMyRewardByConditions(this, 1) // 只查询一页
+            ajaxsAward.findMyRewardByConditions(this, 1, 0, 4) // 只查询一页
             .then(
                 res => {
                     _this.awardTotal = res.totalMoney; // 总金额
-
 
                     _this.awardList = res.rewardList.map(val => {
                         /**
@@ -419,10 +417,11 @@ export default {
                         }
 
                         return {
-                            name: clientName, // 昵称
-                            sum: val.costMoney, // 加油金额
-                            sharing: val.obtainMoney, // 我的分成
-                            time: val.recordDate.split(' ')[0], // 时间
+                            costMoney: val.costMoney,
+                            obtainMoney: val.obtainMoney,
+                            projectName: val.projectName,
+                            recordDate: val.recordDate,
+                            userName: clientName,
                         }
                     });
                 }, error => {
@@ -657,34 +656,48 @@ export default {
     }
 
     // 列表
-    .detail-award-item {
-        padding: 0px 15px;
-        height: 40px;
+    .user-award-item {
+        padding: 15px;
         color: @black2;
+        font-size: 12px;
 
-        > div {
-            width: 25%;
+        .item-row-1 {
+            .item-left-1 { // 这是昵称
+                font-weight: bold;
+            }
+
+            .item-left-2 { // 【优惠加油】¥200
+                color: @black3;
+            }
+
+            .award-item-right {
+                font-size: 18px;
+                color: #E50012;
+            }
         }
 
-        .award-item-name {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+        .item-row-2 {
+            padding-top: 5px;
+            font-size: 12px;
 
-        .award-item-oil,
-        .award-item-divide {
-            color: #E50012;
-            text-align: center;
-        }
+            .award-item-left {
+                color: @black3;
+            }
 
-        .award-item-time {
-            text-align: right;
+            // 待入账
+            .award-item-right {
+                color: #FFA100;
+            }
+
+            // 已入账
+            .is-enter-account {
+                color: #AAAAAA;
+            }
         }
     }
 
     // 横线
-    .detail-award-line {
+    .user-award-line {
         padding-left: 15px;
 
         .award-line-content {

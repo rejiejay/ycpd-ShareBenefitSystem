@@ -466,6 +466,7 @@ export default {
                 res => {
                     Toast({ message: '成功更新数据', duration: 2000 });
                     _this.isShowRepetitionWarning = false;
+                    _this.getUseFastNum(); // 获取快速添加客户剩余次数
 
                 }, error => alert(error)
             );
@@ -659,6 +660,7 @@ export default {
                     if (res.code === 1000) {
                         // 添加成功
                         _this.$router.replace({path: `/customer`});
+                        _this.getUseFastNum(); // 获取快速添加客户剩余次数
 
                     } else if (res.code === 1003) {
                         _this.isShowRepetitionWarning = true;
@@ -719,6 +721,7 @@ export default {
                 res => { // 添加成功
                     // 跳转到客户列表页
                     _this.$router.replace({path: `/customer`});
+                    _this.getUseFastNum(); // 获取快速添加客户剩余次数
 
                 }, error => alert(error)
             );

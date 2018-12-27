@@ -172,7 +172,6 @@ export default {
         clientId: function clientId() {
             // 每当 clientId 改变 初始化一下 页面数据
             this.initPageData();
-            this.getFollowupRecord(); // 跟进记录也要重新获取一下
         },
     },
 

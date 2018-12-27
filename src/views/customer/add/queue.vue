@@ -152,7 +152,7 @@ export default {
                     _this.isLoding = false; // 设置 当前列表 为 加载完成
                     let newQueueList = [];
 
-                    _this.totalPageNum = res.pageSize;
+                    _this.totalPageNum = res.pages;
 
                     if (res.content && res.content.length > 0) {
                         newQueueList = res.content.map((val, key) => {

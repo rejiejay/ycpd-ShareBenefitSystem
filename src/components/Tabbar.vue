@@ -1,6 +1,5 @@
-<!-- 客户管理 首页 -->
-<template>
 <!-- 养车频道福利共享系统 底部 Tabbar -->
+<template>
 <div class="ycpd-sbsys-tabbar flex-start-center">
 
     <div class="Tabbar-item flex-column-center" :class="{'Tabbar-item-selected': selectTabbar === 'home'}" @click="jumpToRouter('home')">

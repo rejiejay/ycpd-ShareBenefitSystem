@@ -269,8 +269,10 @@ export default {
             .then(
                 res => {
                     // 如果添加的队列大于300个的情况下
-                    if (res > 300) {
-                        _this.jumpToRouter('/customer/addqueue');
+                    if (res >= 300) {
+                        alert('客户队列已达上限，请稍后添加.')
+                        _this.$router.replace('/customer/addqueue');
+
                     }
 
                 }, error => alert(error)
@@ -541,8 +543,10 @@ export default {
                         // 因为后台返回的数据会
                         setTimeout(() => {
                             Indicator.close(); // 关闭加载框
-                            _this.jumpToRouter('/customer/addexcel', {pageStatus: 'process'});
+                            _this.jumpToRouter('/customer/addexcel', {pageStatus: 'success', successNum: res.data});
+                            
                         }, 5000);
+
                     } else {
                         if (keyValMsg[res.code]) {
                             alert(`${keyValMsg[res.code]}${res.msg}`);
@@ -551,7 +555,7 @@ export default {
                         }
 
                         if (res.code == 1005) {
-                            _this.jumpToRouter('/customer/addexcel', {pageStatus: 'success'});
+                            _this.jumpToRouter('/customer/addexcel', {pageStatus: 'success', successNum: res.data});
                         }
                     }
                 }, error => alert(error)

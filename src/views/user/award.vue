@@ -218,11 +218,6 @@ export default {
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
             /**
-             * 待入账模态框
-             */
-            isAwardTipShow: false,
-
-            /**
              * 统计
              */
             total: 0, // 总金额
@@ -262,6 +257,11 @@ export default {
                 //     userName: userName,
                 // },
             ],
+            
+            /**
+             * 待入账模态框
+             */
+            isAwardTipShow: false,
         } 
     },
     

@@ -273,23 +273,28 @@ export default {
                         console.error('请求登录状态异常');
                         getMachinePicture(); // 获取人机验证码
 
-                    } else if (res.code === 1003) { // 微信code为空，跳转至登陆页
+                    } else if (res.code === 1003) { // 微信code为空，跳转至登录页
                         console.error('微信code为空');
                         getMachinePicture(); // 获取人机验证码
 
-                    } else if (res.code === 1004) { // 使用微信登陆成功
+                    } else if (res.code === 1004) { // 使用微信登录成功
                         window.localStorage.setItem('ycpd_token', res.data.token); // 存储 全局 token
                         window.localStorage.setItem('ycpd_agentInfoId', res.data.agentInfo.agentInfoId); // 存储 全局 agentInfoId
                         window.localStorage.setItem('ycpd_userInfo', JSON.stringify(res.data.agentInfo)); // 存储 全局 localStorage userInfo 登录信息
                         _this.$store.commit('userInfo/initAgentInfo', res.data.agentInfo); // 初始化登录信息
                         _this.$router.replace({ path: '/' }); // 跳转到首页
 
-                    } else if (res.code === 1005) { // 获取用户微信openId失败，跳转至登陆页
+                    } else if (res.code === 1005) { // 获取用户微信openId失败，跳转至登录页
                         console.error('获取用户微信openId失败');
                         getMachinePicture(); // 获取人机验证码
 
-                    } else if (res.code === 1006) { // 该微信未绑定代理用户，跳转至登陆页
+                    } else if (res.code === 1006) { // 该微信未绑定代理用户，跳转至登录页
                         console.error('该微信未绑定代理用户');
+                        getMachinePicture(); // 获取人机验证码
+
+                    } else if (res.code === 1007) { // 该用户已被禁止使用
+                        Toast({ message: '该用户已被禁止使用!', duration: 2000 });
+                        console.error('该用户已被禁止使用');
                         getMachinePicture(); // 获取人机验证码
 
                     } else {
@@ -620,7 +625,7 @@ export default {
                         });
                     } else if (res.code === 1007) {
                         Toast({
-                            message: '登陆异常,请重新登陆!',
+                            message: '登录异常,请重新登录!',
                             duration: 2000
                         });
                     } else if (res.code === 1008) {
@@ -630,7 +635,17 @@ export default {
                         });
                     } else if (res.code === 1009) {
                         Toast({
-                            message: '登陆异常,请重新登陆!',
+                            message: '登录异常,请重新登录!',
+                            duration: 2000
+                        });
+                    } else if (res.code === 1010) {
+                        Toast({
+                            message: '该用户已被禁止使用!',
+                            duration: 2000
+                        });
+                    } else {
+                        Toast({
+                            message: '登录异常, 请联系客服!',
                             duration: 2000
                         });
                     }

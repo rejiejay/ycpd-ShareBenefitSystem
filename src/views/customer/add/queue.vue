@@ -92,6 +92,7 @@ export default {
              */
             pageNo: 1, // 当前页面
             totalPageNum: 10, // 总页数
+            pageSize: 10, // 一个页面
             isLoding: true, // 是否正在加载..
 
             // 列表
@@ -146,7 +147,7 @@ export default {
 		getCustomerListByQueue: function getCustomerListByQueue(isAdd) {
             const _this = this;
 
-            ajaxs.getCustomerListByQueue(this.pageNo, this.totalPageNum, this)
+            ajaxs.getCustomerListByQueue(this.pageNo, this.pageSize, this)
             .then(
                 res => {
                     _this.isLoding = false; // 设置 当前列表 为 加载完成

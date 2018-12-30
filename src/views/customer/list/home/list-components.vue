@@ -30,7 +30,7 @@
                         v-if="item.isLoadDelay"
                         @click="updateInformation(item)"
                     >
-                        <div class="delay-label-text">客户信息查询超时，请稍后更新</div>
+                        <div class="delay-label-text">查询超时</div>
                         <div class="delay-label-btn">更新信息</div>
                     </div>
 

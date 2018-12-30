@@ -127,6 +127,8 @@ const actions = {
                     fen: val.fen ? val.fen : '',
                     money: val.money ? val.money : '',
                 }));
+            } else {
+                mystate.violations = []; // 这个记得清空
             }
 
             commit('init', mystate);

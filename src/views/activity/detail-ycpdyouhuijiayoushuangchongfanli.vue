@@ -445,7 +445,7 @@ export default {
         getMyRewards: function getMyRewards() {
             const _this = this;
 
-            ajaxsAward.findMyRewardByConditions(this, 1) // 只查询一页
+            ajaxsAward.findMyRewardByConditions(this, 1, 0, 1) // 只查询一页
             .then(
                 res => {
                     _this.awardTotal = res.totalMoney; // 总金额

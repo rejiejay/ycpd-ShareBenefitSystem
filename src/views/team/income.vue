@@ -51,6 +51,10 @@
                 <div class="modal-item-describe">建行无感支付佣金</div>
                 <div class="modal-item-line"></div>
             </div>
+            
+            <div class="sort-modal-item" @click="selectActivity(4)">
+                <div class="modal-item-describe">保养洗车特惠</div>
+            </div>
         </div>
     </div>
     
@@ -111,6 +115,9 @@ export default {
             // IsTeam 表示是否从 team/list 进来
             // 0 表示代理收入 1 表示团队收入 默认是 0
             isTeam: 0,
+
+            // subagentId 是 子代理Id 管理员的 agentInfoId
+            subagentId: '',
 
             /**
              * 排序

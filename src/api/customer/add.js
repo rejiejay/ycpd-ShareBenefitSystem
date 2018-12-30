@@ -26,7 +26,7 @@ export default {
      * @param {string} username 用户名
      * @param {string} telphone 手机号码
      */
-    addCustomerByVinNo: (vinNo, engineNo, username, telphone, self) => apibasics.post(`${config.url.origin}/ycpd/cas/client/add?token=${window.localStorage.getItem('ycpd_token')}`, {
+    addCustomerByVinNo: (vinNo, engineNo, username, telphone, self) => apibasics.post(`${config.url.origin}/ycpd/cas/client/add?token=${window.localStorage.getItem('ycpd_token')}&saveClientToken=${window.sessionStorage.saveClientToken}`, {
         vinNo: vinNo,
         engineNo: engineNo,
         username: username,

@@ -117,30 +117,6 @@ export default {
                 res => {
                     _this.activityList = res.map((val, key) => {
                         /**
-                         * 初始化对应页面的序号
-                         * 并且 初始化图片 
-                         * 暂时根据 数组下标 进行跳转 因为这个数组是固定的
-                         */ 
-                        let idName = '';
-                        let picture = '';
-                        if (key === 0) {
-                            // 第一个是 优惠养车(保养洗车特惠) 活动
-                            idName = 'youhuiyangchebaoyangxichetehui';
-                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-list-three.png`
-
-                        } else if (key === 1) {
-                            // 第二个是 养车频道优惠加油双重返利 活动
-                            idName = 'ycpdyouhuijiayoushuangchongfanli';
-                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg`
-
-                        } else if (key === 2) {
-                            // 第二个是 开通建行无感支付推广返佣 活动
-                            idName = 'jianhangwuganzhifu';
-                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg`
-
-                        }
-
-                        /**
                          * 初始化页状态
                          */
                         let status = new Date().getTime() < TimeConver.YYYYmmDDhhMMssToTimestamp(val.endTime) ? "going" : "finish";
@@ -167,6 +143,35 @@ export default {
 
                         // 渲染时间
                         let time = `${val.startTime.split(' ')[0]} 至 ${val.endTime.split(' ')[0]}`;
+
+                        /**
+                         * 初始化对应页面的序号
+                         * 并且 初始化图片 
+                         * 暂时根据 数组下标 进行跳转 因为这个数组是固定的
+                         */ 
+                        let idName = '';
+                        let picture = '';
+                        if (key === 0) {
+                            // 第一个是 优惠养车(保养洗车特惠) 活动
+                            idName = 'youhuiyangchebaoyangxichetehui';
+                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity-list-three.png`;
+
+                            // 优惠养车有一个特殊的地方, 如果这个为 3 的时候
+                            if (this.userInfoStore.category === 3) {
+                                status = 'finish'; // 隐藏此活动
+                            }
+
+                        } else if (key === 1) {
+                            // 第二个是 养车频道优惠加油双重返利 活动
+                            idName = 'ycpdyouhuijiayoushuangchongfanli';
+                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity001.jpg`;
+
+                        } else if (key === 2) {
+                            // 第二个是 开通建行无感支付推广返佣 活动
+                            idName = 'jianhangwuganzhifu';
+                            picture = `https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/activity002.jpg`;
+
+                        }
 
                         return {
                             id: idName,

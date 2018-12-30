@@ -52,7 +52,7 @@
             <!-- 确认添加 -->
             <div class="tag-car-confirm">
                 <div class="car-confirm-content" 
-                    :class="{'confirm-content-gray': addResCount > addResALL}"
+                    :class="{'confirm-content-gray': addResCount <= 0}"
                     @click="addCustomerByCarNo"
                 >快速添加</div>
             </div>
@@ -125,7 +125,7 @@
             </div>
 
             <!-- 剩余次数提示 -->
-            <div class="res-count-tip flex-center">实时添加，名额有限，今日剩余：<span style="color: #E50012;">{{addResCount}}</span>/{{addResALL}}</div>
+            <div class="res-count-tip flex-center">实时添加，名额有限，今日剩余：<span style="color: #E50012;">{{addResCount > 0 ? addResCount : 0}}</span>/{{addResALL}}</div>
 
         </div>
     </div>
@@ -308,6 +308,7 @@ import { Toast } from 'mint-ui';
 // 请求类
 import ajaxs from "@/api/customer/add";
 import detailsAjaxs from "@/api/customer/details"; // 用于更新客户信息
+import ajaxsQueue from "@/api/customer/queue"; // 获取批量添加
 import getUseFastNum from "@/api/common/getUseFastNum";
 // 组件类
 import initJSSDK from "@/components/initJSSDK";
@@ -383,6 +384,8 @@ export default {
             addResCount: 20,
             addResALL: 20, // 一共多少次
 
+            beingNormalNum: 0, // 客户队列
+
             isBatchImportModalShow: false, // 是否显示 批量导入提示
             isShowRepetitionWarning: false, // 是否显示 重复的提示框
             repeatCarNo: '', // 重复车牌号
@@ -427,8 +430,9 @@ export default {
             _this.clientHeight = document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight;
         }, 1000);
 
-        this.initAddCustomerToken(); // 获取添加客户的token
-        this.getUseFastNum(); // 获取快速添加客户剩余次数
+        this.initAddCustomerToken(); // 获取 添加客户的token
+        this.getUseFastNum(); // 获取 快速添加客户剩余次数
+        this.getBeingNormalNum(); // 获取 客户队列统计
         // this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口
     },
 
@@ -449,6 +453,21 @@ export default {
         },
 
         /**
+         * 获取 - 客户队列统计
+         */
+		getBeingNormalNum: function getBeingNormalNum() {
+            const _this = this;
+
+            ajaxsQueue.getBeingNormalNum(this)
+            .then(
+                res => {
+                    _this.beingNormalNum = res;
+
+                }, error => alert(error)
+            );
+        },
+
+        /**
          * 获取添加客户的token
          */
         initAddCustomerToken: function initAddCustomerToken() {
@@ -458,6 +477,7 @@ export default {
             .then(res => {
                 // 缓存
                 window.sessionStorage.setItem('saveClientToken', res.saveClientToken);
+
             }, error => alert(error));
         },
 
@@ -638,7 +658,7 @@ export default {
             const _this = this;
 
             // 校验剩余添加次数
-            if (this.addResCount > this.addResALL) {
+            if (this.addResCount <= 0) {
                 return false;
             }
 
@@ -663,6 +683,8 @@ export default {
             ajaxs.addCustomerByCarNo(this.carNoComponents.carNo, this.customerName, this.phoneNumber, this)
             .then(
                 res => {
+                    _this.initAddCustomerToken(); // 重新获取一次 token
+
                     // 跳转到客户列表页
                     if (res.code === 1000) {
                         // 添加成功
@@ -672,7 +694,7 @@ export default {
                     } else if (res.code === 1003) {
                         _this.isShowRepetitionWarning = true;
                         _this.repeatCarNo = res.data.carNo;
-                        _this.repeatModels = res.data.brand + res.data.models + res.data.series;
+                        _this.repeatModels = `${res.data.brand ? res.data.brand : ''}${res.data.models ? res.data.models : ''}${res.data.series ? res.data.series : ''}`;
                         _this.repeatUsername = res.data.username;
                         _this.repeatTelphone = res.data.telphone;
                         _this.repeatCreatedDate = res.data.createdDate.split(' ')[0];
@@ -681,7 +703,10 @@ export default {
                         alert(`添加车辆失败, ${res.msg}`);
                     }
 
-                }, error => alert(error)
+                }, error => {
+                    _this.initAddCustomerToken(); // 重新获取一次 token
+                    alert(error)
+                }
             );
         },
 
@@ -692,7 +717,7 @@ export default {
             const _this = this;
 
             // 校验剩余添加次数
-            if (this.addResCount > this.addResALL) {
+            if (this.addResCount <= 0) {
                 return false;
             }
 
@@ -726,11 +751,16 @@ export default {
             ajaxs.addCustomerByVinNo(this.vinNo, this.engineNo, this.customerName, this.phoneNumber, this)
             .then(
                 res => { // 添加成功
+                    _this.initAddCustomerToken(); // 重新获取一次 token
+
                     // 跳转到客户列表页
                     _this.$router.replace({path: `/customer`});
                     _this.getUseFastNum(); // 获取快速添加客户剩余次数
 
-                }, error => alert(error)
+                },  error => {
+                    _this.initAddCustomerToken(); // 重新获取一次 token
+                    alert(error)
+                }
             );
         },
 
@@ -739,6 +769,19 @@ export default {
          */
         scrollToShowKeyboard: function scrollToShowKeyboard() {
             window.scrollTo(0, 150);
+        },
+
+        /**
+         * 跳转到客户添加队列
+         */
+        jumpToAddlot: function jumpToAddlot() {
+            
+            if (this.beingNormalNum >= 300) {
+                alert('客户队列已达上限，请稍后添加');
+                return this.$router.push('/customer/addqueue'); // 跳转到队列
+            }
+
+            this.$router.push('/customer/addlot');
         },
 
         /**

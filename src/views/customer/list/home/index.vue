@@ -481,6 +481,8 @@ export default {
          * 更新信息
          */
         refreshData: function refreshData() {
+            this.pageNo = 1;
+            this.isLoding = false;
             this.getBarCount();
             this.getCustomerList();
         },
@@ -753,8 +755,19 @@ export default {
                          * 初始化 客户信息超时
                          */
                         let isLoadDelay = false;
-                        if (val.isTimeOut && val.isTimeOut === 1) {
+                        // 这个原先的判断
+                        // if (val.isTimeOut && val.isTimeOut === 1) {
+                        //     isLoadDelay = true;
+                        // }
+                        // 新的判断 如果这个 有值就 表示 不超时
+                        if (val.queryCarInfoDate) {
+                            isLoadDelay = false;
+
+                        } else { 
+                            // 没有值就表示 超时
+                            // 这里就表示没有值的情况
                             isLoadDelay = true;
+
                         }
 
                         return {

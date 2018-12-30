@@ -45,7 +45,7 @@
                 <svg width="40" height="40" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-Excel导入成功" transform="translate(-337.000000, -298.000000)"><g id="Group" transform="translate(337.000000, 298.000000)"><circle id="Oval-14" fill="#46A3FF" cx="40" cy="40" r="40"></circle><polygon id="Path-10" fill="#FFFFFF" points="22 40 36 54 62 28 60 26 36 47 24 38"></polygon></g></g></g></svg>
             </div>
             <div class="success-row1">批量添加成功</div>
-            <div class="success-row2">本次成功添加<span>{{totalNum}}</span>个客户</div>
+            <div class="success-row2">本次成功添加<span>{{successNum}}</span>个客户</div>
 
             <div class="success-submit flex-center">
                 <div class="success-submit-container flex-start">
@@ -113,7 +113,7 @@ export default {
 
             uploadPercentage: 0, // 上传百分比
 
-            totalNum: 0, // 批量插入的成功数
+            successNum: 0, // 批量插入的成功数
 
             isPollingUp: false, // 是否轮询完成
 
@@ -122,6 +122,8 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.successNum = this.$route.query.successNum;
+
         this.$route.query.pageStatus ? this.pageStatus = this.$route.query.pageStatus : null;
 
         this.getBeingNormalNum(); // 客户队列统计
@@ -149,9 +151,9 @@ export default {
             ajaxsQueue.getBeingNormalNum(this)
             .then(
                 res => {
-                    // 如果添加的队列大于300个的情况下
-                    if (res > 300) {
-                        _this.jumpToRouter('/customer/addqueue');
+                    if (res >= 300) {
+                        alert('客户队列已达上限，请稍后添加.')
+                        _this.$router.replace('/customer/addqueue');
                     }
 
                 }, error => alert(error)
@@ -212,10 +214,12 @@ export default {
                 ajaxs.batchExcelAdd(formData, false)
                 .then(
                     res => {
+                        _this.$refs.uploadFile.value = ''; // 因为考虑到用户会重复上传, 重复上传不会触发 onchange 所以要清空一下
+
                         // 操作成功
                         if (res.code === 1000) {
                             _this.pageStatus = 'success';
-                            _this.totalNum = res.data.totalNum;
+                            _this.successNum = res.data.successNum;
 
                         } else if (res.code === 1001) {
                             alert(`参数不能为空, ${res.msg}`);
@@ -234,7 +238,10 @@ export default {
                             _this.errorRow = res.data;
                             
                         }
-                    }, error => alert(error)
+                    }, error => {
+                        _this.$refs.uploadFile.value = ''; // 因为考虑到用户会重复上传, 重复上传不会触发 onchange 所以要清空一下
+                        alert(error)
+                    }
                 );
             };
         },
@@ -251,7 +258,7 @@ export default {
                     // 操作成功
                     if (res.code === 1000) {
                         _this.pageStatus = 'success';
-                        _this.totalNum = res.data.totalNum;
+                        _this.successNum = res.data.successNum;
 
                     } else if (res.code === 1001) {
                         alert(`参数不能为空, ${res.msg}`);
@@ -439,14 +446,9 @@ export default {
             line-height: 45px;
             font-size: 16px;
             border-radius: 45px;
-            color: #fff;
+            color: #EFC60E;
             text-align: center;
-            background-color: #3DB1FF; /* 标准的语法 */
-            background: -webkit-linear-gradient(#3DB1FF, #469AFF); /* Safari 5.1 - 6.0 */
-            background: -o-linear-gradient(#3DB1FF, #469AFF); /* Opera 11.1 - 12.0 */
-            background: -moz-linear-gradient(#3DB1FF, #469AFF); /* Firefox 3.6 - 15 */
-            background: linear-gradient(#3DB1FF, #469AFF); /* 标准的语法 */
-            box-shadow: 0px 10px 20px -5px rgba(70,154,255,0.35);
+            border: 1px solid #EFC60E;
         }
     }
 
@@ -462,12 +464,11 @@ export default {
             border-radius: 45px;
             color: #fff;
             text-align: center;
-            background-color: #FF5F32; /* 标准的语法 */
-            background: -webkit-linear-gradient(#FF5F32, #E50012); /* Safari 5.1 - 6.0 */
-            background: -o-linear-gradient(#FF5F32, #E50012); /* Opera 11.1 - 12.0 */
-            background: -moz-linear-gradient(#FF5F32, #E50012); /* Firefox 3.6 - 15 */
-            background: linear-gradient(#FF5F32, #E50012); /* 标准的语法 */
-            box-shadow: 0px 10px 20px -5px rgba(229,0,18,0.35);
+            background-color: #FFD240; /* 标准的语法 */
+            background: -webkit-linear-gradient(#FFD240, #FFBB00); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(#FFD240, #FFBB00); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(#FFD240, #FFBB00); /* Firefox 3.6 - 15 */
+            background: linear-gradient(#FFD240, #FFBB00); /* 标准的语法 */
         }
     }
 

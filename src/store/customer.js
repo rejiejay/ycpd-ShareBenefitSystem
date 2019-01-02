@@ -116,7 +116,7 @@ const actions = {
 
             // 违章列表
             if (res.violations && res.violations.length > 0) {
-                mystate.violations = res.violations.map(val => ({
+            mystate.violations = res.violations.map(val => ({
                     date: val.date ? val.date : '',
                     createdDate: val.createdDate ? val.createdDate : '',
                     handled: val.handled ? val.handled : '',
@@ -127,6 +127,7 @@ const actions = {
                     fen: val.fen ? val.fen : '',
                     money: val.money ? val.money : '',
                 }));
+
             } else {
                 mystate.violations = []; // 这个记得清空
             }

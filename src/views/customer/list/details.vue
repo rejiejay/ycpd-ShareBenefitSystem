@@ -189,7 +189,11 @@
 
             <div class="bottom-button-item">
                 <div class="button-item-content">
-                    <div class="button-item-main flex-center" @click="updateInformation">
+                    <div 
+                        class="button-item-main flex-center" 
+                        :class="{'item-main-disable': addResCount <= 0}"
+                        @click="updateInformation"
+                    >
                         <div class="flex-start-center">
                             <div class="item-content-icon">
                                 <svg width="14" height="14" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户详情" transform="translate(-301.000000, -1330.000000)" fill="#FFFFFF" fill-rule="nonzero"><g id="menu" transform="translate(30.000000, 1306.000000)"><g id="icon" transform="translate(34.000000, 24.000000)">
@@ -321,6 +325,7 @@ import { DatetimePicker, Toast } from 'mint-ui';
 // 请求类
 import ajaxs from "@/api/customer/details";
 import getClientDetailById from "@/api/common/getClientDetailById";
+import getUseFastNum from "@/api/common/getUseFastNum";
 // 自定义组件类
 import TimeConver from "@/utils/TimeConver";
 // 初始化类
@@ -413,6 +418,8 @@ export default {
             ],
 
             carNoType: '正在加载...', // 车牌加车型名称
+
+            addResCount: 0, // 剩余添加的次数
         } 
     },
 
@@ -484,9 +491,25 @@ export default {
         this.$store.dispatch('customer/init', this);
         this.initPageData(); // 初始化页面数据
         this.getFollowupRecord(); // 获取 - 跟进记录
+        this.getUseFastNum(); // 获取 快速添加客户剩余次数
     },
 
 	methods: {
+        /**
+         * 获取快速添加客户剩余次数
+         */
+        getUseFastNum: function getUseFastNum() {
+            const _this = this;
+
+            getUseFastNum()
+            .then(
+                res => {
+                    _this.addResCount = 20 - res;
+
+                }, error => alert(error)
+            )
+        },
+
         /**
          * 初始化页面数据
          */
@@ -635,6 +658,11 @@ export default {
          */
         updateInformation: function updateInformation() {
             const _this = this;
+
+            // 先判断次数是否大于0
+            if (this.addResCount <= 0) {
+                return alert('您的今日快速添加名额已用完，请明日再试!');
+            }
             
             // 判断是否存在车牌
             if (this.carNo) {
@@ -992,6 +1020,10 @@ export default {
             line-height: 40px;
             color: #fff;
             background: #469AFF;
+        }
+
+        .item-main-disable {
+            background: #ddd;
         }
 
         .item-content-icon {

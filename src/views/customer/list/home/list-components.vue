@@ -31,7 +31,10 @@
                         @click="updateInformation(item)"
                     >
                         <div class="delay-label-text">查询超时</div>
-                        <div class="delay-label-btn">更新信息</div>
+                        <div 
+                            class="delay-label-btn"
+                            :class="{'label-btn-disable': addResCount <= 0}"
+                        >更新信息</div><!-- 这里有个需求, 剩余添加的次数小于0次的时候就不可以点击了 -->
                     </div>
 
                     <!-- 判断 客户是否通过 邀请 -->
@@ -110,6 +113,7 @@
 import { Toast } from 'mint-ui';
 // 请求类
 import ajaxs from "@/api/customer/details"; // 用于更新客户信息
+import getUseFastNum from "@/api/common/getUseFastNum";
 // 组件类
 import jumpToActivityPage from "@/components/jumpToActivityPage";
 
@@ -159,12 +163,31 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            addResCount: 0, // 剩余添加的次数
         } 
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.getUseFastNum(); // 获取 快速添加客户剩余次数
+    },
 
 	methods: {
+        /**
+         * 获取快速添加客户剩余次数
+         */
+        getUseFastNum: function getUseFastNum() {
+            const _this = this;
+
+            getUseFastNum()
+            .then(
+                res => {
+                    _this.addResCount = 20 - res;
+
+                }, error => alert(error)
+            )
+        },
+
 		/**
 		 * 初始化 触摸车辆列表 (用于删除)
 		 */
@@ -209,6 +232,11 @@ export default {
             let carNo = item.carNo;
             let vinNo = item.vinNo;
             let engineNo = item.engineNo;
+
+            // 先判断次数是否大于0
+            if (this.addResCount <= 0) {
+                return alert('您的今日快速添加名额已用完，请明日再试!');
+            }
 
             // 判断是否存在车牌
             if (carNo) {
@@ -407,6 +435,11 @@ export default {
                 line-height: 18px;
                 border-radius: 18px;
                 color: #E50012;
+            }
+
+            .label-btn-disable {
+                border: 1px solid #ddd;
+                color: #ddd;
             }
         }
         

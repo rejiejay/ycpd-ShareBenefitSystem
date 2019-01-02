@@ -756,7 +756,8 @@ export default {
                 border-radius: 5px;
                 text-align: center;
                 color: #fff;
-                background: #FA3838;
+                background: #FFA100;
+                box-shadow: 0px 2.5px 0px 0px rgba(223, 154, 0, 1);
             }
         }
 

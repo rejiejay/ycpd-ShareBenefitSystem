@@ -158,9 +158,9 @@ export default {
          * 因为 只要 clientId 改变， 说明一定是换了新用户 这时候就可以触发 watch 刷新页面数据
          * 这个是因为页面持久化带来的需求
          */
-        // clientId: function clientId() {
-        //     return this.$store.state.customer.clientId;
-        // },
+        clientId: function clientId() {
+            return this.$store.state.customer.clientId;
+        },
         /**
          * 这里因为有 客户id不改变的情况 所以不能监听 id
          */
@@ -177,6 +177,10 @@ export default {
          * 这里因为有 客户id不改变的情况 所以不能监听 id
          */
         lastUpdatedDate: function lastUpdatedDate() {
+            // 每当 lastUpdatedDate 改变 初始化一下 页面数据
+            this.initPageData();
+        },
+        clientId: function clientId() {
             // 每当 lastUpdatedDate 改变 初始化一下 页面数据
             this.initPageData();
         },
@@ -210,6 +214,9 @@ export default {
                         hpzl: val.hpzl,
                     }
                 });
+            } else {
+                this.resultList = [];
+
             }
 
             // 初始化违章更新时间

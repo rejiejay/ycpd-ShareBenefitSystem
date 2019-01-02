@@ -381,13 +381,14 @@ export default {
             /**
              * 剩余添加的次数
              */
-            addResCount: 20,
+            addResCount: 0,
             addResALL: 20, // 一共多少次
 
             beingNormalNum: 0, // 客户队列
 
             isBatchImportModalShow: false, // 是否显示 批量导入提示
             isShowRepetitionWarning: false, // 是否显示 重复的提示框
+            clientId: '', // 重复添加的客户信息
             repeatCarNo: '', // 重复车牌号
             repeatModels: '', // 重复车辆类型
             repeatUsername: '', // 重复姓名
@@ -486,14 +487,24 @@ export default {
          */
         updateInformation: function updateInformation() {
             const _this = this;
+            this.isShowRepetitionWarning = false;
+
+            /**
+             * 跳转到客户详情
+             */
+            function jumpToCustomerDetails() {
+                window.localStorage.setItem('ycpd_clientId', _this.clientId);
+                _this.$store.dispatch('customer/init', _this);
+                _this.$router.push({ path: `/customer/detail/${_this.clientId}` });
+            }
 
             // 判断是否存在车牌
             detailsAjaxs.updateInforByCarNo(this.repeatCarNo, this)
             .then(
                 res => {
                     Toast({ message: '成功更新数据', duration: 2000 });
-                    _this.isShowRepetitionWarning = false;
                     _this.getUseFastNum(); // 获取快速添加客户剩余次数
+                    jumpToCustomerDetails(); // 跳转到客户详情
 
                 }, error => alert(error)
             );
@@ -692,8 +703,10 @@ export default {
                         _this.getUseFastNum(); // 获取快速添加客户剩余次数
 
                     } else if (res.code === 1003) {
+                        // 表示重复添加的情况
                         _this.isShowRepetitionWarning = true;
                         _this.repeatCarNo = res.data.carNo;
+                        _this.clientId = res.data.clientId; // 用于跳转
                         _this.repeatModels = `${res.data.brand ? res.data.brand : ''}${res.data.models ? res.data.models : ''}${res.data.series ? res.data.series : ''}`;
                         _this.repeatUsername = res.data.username;
                         _this.repeatTelphone = res.data.telphone;

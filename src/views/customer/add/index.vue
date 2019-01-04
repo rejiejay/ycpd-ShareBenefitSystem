@@ -119,7 +119,7 @@
             <!-- 确认添加 -->
             <div class="tag-car-confirm">
                 <div class="car-confirm-content" 
-                    :class="{'confirm-content-gray': addResCount > addResALL}"
+                    :class="{'confirm-content-gray': addResCount <= 0}"
                     @click="addCustomerByVinNo"
                 >快速添加</div>
             </div>

@@ -106,17 +106,28 @@ const actions = {
                 mystate.forceExpireDate = res.policy.forceExpireDate ? res.policy.forceExpireDate : '';
                 mystate.businessExpireDate = res.policy.businessExpireDate ? res.policy.businessExpireDate : '';
                 mystate.annualInspectDate = res.policy.annualInspectDate ? res.policy.annualInspectDate : '';
+                
+            } else {
+                // 因为有持久化的需求, 所以要进行清空
+                mystate.registerDate = '';
+                mystate.forceExpireDate = '';
+                mystate.businessExpireDate = '';
+                mystate.annualInspectDate = '';
+
             }
 
             // 这个数据用于 违章更新时间
             if (res.followupRecord) {
                 mystate.followupRecord = res.followupRecord.followupRecord ? res.followupRecord.followupRecord : '';
+            } else {
+                mystate.followupRecord = ''; // 因为有持久化的需求, 所以要进行清空
             }
+
             mystate.lastUpdatedDate = res.lastUpdatedDate ? res.lastUpdatedDate : ''; // 违章更新时间
 
             // 违章列表
             if (res.violations && res.violations.length > 0) {
-            mystate.violations = res.violations.map(val => ({
+                mystate.violations = res.violations.map(val => ({
                     date: val.date ? val.date : '',
                     createdDate: val.createdDate ? val.createdDate : '',
                     handled: val.handled ? val.handled : '',

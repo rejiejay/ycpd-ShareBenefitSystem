@@ -55,7 +55,7 @@
 
             <!-- 产品图片预览 -->
             <div class="product-details-describe">
-                <div class="details-describe-row"><span>· ￥43</span>深圳市200店通用洗车券</div>
+                <div class="details-describe-row"><span>· ￥30</span>深圳市200店通用洗车券</div>
                 <div class="details-describe-row"><span>· ￥412</span>美孚1号4L机油+服务工时+品牌机滤套餐</div>
                 <div class="details-describe-row"><span>· ￥432</span>金美孚1号4L机油+服务工时+品牌机滤套餐</div>
             </div>

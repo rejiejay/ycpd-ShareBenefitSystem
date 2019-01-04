@@ -125,7 +125,7 @@
     </div>
 
     <!-- 保险出单 -->
-    <div class="user-proto-content user-insurance" @click="upgrading">
+    <div class="user-proto-content user-insurance" @click="upgrading" v-if="false">
         <div class="proto-content">
 
             <div class="user-insurance-main flex-start-center">

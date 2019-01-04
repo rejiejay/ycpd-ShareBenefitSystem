@@ -9,7 +9,7 @@
             <div class="progress-bar-line" :style="`width: ${finishPercentage}%;`"></div>
         </div>
 
-        <div class="progress-des"><span style="color: #2F8AFF;">{{queueFinish}}</span>/{{queueCount}}</div>
+        <div class="progress-des"><span style="color: #2F8AFF;">{{beingNormalNum}}</span>/300</div>
         
         <div class="progress-tip-icon" @click="isAddTipShow = true;">
             <svg width="18" height="18" t="1544773280505" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3402" xmlns:xlink="http://www.w3.org/1999/xlink" >
@@ -84,8 +84,7 @@ export default {
             /**
              * 队列进行
              */
-            queueFinish: 0, // 已经完成的 队列
-            queueCount: 0, // 队列所有
+            beingNormalNum: 0, // 已经完成的 队列
 
             /**
              * 分页
@@ -107,13 +106,13 @@ export default {
          * 已经完成的 百分比
          */
         finishPercentage: function finishPercentage() {
-            return Math.floor((this.queueFinish / this.queueCount) * 100);
+            return Math.floor((this.beingNormalNum / 300) * 100);
         },
     },
 
 	mounted: function mounted() {
         this.getCustomerListByQueue(); // 获取 - 客户队列
-        this.getNormalProgress(); // 获取 - 客户队列统计
+        this.getBeingNormalNum(); // 获取 - 客户队列统计
 
 		window.addEventListener('scroll', this.scrollBottom); // 添加滚动事件，检测滚动到页面底部
     },
@@ -185,18 +184,33 @@ export default {
         /**
          * 获取 - 客户队列统计
          */
-		getNormalProgress: function getNormalProgress(isAdd) {
+		getBeingNormalNum: function getBeingNormalNum(isAdd) {
             const _this = this;
 
-            ajaxs.getNormalProgress(this)
+            ajaxs.getBeingNormalNum(this)
             .then(
                 res => {
-                    _this.queueFinish = res.completeNormalNum;
-                    _this.queueCount = res.normalTaskNum;
+                    this.beingNormalNum = res;
 
                 }, error => alert(error)
             );
         },
+
+        /**
+         * 获取 - 客户队列统计
+         */
+		// getNormalProgress: function getNormalProgress(isAdd) {
+        //     const _this = this;
+
+        //     ajaxs.getNormalProgress(this)
+        //     .then(
+        //         res => {
+        //             _this.queueFinish = res.completeNormalNum;
+        //             _this.queueCount = res.normalTaskNum;
+
+        //         }, error => alert(error)
+        //     );
+        // },
 
         /**
          * 跳转到路由

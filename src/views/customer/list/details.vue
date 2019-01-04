@@ -149,7 +149,7 @@
                         </div>
 
                         <div class="list-main-item flex-start" v-if="record.content">
-                            <div class="main-title-lable">跟进内容:</div>
+                            <div class="main-title-lable" v-if="record.followupType === 1">跟进内容:</div>
                             <div class="main-title-describe">{{record.content}}</div>
                         </div>
 
@@ -628,6 +628,7 @@ export default {
                 res => {
                     _this.followRecordList = res.map(val => {
                         return {
+                            followupType: val.followupType,
                             createdDate: val.createdDate,
                             result: resultTransverter(val.result),
                             content: val.content,

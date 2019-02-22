@@ -554,6 +554,8 @@ export default {
                  */
                 if (annualInspectdifferTimestamp > 86400000 && annualInspectdifferTimestamp < 7776000000) {
                     this.policyASDate = Math.floor(annualInspectdifferTimestamp / (1000 * 60 * 60 * 24));
+                } else {
+                    this.policyASDate = ''; // 需要清空, 因为持久化的原因
                 }
             }
 
@@ -570,6 +572,8 @@ export default {
                  */
                 if ((businessExpireTimestamp - new Date().getTime()) < 0) {
                     this.isMayTuoBao = true;
+                } else {
+                    this.isMayTuoBao = false; // 需要清空, 因为持久化的原因
                 }
             }
 

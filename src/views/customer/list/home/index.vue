@@ -616,9 +616,9 @@ export default {
                         let tag = [];
 
                         // 初始化保险日期
-                        if (val.policy && val.policy.businessExpireDate) {
+                        if (val.businessExpireDate) {
                             // 过期的时间戳
-                            let businessExpireTimestamp = TimeConver.YYYYmmDDToTimestamp(val.policy.businessExpireDate);
+                            let businessExpireTimestamp = TimeConver.YYYYmmDDToTimestamp(val.businessExpireDate);
 
                             // 相差时间戳
                             let differTimestamp = businessExpireTimestamp - new Date().getTime();
@@ -639,8 +639,8 @@ export default {
                         /**
                          * 初始化年检多少天后到期
                          */
-                        if (val.policy && val.policy.annualInspectDate) {
-                            let annualInspectTimestamp = TimeConver.YYYYmmDDToTimestamp(val.policy.annualInspectDate);
+                        if (val.annualInspectDate) {
+                            let annualInspectTimestamp = TimeConver.YYYYmmDDToTimestamp(val.annualInspectDate);
                             let annualInspectdifferTimestamp = annualInspectTimestamp - new Date().getTime();
                             /**
                              * 时间相差必须大于一天
@@ -652,8 +652,8 @@ export default {
                         }
 
                         // 判断是否有没有违章
-                        if (val.violations && val.violations.length > 0) {
-                            tag.push(`${val.violations.length}条违章`);
+                        if (val.violationNum) {
+                            tag.push(`${val.violationNum}条违章`);
                         }
 
                         // 初始化跟进状态
@@ -663,8 +663,8 @@ export default {
 
                         // 初始化跟进时间
                         let nextTime = '';
-                        if (val.followupRecord && val.followupRecord.nextTime) {
-                            let nextTimestamp = TimeConver.YYYYmmDDhhMMssToTimestamp(val.followupRecord.nextTime);
+                        if (val.followupStatus && val.followupStatus === 1 && val.followupDate) {
+                            let nextTimestamp = TimeConver.YYYYmmDDhhMMssToTimestamp(val.followupDate);
                             // 相差时间戳
                             let differTimestamp = nextTimestamp - new Date().getTime();
 
@@ -716,33 +716,37 @@ export default {
                                 }
                             })();
 
-                            // 如果是 优惠加油提成 
-                            if (isPromote) {
-                                customerState.val = 'sharing-lable'; // 设置 状态为 分享成中 并且 优惠加油提成
+                            if (val.ycpdRegisterDate && val.recordCreatedDate) { // 这里都依赖了这几两个变量进行计算，所以要进行判断变量是否存在，否则会报错
+                                // 如果是 优惠加油提成 
+                                if (isPromote) {
+                                    customerState.val = 'sharing-lable'; // 设置 状态为 分享成中 并且 优惠加油提成
 
-                                // 初始化 分成时间
-                                let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDhhMMssToTimestamp(val.recordCreatedDate)) / (1000 * 60 * 60 * 24));
-                                // 如果相差的时间 小于或者等于 0
-                                if (timeDifference <= 0) {
-                                    customerState.createdDate = '今天';
+                                    // 初始化 分成时间
+                                    let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDhhMMssToTimestamp(val.recordCreatedDate)) / (1000 * 60 * 60 * 24));
+                                    // 如果相差的时间 小于或者等于 0
+                                    if (timeDifference <= 0) {
+                                        customerState.createdDate = '今天';
+                                    } else {
+                                        customerState.createdDate = `${timeDifference}天前`;
+                                    }
+
+                                    // 初始化 优惠加油提成 的标签
+                                    customerState.obtainMoney = val.recordObtainMoney;
+                                    customerState.projectName = val.recordProjectName;
                                 } else {
-                                    customerState.createdDate = `${timeDifference}天前`;
+                                    customerState.val = 'sharing'; // 设置 状态为 分享成中 无优惠加油提成
+                                    
+                                    // 初始化 分成时间
+                                    let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDToTimestamp(val.ycpdRegisterDate)) / (1000 * 60 * 60 * 24));
+                                    // 如果相差的时间 小于或者等于 0
+                                    if (timeDifference <= 0) {
+                                        customerState.createdDate = '今天';
+                                    } else {
+                                        customerState.createdDate = `${timeDifference}天前`;
+                                    }
                                 }
-
-                                // 初始化 优惠加油提成 的标签
-                                customerState.obtainMoney = val.recordObtainMoney;
-                                customerState.projectName = val.recordProjectName;
                             } else {
-                                customerState.val = 'sharing'; // 设置 状态为 分享成中 无优惠加油提成
-
-                                // 初始化 分成时间
-                                let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDToTimestamp(val.ycpdRegisterDate)) / (1000 * 60 * 60 * 24));
-                                // 如果相差的时间 小于或者等于 0
-                                if (timeDifference <= 0) {
-                                    customerState.createdDate = '今天';
-                                } else {
-                                    customerState.createdDate = `${timeDifference}天前`;
-                                }
+                                customerState.val = 'noRegister'; // 未注册
                             }
 
                         } else if (val.sharingStatus === 'OTHER_SHARING') { // 他人分享成中

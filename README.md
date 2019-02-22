@@ -9,7 +9,9 @@ npm install
 # 运行开发环境, 服务端端口热加载
 npm run dev
 
-# 项目打包 到 生产环境
+# 项目打包 到 测试环境
+# /home/cas
+# http://scas.api2.hotgz.com/home/cas/index.html
 npm run builddev
 
 # 项目打包 到 生产环境

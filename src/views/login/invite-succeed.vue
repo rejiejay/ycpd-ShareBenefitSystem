@@ -18,7 +18,7 @@
 
             <div class="succeed-main-row1">长按识别二维码关注</div>
 
-            <div class="succeed-main-row2">关注“金车管家”微信公众号开始赚钱吧！</div>
+            <div class="succeed-main-row2">关注“{{weChatName}}”微信公众号开始赚钱吧！</div>
 
             <div class="succeed-main-row3">养车省钱，分享赚钱！</div>
 
@@ -46,15 +46,18 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+            
+            weChatName: '金车管家',
 
             pictures: { // 页面使用的图片
                 inviteBg: inviteBg,
-                WeChat_public_qrcode: `${config.common.picture.WeChat_public_qrcode}?x-oss-process=image/resize,m_fill,w_300,h_300,limit_0/auto-orient,0/quality,q_100`,
+                WeChat_public_qrcode: `${config.getWeChatQrcode()}?x-oss-process=image/resize,m_fill,w_300,h_300,limit_0/auto-orient,0/quality,q_100`,
             },
         }
     }, 
 
     mounted: function () {
+        this.weChatName = config.getWeChatName(); // 初始化微信类型
     },
 
     methods: { },

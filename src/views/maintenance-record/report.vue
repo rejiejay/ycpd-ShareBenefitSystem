@@ -399,12 +399,14 @@
         </div>
     </div>
 
-    <!-- 金车管家免责条款 -->
-    <div class="escape-clause">《金车管家免责条款》</div>
+    <!-- 免责条款 -->
+    <div class="escape-clause">《{{weChatName}}免责条款》</div>
 </div>
 </template>
 
 <script>
+// 配置类
+import config from "@/config";
 
 export default {
     name: 'maintenance-record-report',
@@ -413,6 +415,8 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+            
+            weChatName: '金车管家',
 
             // 综合评级 ABCDE 级
             selectRateIndex: 3, // 选中评级的下标 null 表示未选中
@@ -695,7 +699,9 @@ export default {
         }
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.weChatName = config.getWeChatName(); // 初始化微信类型
+    },
 
 	methods: {
         /**

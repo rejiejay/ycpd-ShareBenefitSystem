@@ -19,7 +19,7 @@
         <div class="privilege-rules-content">
             <div class="detail-rules-title">活动规则</div>
             <div class="detail-rules-container">
-                <div class="detail-rules-row">金车管家为每一个用户创建了专属商城，通过您的商城购买养车服务产品，您可享订单实际支付金额{{proportion}}的返佣</div>
+                <div class="detail-rules-row">{{weChatName}}为每一个用户创建了专属商城，通过您的商城购买养车服务产品，您可享订单实际支付金额{{proportion}}的返佣</div>
                 <div class="detail-rules-time">活动时间：{{time}}</div>
             </div>
         </div>
@@ -230,6 +230,8 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
             
+            weChatName: '金车管家',
+
             navigation_index: 0, // 顶部导航的下标
 
             awardTotal: 0, // 总金额
@@ -269,6 +271,8 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.weChatName = config.getWeChatName(); // 初始化微信类型
+
         this.initPageData(); // 初始化页面数据
 
         this.getMyRewards(); // 获取 - 我的奖励

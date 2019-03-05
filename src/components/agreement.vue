@@ -2,15 +2,15 @@
 <template>
 <div class="agreement">
     <div class="agreement-main">
-        <div class="agreement-title">“金车管家”用户注册与使用协议</div>
+        <div class="agreement-title">“{{weChatName}}”用户注册与使用协议</div>
         <div class="agreement-content">
-            <div class="agreement-content-row">本协议是人机互联网络（深圳）有限公司(以下简称“本公司”)与用户(以下简称“您”)就您使用金车管家平台（以下简称“本平台”）相关服务所订立的协议。</div>
+            <div class="agreement-content-row">本协议是人机互联网络（深圳）有限公司(以下简称“本公司”)与用户(以下简称“您”)就您使用{{weChatName}}平台（以下简称“本平台”）相关服务所订立的协议。</div>
             <div class="agreement-content-row">您加入或使用本平台表明您已阅读并同意接受本协议的全部约定内容以及与本协议有关的已经发布或将来可能发布的各项协议、规则、说明、用户须知、页面展示、操作流程、公告或通知（以下统称“规则”）。在接受本协议之前，请您仔细阅读本协议的全部内容。如果您不同意本协议的任意内容、或者无法准确理解该条款的含义，请不要进行后续的操作。</div>
             
             <div class="agreement-content-title">一、相关定义</div>
             <div class="agreement-content-row">除非本协议另有明确约定，以下术语定义如下：</div>
-            <div class="agreement-content-row">1.1金车管家平台：是本公司开发的为保险代理人、保险销售业务员和保险机构提供网络技术支持辅助服务以及为用户提供其他增值服务的平台，金车管家平台的所有权和运营权归本公司所有。</div>
-            <div class="agreement-content-row">1.2金车管家平台服务：金车管家平台服务是本平台为您提供的通过本平台系统查询车辆保险信息及车主相关信息、车辆违章信息、车辆维保记录、在线进行保险产品报价及投保（通过本平台系统与保险机构系统对接实现）、进行交易资金结算（由支付机构提供）等相关增值服务。具体服务以本公司实际提供为准。</div>
+            <div class="agreement-content-row">1.1{{weChatName}}平台：是本公司开发的为保险代理人、保险销售业务员和保险机构提供网络技术支持辅助服务以及为用户提供其他增值服务的平台，{{weChatName}}平台的所有权和运营权归本公司所有。</div>
+            <div class="agreement-content-row">1.2{{weChatName}}平台服务：{{weChatName}}平台服务是本平台为您提供的通过本平台系统查询车辆保险信息及车主相关信息、车辆违章信息、车辆维保记录、在线进行保险产品报价及投保（通过本平台系统与保险机构系统对接实现）、进行交易资金结算（由支付机构提供）等相关增值服务。具体服务以本公司实际提供为准。</div>
             <div class="agreement-content-row">1.3保险机构：是指经保险监督管理机构批准设立，并依法登记注册的保险公司或保险中介机构。</div>
             <div class="agreement-content-row">1.4支付机构：指经本公司授权、并与本公司有合作协议的支付机构。支付机构可以是第三方支付公司，也可以是发卡银行本身。</div>
             
@@ -123,15 +123,21 @@
 </template>
 
 <script>
+// 配置类
+import config from "@/config";
 
 export default {
     name: 'agreement',
 
 	data: function data() { 
-        return {} 
+        return {
+            weChatName: '金车管家',
+        } 
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.weChatName = config.getWeChatName(); // 初始化微信类型
+    },
 
 	methods: { }
 }

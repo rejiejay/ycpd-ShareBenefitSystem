@@ -228,6 +228,8 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.weChatName = config.getWeChatName(); // 初始化微信类型
+
         this.getSubagentCount(); // 获取团队成员
         this.getTeamIncome(); // 获取团队收入提成数总额
         this.getTeamList(); // 获取 团队管理页面列表
@@ -452,7 +454,7 @@ export default {
                 shareName = `**${userInfoStore.telephone.slice((userInfoStore.telephone.length - 4), userInfoStore.telephone.length)}`;
             }
 
-            let title = `“${shareName}”邀请你加入金车管家`; // 分享标题
+            let title = `“${shareName}”邀请你加入${this.weChatName}`; // 分享标题
             let desc = '加油钜惠，保养特价，还能做任务赚佣金'; // 分享描述
             /**
              * 苹果端 不可以 使用 shareName 这个字段

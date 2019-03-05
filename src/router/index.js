@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from './../store/index';
 
 Vue.use(Router);
 
@@ -345,7 +344,18 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
     if (to.meta.title) { // 路由发生变化修改页面 title
-        document.title = to.meta.title;
+        let newtitle = to.meta.title;
+        let myWeChatType = window.localStorage.wechat_type;
+
+        if (myWeChatType && myWeChatType !== '1') {
+            if (myWeChatType === '001') {
+                newtitle.replace('金车管家', 'Hconnect技术中心');
+            } else if (myWeChatType === '002') {
+                newtitle.replace('金车管家', '养车频道测试');
+            }
+        }
+
+        document.title = newtitle;
     }
     
     next();

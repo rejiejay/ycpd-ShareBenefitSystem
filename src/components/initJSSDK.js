@@ -9,7 +9,7 @@ import config from "@/config/index";
 let getWxConfig = function getWxConfig() {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: `${config.url.origin}/ycpd/cas/wxShare?token=${window.localStorage.getItem('ycpd_token')}&url=${window.navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) ? encodeURIComponent(window.location.href.split('#')[0]) : encodeURIComponent(window.location.href)}`,
+            url: `${config.url.origin}/ycpd/cas/wxShare?token=${window.localStorage.getItem('ycpd_token')}&url=${window.navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) ? encodeURIComponent(window.location.href.split('#')[0]) : encodeURIComponent(window.location.href)}${window.localStorage.wechat_type ? `&type=${window.localStorage.wechat_type}` : ''}`,
             type: "get",
             xhrFields: {
                 withCredentials: true

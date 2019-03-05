@@ -3,7 +3,7 @@
 <div class="register">
 
     <div class="register-container flex-column-center">
-        <div class="register-title" v-if="shareName"><span>{{shareName}}</span>邀请你加入“金车管家”</div>
+        <div class="register-title" v-if="shareName"><span>{{shareName}}</span>邀请你加入“{{weChatName}}”</div>
         <div class="register-title" v-else><span>养车省钱，分享赚钱</span></div>
         <div class="register-title-lable" v-if="shareName">养车省钱，分享赚钱</div>
         <div class="register-title-lable" v-else>立即加入</div>
@@ -66,7 +66,7 @@
                         </svg>
                     </div>
 
-                    <div class="register-agreement-text">我已阅读并同意<span>《金车管家用户服务协议》</span></div>
+                    <div class="register-agreement-text">我已阅读并同意<span>《{{weChatName}}用户服务协议》</span></div>
                 </div>
             </div>
 
@@ -144,6 +144,8 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+            
+            weChatName: '金车管家',
 
             pictures: {
                 inviteBg: inviteBg
@@ -237,6 +239,26 @@ export default {
     },
 
     mounted: function () {
+        this.weChatName = config.getWeChatName(); // 初始化微信类型
+
+        /**
+         * 初始化 公众号类型
+         * 因为 这里 config.getWeChatName 不一定能够初始化成功
+         */
+        let myWeChatType = this.$route.query.type ? this.$route.query.type : null;
+        if (myWeChatType) {
+            if (myWeChatType === '001') {
+                this.weChatName = 'Hconnect技术中心';
+
+            } else if (myWeChatType === '002') {
+                this.weChatName = '养车频道测试';
+
+            } else {
+                this.weChatName = '金车管家';
+
+            }
+        }
+
         // 初始化 parentId
         this.parentId = this.$route.query.parentId ? this.$route.query.parentId : null;
 
@@ -558,7 +580,7 @@ export default {
 
             // 是否同意协议
             if (this.isRegisterAgreement === false) {
-				return alert('请同意《金车管家推广员注册协议》');
+				return alert(`请同意《${this.weChatName}推广员注册协议》`);
             }
 
             ajaxs.registerByWx(this.loginToken, this.phoneNumber, this.SMSNumber, this.selectRegisterCompany, this.parentId, this)

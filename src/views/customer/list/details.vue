@@ -472,6 +472,8 @@ export default {
         clientId: function clientId() {
             // 每当 clientId 改变 初始化一下 页面数据
             this.initPageData();
+            this.getFollowupRecord(); // 获取 - 跟进记录
+            this.getUseFastNum(); // 获取 快速添加客户剩余次数
         },
 
         /**
@@ -484,6 +486,8 @@ export default {
         lastUpdatedDate: function lastUpdatedDate() {
             // 每当 lastUpdatedDate 改变 初始化一下 页面数据
             this.initPageData();
+            this.getFollowupRecord(); // 获取 - 跟进记录
+            this.getUseFastNum(); // 获取 快速添加客户剩余次数
         },
     },
 
@@ -677,6 +681,11 @@ export default {
                         Toast({ message: '成功更新数据', duration: 1000 });
                         _this.$store.dispatch('customer/init', _this);
                         _this.getFollowupRecord(); // 获取 - 跟进记录
+                        
+                        // 防止数据库出现并发, 3秒后再获取一次
+                        setTimeout(function () {
+                            _this.getFollowupRecord();
+                        }, 3000);
 
                     }, error => alert(error)
                 )
@@ -688,6 +697,11 @@ export default {
                         Toast({ message: '成功更新数据', duration: 1000 });
                         _this.$store.dispatch('customer/init', _this);
                         _this.getFollowupRecord(); // 获取 - 跟进记录
+                        
+                        // 防止数据库出现并发, 3秒后再获取一次
+                        setTimeout(function () {
+                            _this.getFollowupRecord();
+                        }, 3000);
 
                     }, error => alert(error)
                 );
@@ -723,6 +737,11 @@ export default {
                     _this.nextFollowUpTime = new Date();
                     _this.followUpIndex = null;
                     _this.getFollowupRecord();
+                    
+                    // 防止数据库出现并发, 3秒后再获取一次
+                    setTimeout(function () {
+                        _this.getFollowupRecord();
+                    }, 3000);
                 }, error => {
                     alert(error);
                 }

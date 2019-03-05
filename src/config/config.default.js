@@ -8,8 +8,85 @@ module.exports = {
     common: {
         picture: {
             wx_sharer: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/wx-sharer.png', // 微信分享图片
-            WeChat_public_qrcode: 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/wechat-public-qrcode.png', // 金车管家 微信公众 二维码
         },
+    },
+
+    /**
+     * 获取公众号二维码
+     * 因为 window.localStorage 是异步初始化进来， 所以不能在文件初始化的时候定义好
+     * 所以需要执行获取
+     */
+    getWeChatQrcode: function getWeChatQrcode() {
+        /**
+         * 公众号类型
+         * @prop Hconnect技术中心 001
+         * @prop 养车频道测试 002
+         * @prop 金车管家 1
+         */
+        let myWeChatType = window.localStorage.wechat_type;
+
+        if (myWeChatType && myWeChatType === '001') {
+            return 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/wechat-hconnect-qrcode.png';
+
+        } else if (myWeChatType && myWeChatType === '002') {
+            return 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/wechat-ycpdtest-qrcode.png';
+
+        } else {
+            return 'https://ycpd-assets.oss-cn-shenzhen.aliyuncs.com/ycpd/customer/share-benefit-system/wechat-public-qrcode.png'; // 金车管家 微信公众 二维
+
+        }
+
+    },
+
+    /**
+     * 获取公众号名称
+     * 因为 window.localStorage 是异步初始化进来， 所以不能在文件初始化的时候定义好
+     * 所以需要执行获取
+     */
+    getWeChatName: function getWeChatName() {
+        /**
+         * 公众号类型
+         * @prop Hconnect技术中心 001
+         * @prop 养车频道测试 002
+         * @prop 金车管家 1
+         */
+        let myWeChatType = window.localStorage.wechat_type;
+
+        if (myWeChatType && myWeChatType === '001') {
+            return 'Hconnect技术中心';
+
+        } else if (myWeChatType && myWeChatType === '002') {
+            return '养车频道测试';
+
+        } else {
+            return '金车管家';
+
+        }
+    },
+
+    /**
+     * 获取公众号 appid
+     */
+    getWeChatAppid: function getWeChatAppid() {
+        /**
+         * 公众号类型
+         * @prop Hconnect技术中心 001
+         * @prop 养车频道测试 002
+         * @prop 金车管家 1
+         */
+        let myWeChatType = window.localStorage.wechat_type;
+
+        if (myWeChatType && myWeChatType === '001') {
+            return 'wxa21f56d22d9482b1';
+
+        } else if (myWeChatType && myWeChatType === '002') {
+            return 'wxa4138072e380eeff';
+
+        } else {
+            return 'wxedc92122e7508015';
+
+        }
+
     },
 
     /**

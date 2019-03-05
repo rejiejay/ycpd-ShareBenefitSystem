@@ -35,7 +35,7 @@ export default {
     //     }, 
     //     msg: '', // 状态内容
     // });
-    isLogin: self => apibasics.resget(`${config.url.origin}/ycpd/cas/phone?code=${window.localStorage.wx_code}`, '判断是否已经登录', self),
+    isLogin: self => apibasics.resget(`${config.url.origin}/ycpd/cas/phone?code=${window.localStorage.wx_code}${window.localStorage.wechat_type ? `&type=${window.localStorage.wechat_type}` : ''}`, '判断是否已经登录', self),
 
     /**
      * 获取验人机证码
@@ -78,11 +78,17 @@ export default {
      * @param {string} affiliation 所属机构
      * @param {string} parentId 父代理id，一级代理注册时传Null
      */
-    registerByWx: (token, telephone, msgCode, affiliation, parentId, self) => apibasics.respost(`${config.url.origin}/ycpd/cas/registerByWx`, {
-        token: token,
-        telephone: telephone,
-        msgCode: msgCode,
-        affiliation: affiliation,
-        parentId: parentId,
-    }, '登入验证', self),
+    registerByWx: (token, telephone, msgCode, affiliation, parentId, self) => {
+        let body = {
+            token: token,
+            telephone: telephone,
+            msgCode: msgCode,
+            affiliation: affiliation,
+            parentId: parentId,
+        }
+
+        window.localStorage.wechat_type ? body.type = window.localStorage.wechat_type : '';
+
+        apibasics.respost(`${config.url.origin}/ycpd/cas/registerByWx`, body, '登入验证', self)
+    },
 }

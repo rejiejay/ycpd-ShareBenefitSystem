@@ -33,12 +33,32 @@ export default {
          * 也许是 不能中文 ，反正是 shareName 有问题
          */
         let name = this.$route.query.name;
-        
+
+        /**
+         * 公众号类型
+         * @prop Hconnect技术中心 001
+         * @prop 养车频道测试 002
+         * @prop 金车管家 1
+         */
+        let type = this.$route.query.type;
+        let appid = 'wxedc92122e7508015'; // 金车管家
+
+        if (type && type === '001') {
+            appid = 'wxa21f56d22d9482b1'; // Hconnect技术中心
+
+        } else if (type && type === '002') {
+            appid = 'wxa4138072e380eeff'; // 养车频道测试
+
+        } else {
+            appid = 'wxedc92122e7508015'; // 金车管家
+
+        }
+
         /**
          * 因为需要获取 openId
          * 所以需要重新跳转
          */
-        window.location.href = config.jumpwx(`${config.location.href}#/register/index?parentId=${parentId}&name=${name}`, config.wxappid.my);
+        window.location.href = config.jumpwx(`${config.location.href}#/register/index?parentId=${parentId}&name=${name}&type=${type}`, appid);
     },
 
     destroyed: function destroyed() {

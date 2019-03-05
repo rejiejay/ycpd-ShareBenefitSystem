@@ -35,7 +35,7 @@ export default {
     //     }, 
     //     msg: '', // 状态内容
     // });
-    isLogin: self => apibasics.resget(`${config.url.origin}/ycpd/cas/phone?code=${window.localStorage.wx_code}`, '判断是否已经登录', self),
+    isLogin: self => apibasics.resget(`${config.url.origin}/ycpd/cas/phone?code=${window.localStorage.wx_code}${window.localStorage.wechat_type ? `&type=${window.localStorage.wechat_type}` : ''}`, '判断是否已经登录', self),
 
     /**
      * 获取验人机证码

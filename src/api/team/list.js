@@ -23,5 +23,5 @@ export default {
     /**
      * 获取 - 团队二维码
      */
-    getTeamQM: self => apibasics.resget(`${config.url.origin}/ycpd/cas/getTeamQM?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`, '获取团队二维码', self),
+    getTeamQM: self => apibasics.resget(`${config.url.origin}/ycpd/cas/getTeamQM?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}${window.localStorage.wechat_type ? `&type=${window.localStorage.wechat_type}` : ''}`, '获取团队二维码', self),
 }

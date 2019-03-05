@@ -46,7 +46,7 @@
         :zindex="3" 
         @clickShade="sendMailSucceedTip = false"
     >
-        <div class="mail-succeed-title">《金车管家导入模板.xls》已经发送到您的邮箱，请注意查收</div>
+        <div class="mail-succeed-title">《{{weChatName}}导入模板.xls》已经发送到您的邮箱，请注意查收</div>
         <div class="mail-succeed-emailaddress">{{emailaddress}}</div>
         <div class="mail-succeed-btn" @click="sendMailSucceedTip = false">我知道了</div>
     </ModalByZindex>
@@ -60,6 +60,8 @@ import { Toast } from 'mint-ui';
 import ajaxs from "@/api/customer/add-lot-excel.js";
 // 组件类
 import ModalByZindex from "@/components/ModalByZindex";
+// 配置类
+import config from "@/config";
 // 资源类
 import teachcreatexceltemplate from "@/static/teach-creat-excel-template.png";
 
@@ -72,6 +74,8 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+            
+            weChatName: '金车管家',
 
             img: {
                 teachcreatexceltemplate: teachcreatexceltemplate
@@ -86,6 +90,7 @@ export default {
     },
 
 	mounted: function mounted() {
+        this.weChatName = config.getWeChatName(); // 初始化微信类型
     },
 
 	methods: {

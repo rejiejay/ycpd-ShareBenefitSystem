@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="login-agreement-text">
-                    我已阅读并同意<span @click="isAgreementShow = true; countdownStart;">《金车管家用户服务协议》</span>
+                    我已阅读并同意<span @click="isAgreementShow = true; countdownStart;">《{{weChatName}}用户服务协议》</span>
                 </div>
             </div>
         </div>
@@ -134,6 +134,8 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+            
+            weChatName: '金车管家',
 
 			// 手机号码
             phoneNumber: '',
@@ -221,8 +223,35 @@ export default {
     },
 
     mounted: function () {
-        // 判断是否存在微信 code
         let mywx_code = loadPageVar('code');
+        /**
+         * 公众号类型
+         * @prop Hconnect技术中心 001
+         * @prop 养车频道测试 002
+         * @prop 金车管家 1
+         */
+        let myWeChatType = loadPageVar('wechatType');
+
+        // 判断公众号账号类型
+        if (myWeChatType) {
+            window.localStorage.setItem('wechat_type', myWeChatType);
+
+            if (myWeChatType === '001') {
+                document.title = 'Hconnect技术中心';
+                this.weChatName = 'Hconnect技术中心';
+
+            } else if (myWeChatType === '002') {
+                document.title = '养车频道测试';
+                this.weChatName = '养车频道测试';
+
+            }
+
+        } else {
+            this.weChatName = '金车管家';
+            window.localStorage.removeItem('wechat_type');
+        }
+
+        // 判断是否存在微信 code
         if (mywx_code) {
             window.localStorage.setItem('wx_code', mywx_code);
 
@@ -578,7 +607,7 @@ export default {
             
             // 是否同意协议
             if (this.isAgreement === false) {
-				return alert('请先同意金车管家用户协议');
+				return alert(`请先同意${this.weChatName}用户协议`);
             } 
 
             ajaxs.goLogin(this.loginToken, this.phoneNumber, this.SMSNumber, this)

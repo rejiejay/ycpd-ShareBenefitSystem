@@ -4,14 +4,14 @@
 
     <div class="guide-block first">
         <div class="guide-block-container">
-            <div class="guide-block-title">第一篇 新手入门 “金车管家”是什么？</div>
-            <div class="guide-block-main">“金车管家”是一款面向“保险销售人员、保险代理人员或其他车务、保险相关从业人员”的展业工具，帮助其管理现有客户、拓展新客户，创造客户接触机会，给客户提供加油、洗车、保养等高品质优惠服务，给业务经理分成。</div>
+            <div class="guide-block-title">第一篇 新手入门 “{{weChatName}}”是什么？</div>
+            <div class="guide-block-main">“{{weChatName}}”是一款面向“保险销售人员、保险代理人员或其他车务、保险相关从业人员”的展业工具，帮助其管理现有客户、拓展新客户，创造客户接触机会，给客户提供加油、洗车、保养等高品质优惠服务，给业务经理分成。</div>
         </div>
     </div>
 
     <div class="guide-block second">
         <div class="guide-block-container">
-            <div class="guide-block-title">第二篇 渐入佳境： “金车管家”有什么用？</div>
+            <div class="guide-block-title">第二篇 渐入佳境： “{{weChatName}}”有什么用？</div>
             <div class="guide-block-main">
 
                 <div class="second-title flex-start-center">
@@ -87,7 +87,7 @@
 
     <div class="guide-block thirdly">
         <div class="guide-block-container">
-            <div class="guide-block-title">第三篇 高手进阶 “金车管家”怎么使用？</div>
+            <div class="guide-block-title">第三篇 高手进阶 “{{weChatName}}”怎么使用？</div>
             <div class="guide-block-main">
 
                 <div class="guide-block-btn">
@@ -135,10 +135,14 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            weChatName: '金车管家',
         }
     },
 
 	mounted: function mounted() {
+        this.weChatName = config.getWeChatName(); // 初始化微信类型
+
         if (this.$route.query.position === 'bottom') {
             this.scrollTopBy(750);
 

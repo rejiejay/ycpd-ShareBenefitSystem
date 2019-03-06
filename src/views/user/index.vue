@@ -49,7 +49,7 @@
                 </div>
             </div>
             
-            <div class="user-wallet-main user-block-main flex-start-center" @click="jumpToRouter('/account/detail')">
+            <div class="user-wallet-main user-block-main flex-start-center" @click="jumpToRouter('/user/wallet')">
                 <div class="block-main-describe flex-center flex-rest">
                     <div class="main-describe-container">
 
@@ -58,7 +58,7 @@
                             <img alt="好礼换购" src="data:image/png;base64,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" />
                         </div>
 
-                        <div class="describe-total-money">累计总收入：￥{{totalMoney}}</div>
+                        <div class="describe-total-money">累计获得积分：{{totalMoney}}</div>
                     </div>
                 </div>
                 <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" >
@@ -337,8 +337,9 @@ export default {
 	mounted: function mounted() {
         this.initPageData(); // 初始化页面数据从 store 获取数据 用户信息
 
-        this.getClientUsableMoney(); // 获取 - 可用余额
-        this.getClientTotalMoney(); // 获取 - 累计收入
+        // this.getClientUsableMoney(); // 获取 - 可用余额
+        // this.getClientTotalMoney(); // 获取 - 累计收入
+        this.getAgentAccount(); // 获取 - 可用余额并且累计收入
         this.getMsgUsedNum(); // 获取 - 短信用量
     },
 
@@ -366,42 +367,60 @@ export default {
         },
 
         /**
-         * 获取 - 可用余额
+         * 获取 - 可用余额并且累计收入
          */
-    	getClientUsableMoney: function getClientUsableMoney() {
+        getAgentAccount: function getAgentAccount() {
             const _this = this;
 
-            ajaxs.findClientUsableMoney(this)
+            ajaxs.queryAgentAccount(this)
             .then(
                 res => {
-                    // 如果返回横杆，说明是空值
-                    if (res && res !== '-') {
-                        _this.usableMoney = res;
-                    }
+                    _this.usableMoney = res[0];
+                    _this.totalMoney = res[1];
                 }, error => {
                     alert(error);
                 }
             )
+
         },
 
-        /**
-         * 获取 - 累计收入
-         */
-    	getClientTotalMoney: function getClientTotalMoney() {
-            const _this = this;
+        // /**
+        //  * 获取 - 可用余额
+        //  */
+    	// getClientUsableMoney: function getClientUsableMoney() {
+        //     const _this = this;
 
-            ajaxs.findClientTotalMoney(this)
-            .then(
-                res => {
-                    // 如果返回横杆，说明是空值
-                    if (res && res !== '-') {
-                        _this.totalMoney = res;
-                    }
-                }, error => {
-                    alert(error);
-                }
-            )
-        },
+        //     ajaxs.findClientUsableMoney(this)
+        //     .then(
+        //         res => {
+        //             // 如果返回横杆，说明是空值
+        //             if (res && res !== '-') {
+        //                 _this.usableMoney = res;
+        //             }
+        //         }, error => {
+        //             alert(error);
+        //         }
+        //     )
+        // },
+
+        // /**
+        //  * 获取 - 累计收入
+        //  */
+    	// getClientTotalMoney: function getClientTotalMoney() {
+        //     const _this = this;
+
+        //     ajaxs.findClientTotalMoney(this)
+        //     .then(
+        //         res => {
+        //             // 如果返回横杆，说明是空值
+        //             if (res && res !== '-') {
+        //                 _this.totalMoney = res;
+        //             }
+        //         }, error => {
+        //             alert(error);
+        //         }
+        //     )
+        // },
 
         /**
          * 获取 - 短信用量

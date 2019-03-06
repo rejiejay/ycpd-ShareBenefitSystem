@@ -87,8 +87,8 @@ export default {
             parentId: parentId,
         }
 
-        window.localStorage.wechat_type ? body.type = window.localStorage.wechat_type : '';
+        body.type = window.localStorage.wechat_type ? window.localStorage.wechat_type : '1'; // 因为这个是必填的
 
-        apibasics.respost(`${config.url.origin}/ycpd/cas/registerByWx`, body, '登入验证', self)
+        return apibasics.respost(`${config.url.origin}/ycpd/cas/registerByWx`, body, '登入验证', self)
     },
 }

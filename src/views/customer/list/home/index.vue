@@ -746,7 +746,7 @@ export default {
                                     }
                                 }
                             } else {
-                                customerState.val = 'noRegister'; // 未注册
+                                customerState.val = null; // 未注册
                             }
 
                         } else if (val.sharingStatus === 'OTHER_SHARING') { // 他人分享成中

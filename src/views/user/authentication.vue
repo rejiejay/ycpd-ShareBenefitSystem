@@ -8,7 +8,7 @@
             <div class="authentication-input-item flex-start-center">
                 <div class="input-item-main">姓名</div>
                 <div class="input-item-box">
-                    <input type="text" placeholder="请输入您的姓名" />
+                    <input type="text" placeholder="请输入您的姓名" v-model="name" />
                 </div>
             </div>
             <div class="authentication-input-line"></div>
@@ -16,7 +16,7 @@
             <div class="authentication-input-item flex-start-center">
                 <div class="input-item-main">身份证号</div>
                 <div class="input-item-box">
-                    <input type="text" placeholder="请输入您的身份证号码" />
+                    <input type="text" placeholder="请输入您的身份证号码" v-model="idCard" />
                 </div>
             </div>
         </div>
@@ -24,12 +24,15 @@
 
     <!-- 提交 -->
     <div class="user-authentication-submit">
-        <div class="authentication-submit-content">提交</div>
+        <div class="authentication-submit-content">立即认证</div>
     </div>
 </div>
 </template>
 
 <script>
+// 请求类
+import ajaxswallet from "@/api/user/wallet"; 
+import { authUsingPOST } from "@/api/user/authentication"; 
 
 export default {
     name: 'user-authentication',
@@ -38,12 +41,51 @@ export default {
         return {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
+
+            isAuthe: false, // 是否认证
+
+            name: '', // 姓名
+            idCard: '', // 身份证号
         } 
     },
 
-	mounted: function mounted() { },
+	mounted: function mounted() {
+        this.checkAuth();
+    },
 
-	methods: {}
+	methods: {
+        /**
+         * 判断是否认证接口
+         */
+        checkAuth: function checkAuth() {
+            const _this = this;
+
+            ajaxswallet.checkAuth()
+            .then(val => {
+                _this.isAuthe = true;
+            });
+        },
+
+        // 身份二要素认证接口
+        submitHandle: function submitHandle() {
+            const _this = this;
+
+            if (this.name) {
+
+            }
+            
+            authUsingPOST(this.name, this.idCard, this)
+            .then(
+                val => {
+                    console.log(val);
+                    _this.isAuthe = true;
+                }, error => {
+                    console.log(error);
+                }
+            );
+        },
+
+    }
 }
 
 </script>
@@ -118,7 +160,7 @@ export default {
         border-radius: 3px;
         text-align: center;
         color: #fff;
-        background-color: #E50012;
+        background-color: #EFC60E;
     }
 }
 

@@ -80,9 +80,15 @@ export default {
      * @param {string} telephone 电话号码
      * @param {string} msgCode 验证码
      */
-    goLogin: (token, telephone, msgCode, self) => apibasics.respost(`${config.url.origin}/ycpd/cas/loginByWx`, {
-        token: token,
-        telephone: telephone,
-        msgCode: msgCode,
-    }, '登入验证', self),
+    goLogin: (token, telephone, msgCode, self) => {
+        let body = {
+            token: token,
+            telephone: telephone,
+            msgCode: msgCode,
+        }
+
+        body.type = window.localStorage.wechat_type ? window.localStorage.wechat_type : '1'; // 因为这个是必填的
+
+        return apibasics.respost(`${config.url.origin}/ycpd/cas/loginByWx`, body, '登入验证', self)
+    },
 }

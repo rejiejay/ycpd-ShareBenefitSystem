@@ -81,11 +81,16 @@ const routes = [
         name: 'user-modifyMobile',
         component: () => import('@/views/user/modify-mobile'),
         meta: { title: '修改手机号' },
-    },  {
+    }, {
         path: '/user/nickName/modify',
         name: 'user-nickName',
         component: () => import('@/views/user/modify-nickName'),
         meta: { title: '修改昵称' },
+    }, {
+        path: '/user/wallet',
+        name: 'my-wallet',
+        component: () => import('@/views/user/my-wallet'),
+        meta: { title: '我的钱包' },
     }, 
 
     /**
@@ -111,7 +116,7 @@ const routes = [
         name: 'account-withdraw',
         component: () => import('@/views/account/withdraw-money'),
         meta: { title: '余额提现' },
-    }, 
+    },
 
     /**
      * 客户管理
@@ -325,16 +330,11 @@ const routes = [
      * 测试
      */
     {
-        path: '/test/carno',
-        name: 'test',
-        component: () => import('@/views/test/carno'),
+        path: '/test/WeChatpay',
+        name: 'WeChatpay',
+        component: () => import('@/views/test/WeChatpay'),
         meta: { title: '测试页面' },
-    }, {
-        path: '/test/charts',
-        name: 'VeRing',
-        component: () => import('@/views/test/charts'),
-        meta: { title: '测试页面' },
-    }, 
+    },
 ];
 
 let router = new Router({
@@ -349,9 +349,9 @@ router.beforeEach((to, from, next) => {
 
         if (myWeChatType && myWeChatType !== '1') {
             if (myWeChatType === '001') {
-                newtitle.replace('金车管家', 'Hconnect技术中心');
+                newtitle = newtitle.replace('金车管家', 'Hconnect技术中心');
             } else if (myWeChatType === '002') {
-                newtitle.replace('金车管家', '养车频道测试');
+                newtitle = newtitle.replace('金车管家', '养车频道测试');
             }
         }
 

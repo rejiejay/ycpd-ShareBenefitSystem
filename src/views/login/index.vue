@@ -232,23 +232,33 @@ export default {
          */
         let myWeChatType = loadPageVar('wechatType');
 
-        // 判断公众号账号类型
-        if (myWeChatType) {
-            window.localStorage.setItem('wechat_type', myWeChatType);
+        /**
+         * 判断公众号账号类型
+         * 优先判断是否本地环境
+         */
+        if (window.location.hostname === 'localhost') {
+            window.localStorage.setItem('wechat_type', '001');
+            
+        } else {
+            // 判断公众号账号类型
+            if (myWeChatType) {
+                window.localStorage.setItem('wechat_type', myWeChatType);
 
-            if (myWeChatType === '001') {
-                document.title = 'Hconnect技术中心';
-                this.weChatName = 'Hconnect技术中心';
+                if (myWeChatType === '001') {
+                    document.title = 'Hconnect技术中心';
+                    this.weChatName = 'Hconnect技术中心';
 
-            } else if (myWeChatType === '002') {
-                document.title = '养车频道测试';
-                this.weChatName = '养车频道测试';
+                } else if (myWeChatType === '002') {
+                    document.title = '养车频道测试';
+                    this.weChatName = '养车频道测试';
 
+                }
+
+            } else {
+                this.weChatName = '金车管家';
+                window.localStorage.setItem('wechat_type', '1');
             }
 
-        } else {
-            this.weChatName = '金车管家';
-            window.localStorage.removeItem('wechat_type');
         }
 
         // 判断是否存在微信 code
@@ -639,7 +649,7 @@ export default {
                         });
                     } else if (res.code === 1004) {
                         Toast({
-                            message: 'openid不能为空',
+                            message: '微信公众号标识不能为空',
                             duration: 1000
                         });
                     } else if (res.code === 1005) {

@@ -11,7 +11,7 @@ npm run dev
 
 # 项目打包 到 测试环境
 # /home/cas
-# http://scas.api2.hotgz.com/home/cas/index.html
+# http://cas.api2.hotgz.com/home/cas/index.html
 npm run builddev
 
 # 项目打包 到 生产环境

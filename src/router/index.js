@@ -91,6 +91,11 @@ const routes = [
         name: 'my-wallet',
         component: () => import('@/views/user/my-wallet'),
         meta: { title: '我的钱包' },
+    },  {
+        path: '/user/bind/wechat',
+        name: 'bind-wechat',
+        component: () => import('@/views/user/bind-wechat'),
+        meta: { title: '绑定微信' },
     }, 
 
     /**

@@ -16,5 +16,7 @@ export default {
      * 判断是否绑定微信接口
      * @param {string} telephone 判断此手机号
      */
-    checkAuth: (self, telephone) => apibasics.get(`${config.url.origin}/ycpd/cas/wallet/judgeWechat?token=${window.localStorage.getItem('ycpd_token')}&telephone=${telephone}`, '判断用户是否绑定微信接口', self),
+    judgeWechat: (telephone, self) => apibasics.get(`${config.url.origin}/ycpd/cas/wallet/judgeWechat?token=${window.localStorage.getItem('ycpd_token')}&telephone=${telephone}`, '判断用户是否绑定微信接口', self),
+
+    
 }

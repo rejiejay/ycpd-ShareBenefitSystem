@@ -100,14 +100,14 @@ export default {
                     if (res && res instanceof Array) {
                         _this.list = res.map(val => {
                             let isIncome = true;
-                            if (val.money < 0) {
+                            if (val.points < 0) {
                                 isIncome = false;
                             }
                             
                             return {
                                 describe: val.contentName, // 内容
                                 time: val.date, // 时间
-                                expend: val.money, // 花费
+                                expend: val.points, // 花费
                                 isIncome: val.content === 4, // 是否为收入(正值)
                             }
                         });

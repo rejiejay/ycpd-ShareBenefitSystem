@@ -339,7 +339,7 @@ export default {
 
                 return {
                     costMoney: val.costMoney,
-                    obtainMoney: val.obtainMoney,
+                    obtainMoney: val.points,
                     projectName: val.projectName,
                     recordDate: val.recordDate,
                     userName: clientName,

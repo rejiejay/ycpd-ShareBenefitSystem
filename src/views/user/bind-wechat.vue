@@ -56,7 +56,7 @@
             <div class="withdrawal-container flex-start-center">
                 <div class="withdrawal-back" @click="jumpToRouter('/')">返回首页</div>
                 <div style="width: 15px;"></div>
-                <div class="withdrawal-jump flex-rest" @click="jumpToRouter('/account/withdraw/input')">立即提现</div>
+                <div class="withdrawal-jump flex-rest" @click="jumpToRouter('/account/withdraw/wechat')">立即提现</div>
             </div>
         </div>
 

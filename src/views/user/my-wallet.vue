@@ -53,6 +53,17 @@ export default {
             countSum: '', // 累计总获得积分
         }
     },
+    
+    computed: {
+        /**
+         * 从 store 获取数据 用户信息
+         */
+        userInfoStore: function userInfoStore() {
+            let ycpd_userInfo = window.localStorage.getItem('ycpd_userInfo');
+
+            return ycpd_userInfo ? JSON.parse(ycpd_userInfo) : this.$store.getters["userInfo/getAgentInfo"]; // 因为数据刷新页面会失效, 所以优先使用 window.localStorage
+        },
+    },
 
 	mounted: function mounted() {
         this.initAgentWallet();
@@ -65,9 +76,18 @@ export default {
         withdrawHandle: function withdrawHandle() {
             const _this = this;
 
-            ajaxs.checkAuth()
+            ajaxs.checkAuth(this)
             .then(val => {
+                // 认证身份证的情况下, 判断是否绑定微信
 
+                ajaxs.judgeWechat(_this.userInfoStore.telephone, this)
+                .then(val => {
+                    _this.jumpToRouter('/account/withdraw/wechat');
+
+                }, error => {
+                    // 未认绑定微信的情况下，跳转到绑定微信的页面
+                    _this.jumpToRouter('/user/bind/wechat');
+                });
             }, error => {
                 // 未认证身份证的情况下，跳转到认证身份证的页面
                 _this.jumpToRouter('/user/authentication');

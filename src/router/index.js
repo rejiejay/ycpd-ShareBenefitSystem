@@ -117,14 +117,14 @@ const routes = [
         component: () => import('@/views/account/bind-bank-card'),
         meta: { title: '绑定银行卡' },
     }, {
-        path: '/account/withdraw',
+        path: '/account/withdraw/bankcard',
         name: 'account-withdraw',
-        component: () => import('@/views/account/withdraw-money'),
+        component: () => import('@/views/account/withdraw-bankcard'),
         meta: { title: '余额提现' },
     }, {
-        path: '/account/withdraw/input',
-        name: 'withdraw-input',
-        component: () => import('@/views/account/withdraw-input'),
+        path: '/account/withdraw/wechat',
+        name: 'withdraw-wechat',
+        component: () => import('@/views/account/withdraw-wechat'),
         meta: { title: '余额提现' },
     },
 

@@ -49,6 +49,7 @@ export default {
 
 
         // 查询钱包详情接口
+        // usableIntegral
         // apibasics.get(`${config.url.origin}/ycpd/cas/wallet/query?token=${window.localStorage.getItem('ycpd_token')}&agentInfoId=${window.localStorage.getItem('ycpd_agentInfoId')}`, '查询钱包详情接口', this)
         // .then(
         //     val => {

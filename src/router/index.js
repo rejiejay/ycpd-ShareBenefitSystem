@@ -121,6 +121,11 @@ const routes = [
         name: 'account-withdraw',
         component: () => import('@/views/account/withdraw-money'),
         meta: { title: '余额提现' },
+    }, {
+        path: '/account/withdraw/input',
+        name: 'withdraw-input',
+        component: () => import('@/views/account/withdraw-input'),
+        meta: { title: '余额提现' },
     },
 
     /**

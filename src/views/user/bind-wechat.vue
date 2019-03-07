@@ -66,7 +66,7 @@
 
 <script>
 // 框架类
-import { Toast } from 'mint-ui';
+import { MessageBox, Toast } from 'mint-ui';
 // 组件类
 import PortraitPhoto from "@/components/PortraitPhoto";
 // 请求类
@@ -364,7 +364,6 @@ export default {
 
     }
 }
-
 
 // 立即提现
 .withdrawal {

@@ -231,6 +231,7 @@ export default {
          * @prop 金车管家 1
          */
         let myWeChatType = loadPageVar('wechatType');
+        console.log('公众号类型', myWeChatType);
 
         /**
          * 判断公众号账号类型

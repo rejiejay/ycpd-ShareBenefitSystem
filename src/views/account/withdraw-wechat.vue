@@ -82,7 +82,7 @@
 
 <script>
 // 框架类
-import { MessageBox } from 'mint-ui';
+import { Toast } from 'mint-ui';
 // 请求类
 import ajaxswallet from "@/api/user/wallet"; 
 import { queryWalletUsingGet, withdrawCashUsingPOST } from "@/api/account/withdraw"; 
@@ -112,17 +112,16 @@ export default {
             token: '', // 获取短信验证码的 凭证
             telephone: '', // 电话
 
-            openid: '', // 用户openid
         } 
     },
 
     watch: {
         // 如果 `question` 发生改变，这个函数就会运行
-        withdrawalNum: function withdrawalNum(newwithdrawalNum, oldwithdrawalNum) {
-            if (newwithdrawalNum > this.canWithdraw) {
-                this.withdrawalNum = this.canWithdraw;
-            }
-        }
+        // withdrawalNum: function withdrawalNum(newwithdrawalNum, oldwithdrawalNum) {
+        //     if (newwithdrawalNum > this.canWithdraw) {
+        //         this.withdrawalNum = this.canWithdraw;
+        //     }
+        // }
     },
     
     computed: {
@@ -153,7 +152,6 @@ export default {
             queryWalletUsingGet(this)
             .then(val => {
                 _this.canWithdraw = val.usableIntegral; // 可提现积分
-                _this.openid = val.openId; // 可提现积分
 
             }, error => {
                 alert(error);
@@ -184,7 +182,7 @@ export default {
                     _this.isSMSGeting = true; // 表示正在获取
 
                     // 定时器倒计时 60 秒
-                    for(var i = 0; i < 60; i++ ) {
+                    for(let i = 0; i < 60; i++ ) {
                         (function (i) { // 匿名函数自执行创建闭包
                             setTimeout(function() {
                                 _this.reGetCount--;
@@ -215,28 +213,28 @@ export default {
             let token = this.token;
             
             if (!withdrawalNum) {
-                return MessageBox.alert('请输入提现积分!');
+                return alert('请输入提现积分!');
 
             } else if (withdrawalNum < 10000) {
-                return MessageBox.alert('提现积分最少10000积分以上!');
+                return alert('提现积分最少10000积分以上!');
 
             }
 
             if (!token) {
-                return MessageBox.alert('请获取验证码!');
+                return alert('请获取验证码!');
 
             } 
 
             if (SMSNumber.length !== 4) {
-                return MessageBox.alert('请正确输入4位手机号码!');
+                return alert('请正确输入4位手机号码!');
 
             } 
 
-            withdrawCashUsingPOST(withdrawalNum, SMSNumber, this.openid, token, this)
+            withdrawCashUsingPOST(withdrawalNum, SMSNumber, token, this)
             .then(val => {
                 _this.callBackSucceed = true;
 
-            }, error => MessageBox.alert(error));
+            }, error => alert(error));
         },
 
         /**

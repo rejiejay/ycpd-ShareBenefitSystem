@@ -175,19 +175,20 @@ export default {
             const _this = this;
 
             if (!this.token) {
-                return MessageBox.alert('请获取验证码!');
+                return alert('请获取验证码!');
             }
 
             if (!this.SMSNumber) {
-                return MessageBox.alert('验证码不能为空!');
+                return alert('验证码不能为空!');
             } else if (this.SMSNumber.length !== 4) {
-                return MessageBox.alert('请输入4位手机验证码!');
+                return alert('请输入4位手机验证码!');
             }
 
             ajaxswallet.bindingWeChat(this.SMSNumber, this.telephone, this.token, this)
             .then(val => {
                 _this.isWxBinded = true;
-            });
+                
+            }, error => alert(error));
         },
 
         /**

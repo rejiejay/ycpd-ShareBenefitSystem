@@ -21,11 +21,19 @@
             <div class="carno-photo-selected" v-if="carNoPhotoSelected">
                 <img alt="carno-photo-selected" :src="carNoPhotoSelected"/>
             </div>
+            
+            <!-- 拍车牌识别 -->
+            <div class="photo-click flex-center" @click="isPhotographShow = true;">
+                <div class="photo-click-container flex-start-center">
+                    <svg width="14" height="14" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="增加客户-车牌号" transform="translate(-297.000000, -446.000000)" fill="#469AFF" fill-rule="nonzero"><g id="客户信息" transform="translate(0.000000, 426.000000)"><g id="拍照" transform="translate(297.000000, 20.000000)"><path d="M3,8 C2.44771525,8 2,8.44771525 2,9 L2,23 C2,23.5522847 2.44771525,24 3,24 L25,24 C25.5522847,24 26,23.5522847 26,23 L26,9 C26,8.44771525 25.5522847,8 25,8 L18.5584816,8 L17.5584816,5 L10.4415184,5 L9.44151844,8 L3,8 Z M3,6 L8,6 L8.54415184,4.36754447 C8.81637994,3.55086019 9.58065762,3 10.4415184,3 L17.5584816,3 C18.4193424,3 19.1836201,3.55086019 19.4558482,4.36754447 L20,6 L25,6 C26.6568542,6 28,7.34314575 28,9 L28,23 C28,24.6568542 26.6568542,26 25,26 L3,26 C1.34314575,26 0,24.6568542 0,23 L0,9 C0,7.34314575 1.34314575,6 3,6 Z M14,20 C16.209139,20 18,18.209139 18,16 C18,13.790861 16.209139,12 14,12 C11.790861,12 10,13.790861 10,16 C10,18.209139 11.790861,20 14,20 Z M14,22 C10.6862915,22 8,19.3137085 8,16 C8,12.6862915 10.6862915,10 14,10 C17.3137085,10 20,12.6862915 20,16 C20,19.3137085 17.3137085,22 14,22 Z M22.5,13 C21.6715729,13 21,12.3284271 21,11.5 C21,10.6715729 21.6715729,10 22.5,10 C23.3284271,10 24,10.6715729 24,11.5 C24,12.3284271 23.3284271,13 22.5,13 Z" id="photo"></path></g></g></g></g></svg>
+                    <span>拍车牌识别</span>
+                </div>
+            </div>
 
             <!-- 车牌号 -->
             <div class="carno-input-list">
                 <div class="input-list-content">
-                    <carNoInput @outPutHandle="carNoHandle" />
+                    <carNoInput ref="carNoInput" @outPutHandle="carNoHandle" />
                 </div>
             </div>
 
@@ -404,6 +412,7 @@ export default {
         intervalWidth: function intervalWidth() {
             var myIntervalWidth = (this.clientWidth - 288) / 18;
             myIntervalWidth = myIntervalWidth > 0 ? myIntervalWidth : 0;
+
             return myIntervalWidth;
         },
     },
@@ -425,7 +434,7 @@ export default {
 
 	mounted: function mounted() {
         const _this = this;
-        
+
         window.setTimeout(function () {
             // 解决苹果兼容问题
             _this.clientHeight = document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight;
@@ -434,7 +443,7 @@ export default {
         this.initAddCustomerToken(); // 获取 添加客户的token
         this.getUseFastNum(); // 获取 快速添加客户剩余次数
         this.getBeingNormalNum(); // 获取 客户队列统计
-        // this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口
+        this.wxJSSDKchooseImage(); // 初始化拍照或从手机相册中选图接口
     },
 
 	methods: {
@@ -569,13 +578,30 @@ export default {
             const _this = this;
             let photographStatus = this.photographStatus; // 选择图片 车牌号:carNo 车架号:vinNo
 
+            this.isPhotographShow = false; // 关闭
+
             wx.chooseImage({
                 count: 1, // 默认 选择一种图片
                 sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: sourceType, // 可以指定来源是相册还是相机，默认二者都有
-                success: function (res) {
+                success: function success(res) {
                     console.log(res);
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    _this.carNoPhotoSelected = res.localIds[0];
+
+                    // 获取本地图片接口
+                    wx.getLocalImgData({
+                        localId: res.localIds[0], // 图片的localID
+                        success: function success(val) {
+                            var localData = val.localData; // localData是图片的base64数据，可以用img标签显示
+                                    
+                            ajaxs.getCarInfoByPicUsingPOST(localData, _this)
+                            .then(val => {
+                                _this.$refs.carNoInput.initPlateNoHandle(val.number);
+
+                            }, error => alert(error));
+                        }
+                    });
                 }
             });
         },
@@ -880,6 +906,18 @@ export default {
     .res-count-tip {
         font-size: 12px;
         color: @black2;
+    }
+
+    .photo-click {
+        font-size: 12px;
+        height: 45px;
+        background: #fff;
+        border-bottom: 1px solid #ddd;
+        
+        span {
+            color: #469AFF;
+            padding-left: 5px;
+        }
     }
 }
     

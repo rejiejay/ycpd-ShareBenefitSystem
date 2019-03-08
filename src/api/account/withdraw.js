@@ -14,15 +14,13 @@ export function queryWalletUsingGet(self) {
  * 钱包提现接口
  * @param {string} integral 积分
  * @param {string} msgCode 短信
- * @param {string} openid openid
  * @param {string} token 短信
  */
-export function withdrawCashUsingPOST(integral, msgCode, openid, token, self) {
+export function withdrawCashUsingPOST(integral, msgCode, token, self) {
     return apibasics.post(`${config.url.origin}/ycpd/cas/wallet/withdrawCash?token=${window.localStorage.getItem('ycpd_token')}`, {
         agentInfoId: window.localStorage.getItem('ycpd_agentInfoId'),
         integral: integral,
         msgCode: msgCode,
-        openid: openid,
         token: token,
     }, '钱包提现', self);
 }

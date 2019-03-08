@@ -90,6 +90,14 @@ module.exports = {
     },
 
     /**
+     * 跳转到微信 url 地址 根据公众号类型
+     * @param {string} redirect_uri 
+     */
+    jumpwxByWeChatType: function jumpwxByWeChatType(redirect_uri) {
+        return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.getWeChatAppid()}&redirect_uri=${window.encodeURIComponent(redirect_uri)}&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect`
+    },
+
+    /**
      * 跳转到微信 url 地址复用的方法
      * @param {string} redirect_uri 需要加密的URL
      * @param {string} appid 需要加密的URL

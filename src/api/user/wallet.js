@@ -29,7 +29,7 @@ export default {
      * @param {string} telePhone 15976713287
      * @param {string} token 8bf6d4c368904ca099b140cc06341b0f
      */
-    bindingWeChat: (msgCode, telePhone, token, self) => apibasics.respost(`${config.url.origin}/ycpd/cas/wallet/bindingWeChat?token=${window.localStorage.getItem('ycpd_token')}`, {
+    bindingWeChat: (msgCode, telePhone, token, self) => apibasics.post(`${config.url.origin}/ycpd/cas/wallet/bindingWeChat?token=${window.localStorage.getItem('ycpd_token')}`, {
         msgCode: msgCode,
         telePhone: telePhone,
         token: token,

@@ -26,7 +26,7 @@
 
         <!-- 提交 -->
         <div class="user-authentication-submit">
-            <div class="authentication-submit-content">立即认证</div>
+            <div class="authentication-submit-content" @click="submitHandle">立即认证</div>
         </div>
     </div>
 
@@ -122,26 +122,29 @@ export default {
             const _this = this;
 
             if (!this.name) {
-                return MessageBox.alert('姓名不能为空!');
+                return alert('姓名不能为空!');
             } else if (/^[\u4e00-\u9fa5]+$/.test(this.name) === false) {
-                return MessageBox.alert('请输入正确的姓名!');
+                return alert('请输入正确的姓名!');
             }
 
             if (!this.idCard) {
-                return MessageBox.alert('身份证号不能为空!');
+                return alert('身份证号不能为空!');
             } else if (/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(this.idCard) === false) {
-                return MessageBox.alert('请输入正确的身份证号!');
+                return alert('请输入正确的身份证号!');
             }
             
             authUsingPOST(this.name, this.idCard, this)
             .then(
                 val => {
                     console.log(val);
-                    _this.isAuthe = true;
-                    _this.name = val.custName;
-                }, error => {
-                    console.log(error);
-                }
+                    if (val.statusCode === '01') {
+                        _this.isAuthe = true;
+                        _this.name = val.custName;
+
+                    } else {
+                        alert(val.msg);
+                    }
+                }, error => alert(error)
             );
         },
 

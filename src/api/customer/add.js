@@ -38,4 +38,10 @@ export default {
      */
     checkMaxAddNum: self => apibasics.resget(`${config.url.origin}/ycpd/cas/client/addCheckMaxNum?token=${window.localStorage.getItem('ycpd_token')}`, '校验是否可以添加客户', self), 
 
+    /**
+     * 通过照片获取车牌号码
+     */
+    getCarInfoByPicUsingPOST: (base64, self) => apibasics.post(`${config.url.origin}/ycpd/cas/client/getCarInfoByPic?token=${window.localStorage.getItem('ycpd_token')}`, {
+        pic: base64,
+    }, '通过照片获取车牌号码', self),
 }

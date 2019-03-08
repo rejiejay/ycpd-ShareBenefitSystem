@@ -6,6 +6,13 @@
 import initJSSDK from "@/components/initJSSDK";
 
 let initShareTimeline = (title, desc, link, imgUrl) => {
+    console.log('initShareTimeline', {
+        title: title,
+        desc: desc,
+        link: link,
+        imgUrl: imgUrl,
+    });
+
     document.getElementById('onMenuShareTimelineAppMessage').src = imgUrl;
 
     // 判断是否本地环境，如果是本地环境则不需要请求

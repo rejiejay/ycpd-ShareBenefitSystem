@@ -129,7 +129,7 @@
         <div class="user-award-content">
             <div class="user-award-total flex-start-center">
                 <div class="award-total-left flex-rest">奖励总计</div>
-                <div class="award-total-right">￥{{total}}</div>
+                <div class="award-total-right">{{total}}</div>
             </div>
 
             <!-- 列表项 -->
@@ -361,7 +361,7 @@ export default {
                     _this.isLoding = false; // 这个是下拉加载，防止 重复加载的作用的
 
                     _this.totalPageNum = res.totalPageNum; // 总页数
-                    _this.total = res.totalMoney; // 总金额
+                    _this.total = res.totalPoint; // 总金额
 
                     // 如果数据不存在, 阻止继续执行
                     if (res.rewardList && res.rewardList.length > 0) {

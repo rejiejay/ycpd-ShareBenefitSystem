@@ -3,10 +3,10 @@
 <div class="user">
 
     <!-- 用户 顶部 横幅 -->
-    <div class="user-banner flex-start-center" :style="`height: ${Math.floor((clientWidth - 30) * 21 / 71)}px;`">
+    <div class="user-banner flex-start-center" :style="`height: ${Math.floor((clientWidth - 20) * 21 / 71)}px;`">
         <!-- 背景 -->
-        <div class="user-banner-background" :style="`width: ${clientWidth - 30}px; height: ${Math.floor((clientWidth - 30) * 21 / 71)}px;`">
-            <img :width="clientWidth - 30" :height="Math.floor((clientWidth - 30) * 21 / 71)" :src="img.user_top_bg" alt="user_top_bg">
+        <div class="user-banner-background" :style="`width: ${clientWidth - 20}px; height: ${Math.floor((clientWidth - 20) * 21 / 71)}px;`">
+            <img :style="`width: ${clientWidth - 20}px; height: ${Math.floor((clientWidth - 20) * 21 / 71)}px;`" :src="img.user_top_bg" alt="user_top_bg">
         </div>
 
         <div class="user-banner-content flex-start-center">
@@ -523,6 +523,10 @@ export default {
     // 背景
     .user-banner-background {
         position: absolute;
+
+        img {
+            display: block;
+        }
     }
 
     // 内容区域

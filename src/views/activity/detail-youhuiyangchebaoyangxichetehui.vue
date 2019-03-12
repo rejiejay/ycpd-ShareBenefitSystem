@@ -85,7 +85,7 @@
             <!-- 标题 -->
             <div class="detail-award-title flex-start-center">
                 <div class="award-title-main flex-rest">我的奖励</div>
-                <div class="award-title-lable flex-start-center">累计:<span>¥{{awardTotal}}</span></div>
+                <div class="award-title-lable flex-start-center">累计:<span>{{awardTotal}}</span></div>
             </div>
 
             <!-- 列表项 -->
@@ -400,7 +400,7 @@ export default {
             ajaxsAward.findMyRewardByConditions(this, 1, 0, 4) // 只查询一页
             .then(
                 res => {
-                    _this.awardTotal = res.totalMoney; // 总金额
+                    _this.awardTotal = res.totalPoint; // 总金额
 
                     _this.awardList = res.rewardList.map(val => {
                         /**
@@ -422,7 +422,7 @@ export default {
 
                         return {
                             costMoney: val.costMoney,
-                            obtainMoney: val.obtainMoney,
+                            obtainMoney: val.points,
                             projectName: val.projectName,
                             recordDate: val.recordDate,
                             userName: clientName,

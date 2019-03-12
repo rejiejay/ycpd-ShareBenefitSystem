@@ -55,11 +55,11 @@
                         <div class="car-other-center flex-rest">{{policyRegisterDate}}</div>
                         <div class="car-other-right customerInfor-car-notice">{{policyASDate ? `年检${policyASDate}天后到期` : ''}}</div>
                     </div>
-                    <div class="customerInfor-car-line" v-if="policyBusinessExpireDate"></div>
+                    <div class="customerInfor-car-line" v-if="policyForceExpireDate"></div>
 
-                    <div class="customerInfor-car-other flex-start-center" v-if="policyBusinessExpireDate">
+                    <div class="customerInfor-car-other flex-start-center" v-if="policyForceExpireDate">
                         <div class="car-other-left">交强险</div>
-                        <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
+                        <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao_force"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
                         <div class="car-other-center flex-rest" v-if="'平安保险' === '暂无'">平安保险</div>
                         <div class="car-other-right">{{policyForceExpireDate}}<span v-if="policyForceExpireDate">到期</span></div>
                     </div>
@@ -67,13 +67,13 @@
 
                     <div class="customerInfor-car-other flex-start-center" v-if="policyBusinessExpireDate">
                         <div class="car-other-left">商业险</div>
-                        <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
+                        <div class="car-other-center flex-start flex-rest" v-if="isMayTuoBao_business"><div class="other-isMayTuoBao-icon">可能脱保</div></div>
                         <div class="car-other-center flex-rest" v-if="'平安保险' === '暂无'">平安保险</div>
                         <div class="car-other-right">{{policyBusinessExpireDate}}到期</div>
                     </div>
-                    <div class="customerInfor-car-line" v-if="isMayTuoBao"></div>
+                    <div class="customerInfor-car-line" v-if="isMayTuoBao_business"></div>
 
-                    <div class="customerInfor-car-other flex-center" v-if="isMayTuoBao" style="font-size: 12px; font-weight: normal; color: #909399;">部分保险公司数据存在延时，请以实际情况为准</div>
+                    <div class="customerInfor-car-other flex-center" v-if="isMayTuoBao_business" style="font-size: 12px; font-weight: normal; color: #909399;">部分保险公司数据存在延时，请以实际情况为准</div>
                 </div>
             </div>
 
@@ -369,7 +369,8 @@ export default {
             policyForceExpireDate: '', // 强险过期时间
             policyRegisterDate: '', // 注册时间
             policyASDate: '', // 年检多少天到期
-            isMayTuoBao: false, // 是否可能脱保
+            isMayTuoBao_force: false, // 是否可能脱保
+            isMayTuoBao_business: false, // 是否可能脱保
 
             /**
              * 违章信息部分
@@ -564,7 +565,25 @@ export default {
             }
 
             /**
-             * 判断是否可能脱保
+             * 判断是否可能脱保 交强险
+             */
+            if (pageCustomerStore.forceExpireDate) {
+                // 过期的时间戳
+                let forceExpireDateExpireTimestamp = TimeConver.YYYYmmDDToTimestamp(pageCustomerStore.forceExpireDate);
+
+                /**
+                 * 相差时间 小于零
+                 * 表示可能脱保
+                 */
+                if ((forceExpireDateExpireTimestamp - new Date().getTime()) < 0) {
+                    this.isMayTuoBao_force = true;
+                } else {
+                    this.isMayTuoBao_force = false; // 需要清空, 因为持久化的原因
+                }
+            }
+
+            /**
+             * 判断是否可能脱保 商业险
              */
             if (pageCustomerStore.businessExpireDate) {
                 // 过期的时间戳
@@ -575,9 +594,9 @@ export default {
                  * 表示可能脱保
                  */
                 if ((businessExpireTimestamp - new Date().getTime()) < 0) {
-                    this.isMayTuoBao = true;
+                    this.isMayTuoBao_business = true;
                 } else {
-                    this.isMayTuoBao = false; // 需要清空, 因为持久化的原因
+                    this.isMayTuoBao_business = false; // 需要清空, 因为持久化的原因
                 }
             }
 

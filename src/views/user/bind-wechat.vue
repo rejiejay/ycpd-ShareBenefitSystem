@@ -186,7 +186,11 @@ export default {
 
             ajaxswallet.bindingWeChat(this.SMSNumber, this.telephone, this.token, this)
             .then(val => {
-                _this.isWxBinded = true;
+                if (val.statusCode === '01') {
+                    _this.isWxBinded = true;
+                } else {
+                    alert(val.msg);
+                }
                 
             }, error => alert(error));
         },

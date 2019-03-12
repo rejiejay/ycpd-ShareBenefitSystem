@@ -13,7 +13,7 @@
         
         <div class="team-banner-block team-banner-right flex-rest flex-center" @click="jumpToRouter('/team/income', {isTeam: true})"><!-- 表示从团队进来 -->
             <div class="banner-block-container flex-column-center">
-                <div class="money">¥{{teamIncome}}</div>
+                <div class="money">{{teamIncome}}</div>
                 <div class="flex-start-center">
                     <div>团队提成收入</div>
                     <svg width="10" height="10" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="团队管理" transform="translate(-625.000000, -217.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="奖励总计" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(625.000000, 89.000000)"><path d="M5.29289322,1.70710678 C4.90236893,1.31658249 4.90236893,0.683417511 5.29289322,0.292893219 C5.68341751,-0.0976310729 6.31658249,-0.0976310729 6.70710678,0.292893219 L14.7071068,8.29289322 C15.0976311,8.68341751 15.0976311,9.31658249 14.7071068,9.70710678 L6.70710678,17.7071068 C6.31658249,18.0976311 5.68341751,18.0976311 5.29289322,17.7071068 C4.90236893,17.3165825 4.90236893,16.6834175 5.29289322,16.2928932 L12.5857864,9 L5.29289322,1.70710678 Z" id="Path-2"></path></g></g></g></g></svg>
@@ -461,7 +461,7 @@ export default {
              * 也许是 整个url 长度 太过于
              * 也许是 不能中文 ，反正是 shareName 有问题
              */
-            let link = `${config.location.href}#/redirect/register?parentId=${this.userInfoStore.agentInfoId}&name=${encodeURIComponent(shareName)}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            let link = `${config.location.href}#/redirect/register?parentId=${this.userInfoStore.agentInfoId}&name=${encodeURIComponent(shareName)}&type=${window.localStorage.wechat_type}`; // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             let imgUrl = config.common.picture.wx_sharer;
 
             initShareTimeline(title, desc, link, imgUrl);

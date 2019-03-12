@@ -62,7 +62,7 @@
     <div class="team-income-total">
         <div class="income-total-container flex-start-center">
             <div class="flex-rest">汇总</div>
-            <div class="price">¥{{totalMoney}}</div>
+            <div class="price">{{totalMoney}}</div>
         </div>
     </div>
 
@@ -209,7 +209,7 @@ export default {
                     projectName: val.projectName,
                     costMoney: val.costMoney,
 
-                    obtainMoney: val.obtainMoney,
+                    obtainMoney: val.points,
                     
                     recordDate: val.recordDate,
                 }
@@ -224,7 +224,7 @@ export default {
                     _this.isLoding = false; // 这个是下拉加载，防止 重复加载的作用的
 
                     _this.totalPageNum = res.totalPageNum; // 总页数
-                    _this.totalMoney = res.totalMoney; // 总金额
+                    _this.totalMoney = res.totalPoint; // 总金额
 
                     // 如果数据不存在, 阻止继续执行
                     if (res.rewardList && res.rewardList.length > 0) {

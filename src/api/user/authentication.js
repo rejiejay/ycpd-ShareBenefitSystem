@@ -7,7 +7,7 @@ import apibasics from "@/components/apibasics";
  * @param {string} idCard 身份证号
  */
 export function authUsingPOST(name, idCard, self) {
-    return apibasics.respost(`${config.url.origin}/ycpd/cas/wallet/auth?token=${window.localStorage.getItem('ycpd_token')}`, {
+    return apibasics.post(`${config.url.origin}/ycpd/cas/wallet/auth?token=${window.localStorage.getItem('ycpd_token')}`, {
         agentInfoId: window.localStorage.getItem('ycpd_agentInfoId'),
         name: name,
         idCard: idCard,

@@ -149,7 +149,7 @@ export default {
                  * 打开跳转到注册链接, 
                  * 目的是防止出现路由后退
                  */
-                let jumpTohref = `${config.location.href}?type=${window.localStorage.wechat_type}#/login`;
+                let jumpTohref = `${config.location.href}?wechatType=${window.localStorage.wechat_type}#/login`;
                 window.location.href = config.jumpwxByWeChatType(jumpTohref);
             }, error => {
                 alert(error);

@@ -716,27 +716,27 @@ export default {
                                 }
                             })();
 
-                            if (val.ycpdRegisterDate && val.recordCreatedDate) { // 这里都依赖了这几两个变量进行计算，所以要进行判断变量是否存在，否则会报错
-                                // 如果是 优惠加油提成 
-                                if (isPromote) {
-                                    customerState.val = 'sharing-lable'; // 设置 状态为 分享成中 并且 优惠加油提成
+                            // 如果是 优惠加油提成 
+                            if (isPromote) {
+                                customerState.val = 'sharing-lable'; // 设置 状态为 分享成中 并且 优惠加油提成
 
-                                    // 初始化 分成时间
-                                    let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDhhMMssToTimestamp(val.recordCreatedDate)) / (1000 * 60 * 60 * 24));
-                                    // 如果相差的时间 小于或者等于 0
-                                    if (timeDifference <= 0) {
-                                        customerState.createdDate = '今天';
-                                    } else {
-                                        customerState.createdDate = `${timeDifference}天前`;
-                                    }
-
-                                    // 初始化 优惠加油提成 的标签
-                                    customerState.obtainMoney = val.recordObtainMoney;
-                                    customerState.projectName = val.recordProjectName;
+                                // 初始化 分成时间
+                                let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDhhMMssToTimestamp(val.recordCreatedDate)) / (1000 * 60 * 60 * 24));
+                                // 如果相差的时间 小于或者等于 0
+                                if (timeDifference <= 0) {
+                                    customerState.createdDate = '今天';
                                 } else {
-                                    customerState.val = 'sharing'; // 设置 状态为 分享成中 无优惠加油提成
-                                    
-                                    // 初始化 分成时间
+                                    customerState.createdDate = `${timeDifference}天前`;
+                                }
+
+                                // 初始化 优惠加油提成 的标签
+                                customerState.obtainMoney = val.recordObtainMoney;
+                                customerState.projectName = val.recordProjectName;
+                            } else {
+                                customerState.val = 'sharing'; // 设置 状态为 分享成中 无优惠加油提成
+                                
+                                // 初始化 分成时间
+                                if (val.ycpdRegisterDate && val.recordCreatedDate) { // 这里都依赖了这几两个变量进行计算，所以要进行判断变量是否存在，否则会报错
                                     let timeDifference = Math.floor( (new Date().getTime() - TimeConver.YYYYmmDDToTimestamp(val.ycpdRegisterDate)) / (1000 * 60 * 60 * 24));
                                     // 如果相差的时间 小于或者等于 0
                                     if (timeDifference <= 0) {
@@ -744,9 +744,9 @@ export default {
                                     } else {
                                         customerState.createdDate = `${timeDifference}天前`;
                                     }
+                                } else {
+                                    customerState.createdDate = '';
                                 }
-                            } else {
-                                customerState.val = null; // 未注册
                             }
 
                         } else if (val.sharingStatus === 'OTHER_SHARING') { // 他人分享成中

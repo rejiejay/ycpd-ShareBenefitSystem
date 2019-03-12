@@ -75,7 +75,7 @@
 
                 <!-- 享分成中 无提成的情况 -->
                 <div class="customer-status-ing flex-start-center" v-if="item.state && item.state.val === 'sharing'">
-                    <span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span>{{item.state.createdDate}}注册</span>
+                    <span style="color: #2DAF24; padding-right: 5px;">享分成中:</span><span>{{item.state.createdDate ? `${item.state.createdDate}注册` : ''}}</span>
                 </div>
                 
                 <!-- 未注册 -->

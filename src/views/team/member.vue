@@ -16,7 +16,7 @@
             <div class="team-member-item flex-start-center">
                 <div class="flex-rest">姓名</div>
                 
-                <div style="padding-right: 15px;" v-if="agentName">{{agentName}} <span style="color: #909399;">(已认证)</span></div>
+                <div style="padding-right: 15px;" v-if="custName">{{(new Array(custName.length).join('*') + custName.substr(-1))}} <span style="color: #909399;">(已认证)</span></div>
                 <div style="padding-right: 15px;" v-else>未认证</div>
             </div>
         </div>
@@ -26,17 +26,21 @@
     <div class="team-member-main">
         <div class="member-main-container">
             <div class="member-main-item flex-start-center">
-                <div class="item-member-share">成员分成 <span>{{memberDivided}}%</span></div>
-                <div class="item-member-share">团队分成 <span>{{100 - memberDivided}}%</span></div>
-                <div class="item-operate flex-rest" @click="isProportionModalShow = true; memberDividedModifier = memberDivided;">修改</div>
+                <div class="flex-start-center flex-rest">
+                    <div class="item-member-share flex-rest">成员分成: <span>{{memberDivided}}%</span></div>
+                    <div class="item-member-share flex-rest">团队分成: <span>{{100 - memberDivided}}%</span></div>
+                </div>
+                <div class="item-operate" @click="isProportionModalShow = true; memberDividedModifier = memberDivided;">修改</div>
             </div>
 
             <div class="team-member-line"></div>
 
             <div class="member-main-item flex-start-center">
-                <div class="item-member-share">成员分成 <span>{{sincome}}</span></div>
-                <div class="item-member-share">团队分成 <span>{{pincome}}</span></div>
-                <div class="item-details flex-start-center flex-rest">
+                <div class="flex-start-center flex-rest">
+                    <div class="item-member-share flex-rest">成员分成: <span>{{sincome}}</span></div>
+                    <div class="item-member-share flex-rest">团队分成: <span>{{pincome}}</span></div>
+                </div>
+                <div class="item-details flex-start-center">
                     <div class="flex-rest"></div>
                     <div @click="jumpToRouter('/team/income', {subagentId: subagentId})"><!-- subagentId 是 子代理Id 就是管理员的 agentInfoId --> 详情</div>
                     <svg width="10" height="10" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="我的" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="团队管理" transform="translate(-625.000000, -217.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="奖励总计" transform="translate(0.000000, 128.000000)"><g id="Group" transform="translate(625.000000, 89.000000)"><path d="M5.29289322,1.70710678 C4.90236893,1.31658249 4.90236893,0.683417511 5.29289322,0.292893219 C5.68341751,-0.0976310729 6.31658249,-0.0976310729 6.70710678,0.292893219 L14.7071068,8.29289322 C15.0976311,8.68341751 15.0976311,9.31658249 14.7071068,9.70710678 L6.70710678,17.7071068 C6.31658249,18.0976311 5.68341751,18.0976311 5.29289322,17.7071068 C4.90236893,17.3165825 4.90236893,16.6834175 5.29289322,16.2928932 L12.5857864,9 L5.29289322,1.70710678 Z" id="Path-2"></path></g></g></g></g></svg>
@@ -104,7 +108,7 @@ export default {
             telephone: '', // 手机电话
             joinTime: '', // 注册日期
 
-            agentName: '', // 真实姓名
+            custName: '', // 真实姓名
 
             /**
              * 成员分成 百分比
@@ -172,7 +176,7 @@ export default {
                 this.joinTime = query.joinTime.split(' ')[0];
             }
 
-            this.agentName = query.agentName; // 手机
+            this.custName = query.custName; // 真实姓名
 
             /**
              * 成员分成 百分比
@@ -310,12 +314,13 @@ export default {
         height: 45px;
 
         .item-member-share {
-            width: 120px;
+            font-size: 12px;
+
             span {
-                padding-left: 15px;
+                padding-left: 5px;
                 color: #E50012;
             }
-        }        
+        }
 
         .item-operate {
             padding-right: 15px;

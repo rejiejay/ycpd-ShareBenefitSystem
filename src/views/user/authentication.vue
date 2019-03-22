@@ -120,6 +120,7 @@ export default {
         // 身份二要素认证接口
         submitHandle: function submitHandle() {
             const _this = this;
+            let idCard = this.idCard;
 
             if (!this.name) {
                 return alert('姓名不能为空!');
@@ -127,13 +128,13 @@ export default {
                 return alert('请输入正确的姓名!');
             }
 
-            if (!this.idCard) {
+            if (!idCard) {
                 return alert('身份证号不能为空!');
-            } else if (/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(this.idCard) === false) {
+            } else if (idCard.length < 18 || idCard.length > 19) {
                 return alert('请输入正确的身份证号!');
             }
             
-            authUsingPOST(this.name, this.idCard, this)
+            authUsingPOST(this.name, idCard, this)
             .then(
                 val => {
                     console.log(val);

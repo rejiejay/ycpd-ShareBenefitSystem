@@ -37,7 +37,7 @@
             <div class="user-info-item flex-start-center">
                 <div class="info-item-label flex-rest">手机号</div>
                 <div class="info-item-main flex-start-center">
-                    <div class="item-main-phone">{{telephone}}</div>
+                    <div class="item-main-phone">{{userInfoStore.telephone? (userInfoStore.telephone.substr(0, 3) + '****' + userInfoStore.telephone.substr(7)) : ''}}</div>
                     <!-- <div class="item-main-blue">修改</div> -->
                 </div>
             </div>
@@ -47,8 +47,8 @@
             <div class="user-info-item flex-start-center">
                 <div class="info-item-label flex-rest">实名认证</div>
                 <div class="info-item-main info-item-authentication">
-                    <div class="item-main-name">{{agentName ? agentName : '(未认证)'}}<!-- (已认证) --></div>
-                    <!-- 第二期内容 <div class="item-main-id">441623199403235252</div> -->
+                    <div class="item-main-name">{{realName ? `${(new Array(realName.length).join('*') + realName.substr(-1))}(已认证)` : '(未认证)'}}</div>
+                    <div class="item-main-id" v-if="idCard">{{idCard ? ((idCard.substr(0, 3) + '*********' + idCard.substr(14))) : ''}}</div>
                 </div>
             </div>
             <!-- <div class="user-info-line"></div> -->
@@ -79,7 +79,6 @@ import config from "@/config/index";
 // 请求类
 import ajaxs from "@/api/user/info";
 // 组件类
-import getBase64ByImageName from "@/api/common/getBase64ByImageName";
 import PortraitPhoto from "@/components/PortraitPhoto";
 
 export default {
@@ -92,9 +91,8 @@ export default {
             clientWidth: document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth, // 设备的宽度
             clientHeight: document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight, // 设备高度
 
-            agentName: '', // 用户昵称
-            imageName: '', // 头像
-            telephone: '', // 手机号
+            realName: '',
+            idCard: '',
         } 
     },
     
@@ -119,21 +117,15 @@ export default {
          */
 	    initPageData: function initPageData() {
             const _this = this;
-            let userInfoStore = this.userInfoStore;
 
-            this.agentName = userInfoStore.agentName; // 用户昵称
-            this.telephone = userInfoStore.telephone; // 手机号
-            
-            if (userInfoStore.imageName) {
-                getBase64ByImageName(`img/icon/${userInfoStore.imageName}`)
-                .then(
-                    res => {
-                        _this.imageName = res; // 头像
-                    }, error => {
-                        alert(error);
-                    }
-                );
-            }
+            ajaxs.getAgentInfo()
+            .then(res => {
+                if (res.statusCode === '01') {
+                    _this.realName = res.custName;
+                    _this.idCard = res.idCard;
+                }
+
+            });
         },
 
         /**

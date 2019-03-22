@@ -130,6 +130,8 @@
 import { MessageBox, Toast } from 'mint-ui';
 // 请求类
 import ajaxs from "@/api/login/register";
+// 配置文件类
+import config from "@/config/index";
 // 组件类
 import loadPageVar from "@/utils/loadPageVar";
 import isMobiler from "@/utils/isMobiler";

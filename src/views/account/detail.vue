@@ -51,8 +51,8 @@
                         <div class="item-left-title">{{item.describe}}</div>
                         <div class="item-left-time">{{item.time}}</div>
                     </div>
-                    <div class="detail-item-right" :class="{'item-right-income': item.isIncome}">
-                        {{item.isIncome ? '+' : '-'}}{{item.expend}}
+                    <div class="detail-item-right" :class="{'item-right-income': !(item.isIncome || item.expend == '0')}">
+                        {{(item.isIncome || item.expend == '0') ? '+' : '-'}}{{item.expend}}
                     </div>
                 </div>
                 
@@ -179,7 +179,8 @@ export default {
                     if (res && res instanceof Array) {
                         _this.list = res.map(val => {
                             let isIncome = true;
-                            if (val.points < 0) {
+
+                            if (val.content === 2 || val.content === 4) {
                                 isIncome = false;
                             }
                             
@@ -187,7 +188,7 @@ export default {
                                 describe: val.contentName, // 内容
                                 time: val.date, // 时间
                                 expend: val.points, // 花费
-                                isIncome: val.content === 4, // 是否为收入(正值)
+                                isIncome: isIncome, // 是否为收入(正值)
                             }
                         });
                     }

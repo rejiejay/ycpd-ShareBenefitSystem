@@ -77,6 +77,19 @@
                 </div>
             </div>
 
+            <div class="customerInfor-offer">
+                <div class="customerInfor-offer-content">
+
+                    <div class="customerInfor-offer-title flex-center-start">
+                        <span>续保报价</span>
+                    </div>
+
+                    <div class="customerInfor-offer-main flex-center">
+                        <div @click="jumpToAgenth5">立即报价</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- 违章 -->
             <div class="customerInfor-violation" @click="jumpToRouter(`/customer/violations/${clientId}`)">
                 <div class="customerInfor-violation-content flex-start-center">
@@ -89,30 +102,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 报价 —— 暂无 -->
-            <!-- <div class="customerInfor-offer">
-                <div class="customerInfor-offer-content">
-
-                    <div class="customerInfor-offer-title flex-start">
-                        <div class="offer-title-left flex-rest">报价</div>
-                        <div class="offer-title-right">今天</div>
-                    </div>
-
-                    <div class="customerInfor-offer-main flex-start">
-                        <div class="offer-main-left">违章信息</div>
-                        <div class="offer-main-center flex-start flex-rest">
-                            <div class="main-center-item">￥4583.45</div>
-                            <div class="main-center-item">商业险系数: 0.45</div>
-                        </div>
-                        <div class="offer-main-icon">
-                            <svg width="14" height="14" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="客户" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="客户管理" transform="translate(-696.000000, -280.000000)" fill="#AAAAAA" fill-rule="nonzero"><g id="客户1" transform="translate(0.000000, 226.000000)"><g id="Group" transform="translate(696.000000, 54.000000)">
-                                <path d="M12.2928932,2.70710678 C11.9023689,2.31658249 11.9023689,1.68341751 12.2928932,1.29289322 C12.6834175,0.902368927 13.3165825,0.902368927 13.7071068,1.29289322 L23.7071068,11.2928932 C24.0976311,11.6834175 24.0976311,12.3165825 23.7071068,12.7071068 L13.7071068,22.7071068 C13.3165825,23.0976311 12.6834175,23.0976311 12.2928932,22.7071068 C11.9023689,22.3165825 11.9023689,21.6834175 12.2928932,21.2928932 L21.5857864,12 L12.2928932,2.70710678 Z" id="Path-2"></path></g></g></g></g>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
 
             <!-- 邀请关注 —— 暂无 -->
             <!-- <div class="customerInfor-star">
@@ -418,6 +407,7 @@ export default {
                 },
             ],
 
+            brand: '', // 品牌型号 保报价H5页面 要用到
             carNoType: '正在加载...', // 车牌加车型名称
 
             addResCount: 0, // 剩余添加的次数
@@ -535,7 +525,8 @@ export default {
             this.carNo = pageCustomerStore.carNo;
             this.vinNo = pageCustomerStore.vinNo;
             this.engineNo = pageCustomerStore.engineNo;
-
+            this.brand = pageCustomerStore.brand;
+            
             // 车牌加车型名称
             let carType = '';
             if (pageCustomerStore.brand || pageCustomerStore.models || pageCustomerStore.series) {
@@ -768,6 +759,32 @@ export default {
         },
 
         /**
+         * 跳转到续保报价H5页面
+         */
+        jumpToAgenth5: function jumpToAgenth5() {
+            /**
+             * 用户信息部分
+             */
+            let clientInfor = `?clientId=${this.clientId}`;
+
+            clientInfor += `&username=${this.username}`; // 用户姓名
+            clientInfor += `&carNo=${this.carNo}`; // 车牌号
+            clientInfor += `&vinNo=${this.vinNo}`; // 车架号
+            clientInfor += `&engineNo=${this.engineNo}`; // 发动机号
+            clientInfor += `&brand=${this.brand}`; // 品牌型号
+            clientInfor += `&policyRegisterDate=${this.policyRegisterDate}`; // 注册时间 2019-3-22
+            clientInfor += `&forceExpireDate=${this.$store.state.customer.forceExpireDate}`; // 交强险 过期 时间 
+            clientInfor += `&businessExpireDate=${this.$store.state.customer.businessExpireDate}`; // 商业险 过期 时间 
+
+            /**
+             * 代理信息部分
+             */
+            let agentInfor = `&sale_id=${this.userInfoStore.agentInfoId}&sale_name=${this.userInfoStore.agentName ? this.userInfoStore.agentName : '无'}&sale_mobile=${this.userInfoStore.telephone}`;
+
+            window.location.href = `./agenth5/index.html${clientInfor}${agentInfor}`;
+        },
+
+        /**
          * 跳转到路由
          * @param {object} query 携带的参数 非必填
          */
@@ -983,26 +1000,27 @@ export default {
             padding: 0px 15px;
             border-bottom: 1px solid #ddd;
             color: @black1;
+            font-size: 12px;
+            font-weight: bold;
 
-            .offer-title-right {
-                color: #469AFF;
+            span {
+                line-height: 24px;
+                padding-left: 5px;
+                border-left: 2px solid #EFC60E;
             }
         }
 
         .customerInfor-offer-main {
-            padding: 0px 15px;
+            padding: 15px;
 
-            .offer-main-left {
-                width: 80px;
-                color: @black2;
-            }
-
-            .offer-main-center {
-                color: #E50012;
-
-                .main-center-item {
-                    width: 50%;
-                }
+            div {
+                width: 120px;
+                height: 40px;
+                line-height: 40px;
+                border-radius: 8px;
+                text-align: center;
+                color: #fff;
+                background: rgba(239,198,14,1);
             }
         }
     }
